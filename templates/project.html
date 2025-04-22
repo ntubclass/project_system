@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}專案管理{% endblock %}
+
+{% block extra_css %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/project.css' %}">
+{% endblock %}
+{% block content %}
+<div class="project">
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="title-bar">
+            <div class="title">專案管理</div>
+            <div class="actions">
+                <div class="sort-dropdown">
+                    排序方式
+                    <span class="dropdown-icon">▼</span>
+                    <select style="display:none;">
+                        <option value="recent">最新建立</option>
+                        <option value="name">名稱</option>
+                        <option value="progress">進度</option>
+                    </select>
+                </div>
+                <button class="create-btn">
+                    <span class="create-icon">+</span>
+                    建立專案
+                </button>
+            </div>
+        </div>
+        
+        <div class="projects-grid" id="projectsGrid">
+            <div class="project-card">
+                <div class="card-header">
+                    <div class="project-title">專案A</div>
+                    <div class="status-null">未進行</div>
+                </div>
+                <div class="progress-label">
+                    <div>進度</div>
+                    <div>60%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" progress=65></div>
+                </div>
+                <div class="card-info">
+                    <div class="user-avatar">
+                        <div class="avatar">C</div>
+                    </div>
+                    <div class="date">
+                        <span class="date-icon">📅</span>
+                        2025-02-24
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="tasks">12個任務</div>
+                    <a href="#" class="details-btn">查看詳情</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="card-header">
+                    <div class="project-title">專案A</div>
+                    <div class="status-delay">延遲</div>
+                </div>
+                <div class="progress-label">
+                    <div>進度</div>
+                    <div>60%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="card-info">
+                    <div class="user-avatar">
+                        <div class="avatar">C</div>
+                    </div>
+                    <div class="date">
+                        <span class="date-icon">📅</span>
+                        2025-02-24
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="tasks">12個任務</div>
+                    <a href="#" class="details-btn">查看詳情</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="card-header">
+                    <div class="project-title">專案A</div>
+                    <div class="status-done">完成</div>
+                </div>
+                <div class="progress-label">
+                    <div>進度</div>
+                    <div>60%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="card-info">
+                    <div class="user-avatar">
+                        <div class="avatar">C</div>
+                    </div>
+                    <div class="date">
+                        <span class="date-icon">📅</span>
+                        2025-02-24
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="tasks">12個任務</div>
+                    <a href="#" class="details-btn">查看詳情</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="card-header">
+                    <div class="project-title">專案A</div>
+                    <div class="status">進行中</div>
+                </div>
+                <div class="progress-label">
+                    <div>進度</div>
+                    <div>60%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="card-info">
+                    <div class="user-avatar">
+                        <div class="avatar">C</div>
+                    </div>
+                    <div class="date">
+                        <span class="date-icon">📅</span>
+                        2025-02-24
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="tasks">12個任務</div>
+                    <a href="#" class="details-btn">查看詳情</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<div>
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/project.js' %}"></script>
+{% endblock %}

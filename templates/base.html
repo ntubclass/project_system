@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}project_system{% endblock %}</title>
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'css/base/reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/layout/header.css' %}">
+  <link rel="stylesheet" href="{% static 'css/layout/sidebar.css' %}">
+  {% block extra_css %}
+  {% endblock %}
+</head>
+<body>
+  {% include 'layout/header.html' %}
+  {% include 'layout/sidebar.html' %}
+  <main class="content">
+    {% block content %}
+    {% endblock %}
+  </main>
+  {% block extra_js %}
+  <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous">
+  {% endblock %}
+</body>
+</html>
