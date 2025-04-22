@@ -1,0 +1,58 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  margin-left: 250px; /* 與sidebar寬度相同 */
+  transition: margin-left 0.3s ease; /* 添加過渡效果 */
+}
+
+/* 當sidebar隱藏時header的樣式 */
+.header-full {
+  margin-left: 0;
+}
+
+.menu-icon {
+  font-size: 24px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--light-blue-gray);
+  border-radius: 4px;
+  padding: 8px 12px;
+  flex-grow: 1;
+  max-width: 600px;
+}
+
+.search-icon {
+  margin-right: 8px;
+  color: var(--light-gray);
+}
+
+.search-input {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  width: 100%;
+}
+
+.user-icon {
+  margin-left: auto;
+  font-size: 24px;
+  color: var(--dark-gray);
+}
+
+/* 響應式調整 */
+@media screen and (max-width: 768px) {
+  .header {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,35 @@
+:root {
+  --white: #FFFFFF;
+  --light-blue-gray: #F9FAFB;
+  --dark-blue-gray: #E5E5EB;
+  --border-color: #C2C9D6;
+  --light-gray: #909090;
+  --dark-gray: #404040;
+  
+  --dark-blue: #2563EB;
+  --light-blue: #EFF6FF;
+  
+  --dark-purple: #A855F7;
+  --light-purple: #FAF5FF;
+  
+  --dark-green: #16A34A;
+  --light-green: #F0FDF4;
+  
+  --dark-yellow: #CA8A04;
+  --light-yellow: #FEFCE8;
+  
+  --dark-red: #DC2626;
+  --light-red: #fee8e8;
+  
+  --orange: #F97316;
+
+  /* 字體大小 */
+  --font-size-12: 12px;
+  --font-size-16: 16px;
+  --font-size-detail: 20px;
+  --font-size-base: 24px;
+  --font-size-title: 32px;
+
+  /* 陰影參數 */
+  --shadow-dropdown: 0px 4px 8px 0px rgba(64, 64, 64, 0.25);
+}
