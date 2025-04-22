@@ -94,8 +94,8 @@
 }
 
 .status-null {
-  background-color: var(--light-blue-gray);
-  color: var(--light-gray);
+  background-color: var(--dark-blue-gray);
+  color: var(--dark-gray);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
