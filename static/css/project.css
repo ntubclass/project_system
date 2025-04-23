@@ -4,9 +4,9 @@
 
 .main-content {
   margin-left: 250px; /* 與sidebar寬度相同 */
-  padding: 20px;
+  padding: 40px;
   transition: margin-left 0.3s ease;
-  min-height: calc(100vh - 56px); /* 確保內容區域至少佔滿剩餘的螢幕高度 */
+  min-height: calc(100vh); /* 確保內容區域至少佔滿剩餘的螢幕高度 */
 }
 
 .main-content-full {
@@ -17,7 +17,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .title {
@@ -33,6 +33,7 @@
 .sort-dropdown {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-right: 16px;
   background-color: var(--white);
   padding: 8px 12px;
@@ -164,13 +165,14 @@
 
 .date {
   display: flex;
+  flex-direction: row;
   align-items: center;
   font-size: 14px;
   color: var(--light-gray);
 }
 
 .date-icon {
-  margin-right: 4px;
+  margin-right: 10px;
 }
 
 .card-footer {
