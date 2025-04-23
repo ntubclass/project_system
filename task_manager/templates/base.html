@@ -8,6 +8,8 @@
   <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
   <link rel="stylesheet" href="{% static 'css/base/reset.css' %}">
   <link rel="stylesheet" href="{% static 'css/base/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base/font-awesome.css' %}">
   <link rel="stylesheet" href="{% static 'css/layout/header.css' %}">
   <link rel="stylesheet" href="{% static 'css/layout/sidebar.css' %}">
   {% block extra_css %}
@@ -20,8 +22,8 @@
     {% block content %}
     {% endblock %}
   </main>
+  <script src="{% static "js/dialog.js" %}"></script>
   {% block extra_js %}
-  <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous">
   {% endblock %}
 </body>
 </html>

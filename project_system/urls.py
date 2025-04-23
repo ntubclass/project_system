@@ -4,10 +4,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
 from task_manager.views import (
-    project
+    project,
+    add_project
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('project/', project.main, name="project"),
+    path('add_project/', add_project.main, name="add_project"),
 ]
