@@ -1,0 +1,144 @@
+/* 對話框背景遮罩 */
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.dialog-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 對話框容器 */
+.dialog-container {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* 對話框內容 */
+.dialog-content {
+  padding: 24px;
+}
+
+/* 對話框標題 */
+.dialog-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  color: var(--dark-gray);
+}
+
+/* 表單組件 */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--dark-gray);
+}
+
+#description{
+  height: 120px;
+  resize: none;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: var(--white);
+}
+
+.form-control:focus {
+  border-color: var(--dark-blue);
+  outline: none;
+}
+
+/* 日期輸入容器 */
+.date-input-container {
+  position: relative;
+}
+
+/* 成員區域 */
+.member-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.add-member-btn {
+  background-color: transparent;
+  color: var(--dark-blue);
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.add-member-btn:hover {
+  text-decoration: underline;
+}
+
+.members-list {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px;
+  min-height: 50px;
+  background-color: var(--white);
+}
+
+/* 對話框按鈕 */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  color: var(--dark-gray);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  padding: 8px 16px;
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.submit-btn:hover {
+  background-color: #1b4fc6; /* 略微深色的藍色 */
+}
