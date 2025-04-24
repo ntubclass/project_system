@@ -21,8 +21,9 @@
 }
 
 .title {
-  font-size: 24px;
-  font-weight: 500;
+  font-size: var(--font-size-24);
+  font-weight: bolder;
+  color: var(--dark-gray);
 }
 
 .actions {
@@ -82,7 +83,7 @@
 }
 
 .project-title {
-  font-size: 18px;
+  font-size: var(--font-size-18);
   font-weight: 500;
 }
 
@@ -91,7 +92,7 @@
   color: var(--dark-blue);
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: var(--font-size-12);
 }
 
 .status-null {
@@ -99,7 +100,7 @@
   color: var(--dark-gray);
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: var(--font-size-14);
 }
 
 .status-done {
@@ -107,7 +108,7 @@
   color: var(--dark-green);
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: var(--font-size-14);
 }
 
 .status-delay {
@@ -115,14 +116,14 @@
   color: var(--dark-red);
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: var(--font-size-14);
 }
 
 .progress-label {
   display: flex;
   justify-content: space-between;
   margin-bottom: 4px;
-  font-size: 14px;
+  font-size: var(--font-size-14);
 }
 
 .progress-bar {
@@ -143,7 +144,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding-left: 16px;
+  padding-right: 16px;
   margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .user-avatar {
@@ -159,7 +166,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: var(--font-size-12);
   color: var(--light-gray);
 }
 
@@ -167,7 +174,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 14px;
+  font-size: var(--font-size-14);
   color: var(--light-gray);
 }
 
@@ -178,7 +185,7 @@
 .card-footer {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: var(--font-size-14);
 }
 
 .tasks {
