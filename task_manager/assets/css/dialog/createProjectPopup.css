@@ -3,21 +3,29 @@
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 500px;
+  max-height: 90vh;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  outline: none;
+  overflow: visible;
   z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.dialog-backdrop.active {
-  opacity: 1;
-  visibility: visible;
+.dialog-backdrop::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 確保對話框在不同的浏覽器中顯示一致 */
+.dialog-backdrop:modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 對話框容器 */
@@ -26,21 +34,68 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 500px;
+  height: auto;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0;
+  animation: dialog-fade-in 0.2s ease-out;
+}
+
+@keyframes dialog-fade-in {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dialog-fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-20px); }
+}
+
+.dialog-backdrop[closing] .dialog-container {
+  animation: dialog-fade-out 0.2s ease-out forwards;
 }
 
 /* 對話框內容 */
 .dialog-content {
   padding: 24px;
+  width: 100%;
+}
+
+/* 對話框標題列 */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* 關閉按鈕 */
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--dark-gray);
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.close-btn:hover {
+  background-color: var(--light-blue-gray);
 }
 
 /* 對話框標題 */
 .dialog-title {
   font-size: 20px;
   font-weight: 500;
-  margin-bottom: 24px;
+  margin: 0;
   color: var(--dark-gray);
 }
 
@@ -78,6 +133,18 @@
 /* 日期輸入容器 */
 .date-input-container {
   position: relative;
+  width: 100%;
+}
+
+/* 確保日期輸入框正確顯示 */
+input[type="date"] {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 /* 成員區域 */

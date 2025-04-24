@@ -1,16 +1,12 @@
-# project_system/settings.py
 import os
 from pathlib import Path
 
-# 構建路徑
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 安全設置
-SECRET_KEY = 'django-insecure-your-secret-key-here'
+SECRET_KEY = '66zc9)tc#cwk+vym)nwd^37sai%5jgghllu(+nyna)%qz6cofj'
 DEBUG = True
 ALLOWED_HOSTS = []
 
-# 應用設置
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -18,7 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'task_manager',  # 我們的任務管理應用
+    'task_manager',
 ]
 
 MIDDLEWARE = [
@@ -32,11 +28,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'project_system.urls'
+INTERNAL_IPS=('127.0.0.1',)
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'task_manager/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -51,7 +48,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project_system.wsgi.application'
 
-# 資料庫設置
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -59,7 +55,6 @@ DATABASES = {
     }
 }
 
-# 密碼驗證
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -75,25 +70,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# 國際化
 LANGUAGE_CODE = 'zh-hant'
 TIME_ZONE = 'Asia/Taipei'
 USE_I18N = True
-USE_TZ = True
+USE_TZ = False
 
-# 靜態文件設置
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'task_manager/assets'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# 媒體文件設置
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# 默認主鍵字段類型
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# 訊息框架設置
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

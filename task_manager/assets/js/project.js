@@ -38,24 +38,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-    
-    // 確保這個也在DOM加載完成後執行
-    // 獲取按鈕和對話框元素
-    const openCreateProjectBtn = document.getElementById('openCreateProjectBtn');
-    const createProjectDialog = document.getElementById('createProjectDialog');
-    
-    // 檢查元素是否存在
-    if (openCreateProjectBtn && createProjectDialog) {
-        console.log("按鈕和對話框元素已找到");
-        // 添加點擊事件監聽器
-        openCreateProjectBtn.addEventListener('click', function() {
-            console.log("按鈕被點擊");
-            createProjectDialog.classList.add('active');
-        });
-    } else {
-        console.log("找不到按鈕或對話框元素", {
-            按鈕: openCreateProjectBtn,
-            對話框: createProjectDialog
-        });
-    }
 });
