@@ -6,8 +6,8 @@ class Task(models.Model):
     task_id = models.AutoField(primary_key=True)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tasks')
     name = models.CharField(max_length=100)
-    start_date = models.DateField(auto_now_add=True)
-    end_date = models.DateField()
+    start_date = models.DateTimeField(auto_now_add=True)
+    end_date = models.DateTimeField()
     content = models.TextField()
 
     def __str__(self):
