@@ -1,0 +1,260 @@
+/* Dialog Backdrop */
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  outline: none;
+  overflow: visible;
+  z-index: 1000;
+}
+
+.dialog-backdrop::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-backdrop:modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dialog Container */
+#addMemberDialog .dialog-container {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: 0;
+  animation: dialog-fade-in 0.2s ease-out;
+}
+
+@keyframes dialog-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.dialog-backdrop[closing] .dialog-container {
+  animation: dialog-fade-out 0.2s ease-out forwards;
+}
+
+/* Dialog Content */
+.dialog-content {
+  padding: 24px;
+  width: 100%;
+}
+
+/* Dialog Header */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dialog-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--dark-gray);
+  margin: 0;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--dark-gray);
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.close-btn:hover {
+  background-color: var(--light-blue-gray);
+}
+
+/* Form Components */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--dark-gray);
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: var(--white);
+}
+
+.form-control:focus {
+  border-color: var(--dark-blue);
+  outline: none;
+}
+
+/* Search Results List */
+.member-results {
+  list-style: none;
+  padding: 12px;
+  margin: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  height: 200px;
+  overflow-y: auto;
+  background-color: var(--white);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.member-results li {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.member-results li:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.member-results li img.user-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--light-gray);
+}
+
+.member-results li div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.member-results li span.user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark-gray);
+}
+
+.member-results li span.user-email {
+  font-size: 14px;
+  color: var(--light-gray);
+  margin-top: 2px;
+}
+
+/* Dialog Actions */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancel-btn,
+.submit-btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  color: var(--dark-gray);
+}
+
+.cancel-btn:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.submit-btn {
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: none;
+}
+
+.submit-btn:hover {
+  background-color: #1b4fc6;
+}
+
+/* Member List Items */
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--white);
+  transition: background-color 0.2s ease;
+}
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+.member-item:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.user-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  background-color: var(--light-gray);
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--light-gray);
+}
+
+.member-item span {
+  font-size: 14px;
+  color: var(--dark-gray);
+  font-weight: 500;
+}
