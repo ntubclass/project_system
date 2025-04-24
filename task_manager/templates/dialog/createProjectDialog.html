@@ -6,7 +6,7 @@
                 <button type="button" class="close-btn" id="closeDialogBtn">&times;</button>
             </div>
             
-            <form id="createProjectForm" action="{% url 'add_project' %}" method="post">
+            <form id="createProjectForm" action="{% url 'create_project' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="projectName">專案名稱</label>

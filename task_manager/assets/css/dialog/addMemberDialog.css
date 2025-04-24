@@ -1,0 +1,178 @@
+/* 對話框背景遮罩 */
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  outline: none;
+  overflow: visible;
+  z-index: 1000;
+}
+  
+.dialog-backdrop::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-backdrop:modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 對話框容器 */
+#addMemberDialog .dialog-container {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0;
+  animation: dialog-fade-in 0.2s ease-out;
+}
+
+@keyframes dialog-fade-in {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dialog-fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-20px); }
+}
+
+.dialog-backdrop[closing] .dialog-container {
+  animation: dialog-fade-out 0.2s ease-out forwards;
+}
+
+/* 對話框內容 */
+.dialog-content {
+  padding: 24px;
+  width: 100%;
+}
+
+/* 對話框標題列 */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--dark-gray);
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.close-btn:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.dialog-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--dark-gray);
+}
+
+/* 表單組件 */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--dark-gray);
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: var(--white);
+}
+
+.form-control:focus {
+  border-color: var(--dark-blue);
+  outline: none;
+}
+
+/* 搜尋結果列表 */
+.member-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: var(--white);
+}
+
+.member-results li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.member-results li:hover {
+  background-color: var(--light-blue-gray);
+}
+
+/* 對話框按鈕 */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  color: var(--dark-gray);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  padding: 8px 16px;
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.submit-btn:hover {
+  background-color: #1b4fc6;
+}
