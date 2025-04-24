@@ -6,6 +6,9 @@ def main(request):
         "project_data": [],
     }
     project = Project.objects.all()
+    
+    project_list = []
+    
     for m in project:
         data = {}
         for field in m._meta.fields:
