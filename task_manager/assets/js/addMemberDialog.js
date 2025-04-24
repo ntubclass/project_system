@@ -1,22 +1,104 @@
+// Object to store selected member information
+const selectedMemberInfo = {
+    name: '',
+    email: '',
+    photo: '/static/default-avatar.png', // Default photo path
+};
+
+// Array to store the list of added members
+const addMemberlist = [];
+
+// Helper function to get a valid photo URL
+function getPhotoUrl(photo) {
+    return photo || '/static/default-avatar.png';
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById('memberSearch');
     const resultsContainer = document.getElementById('memberResults');
+    const addMemberBtn = document.getElementById('addMemberBtn');
+    const dialog = document.getElementById('addMemberDialog');
+    const membersList = document.getElementById('membersList');
 
+    // Clear previous results in the members list
+    membersList.innerHTML = '';
+
+    // Event listener for the "Add Member" button
+    addMemberBtn.addEventListener('click', () => {
+        // Function to close the dialog with an animation
+        function closeDialogWithAnimation() {
+            dialog.setAttribute('closing', '');
+            setTimeout(() => {
+                dialog.removeAttribute('closing');
+                dialog.close();
+            }, 200); // Match CSS animation duration
+        }
+
+        // Do nothing if no member is selected
+        if (selectedMemberInfo.name === '') {
+            return;
+        }
+
+        // Add the selected member to the list check same name
+        const existingMember = addMemberlist.find(member => member.name === selectedMemberInfo.name);
+        if (existingMember) {
+           
+            return;
+        }
+
+        addMemberlist.push({
+            name: selectedMemberInfo.name,
+            email: selectedMemberInfo.email,
+            photo: getPhotoUrl(selectedMemberInfo.photo),
+        });
+
+        // Render the updated members list
+        membersList.innerHTML = ''; // Clear previous results
+        addMemberlist.forEach(member => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <div>
+                    <img src="${getPhotoUrl(member.photo)}" class="user-photo">
+                    <span>${member.name}</span>
+                    <span class="user-email">${member.email}</span>
+                </div>
+            `;
+            membersList.appendChild(li);
+        });
+
+        // Close the dialog
+        closeDialogWithAnimation();
+    });
+
+    // Event listener for the search input
     if (searchInput && resultsContainer) {
         searchInput.addEventListener('input', async function () {
             const query = searchInput.value.trim();
 
+            // Reset selected member info
+            selectedMemberInfo.name = "";
+            selectedMemberInfo.email = "";
+            selectedMemberInfo.photo = "";
+
+            // Clear results if the query is empty
             if (query.length === 0) {
-                resultsContainer.innerHTML = ''; // Clear results if input is empty
+                resultsContainer.innerHTML = '';
                 return;
             }
 
             try {
+                const csrfTokenElement = document.querySelector('input[name="csrfmiddlewaretoken"]');
+                if (!csrfTokenElement) {
+                    throw new Error('CSRF token not found');
+                }
+                const csrfToken = csrfTokenElement.value;
+
                 // Fetch search results from the server
-                const response = await fetch(`/dynamic_search_member`, {
+                const response = await fetch(`/dynamic_search_member/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
                     },
                     body: JSON.stringify({ search_query: query }),
                 });
@@ -25,23 +107,40 @@ document.addEventListener("DOMContentLoaded", function () {
                     throw new Error('Failed to fetch search results');
                 }
 
-                const data = await response.json(); // Assuming the server returns a JSON object
-                const users = data.users || []; // Extract users array from the response
+                const data = await response.json(); // Parse the JSON response
+                const users = data.user_data || []; // Extract user data
 
-                resultsContainer.innerHTML = ''; // Clear previous results
+                // Clear previous results
+                resultsContainer.innerHTML = '';
 
+                // Display search results
                 if (users.length > 0) {
                     users.forEach(user => {
                         const li = document.createElement('li');
-                        li.textContent = user.name; // Assuming each user has a 'name' property
+                        li.innerHTML = `
+                            <div>
+                                <img src="${getPhotoUrl(user.photo)}" class="user-photo">
+                                <span>${user.name}</span>
+                                <span class="user-email">${user.email}</span>
+                            </div>
+                        `;
                         li.addEventListener('click', () => {
-                            console.log(`Selected: ${user.name}`);
-                            searchInput.value = user.name; // Set the input to the selected user
-                            resultsContainer.innerHTML = ''; // Clear results
+                            // Set the input to the selected user
+                            searchInput.value = user.name;
+
+                            // Update selected member info
+                            selectedMemberInfo.name = user.name;
+                            selectedMemberInfo.email = user.email;
+                            selectedMemberInfo.photo = getPhotoUrl(user.photo);
+
+                            // Clear results and highlight the selected user
+                            resultsContainer.innerHTML = '';
+                            resultsContainer.appendChild(li);
                         });
                         resultsContainer.appendChild(li);
                     });
                 } else {
+                    // Display "No results found" message
                     const li = document.createElement('li');
                     li.textContent = 'No results found';
                     li.style.color = 'var(--light-gray)';
@@ -49,11 +148,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             } catch (error) {
                 console.error('Error fetching search results:', error);
+
+                // Display error message
                 resultsContainer.innerHTML = '<li style="color: var(--light-gray);">Error fetching results</li>';
             }
         });
     }
-
-    setup_dialog('openCreateProjectBtn', 'createProjectDialog', 'cancelProjectBtn');
-    setup_dialog('addMemberBtn', 'addMemberDialog', 'cancelMemberBtn');
 });

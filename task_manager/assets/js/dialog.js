@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-    function setup_dialog(openBtnId, dialogId, closeBtnId) {
+    function setup_dialog(openBtnId, dialogId, cancelBtnId, closeBtnId) {
         const openBtn = document.getElementById(openBtnId);
         const dialog = document.getElementById(dialogId);
+        const cancelBtn = document.getElementById(cancelBtnId);
         const closeBtn = document.getElementById(closeBtnId);
-        const closeXBtn = document.getElementById('closeDialogBtn');
 
-        if (!openBtn || !dialog || !closeBtn) {
+        if (!openBtn || !dialog || !cancelBtn || !closeBtn) {
             return;
         }
 
@@ -44,16 +44,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // 取消按鈕關閉對話框
+        cancelBtn.addEventListener('click', () => {
+            closeDialogWithAnimation();
+        });
+
+        // 關閉按鈕關閉對話框
         closeBtn.addEventListener('click', () => {
             closeDialogWithAnimation();
         });
-        
-        // X按鈕關閉對話框
-        if (closeXBtn) {
-            closeXBtn.addEventListener('click', () => {
-                closeDialogWithAnimation();
-            });
-        }
 
         // 監聽ESC鍵關閉事件
         dialog.addEventListener('cancel', (e) => {
@@ -62,9 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    
-
-    setup_dialog('openCreateProjectBtn', 'createProjectDialog', 'cancelProjectBtn');
-    setup_dialog('addMemberBtn', 'addMemberDialog', 'cancelMemberBtn');
-    
-})
+    setup_dialog('openCreateProjectBtn', 'createProjectDialog', 'cancelProjectBtn', 'closeProjectBtn');
+    setup_dialog('openAddMemberBtn', 'addMemberDialog', 'cancelMemberBtn', 'closeMemberBtn');
+});

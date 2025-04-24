@@ -3,7 +3,7 @@
         <div class="dialog-content">
             <div class="dialog-header">
                 <h2 class="dialog-title">建立新專案</h2>
-                <button type="button" class="close-btn" id="closeDialogBtn">&times;</button>
+                <button type="button" class="close-btn" id="closeProjectBtn">&times;</button>
             </div>
             
             <form id="createProjectForm" action="{% url 'create_project' %}" method="post">
@@ -28,7 +28,7 @@
                 <div class="form-group">
                     <div class="member-header">
                         <label>邀請成員</label>
-                        <button type="button" id="addMemberBtn" class="add-member-btn">新增</button>
+                        <button type="button" id="openAddMemberBtn" class="add-member-btn">新增</button>
                     </div>
                     <div id="membersList" class="members-list">
                         <!-- 這裡是成員列表的顯示區域 -->

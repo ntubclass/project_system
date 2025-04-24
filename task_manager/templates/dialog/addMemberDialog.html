@@ -3,13 +3,13 @@
         <div class="dialog-content">
             <div class="dialog-header">
                 <h2 class="dialog-title">新增成員</h2>
-                <button type="button" class="close-btn" id="closeDialogBtn">&times;</button>
+                <button type="button" class="close-btn" id="closeMemberBtn">&times;</button>
             </div>
             
-            <form id="addMemberForm" action="{% url 'dynamic_search_member' %}" method="post">
+            <div id="addMemberForm">
                 <div class="form-group">
                     <label for="memberSearch">搜尋電子郵件或名子</label>
-                    <input type="text" id="memberSearch" name="memberSearch" class="form-control" placeholder="輸入..." oninput="searchMember()" required>
+                    <input type="text" id="memberSearch" name="memberSearch" class="form-control" placeholder="輸入..." required>
                 </div>
                 
                 <div class="form-group">
@@ -20,9 +20,9 @@
                 
                 <div class="dialog-actions">
                     <button type="button" id="cancelMemberBtn" class="cancel-btn">取消</button>
-                    <button type="submit" class="submit-btn">新增</button>
+                    <button id="addMemberBtn" class="submit-btn">新增</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </dialog>
