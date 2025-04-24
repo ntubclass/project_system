@@ -1,4 +1,4 @@
-/* 對話框背景遮罩 */
+/* Dialog Backdrop */
 .dialog-backdrop {
   position: fixed;
   top: 0;
@@ -16,7 +16,7 @@
   overflow: visible;
   z-index: 1000;
 }
-  
+
 .dialog-backdrop::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -27,46 +27,63 @@
   justify-content: center;
 }
 
-/* 對話框容器 */
+/* Dialog Container */
 #addMemberDialog .dialog-container {
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 90%;
-  height: auto;
   max-height: 90vh;
   overflow-y: auto;
-  overflow-x: hidden;
   margin: 0;
   animation: dialog-fade-in 0.2s ease-out;
 }
 
 @keyframes dialog-fade-in {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes dialog-fade-out {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(-20px); }
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
 
 .dialog-backdrop[closing] .dialog-container {
   animation: dialog-fade-out 0.2s ease-out forwards;
 }
 
-/* 對話框內容 */
+/* Dialog Content */
 .dialog-content {
   padding: 24px;
   width: 100%;
 }
 
-/* 對話框標題列 */
+/* Dialog Header */
 .dialog-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.dialog-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--dark-gray);
+  margin: 0;
 }
 
 .close-btn {
@@ -89,14 +106,7 @@
   background-color: var(--light-blue-gray);
 }
 
-.dialog-title {
-  font-size: 20px;
-  font-weight: 500;
-  margin: 0;
-  color: var(--dark-gray);
-}
-
-/* 表單組件 */
+/* Form Components */
 .form-group {
   margin-bottom: 20px;
 }
@@ -122,28 +132,60 @@
   outline: none;
 }
 
-/* 搜尋結果列表 */
+/* Search Results List */
 .member-results {
   list-style: none;
-  padding: 0;
+  padding: 12px;
   margin: 0;
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  max-height: 200px;
+  height: 200px;
   overflow-y: auto;
   background-color: var(--white);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .member-results li {
+  display: flex;
+  align-items: center;
   padding: 8px 12px;
+  margin-bottom: 5px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .member-results li:hover {
   background-color: var(--light-blue-gray);
 }
 
-/* 對話框按鈕 */
+.member-results li img.user-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--light-gray);
+}
+
+.member-results li div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.member-results li span.user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark-gray);
+}
+
+.member-results li span.user-email {
+  font-size: 14px;
+  color: var(--light-gray);
+  margin-top: 2px;
+}
+
+/* Dialog Actions */
 .dialog-actions {
   display: flex;
   justify-content: flex-end;
@@ -151,28 +193,68 @@
   margin-top: 24px;
 }
 
-.cancel-btn {
+.cancel-btn,
+.submit-btn {
   padding: 8px 16px;
-  border: 1px solid var(--border-color);
-  background-color: var(--white);
-  color: var(--dark-gray);
   border-radius: 4px;
   cursor: pointer;
 }
 
-.submit-btn {
-  padding: 8px 16px;
-  background-color: var(--dark-blue);
-  color: var(--white);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.cancel-btn {
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  color: var(--dark-gray);
 }
 
 .cancel-btn:hover {
   background-color: var(--light-blue-gray);
 }
 
+.submit-btn {
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: none;
+}
+
 .submit-btn:hover {
   background-color: #1b4fc6;
+}
+
+/* Member List Items */
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--white);
+  transition: background-color 0.2s ease;
+}
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+.member-item:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.user-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  background-color: var(--light-gray);
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--light-gray);
+}
+
+.member-item span {
+  font-size: 14px;
+  color: var(--dark-gray);
+  font-weight: 500;
 }

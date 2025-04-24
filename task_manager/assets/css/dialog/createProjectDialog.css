@@ -211,7 +211,7 @@ input[type="date"] {
 }
 
 /* 動態搜尋結果樣式 */
-.member-results {
+.members-list {
   list-style: none;
   margin: 0;
   padding: 8px;
@@ -223,7 +223,7 @@ input[type="date"] {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.member-results li {
+.members-list li {
   padding: 8px;
   cursor: pointer;
   color: var(--dark-gray);
@@ -232,6 +232,6 @@ input[type="date"] {
   align-items: center; /* 垂直置中 */
 }
 
-.member-results li:hover {
+.members-list li:hover {
   background-color: var(--light-blue-gray);
 }
