@@ -28,137 +28,35 @@
                 </button>
             </div>
         </div>
-        
         <div class="projects-grid" id="projectsGrid">
-            <div class="project-card">
-                <div class="card-header">
-                    <div class="project-title">專案A</div>
-                    <div class="status-null">未進行</div>
-                </div>
-                <div class="progress-label">
-                    <div>進度</div>
-                    <div>60%</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" progress=20></div>
-                </div>
-                <div class="card-info">
-                    <div class="user-avatar">
-                        <div class="avatar">C</div>
+            {% for i in project_data %}
+                <div class="project-card">
+                    <div class="card-header">
+                        <div class="project-title">{{i.name}}</div>
+                        <div class="status-null">未進行</div>
                     </div>
-                    <div class="date">
-                        <i class="date-icon fa-regular fa-calendar"></i>
-                        2025-02-24
+                    <div class="progress-label">
+                        <div>進度</div>
+                        <div>60%</div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <div class="tasks">12個任務</div>
-                    <a href="#" class="details-btn">查看詳情</a>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="card-header">
-                    <div class="project-title">專案A</div>
-                    <div class="status-delay">延遲</div>
-                </div>
-                <div class="progress-label">
-                    <div>進度</div>
-                    <div>60%</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill"  progress=60></div>
-                </div>
-                <div class="card-info">
-                    <div class="user-avatar">
-                        <div class="avatar">C</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" progress=20></div>
                     </div>
-                    <div class="date">
-                        <i class="date-icon fa-regular fa-calendar"></i>
-                        2025-02-24
+                    <div class="card-info">
+                        <div class="user-avatar">
+                            <div class="avatar">C</div>
+                        </div>
+                        <div class="date">
+                            <i class="date-icon fa-regular fa-calendar"></i>
+                            {{i.end_date}}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="tasks">12個任務</div>
+                        <a href="#" class="details-btn">查看詳情</a>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <div class="tasks">12個任務</div>
-                    <a href="#" class="details-btn">查看詳情</a>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="card-header">
-                    <div class="project-title">專案A</div>
-                    <div class="status-done">完成</div>
-                </div>
-                <div class="progress-label">
-                    <div>進度</div>
-                    <div>60%</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill"  progress=80></div>
-                </div>
-                <div class="card-info">
-                    <div class="user-avatar">
-                        <div class="avatar">C</div>
-                    </div>
-                    <div class="date">
-                        <i class="date-icon fa-regular fa-calendar"></i>
-                        2025-02-24
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="tasks">12個任務</div>
-                    <a href="#" class="details-btn">查看詳情</a>
-                </div>
-            </div><div class="project-card">
-                <div class="card-header">
-                    <div class="project-title">專案A</div>
-                    <div class="status">進行中</div>
-                </div>
-                <div class="progress-label">
-                    <div>進度</div>
-                    <div>60%</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill"  progress=80></div>
-                </div>
-                <div class="card-info">
-                    <div class="user-avatar">
-                        <div class="avatar">C</div>
-                    </div>
-                    <div class="date">
-                        <i class="date-icon fa-regular fa-calendar"></i>
-                        2025-02-24
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="tasks">12個任務</div>
-                    <a href="#" class="details-btn">查看詳情</a>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="card-header">
-                    <div class="project-title">專案A</div>
-                    <div class="status">進行中</div>
-                </div>
-                <div class="progress-label">
-                    <div>進度</div>
-                    <div>60%</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill"  progress=100></div>
-                </div>
-                <div class="card-info">
-                    <div class="user-avatar">
-                        <div class="avatar">C</div>
-                    </div>
-                    <div class="date">
-                        <i class="date-icon fa-regular fa-calendar"></i>
-                        2025-02-24
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="tasks">12個任務</div>
-                    <a href="#" class="details-btn">查看詳情</a>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

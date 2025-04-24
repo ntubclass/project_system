@@ -12,17 +12,30 @@
   <link rel="stylesheet" href="{% static 'css/base/font-awesome.css' %}">
   <link rel="stylesheet" href="{% static 'css/layout/header.css' %}">
   <link rel="stylesheet" href="{% static 'css/layout/sidebar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/alert.css' %}">
   {% block extra_css %}
   {% endblock %}
 </head>
 <body>
   {% include 'layout/header.html' %}
   {% include 'layout/sidebar.html' %}
+
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
   <main class="content">
     {% block content %}
     {% endblock %}
   </main>
   <script src="{% static "js/dialog.js" %}"></script>
+  <script src="{% static "js/alert.js" %}"></script>
   {% block extra_js %}
   {% endblock %}
 </body>
