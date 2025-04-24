@@ -16,9 +16,9 @@
 }
 
 .sidebar-title {
-    font-size: 20px;
+    font-size: var(--font-size-24);
     font-weight: bold;
-    padding: 0 20px 20px 20px;
+    padding: 0 20px 35px 20px;
     color: var(--dark-gray);
 }
 
@@ -27,6 +27,7 @@
     align-items: center;
     padding: 16px 20px;
     color: var(--dark-gray);
+    font-size: var(--font-size-20);
     text-decoration: none;
     cursor: pointer;
 }
