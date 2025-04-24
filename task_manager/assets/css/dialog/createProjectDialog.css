@@ -29,7 +29,7 @@
 }
 
 /* 對話框容器 */
-.dialog-container {
+#createProjectDialog .dialog-container {
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -208,4 +208,30 @@ input[type="date"] {
 
 .submit-btn:hover {
   background-color: #1b4fc6; /* 略微深色的藍色 */
+}
+
+/* 動態搜尋結果樣式 */
+.member-results {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--white);
+  min-height: calc(40px * 3); /* 預設高度為三個項目 */
+  overflow-y: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.member-results li {
+  padding: 8px;
+  cursor: pointer;
+  color: var(--dark-gray);
+  height: 40px; /* 確保每個項目高度一致 */
+  display: flex;
+  align-items: center; /* 垂直置中 */
+}
+
+.member-results li:hover {
+  background-color: var(--light-blue-gray);
 }

@@ -62,5 +62,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    
+
     setup_dialog('openCreateProjectBtn', 'createProjectDialog', 'cancelProjectBtn');
+    setup_dialog('addMemberBtn', 'addMemberDialog', 'cancelMemberBtn');
+    
 })
