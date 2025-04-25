@@ -1,12 +1,12 @@
 .project {
   background-color: var(--light-blue-gray);
+  min-height: calc(100vh - 65px);
 }
 
 .main-content {
   margin-left: 250px; /* 與sidebar寬度相同 */
   padding: 40px;
   transition: margin-left 0.3s ease;
-  min-height: calc(100vh); /* 確保內容區域至少佔滿剩餘的螢幕高度 */
 }
 
 .main-content-full {

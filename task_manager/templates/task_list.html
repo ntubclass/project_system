@@ -8,12 +8,18 @@
 <div class="task">
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
-        <!-- 視圖切換按鈕 -->
-        <div class="view-controls">
-            <div class="view-buttons">
-                <button class="view-btn active">清單</button>
-                <button class="view-btn">行事曆</button>
-                <button class="view-btn">甘特圖</button>
+        <div class="title-bar">
+            <div class="title">清單</div>
+            <div class="actions">
+                <div class="sort-dropdown">
+                    顯示方式
+                    <i class="dropdown-icon fa-solid fa-caret-down"></i>
+                    <select style="display:none;">
+                        <option value="recent">清單</option>
+                        <option value="name">行事曆</option>
+                        <option value="progress">甘特圖</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -21,10 +27,10 @@
         <div class="task-section">
             <div class="section-header">
                 <div class="section-title">
-                    <i class="section-icon fas fa-caret-down"></i>
+                    <i class="section-icon continue fas fa-caret-down"></i>
                     進行中任務
                 </div>
-                <div class="task-count">3</div>
+                <div class="task-count continue">3</div>
             </div>
             
             <div class="task-cards">
@@ -91,10 +97,10 @@
         <div class="task-section">
             <div class="section-header">
                 <div class="section-title">
-                    <i class="section-icon fas fa-caret-down"></i>
+                    <i class="section-icon completed fas fa-caret-down"></i>
                     已完成任務
                 </div>
-                <div class="task-count completed-count">7</div>
+                <div class="task-count completed">7</div>
             </div>
             
             <div class="task-cards">
