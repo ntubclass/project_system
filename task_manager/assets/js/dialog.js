@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const closeBtn = document.getElementById(closeBtnId);
 
         if (!openBtn || !dialog || !cancelBtn || !closeBtn) {
+            console.log('Missing elements:', { openBtn, dialog, cancelBtn, closeBtn });
             return;
         }
 
