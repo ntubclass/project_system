@@ -3,13 +3,41 @@ document.addEventListener("DOMContentLoaded", function () {
   const menuToggle = document.getElementById('menuToggle');
   const sidebar = document.getElementById('sidebar');
   const header = document.querySelector('.header');
-  const mainContent = document.querySelector('.main-content');
-
-  if (menuToggle && sidebar && header && mainContent) {
-      menuToggle.addEventListener('click', () => {
-          sidebar.classList.toggle('sidebar-hidden');
-          mainContent.classList.toggle('main-content-full');
-          header.classList.toggle('header-full');
-      });
+  
+  if (menuToggle && sidebar && header) {
+    menuToggle.addEventListener('click', function() {
+      // 切換側邊欄的可見性
+      sidebar.classList.toggle('sidebar-hidden');
+      
+      // 切換 header 的樣式
+      header.classList.toggle('header-full');
+      
+      // 處理主內容區 - 對於 task_list 頁面和 project 頁面的內容區
+      const mainContent = document.querySelector('.main-content');
+      if (mainContent) {
+        mainContent.classList.toggle('main-content-full');
+        console.log('Main content class toggled');
+      }
+      
+      // 處理 base.html 的 content 容器
+      const contentContainer = document.querySelector('main.content');
+      if (contentContainer) {
+        contentContainer.classList.toggle('content-full');
+      }
+      
+      // 處理 task 頁面特定容器
+      const taskContainer = document.querySelector('.task');
+      if (taskContainer) {
+        taskContainer.classList.toggle('task-full');
+      }
+      
+      // 處理 project 頁面特定容器
+      const projectContainer = document.querySelector('.project');
+      if (projectContainer) {
+        projectContainer.classList.toggle('project-full');
+      }
+    });
+  } else {
+    console.warn('Menu toggle, sidebar, or header elements not found');
   }
 });

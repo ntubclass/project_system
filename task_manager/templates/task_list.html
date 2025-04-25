@@ -1,242 +1,126 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}專案管理{% endblock %}
+{% block title %}任務管理{% endblock %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/task_list.css' %}">
 {% endblock %}
 {% block content %}
 <div class="task">
     <!-- Main Content -->
-    <!-- 主內容區 -->
-  <div class="main-content">
-    <!-- 視圖切換按鈕 -->
-    <div class="view-controls">
-      <div class="view-buttons">
-        <button class="view-btn active">清單</button>
-        <button class="view-btn">行事曆</button>
-        <button class="view-btn">甘特圖</button>
-      </div>
-    </div>
+    <div class="main-content" id="mainContent">
+        <!-- 視圖切換按鈕 -->
+        <div class="view-controls">
+            <div class="view-buttons">
+                <button class="view-btn active">清單</button>
+                <button class="view-btn">行事曆</button>
+                <button class="view-btn">甘特圖</button>
+            </div>
+        </div>
 
-    <!-- 進行中任務 -->
-    <div class="task-section">
-      <div class="section-header">
-        <div class="section-title">
-          <i class="section-icon fas fa-caret-down"></i>
-          進行中任務
+        <!-- 進行中任務 -->
+        <div class="task-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="section-icon fas fa-caret-down"></i>
+                    進行中任務
+                </div>
+                <div class="task-count">3</div>
+            </div>
+            
+            <div class="task-cards">
+                <!-- 任務卡片1 -->
+                <div class="task-card">
+                    <div class="task-info">
+                        <div class="task-title">前端開發</div>
+                        <div class="project-name">專案A</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">進度</div>
+                        <div class="progress-percentage">75%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="task-due-date">
+                        <i class="date-icon far fa-calendar"></i>
+                        截止日期：2025-02-24
+                    </div>
+                </div>
+                
+                <!-- 任務卡片2 -->
+                <div class="task-card">
+                    <div class="task-info">
+                        <div class="task-title">前端開發</div>
+                        <div class="project-name">專案A</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">進度</div>
+                        <div class="progress-percentage">75%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="task-due-date">
+                        <i class="date-icon far fa-calendar"></i>
+                        截止日期：2025-02-24
+                    </div>
+                </div>
+                
+                <!-- 任務卡片3 -->
+                <div class="task-card">
+                    <div class="task-info">
+                        <div class="task-title">前端開發</div>
+                        <div class="project-name">專案A</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">進度</div>
+                        <div class="progress-percentage">75%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="task-due-date">
+                        <i class="date-icon far fa-calendar"></i>
+                        截止日期：2025-02-24
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="task-count">3</div>
-      </div>
-      
-      <div class="task-cards">
-        <!-- 任務卡片1 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            截止日期：2025-02-24
-          </div>
-        </div>
-        
-        <!-- 任務卡片2 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            截止日期：2025-02-24
-          </div>
-        </div>
-        
-        <!-- 任務卡片3 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            截止日期：2025-02-24
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- 已完成任務 -->
-    <div class="task-section">
-      <div class="section-header">
-        <div class="section-title">
-          <i class="section-icon fas fa-caret-down"></i>
-          已完成任務
+        <!-- 已完成任務 -->
+        <div class="task-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="section-icon fas fa-caret-down"></i>
+                    已完成任務
+                </div>
+                <div class="task-count completed-count">7</div>
+            </div>
+            
+            <div class="task-cards">
+                <!-- 已完成任務卡片 -->
+                <!-- 任務卡片1 -->
+                <div class="task-card">
+                    <div class="task-info">
+                        <div class="task-title">前端開發</div>
+                        <div class="project-name">專案A</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">進度</div>
+                        <div class="progress-percentage">100%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                    <div class="task-due-date">
+                        <i class="date-icon far fa-calendar"></i>
+                        完成日期：2025-02-24
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="task-count completed-count">7</div>
-      </div>
-      
-      <div class="task-cards">
-        <!-- 任務卡片1 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            完成日期：2025-02-24
-          </div>
-        </div>
-        
-        <!-- 任務卡片2 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            完成日期：2025-02-24
-          </div>
-        </div>
-        
-        <!-- 任務卡片3 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            完成日期：2025-02-24
-          </div>
-        </div>
-        
-        <!-- 任務卡片4 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            完成日期：2025-02-24
-          </div>
-        </div>
-        
-        <!-- 任務卡片5 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            完成日期：2025-02-24
-          </div>
-        </div>
-        
-        <!-- 任務卡片6 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            完成日期：2025-02-24
-          </div>
-        </div>
-        
-        <!-- 任務卡片7 -->
-        <div class="task-card">
-          <div class="task-info">
-            <div class="task-title">前端開發</div>
-            <div class="project-name">專案A</div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">進度</div>
-            <div class="progress-percentage">75%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="task-due-date">
-            <i class="date-icon far fa-calendar"></i>
-            完成日期：2025-02-24
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
-
-{% include 'dialog/createProjectDialog.html' %}
 
 {% endblock %}
 {% block extra_js %}

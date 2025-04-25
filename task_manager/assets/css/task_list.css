@@ -1,19 +1,30 @@
-.project {
+/* 任務頁面的主容器 */
+.task {
   background-color: var(--light-blue-gray);
 }
 
-/* 主內容區 */
+/* 主內容區 - 確保與 project.css 完全一致 */
 .main-content {
-  margin-left: 250px;
-  padding: 20px;
-  min-height: calc(100vh);
+  margin-left: 250px; /* 與sidebar寬度相同 */
+  padding: 40px;
+  transition: margin-left 0.3s ease;
+  min-height: calc(100vh); /* 確保內容區域至少佔滿剩餘的螢幕高度 */
+}
+
+/* 以下選擇器合併：當側邊欄隱藏時主內容區滿寬顯示 */
+.main-content-full,
+.task-full .main-content,
+.task .main-content.main-content-full,
+html body .task-full .main-content,
+main.content .task .main-content-full {
+  margin-left: 0;
 }
 
 /* 視圖切換 */
 .view-controls {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .view-buttons {
@@ -77,19 +88,19 @@
   font-size: var(--font-size-14);
 }
 
-/* 任務卡片列表 */
+/* 任務卡片列表 - 與 project 頁面網格一致 */
 .task-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
+  gap: 20px; /* 統一卡片間距 */
 }
 
-/* 任務卡片 */
+/* 任務卡片 - 與 project 卡片樣式保持一致 */
 .task-card {
   background-color: var(--white);
   border-radius: 8px;
   padding: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 與 project 卡片陰影一致 */
 }
 
 .task-info {
@@ -97,7 +108,7 @@
 }
 
 .task-title {
-  font-size: var(--font-size-16);
+  font-size: var(--font-size-18); /* 與 project 卡片標題一致 */
   font-weight: 500;
   color: var(--dark-gray);
   margin-bottom: 4px;
@@ -121,9 +132,9 @@
 
 .progress-bar {
   height: 6px;
-  background-color: var(--dark-blue-gray);
+  background-color: #e0e0e0;
   border-radius: 3px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   overflow: hidden;
 }
 
@@ -143,26 +154,19 @@
   margin-right: 8px;
 }
 
-/* 第二個完成任務的數字 */
+/* 完成任務的計數器 */
 .completed-count {
-  color: var(--dark-green);
+  color: var(--white);
+  background-color: var(--dark-green);
 }
 
-/* 響應式設計 */
+/* 響應式設計 - 與 project 頁面保持一致 */
 @media screen and (max-width: 768px) {
-  .header {
-    margin-left: 0;
-  }
-  
-  .sidebar {
-    transform: translateX(-100%);
-  }
-  
   .main-content {
     margin-left: 0;
   }
   
   .task-cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 }
