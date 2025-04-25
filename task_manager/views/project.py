@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from task_manager.models.project import Project
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')  # 如果用戶未登入，會重定向到登入頁面
 def main(request):
     context = {
         "project_data": [],
