@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from task_manager.models.project import Project
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')  # 如果用戶未登入，會重定向到登入頁面
 def main(request):
     context = {
         "project_data": [],
@@ -15,7 +17,7 @@ def main(request):
             field_name = field.name
             field_value = getattr(m, field_name)
 
-            if field_name == "end_date":
+            if field_name == "end_date" and field_value is not None:
                 field_value = field_value.strftime("%Y/%m/%d")
 
             data[field_name] = field_value

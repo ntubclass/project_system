@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任務管理系統 - 登入</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="loginContainer" class="login-container">
+        <!-- 背景動畫元素 -->
+        <div class="absolute-container">
+            <div class="circles-container">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+                <div class="circle circle-4"></div>
+                <div class="circle circle-5"></div>
+            </div>
+        </div>
+        
+        <!-- 精緻的網格背景 -->
+        <div class="grid-background"></div>
+
+        <div class="login-content">
+            <div class="text-center">
+                <h2 class="title">任務管理系統</h2>
+                <p class="subtitle">歡迎回來！請登入您的帳號</p>
+            </div>
+
+            <div class="form-container">
+                <div class="form-card">
+                    <!-- 顯示錯誤訊息 -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form id="loginForm" class="login-form" method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="email" class="form-label">電子郵件</label>
+                            <div class="input-container">
+                                <div class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autocomplete="email"
+                                    required
+                                    class="form-input"
+                                    placeholder="name@example.com"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">密碼</label>
+                            <div class="input-container">
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autocomplete="current-password"
+                                    required
+                                    class="form-input"
+                                    placeholder="••••••••"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-flex">
+                            <div class="form-checkbox">
+                                <input
+                                    id="remember-me"
+                                    name="remember-me"
+                                    type="checkbox"
+                                    class="checkbox"
+                                >
+                                <label for="remember-me" class="checkbox-label">
+                                    記住我
+                                </label>
+                            </div>
+
+                            {% comment %} <div class="forgot-password">
+                                <a href="#" class="forgot-link">忘記密碼？</a>
+                            </div> {% endcomment %}
+                        </div>
+
+                        <div class="form-group">
+                            <button
+                                type="submit"
+                                class="login-button"
+                            >
+                                登入
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="divider">
+                        <div class="divider-line"></div>
+                        <div class="divider-text">或者</div>
+                        <div class="divider-line"></div>
+                    </div>
+
+                    <div class="register">
+                        <p class="register-text">
+                            還沒有帳號？
+                            <a href="{% url 'register' %}" class="register-link">立即註冊</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'js/login.js' %}"></script>
+</body>
+</html>
