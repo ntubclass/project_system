@@ -1,14 +1,3 @@
-const menuToggle = document.getElementById('menuToggle');
-const sidebar = document.getElementById('sidebar');
-const mainContent = document.getElementById('mainContent');
-const header = document.querySelector('.header');
-
-menuToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('sidebar-hidden');
-    mainContent.classList.toggle('main-content-full');
-    header.classList.toggle('header-full'); 
-});
-
 // 設置進度條長度和更新顯示的百分比
 document.addEventListener('DOMContentLoaded', () => {
     // 獲取所有進度條元素
