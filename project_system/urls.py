@@ -16,7 +16,7 @@ urlpatterns = [
     path('project/', project.main, name="project"),
     path('task/', task_list.main, name="task"),
     path('login/', login.login_view, name="login"),
-    path('', RedirectView.as_view(url='/login/'), name="home"),
+    path('', RedirectView.as_view(url='/login/'), name="login"),
     path('register/', register.register_view, name='register'),
     path('create_project/', create_project.main, name="create_project"),
     path('dynamic_search_member/', dynamic_search_member.main, name="dynamic_search_member"),

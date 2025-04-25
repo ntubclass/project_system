@@ -1,16 +1,16 @@
 <div class="sidebar" id="sidebar">
-  <h1 class="sidebar-title">任務管理系統</h1>
-  
-  <div class="sidebar-item active">
-      <i class="sidebar-item-icon fa-solid fa-folder-closed"></i>
-      <div>專案</div>
-  </div>
-  <div class="sidebar-item">
-      <i class="sidebar-item-icon fa-solid fa-file"></i>
-      <div>任務</div>
-  </div>
-  <div class="sidebar-item">
-      <i class="sidebar-item-icon fa-solid fa-gear"></i>
-      <div>系統</div>
-  </div>
+    <h1 class="sidebar-title">任務管理系統</h1>
+    
+    <a href="{% url 'project' %}" class="sidebar-item {% if request.path == '/project/' %}active{% endif %}">
+        <i class="sidebar-item-icon fa-solid fa-folder-closed"></i>
+        <div>專案</div>
+    </a>
+    <a href="{% url 'task' %}" class="sidebar-item {% if request.path == '/task/' %}active{% endif %}">
+        <i class="sidebar-item-icon fa-solid fa-file"></i>
+        <div>任務</div>
+    </a>
+    <div class="sidebar-item">
+        <i class="sidebar-item-icon fa-solid fa-gear"></i>
+        <div>系統</div>
+    </div>
 </div>
