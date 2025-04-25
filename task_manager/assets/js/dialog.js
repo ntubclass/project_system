@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const cancelBtn = document.getElementById(cancelBtnId);
         const closeBtn = document.getElementById(closeBtnId);
 
+        if (!openBtn || !dialog || !cancelBtn || !closeBtn) {
+            console.log('Missing elements:', { openBtn, dialog, cancelBtn, closeBtn });
+            return;
+        }
         if (openBtn){
             // 確保對話框一開始是關閉的
             if (dialog.hasAttribute('open')) {
