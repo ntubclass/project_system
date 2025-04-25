@@ -30,7 +30,18 @@
   --font-size-18: 18px;
   --font-size-20: 20px;
   --font-size-24: 24px;
+  --font-size-28: 28px;
 
   /* 陰影參數 */
   --shadow-dropdown: 0px 4px 8px 0px rgba(64, 64, 64, 0.25);
+}
+
+/* 全局 base.html 主容器樣式 */
+main.content {
+  transition: margin-left 0.3s ease;
+}
+
+/* 當側邊欄隱藏時的全局樣式 */
+main.content-full {
+  margin-left: 0;
 }

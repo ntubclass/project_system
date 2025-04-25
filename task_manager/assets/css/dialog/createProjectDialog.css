@@ -235,3 +235,26 @@ input[type="date"] {
 .members-list li:hover {
   background-color: var(--light-blue-gray);
 }
+
+.form-errors {
+  margin-top: 15px;
+}
+
+.form-errors .alert {
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-errors .alert-warning {
+  background-color: #FFF3CD;
+  border: 0.5px solid #FFECB5;
+  color: #79611C;
+}
+
+.form-errors .alert-danger {
+  background-color: #F8D7DA;
+  border: 0.5px solid #F5C2C7;
+  color: #92373F;
+}

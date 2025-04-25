@@ -17,7 +17,7 @@
 }
 
 .menu-icon {
-  font-size: 24px;
+  font-size: var( --font-size-24);
   margin-right: 20px;
   cursor: pointer;
 }
@@ -25,7 +25,6 @@
 .search-bar {
   display: flex;
   align-items: center;
-  background-color: var(--light-blue-gray);
   border-radius: 4px;
   padding: 8px 12px;
   flex-grow: 1;
@@ -33,6 +32,7 @@
 }
 
 .search-icon {
+  font-size: var( --font-size-20);
   margin-right: 8px;
   color: var(--light-gray);
 }
@@ -40,13 +40,14 @@
 .search-input {
   border: none;
   background-color: transparent;
+  font-size: var( --font-size-18);
   outline: none;
   width: 100%;
 }
 
 .user-icon {
   margin-left: auto;
-  font-size: 24px;
+  font-size: var( --font-size-28);
   color: var(--dark-gray);
 }
 
