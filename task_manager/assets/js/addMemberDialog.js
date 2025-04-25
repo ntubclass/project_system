@@ -13,6 +13,15 @@ function getPhotoUrl(photo) {
     return photo || '/static/default-avatar.png';
 }
 
+// Function to close the dialog with animation
+function closeDialogWithAnimation(dialog) {
+    dialog.setAttribute('closing', '');
+    setTimeout(() => {
+        dialog.removeAttribute('closing');
+        dialog.close();
+    }, 200); // Match CSS animation duration
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById('memberSearch');
     const resultsContainer = document.getElementById('memberResults');
@@ -22,53 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Clear previous results in the members list
     membersList.innerHTML = '';
-
-    // Event listener for the "Add Member" button
-    addMemberBtn.addEventListener('click', () => {
-        // Function to close the dialog with an animation
-        function closeDialogWithAnimation() {
-            dialog.setAttribute('closing', '');
-            setTimeout(() => {
-                dialog.removeAttribute('closing');
-                dialog.close();
-            }, 200); // Match CSS animation duration
-        }
-
-        // Do nothing if no member is selected
-        if (selectedMemberInfo.name === '') {
-            return;
-        }
-
-        // Add the selected member to the list check same name
-        const existingMember = addMemberlist.find(member => member.name === selectedMemberInfo.name);
-        if (existingMember) {
-           
-            return;
-        }
-
-        addMemberlist.push({
-            name: selectedMemberInfo.name,
-            email: selectedMemberInfo.email,
-            photo: getPhotoUrl(selectedMemberInfo.photo),
-        });
-
-        // Render the updated members list
-        membersList.innerHTML = ''; // Clear previous results
-        addMemberlist.forEach(member => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <div>
-                    <img src="${getPhotoUrl(member.photo)}" class="user-photo">
-                    <span>${member.name}</span>
-                    <span class="user-email">${member.email}</span>
-                </div>
-            `;
-            membersList.appendChild(li);
-        });
-
-        // Close the dialog
-        closeDialogWithAnimation();
-    });
 
     // Event listener for the search input
     if (searchInput && resultsContainer) {
@@ -136,6 +98,40 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Clear results and highlight the selected user
                             resultsContainer.innerHTML = '';
                             resultsContainer.appendChild(li);
+
+                            // Do nothing if no member is selected
+                            if (selectedMemberInfo.name === '') {
+                                return;
+                            }
+
+                            // Add the selected member to the list, checking for duplicates
+                            const existingMember = addMemberlist.find(member => member.email === selectedMemberInfo.email);
+                            if (existingMember) {
+                                return;
+                            }
+
+                            addMemberlist.push({
+                                name: selectedMemberInfo.name,
+                                email: selectedMemberInfo.email,
+                                photo: getPhotoUrl(selectedMemberInfo.photo),
+                            });
+
+                            // Render the updated members list
+                            membersList.innerHTML = ''; // Clear previous results
+                            addMemberlist.forEach(member => {
+                                const li = document.createElement('li');
+                                li.innerHTML = `
+                                    <div>
+                                        <img src="${getPhotoUrl(member.photo)}" class="user-photo">
+                                        <span>${member.name}</span>
+                                        <span class="user-email">${member.email}</span>
+                                    </div>
+                                `;
+                                membersList.appendChild(li);
+                            });
+
+                            // Close the dialog
+                            closeDialogWithAnimation(dialog);
                         });
                         resultsContainer.appendChild(li);
                     });
