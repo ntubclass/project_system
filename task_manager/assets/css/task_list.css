@@ -1,6 +1,7 @@
 /* 任務頁面的主容器 */
 .task {
   background-color: var(--light-blue-gray);
+  min-height: calc(100vh - 65px);
 }
 
 /* 主內容區 - 確保與 project.css 完全一致 */
@@ -8,7 +9,6 @@
   margin-left: 250px; /* 與sidebar寬度相同 */
   padding: 40px;
   transition: margin-left 0.3s ease;
-  min-height: calc(100vh); /* 確保內容區域至少佔滿剩餘的螢幕高度 */
 }
 
 /* 以下選擇器合併：當側邊欄隱藏時主內容區滿寬顯示 */
@@ -20,34 +20,38 @@ main.content .task .main-content-full {
   margin-left: 0;
 }
 
-/* 視圖切換 */
-.view-controls {
+.title-bar {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 30px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
 }
 
-.view-buttons {
-  display: flex;
-  background-color: var(--white);
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.view-btn {
-  padding: 8px 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: var(--font-size-14);
+.title {
+  font-size: var(--font-size-24);
+  font-weight: bolder;
   color: var(--dark-gray);
 }
 
-.view-btn.active {
-  background-color: var(--light-blue);
-  color: var(--dark-blue);
-  font-weight: 500;
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.sort-dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 16px;
+  background-color: var(--white);
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  margin-left: 8px;
 }
 
 /* 任務組 */
@@ -58,6 +62,7 @@ main.content .task .main-content-full {
 .section-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
   cursor: pointer;
 }
@@ -72,20 +77,13 @@ main.content .task .main-content-full {
 
 .section-icon {
   margin-right: 8px;
-  color: var(--dark-blue);
+  font-size: var(--font-size-24);
 }
 
 .task-count {
+  font-weight: bolder;
   margin-left: 12px;
-  background-color: var(--dark-blue);
-  color: white;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-14);
+  font-size: var(--font-size-24);
 }
 
 /* 任務卡片列表 - 與 project 頁面網格一致 */
@@ -155,9 +153,12 @@ main.content .task .main-content-full {
 }
 
 /* 完成任務的計數器 */
-.completed-count {
-  color: var(--white);
-  background-color: var(--dark-green);
+.continue {
+  color: var(--orange);
+}
+
+.completed {
+  color: var(--dark-green);
 }
 
 /* 響應式設計 - 與 project 頁面保持一致 */
