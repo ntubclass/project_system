@@ -13,13 +13,11 @@ from task_manager.views import (
     dynamic_search_member,
 )
 
-# 添加一個簡單的首頁視圖函數來確保重定向
-def home_redirect(request):
-    return redirect('project')
-
 urlpatterns = [
-    # 設置首頁重定向（使用函數視圖來直接重定向到專案頁面）
-    path('', home_redirect, name='home'),
+    path('project/', project.main, name="project"),
+    path('task/', task_list.main, name="task"),
+    path('login/', login.login_view, name="login"),
+    path('', RedirectView.as_view(url='/login/'), name="login"),
     
     # 認證相關路由
     path('login/', login.login_view, name='login'),
