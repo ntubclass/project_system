@@ -13,7 +13,7 @@ def main(request):
         projectName = request.POST.get("projectName")
         description = request.POST.get("description")
         dueDate = request.POST.get("dueDate")
-        user = User.objects.get(username = "linjerry")
+        user = User.objects.get(username = request.user)
         member_count = int(request.POST.get("member_count", "0"))
 
         if Project.objects.filter(name=projectName).exists():
