@@ -101,16 +101,4 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     console.warn('Menu toggle, sidebar, or header elements not found');
   }
-  
-  // 處理側邊欄項目的點擊事件
-  const sidebarItems = document.querySelectorAll('.sidebar-item');
-  
-  // 根據當前頁面URL設置活動項目
-  const currentPath = window.location.pathname;
-  sidebarItems.forEach(item => {
-    const href = item.getAttribute('href');
-    if (href && currentPath.includes(href.replace('/', ''))) {
-      item.classList.add('active');
-    }
-  });
 });
