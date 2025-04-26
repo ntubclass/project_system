@@ -91,3 +91,5 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+AUTHENTICATION_BACKENDS = ['task_manager.utils.emaillogin.EmailLogin']
