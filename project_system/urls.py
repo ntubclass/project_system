@@ -31,4 +31,4 @@ urlpatterns = [
     
     # 任務相關路由
     path('task_list/', task_list.main, name='task_list'),
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
