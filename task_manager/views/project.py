@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from task_manager.models.project import Project
 from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')
 def main(request):
     context = {
         "project_data": [],
