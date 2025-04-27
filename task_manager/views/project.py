@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from task_manager.models.project import Project
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 @login_required(login_url='login')
 def main(request):
@@ -17,6 +18,9 @@ def main(request):
 
             if field_name == "end_date" and field_value is not None:
                 field_value = field_value.strftime("%Y/%m/%d")
+            elif field_name == "user_id":
+                user = User.objects.get(id=field_value.id)
+                data["photo"] = user.userinfo.photo.url
 
             data[field_name] = field_value
         context['project_data'].append(data)
