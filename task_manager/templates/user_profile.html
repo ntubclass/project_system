@@ -128,7 +128,8 @@
             <p>您將需要重新登錄才能繼續使用系統。</p>
             <div class="dialog-footer">
                 <button id="cancelLogout" class="cancel-btn">取消</button>
-                <form action="{% url 'logout' %}" method="GET" style="margin: 0;">
+                <form action="{% url 'logout' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
                     <button type="submit" class="confirm-btn">確認退出</button>
                 </form>
             </div>
