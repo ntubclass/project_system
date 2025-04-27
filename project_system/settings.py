@@ -16,6 +16,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "task_manager",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.github",
 ]
 
 MIDDLEWARE = [
@@ -76,12 +81,14 @@ TIME_ZONE = "Asia/Taipei"
 USE_I18N = True
 USE_TZ = False
 
+LOGIN_REDIRECT_URL = '/project/'
+
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "task_manager/assets"),
-    os.path.join(BASE_DIR, "node_modules/"),
+    os.path.join(BASE_DIR, "task_manager/assets/node_modules"),
 ]
 
 
@@ -98,4 +105,11 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
 
-AUTHENTICATION_BACKENDS = ["task_manager.utils.emaillogin.EmailLogin"]
+AUTHENTICATION_BACKENDS = [
+    "task_manager.utils.emaillogin.EmailLogin",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+SOCIALACCOUNT_ADAPTER = 'task_manager.utils.socialaccount_adapter.CustomSocialAccountAdapter'
+SOCIALACCOUNT_AUTO_SIGNUP = False
+SOCIALACCOUNT_QUERY_EMAIL = True

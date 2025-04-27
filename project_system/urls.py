@@ -20,30 +20,20 @@ from task_manager.views import (
 
 urlpatterns = (
     [
+        path("admin/", admin.site.urls),
         path("project/", project.main, name="project"),
         path("task/", task_list.main, name="task"),
         path("login/", login.login_view, name="login"),
         path("", RedirectView.as_view(url="/login/"), name="login"),
-        
-        # 測試路由
         path('test/', test.main, name='test'),
-        
-        # 認證相關路由
-        path('login/', login.login_view, name='login'),
         path('register/', register.register_view, name='register'),
         path('logout/', logout.logout_view, name='logout'),
-        
-        # 專案相關路由
         path('project/', project.main, name='project'),
         path('create_project/', create_project.main, name='create_project'),
         path('dynamic_search_member/', dynamic_search_member.main, name='dynamic_search_member'),
-        
-        # 任務相關路由
-        path('task_list/', task_list.main, name='task_list'),
-        
-        # 用戶資料相關路由
-        path('user_profile/', user_profile.main, name='user_profile'),
-        path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),
+        path('accounts/', include('allauth.urls')),
+		path('user_profile/', user_profile.main, name='user_profile'),
+        path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
