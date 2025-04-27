@@ -45,8 +45,15 @@
   width: 100%;
 }
 
-.user-icon {
+/* 用戶圖標超連結樣式 */
+.user-icon-link {
   margin-left: auto;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.user-icon {
   font-size: var( --font-size-28);
   color: var(--dark-gray);
 }
