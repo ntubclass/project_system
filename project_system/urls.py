@@ -13,6 +13,9 @@ from task_manager.views import (
     register,
     create_project,
     dynamic_search_member,
+    user_profile,
+    upload_avatar_api,
+    logout,
 )
 
 urlpatterns = (
@@ -28,7 +31,7 @@ urlpatterns = (
         # 認證相關路由
         path('login/', login.login_view, name='login'),
         path('register/', register.register_view, name='register'),
-        # path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+        path('logout/', logout.logout_view, name='logout'),
         
         # 專案相關路由
         path('project/', project.main, name='project'),
@@ -37,6 +40,10 @@ urlpatterns = (
         
         # 任務相關路由
         path('task_list/', task_list.main, name='task_list'),
+        
+        # 用戶資料相關路由
+        path('user_profile/', user_profile.main, name='user_profile'),
+        path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )

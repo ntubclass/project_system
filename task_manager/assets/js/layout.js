@@ -57,6 +57,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (projectContainer) {
         projectContainer.classList.add('project-full');
       }
+      
+      // 處理個人資料頁面容器
+      const profileContainer = document.querySelector('.profile-container');
+      if (profileContainer) {
+        profileContainer.classList.add('profile-full');
+      }
     }
   }
   
@@ -93,6 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const projectContainer = document.querySelector('.project');
       if (projectContainer) {
         projectContainer.classList.toggle('project-full');
+      }
+      
+      // 處理個人資料頁面容器
+      const profileContainer = document.querySelector('.profile-container');
+      if (profileContainer) {
+        profileContainer.classList.toggle('profile-full');
       }
       
       // 保存側邊欄狀態
