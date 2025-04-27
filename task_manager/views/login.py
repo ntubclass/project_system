@@ -20,7 +20,7 @@ def login_view(request):
         else:
             messages.error(request, "帳號或密碼不正確")
 
-    # if request.user.is_authenticated:
-    #     return redirect("/project")
+    if request.user.is_authenticated:
+        return redirect("/project")
 
     return render(request, "login.html")
