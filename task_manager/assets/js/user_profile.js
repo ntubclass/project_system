@@ -67,6 +67,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // 基本資料表單驗證
+    const profileFormEl = document.querySelector('#profile-form form');
+    if (profileFormEl) {
+        profileFormEl.addEventListener('submit', function(e) {
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            
+            // 檢查姓名是否為空
+            if (!nameInput.value.trim()) {
+                e.preventDefault();
+                alert('姓名不能為空');
+                nameInput.focus();
+                return false;
+            }
+            
+            // 檢查郵箱格式
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(emailInput.value.trim())) {
+                e.preventDefault();
+                alert('請輸入有效的電子郵箱');
+                emailInput.focus();
+                return false;
+            }
+            
+            // 檢查手機格式（台灣手機號格式）
+            const phonePattern = /^09\d{8}$/;
+            if (!phonePattern.test(phoneInput.value.trim())) {
+                e.preventDefault();
+                alert('請輸入有效的手機號碼格式（例如：0912345678）');
+                phoneInput.focus();
+                return false;
+            }
+        });
+    }
 
     // 密碼驗證
     const passwordFormEl = document.querySelector('#password-form form');
