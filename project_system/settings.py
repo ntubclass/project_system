@@ -31,6 +31,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "project_system.urls"
@@ -107,7 +108,6 @@ MESSAGE_TAGS = {
 
 AUTHENTICATION_BACKENDS = [
     "task_manager.utils.emaillogin.EmailLogin",
-    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 SOCIALACCOUNT_ADAPTER = 'task_manager.utils.socialaccount_adapter.CustomSocialAccountAdapter'
