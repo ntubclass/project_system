@@ -8,7 +8,6 @@ def login_view(request):
         email = request.POST.get("email")  # 使用email作為使用者名稱
         password = request.POST.get("password")
         remember_me = request.POST.get("remember-me") == "on"
-
         user = auth.authenticate(request, username=email, password=password)
 
         if user is not None and user.is_active:
