@@ -24,7 +24,7 @@ urlpatterns = (
         path("project/", project.main, name="project"),
         path("task/", task_list.main, name="task"),
         path("login/", login.login_view, name="login"),
-        path("", RedirectView.as_view(url="/login/"), name="login"),
+        path("", RedirectView.as_view(url="/login/")),
         path('test/', test.main, name='test'),
         path('register/', register.register_view, name='register'),
         path('logout/', logout.logout_view, name='logout'),
