@@ -21,7 +21,6 @@ from task_manager.views import (
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
-        path("project/", project.main, name="project"),
         path("task/", task_list.main, name="task"),
         path("login/", login.login_view, name="login"),
         path("", RedirectView.as_view(url="/login/")),

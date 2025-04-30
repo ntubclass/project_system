@@ -54,7 +54,7 @@
     <div class="profile-form-container">
         <div class="profile-form" id="profile-form">
             <h2 class="profile-title">基本資料</h2>
-            <form class="profile-form-content" method="POST">
+            <form class="profile-form-content" method="POST" action="{% url 'user_profile' %}">
                 {% csrf_token %}
                 <input type="hidden" name="form_type" value="profile">
                 <div class="form-grid">
@@ -94,7 +94,7 @@
         
         <div class="password-form" id="password-form" style="display: none;">
             <h2 class="profile-title">密碼修改</h2>
-            <form class="profile-form-content" method="POST">
+            <form class="profile-form-content" method="POST" action="{% url 'user_profile' %}">
                 {% csrf_token %}
                 <input type="hidden" name="form_type" value="password">
                 <div class="form-grid">
