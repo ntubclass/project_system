@@ -44,7 +44,7 @@
                     <form id="registerForm" class="register-form" method="post" action="{% url 'register' %}">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="fullName" class="form-label">姓名</label>
+                            <label for="fullName" class="form-label">姓名*</label>
                             <div class="input-container">
                                 <div class="input-icon">
                                     <i class="fas fa-user"></i>
@@ -57,12 +57,13 @@
                                     required
                                     class="form-input"
                                     placeholder="王小明"
+                                    value="{{ initial_data.name|default:'' }}"
                                 >
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="position" class="form-label">職稱</label>
+                            <label for="position" class="form-label">職稱*</label>
                             <div class="input-container">
                                 <div class="input-icon">
                                     <i class="fas fa-briefcase"></i>
@@ -82,7 +83,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="email" class="form-label">電子郵件</label>
+                            <label for="email" class="form-label">電子郵件*</label>
                             <div class="input-container">
                                 <div class="input-icon">
                                     <i class="fas fa-envelope"></i>
@@ -95,6 +96,8 @@
                                     required
                                     class="form-input"
                                     placeholder="name@example.com"
+                                    value="{{ initial_data.email|default:'' }}"
+                                    {% if initial_data.email %}readonly{% endif %}
                                 >
                             </div>
                         </div>
@@ -110,7 +113,6 @@
                                     name="phone"
                                     type="tel"
                                     autocomplete="tel"
-                                    required
                                     class="form-input"
                                     placeholder="0912345678"
                                 >
@@ -118,7 +120,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password" class="form-label">密碼</label>
+                            <label for="password" class="form-label">密碼*</label>
                             <div class="input-container">
                                 <div class="input-icon">
                                     <i class="fas fa-lock"></i>
@@ -136,7 +138,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="confirmPassword" class="form-label">確認密碼</label>
+                            <label for="confirmPassword" class="form-label">確認密碼*</label>
                             <div class="input-container">
                                 <div class="input-icon">
                                     <i class="fas fa-lock"></i>
