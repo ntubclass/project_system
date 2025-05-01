@@ -5,7 +5,7 @@ from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from task_manager import routing  # Assuming you have a 'chat' app and routing defined there
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project_name.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_system.settings')
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),  # Handles HTTP requests (traditional Django views)
