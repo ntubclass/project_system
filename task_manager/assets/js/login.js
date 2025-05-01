@@ -82,23 +82,4 @@ document.addEventListener('DOMContentLoaded', function() {
             passwordInput.previousElementSibling.style.color = '#94a3b8';
         }
     }
-    
-    // 我們不再需要表單提交的 JS 攔截，因為表單會直接提交給 Django
-    // 如果想要進行表單前端驗證，可以添加以下代碼：
-    /* 
-    loginForm.addEventListener('submit', (e) => {
-        const email = emailInput.value;
-        const password = passwordInput.value;
-        
-        // 表單前端驗證 (可選)
-        if (!email || !password) {
-            e.preventDefault();
-            alert('請填寫所有必要欄位');
-            return false;
-        }
-        
-        // 讓表單正常提交給 Django
-        return true;
-    });
-    */
 });
