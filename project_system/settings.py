@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'task_manager',
-    "channels"
+    "channels",
 	"allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -115,7 +115,7 @@ SOCIALACCOUNT_ADAPTER = 'task_manager.utils.socialaccount_adapter.CustomSocialAc
 SOCIALACCOUNT_AUTO_SIGNUP = False
 SOCIALACCOUNT_QUERY_EMAIL = True
 
-ASGI_APPLICATION = 'myproject.asgi.application'  # 指定 ASGI 應用
+ASGI_APPLICATION = 'project_system.asgi.application'  # 指定 ASGI 應用
 
 CHANNEL_LAYERS = {
     'default': {

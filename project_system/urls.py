@@ -16,6 +16,7 @@ from task_manager.views import (
     user_profile,
     upload_avatar_api,
     logout,
+    chat
 )
 
 urlpatterns = (
@@ -33,7 +34,7 @@ urlpatterns = (
         path('accounts/', include('allauth.urls')),
 		path('user_profile/', user_profile.main, name='user_profile'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
+        path('chat/', chat.main, name='chat'),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
-# fmt: on

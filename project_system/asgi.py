@@ -1,16 +1,17 @@
-"""
-ASGI config for project_system project.
-
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/
-"""
-
+# asgi.py
 import os
-
 from django.core.asgi import get_asgi_application
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+from task_manager import routing  # Assuming you have a 'chat' app and routing defined there
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_system.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project_name.settings')
 
-application = get_asgi_application()
+application = ProtocolTypeRouter({
+    "http": get_asgi_application(),  # Handles HTTP requests (traditional Django views)
+    "websocket": AuthMiddlewareStack(  # Handles WebSocket connections with authentication
+        URLRouter(
+            routing.websocket_urlpatterns  # Define your WebSocket URL patterns in routing.py
+        )
+    ),
+})
