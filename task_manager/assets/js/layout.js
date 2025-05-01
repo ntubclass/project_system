@@ -57,6 +57,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (projectContainer) {
         projectContainer.classList.add('project-full');
       }
+      
+      // 處理個人資料頁面容器
+      const profileContainer = document.querySelector('.profile-container');
+      if (profileContainer) {
+        profileContainer.classList.add('profile-full');
+      }
     }
   }
   
@@ -95,22 +101,16 @@ document.addEventListener("DOMContentLoaded", function () {
         projectContainer.classList.toggle('project-full');
       }
       
+      // 處理個人資料頁面容器
+      const profileContainer = document.querySelector('.profile-container');
+      if (profileContainer) {
+        profileContainer.classList.toggle('profile-full');
+      }
+      
       // 保存側邊欄狀態
       saveMenuState(isHidden);
     });
   } else {
     console.warn('Menu toggle, sidebar, or header elements not found');
   }
-  
-  // 處理側邊欄項目的點擊事件
-  const sidebarItems = document.querySelectorAll('.sidebar-item');
-  
-  // 根據當前頁面URL設置活動項目
-  const currentPath = window.location.pathname;
-  sidebarItems.forEach(item => {
-    const href = item.getAttribute('href');
-    if (href && currentPath.includes(href.replace('/', ''))) {
-      item.classList.add('active');
-    }
-  });
 });

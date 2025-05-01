@@ -1,0 +1,18 @@
+{% load static %}
+
+<dialog id="UploadAvatarDialog">
+  <h2 class="upload-avatar-title">修改頭像</h2>
+  <form id="uploadAvatarForm" method="post" action="{% url 'upload_avatar_api' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="avatar-content">
+        <img class="avatar-preview" id="avatarPreview" src="{{ user_info.photo.url|default:'/static/avatars/avatar_default.png' }}" alt="用戶頭像">
+        <div class="upload-avatar-input">
+            <input type="file" class="upload-avatar-btn" id="avatarFile" name="avatar_file" accept="image/*" onchange="previewAvatar(this);" required>
+        </div>
+    </div>
+    <div class="dialog-footer">
+      <button type="button" class="cancel-btn" id="closeUploadAvatar">取消</button>
+      <button type="submit" class="confirm-btn">確認上傳</button>
+    </div>
+  </form>
+</dialog>
