@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <style>
+        /* Simple styles for the chat UI */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            height: 80%;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-box" id="chat-box">
+        <!-- Chat messages will be dynamically inserted here -->
+    </div>
+
+    <div class="input-container">
+        <input type="text" id="message-input" placeholder="Type a message..." autofocus>
+        <button id="send-button" disabled>Send</button>
+    </div>
+
+    <script>
+        // Make sure DOM is fully loaded before interacting with elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+            const chatBox = document.getElementById('chat-box');
+
+            // WebSocket connection setup
+            const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/');
+
+            // Enable the Send button when there's text input
+            messageInput.addEventListener('input', function() {
+                sendButton.disabled = !messageInput.value.trim();
+            });
+
+            // When WebSocket is connected
+            chatSocket.onopen = function() {
+                console.log('Connected to WebSocket');
+            };
+
+            // When WebSocket receives a message
+            chatSocket.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                const message = data.message;
+
+                // Append new message to chat-box
+                const messageElement = document.createElement('div');
+                messageElement.textContent = message;
+                chatBox.appendChild(messageElement);
+
+                // Scroll to the bottom of the chat
+                chatBox.scrollTop = chatBox.scrollHeight;
+            };
+
+            // When WebSocket is closed
+            chatSocket.onclose = function(event) {
+                console.log('WebSocket connection closed', event);
+            };
+
+            // When an error occurs in WebSocket
+            chatSocket.onerror = function(error) {
+                console.error('WebSocket Error:', error);
+            };
+
+            // Handle Send button click
+            sendButton.addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                if (message) {
+                    // Send message via WebSocket
+                    chatSocket.send(JSON.stringify({
+                        'message': message
+                    }));
+                    messageInput.value = '';  // Clear the input field
+                    sendButton.disabled = true;  // Disable the send button until there's new input
+                }
+            });
+
+            // Focus the message input when page loads
+            messageInput.focus();
+        });
+    </script>
+</body>
+</html>
