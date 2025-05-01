@@ -16,6 +16,7 @@ from task_manager.views import (
     user_profile,
     upload_avatar_api,
     logout,
+    cloud_files,
 )
 
 urlpatterns = (
@@ -32,7 +33,8 @@ urlpatterns = (
         path('dynamic_search_member/', dynamic_search_member.main, name='dynamic_search_member'),
         path('accounts/', include('allauth.urls')),
 		path('user_profile/', user_profile.main, name='user_profile'),
-        path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
+        path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),
+        path('cloud_files/', cloud_files.main, name='cloud_files'),   
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
