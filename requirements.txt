@@ -3,4 +3,6 @@ Django==5.1.6
 sqlparse==0.5.3
 django-allauth == 65.3.0
 django-allauth[socialaccount]
-requests == 2.32.3
+requests==2.32.3
+channels==4.0.0
+daphne==4.0.0
