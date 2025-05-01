@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'task_manager',
+    "channels"
 ]
 
 MIDDLEWARE = [
@@ -93,3 +94,26 @@ MESSAGE_TAGS = {
 }
 
 AUTHENTICATION_BACKENDS = ['task_manager.utils.emaillogin.EmailLogin']
+
+# settings.py
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'channels',  # 加入 channels
+]
+
+ASGI_APPLICATION = 'myproject.asgi.application'  # 指定 ASGI 應用
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',  # 使用 Redis 作為 Channel 層
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Redis 配置
+        },
+    },
+}
