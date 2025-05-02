@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}檔案共享{% endblock %}
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/cloud_files.css' %}">
+    <link rel="stylesheet" href="{% static 'css/files.css' %}">
 {% endblock %}
 {% block content %}
 <div class="cloud-files">
@@ -103,7 +103,10 @@
         </div>
     </div>
 </div>
+
+{% include 'dialog/uploadFileDialog.html' %}
+
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'js/cloud_files.js' %}"></script>
+<script src="{% static 'js/files.js' %}"></script>
 {% endblock %}
