@@ -117,6 +117,8 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 ASGI_APPLICATION = 'project_system.asgi.application'  # 指定 ASGI 應用
 
+# The InMemoryChannelLayer is used for local development and testing purposes only.
+# It should not be used in production as it does not support persistence or scaling.
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
