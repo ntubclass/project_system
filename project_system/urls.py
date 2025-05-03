@@ -35,7 +35,7 @@ urlpatterns = (
         path('accounts/', include('allauth.urls')),
 		path('user_profile/', user_profile.main, name='user_profile'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
-        path('chat/', chat.main, name='chat'),
+        path('chat/<int:id>/', chat.main, name='chat'),
         path('cloud_files/', cloud_files.main, name='cloud_files'),   
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
