@@ -1,5 +1,50 @@
-# task_manager/views/chat.py
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from task_manager.models.project import Project
+from task_manager.models.project_member import ProjectMember
+from task_manager.models.Message import Message
+from django.contrib.auth.decorators import login_required
 
-def main(request):
-    return render(request, 'chat.html')  # 假設你的模板是 chat/chat.html
+@login_required(login_url="login")
+def main(request, id):
+    # Check if the project exists
+    project_exists = Project.objects.filter(project_id=id).exists()
+    
+    if not project_exists:
+        return HttpResponse("Project does not exist", status=404)
+    
+    # Check if the user is either the project manager OR a project member
+    is_projectManager = Project.objects.filter(
+        project_id=id, 
+        user_id=request.user.id
+    ).exists()
+    
+    is_member = ProjectMember.objects.filter(
+        project_id=id, 
+        user_id=request.user.id
+    ).exists()
+
+    if not is_projectManager and not is_member:
+        return HttpResponse("You don't have permission to access this chat room", status=401)
+    
+    
+    # Get chat message history for this project
+    messages_history = Message.objects.filter(project_id=id).order_by('create_time')
+    # Get the pin messages for this project
+    pin_message = Message.objects.filter(project_id=id, isPin=True)
+    has_pin = pin_message.exists()
+
+    if has_pin:
+        pin_message = pin_message[0].content
+    else:
+        pin_message = None
+
+    context = {
+        'messages_history': messages_history,
+        'pin_message': pin_message,
+        'has_pin': has_pin,
+        'room_id': id,
+    }
+    
+    print("Context data:", context)
+    return render(request, 'chat_room.html', context)
