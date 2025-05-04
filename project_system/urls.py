@@ -38,7 +38,7 @@ urlpatterns = (
         path('accounts/', include('allauth.urls')),
 		path('user_profile/', user_profile.main, name='user_profile'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
-        path('chat/', chat.main, name='chat'),
+        path('chat/<int:id>/', chat.main, name='chat'),
         path('files/', files.main, name='files'),
         path('upload_file/', upload_file.main, name='upload_file'),
         path('download_file/', download_file.main, name='download_file'),
