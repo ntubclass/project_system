@@ -3,8 +3,9 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from task_manager.models.user_info import UserInfo
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
-
+@login_required(login_url="login")
 def main(request):
     if request.method == "POST":
         context = {

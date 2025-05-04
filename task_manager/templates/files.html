@@ -30,75 +30,37 @@
             <div class="file-table-header">
                 <div class="file-header-cell name-cell">檔案名稱</div>
                 <div class="file-header-cell owner-cell">上傳者</div>
-                <div class="file-header-cell date-cell">上傳日期</div>
+                <div class="file-header-cell date-cell">上傳日期/時間</div>
                 <div class="file-header-cell size-cell">大小</div>
                 <div class="file-header-cell action-cell"></div>
             </div>
             
             <!-- 檔案列表 -->
             <div class="file-table-body">
-                <!-- PDF 檔案 -->
-                <div class="file-row">
-                    <div class="file-cell name-cell">
-                        <div class="file-icon pdf-icon">
-                            <i class="fa-solid fa-file-pdf"></i>
+                {% for i in file_data %}
+                    <div class="file-row">
+                        <div class="file-cell name-cell">
+                            <div class="file-icon {{ i.class_bgClass }}">
+                                <i class="fa-solid {{ i.class_icon }}"></i>
+                            </div>
+                            <div class="file-details">
+                                <div class="file-name">{{ i.file_name }}</div>
+                                <div class="file-type">{{ i.file_type }}</div>
+                            </div>
                         </div>
-                        <div class="file-details">
-                            <div class="file-name">需求文件.pdf</div>
-                            <div class="file-type">PDF</div>
-                        </div>
-                    </div>
-                    <div class="file-cell owner-cell">張三</div>
-                    <div class="file-cell date-cell">2024-03-25 14:30</div>
-                    <div class="file-cell size-cell">2.5 MB</div>
-                    <div class="file-cell action-cell">
-                        <a href="#" class="download-btn">
-                            <i class="fa-solid fa-download"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Excel 檔案 -->
-                <div class="file-row">
-                    <div class="file-cell name-cell">
-                        <div class="file-icon excel-icon">
-                            <i class="fa-solid fa-file-excel"></i>
-                        </div>
-                        <div class="file-details">
-                            <div class="file-name">專案時程表.xlsx</div>
-                            <div class="file-type">EXCEL</div>
+                        <div class="file-cell owner-cell">{{ i.user_id }}</div>
+                        <div class="file-cell date-cell">{{ i.create_time }}</div>
+                        <div class="file-cell size-cell">{{ i.file_size }}</div>
+                        <div class="file-cell action-cell">
+                            <a href="#" class="download-btn">
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                            <button class="delete-btn" onclick="deleteFile({{ i.file_id }}, '{{ i.file_name }}')" title="刪除">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="file-cell owner-cell">李四</div>
-                    <div class="file-cell date-cell">2024-03-24 11:20</div>
-                    <div class="file-cell size-cell">1.8 MB</div>
-                    <div class="file-cell action-cell">
-                        <a href="#" class="download-btn">
-                            <i class="fa-solid fa-download"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- 圖片檔案 -->
-                <div class="file-row">
-                    <div class="file-cell name-cell">
-                        <div class="file-icon image-icon">
-                            <i class="fa-solid fa-file-image"></i>
-                        </div>
-                        <div class="file-details">
-                            <div class="file-name">使用者介面設計.png</div>
-                            <div class="file-type">IMAGE</div>
-                        </div>
-                    </div>
-                    <div class="file-cell owner-cell">王五</div>
-                    <div class="file-cell date-cell">2024-03-23 16:45</div>
-                    <div class="file-cell size-cell">4.2 MB</div>
-                    <div class="file-cell action-cell">
-                        <a href="#" class="download-btn">
-                            <i class="fa-solid fa-download"></i>
-                        </a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

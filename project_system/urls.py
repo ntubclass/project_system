@@ -18,6 +18,9 @@ from task_manager.views import (
     logout,
     chat,
     files,
+    upload_file,
+    download_file,
+    delete_file,
 )
 
 urlpatterns = (
@@ -36,7 +39,10 @@ urlpatterns = (
 		path('user_profile/', user_profile.main, name='user_profile'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
         path('chat/', chat.main, name='chat'),
-        path('files/', files.main, name='files'),   
+        path('files/', files.main, name='files'),
+        path('upload_file/', upload_file.main, name='upload_file'),
+        path('download_file/', download_file.main, name='download_file'),
+        path('delete_file/', delete_file.main, name='delete_file'),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )

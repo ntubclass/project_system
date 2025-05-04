@@ -42,6 +42,27 @@
     margin-right: 6px;
 }
 
+.delete-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 5px;
+    transition: color 0.3s ease;
+}
+
+.delete-btn:hover {
+    color: #c82333;
+}
+
+.download-btn,
+.delete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* 搜尋框 */
 .search-container {
     margin-bottom: 20px;
@@ -149,19 +170,55 @@
     font-size: var(--font-size-20);
 }
 
+/* 檔案類型圖示 */
 .pdf-icon {
-    background-color: var(--light-red);
-    color: var(--dark-red);
+    background-color: #f8d7da;  /* 淡紅 */
+    color: #721c24;            /* 深紅 */
+}
+
+.word-icon {
+    background-color: #d1ecf1;  /* 淺藍 */
+    color: #0c5460;            /* 深藍 */
 }
 
 .excel-icon {
-    background-color: var(--light-green);
-    color: var(--dark-green);
+    background-color: #d4edda;  /* 淺綠 */
+    color: #155724;             /* 深綠 */
+}
+
+.ppt-icon {
+    background-color: #fff3cd;  /* 淺橘 */
+    color: #856404;             /* 深橘 */
 }
 
 .image-icon {
-    background-color: var(--light-blue);
-    color: var(--dark-blue);
+    background-color: #e2d6f3;  /* 淡紫 */
+    color: #4b0082;             /* 靛紫 */
+}
+
+.text-icon {
+    background-color: #f1f1f1;  /* 淺灰 */
+    color: #333333;             /* 深灰 */
+}
+
+.archive-icon {
+    background-color: #f0e2d0;  /* 淡棕 */
+    color: #6e4c1e;             /* 深棕 */
+}
+
+.audio-icon {
+    background-color: #d1f2eb;  /* 淺青綠 */
+    color: #117864;             /* 深青綠 */
+}
+
+.video-icon {
+    background-color: #e6e6fa;  /* 淡靛紫 */
+    color: #4b0082;             /* 靛紫 */
+}
+
+.default-icon {
+    background-color: #e2e3e5;  /* 淡銀灰 */
+    color: #383d41;             /* 深灰黑 */
 }
 
 .file-details {
@@ -195,9 +252,17 @@
     border-radius: 8px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
     width: 100%;
-    max-width: 550px;
+    max-width: 700px;
+    max-height: 90vh;
     padding: 0;
     background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 確保對話框 backdrop 正確移除 */
+dialog:not([open]) {
+    display: none;
 }
 
 .custom-dialog::backdrop {
@@ -209,16 +274,23 @@
 }
 
 @keyframes fade-out {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    from { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    to { 
+        opacity: 0;
+        transform: scale(0.98);
+    }
 }
 
 .dialog-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border-color);
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f8f9fa;
 }
 
 .dialog-title {
@@ -236,33 +308,48 @@
 }
 
 .dialog-content {
-    padding: 20px;
+    padding: 24px;
+    background-color: #ffffff;
+    overflow-y: auto;  /* 添加滚动条 */
+    flex: 1;  /* 使内容区域可伸缩 */
 }
 
 .dialog-actions {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-    margin-top: 20px;
+    padding: 16px 24px;
+    border-top: 1px solid #ddd;
+    background-color: #f8f9fa;
 }
 
 .cancel-btn, .confirm-btn {
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: var(--font-size-14);
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .cancel-btn {
-    background-color: var(--light-gray-bg);
-    border: 1px solid var(--border-color);
-    color: var(--dark-gray);
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #495057;
+}
+
+.cancel-btn:hover {
+    background-color: #e9ecef;
 }
 
 .confirm-btn {
     background-color: var(--dark-blue);
     border: none;
     color: var(--white);
+}
+
+.confirm-btn:hover {
+    opacity: 0.9;
 }
 
 /* 上傳區域樣式 */
@@ -393,6 +480,116 @@
 
 .file-remove-btn:hover {
     color: var(--red);
+}
+
+/* 上傳進度區域 */
+.upload-progress-area {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--light-gray-bg);
+}
+
+.upload-progress-area h3 {
+    font-size: var(--font-size-16);
+    color: var(--dark-gray);
+    margin-bottom: 10px;
+}
+
+.progress-container {
+    width: 100%;
+    height: 12px;
+    background-color: var(--white);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) inset;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--dark-blue);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 6px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-14);
+    color: var(--medium-gray);
+}
+
+/* 重复文件警告样式 */
+.duplicate-files-warning {
+    padding: 24px;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.duplicate-files-warning > div {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.duplicate-files-warning i {
+    font-size: 24px;
+    color: #f39c12;
+    flex-shrink: 0;
+}
+
+.duplicate-files-warning p {
+    margin: 0;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.duplicate-files-warning ul {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    padding-left: 20px;
+    list-style-type: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.duplicate-files-warning li {
+    margin-bottom: 16px;
+    padding-left: 0;
+    display: block;
+    word-break: break-all;
+    line-height: 1.5;
+}
+
+.duplicate-files-warning li strong {
+    display: inline-block;
+    max-width: 100%;
+    word-break: break-all;
+    white-space: normal;
+    line-height: 1.6;
+}
+
+.duplicate-files-warning li::before {
+    content: "•";
+    display: inline-block;
+    margin-right: 8px;
+    color: #f39c12;
+    vertical-align: top;
+    padding-top: 0.3em;
+}
+
+/* 確保所有對話框都有正確的關閉行為 */
+dialog[closing]::backdrop {
+    animation: fade-out 0.2s;
+}
+
+#confirmOverwriteDialog {
+    z-index: 1001; /* 確保確認對話框在上傳對話框之上 */
 }
 
 /* 響應式調整 */
