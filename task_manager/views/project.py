@@ -17,7 +17,7 @@ def main(request):
             field_name = field.name
             field_value = getattr(m, field_name)
 
-            if field_name == "end_date" and field_value is not None:
+            if field_name == "end_date":
                 field_value = field_value.strftime("%Y/%m/%d")
             elif field_name == "user_id":
                 user = User.objects.get(id=field_value.id)
