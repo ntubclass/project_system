@@ -5,3 +5,4 @@ def main(value):
         if (value / size) < 1:
             return "%.2f%s" % (value, units[i])
         value = value / size
+    return "%.2f%s" % (value, units[-1])
