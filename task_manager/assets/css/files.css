@@ -589,7 +589,7 @@ dialog[closing]::backdrop {
 }
 
 #confirmOverwriteDialog {
-    z-index: 1001; /* 確保確認對話框在上傳對話框之上 */
+    z-index: 101; /* 確保確認對話框在上傳對話框之上 */
 }
 
 /* 響應式調整 */
