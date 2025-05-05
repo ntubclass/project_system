@@ -84,7 +84,7 @@ def main(request, project_id):
     
     # 準備模板上下文
     context = {
-        "project": project,
+        "project_id": project_id,
         "members": members,
         "ongoing_tasks": ongoing_tasks,
         "completed_tasks": completed_tasks,

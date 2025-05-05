@@ -1,10 +1,8 @@
 .cloud-files {
-    background-color: var(--light-blue-gray); /* 修改為與專案介面一致的背景顏色 */
-    min-height: calc(100vh - 65px);
+    min-height: calc(80vh);
 }
 
 .main-content {
-    margin-left: 250px; /* 與 sidebar 寬度相同 */
     padding: 30px;
     transition: margin-left 0.3s ease;
 }
@@ -66,6 +64,7 @@
 /* 搜尋框 */
 .search-container {
     margin-bottom: 20px;
+    height: 5px;
 }
 
 .search-box {
@@ -246,7 +245,6 @@
     color: var(--dark-blue);
 }
 
-/* 對話框樣式 */
 .custom-dialog {
     border: none;
     border-radius: 8px;
@@ -258,8 +256,24 @@
     background-color: var(--white);
     display: flex;
     flex-direction: column;
+    margin: auto;
+    position: fixed;
+    left: 50%;
+    
+    /* Changed positioning */
+    top: 5%;
+    transform: translateX(-50%);
+    
+    /* Add overflow handling for tall content */
+    overflow-y: auto;
 }
 
+/* Adjust for very tall content */
+@media screen and (min-height: 800px) {
+    .custom-dialog {
+        top: 10%;
+    }
+}
 /* 確保對話框 backdrop 正確移除 */
 dialog:not([open]) {
     display: none;
