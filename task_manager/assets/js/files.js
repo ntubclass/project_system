@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             draggable: true,
                         }).then((result) => {
                             window.location.reload();
-                        });;
+                        });
                     } else if (response.duplicate) {
                         // 處理重複檔案的情況
                         // 先重置進度區域
