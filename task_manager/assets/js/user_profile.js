@@ -79,7 +79,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // 檢查姓名是否為空
             if (!nameInput.value.trim()) {
                 e.preventDefault();
-                alert('姓名不能為空');
+                Swal.fire({
+                    icon: 'error',
+                    title: '錯誤',
+                    text: '姓名不能為空！',
+                    draggable: true,
+                });
                 nameInput.focus();
                 return false;
             }
@@ -88,7 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(emailInput.value.trim())) {
                 e.preventDefault();
-                alert('請輸入有效的電子郵箱');
+                Swal.fire({
+                    icon: 'error',
+                    title: '錯誤',
+                    text: '請輸入有效的電子郵件地址！',
+                    draggable: true,
+                });
                 emailInput.focus();
                 return false;
             }
@@ -97,7 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const phonePattern = /^09\d{8}$/;
             if (!phonePattern.test(phoneInput.value.trim())) {
                 e.preventDefault();
-                alert('請輸入有效的手機號碼格式（例如：0912345678）');
+                Swal.fire({
+                    icon: 'error',
+                    title: '錯誤',
+                    text: '請輸入有效的手機號碼（台灣格式）！',
+                    draggable: true,
+                });
                 phoneInput.focus();
                 return false;
             }
@@ -113,13 +128,23 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (newPassword !== confirmPassword) {
                 e.preventDefault();
-                alert('兩次輸入的密碼不一致，請重新輸入');
+                Swal.fire({
+                    icon: 'error',
+                    title: '請重新輸入密碼',
+                    text: '新密碼和確認密碼不匹配！',
+                    draggable: true,
+                });
                 return false;
             }
             
             if (newPassword.length < 8) {
                 e.preventDefault();
-                alert('密碼長度至少需要8個字符');
+                Swal.fire({
+                    icon: 'error',
+                    title: '錯誤',
+                    text: '密碼長度必須至少為8個字符！',
+                    draggable: true,
+                });
                 return false;
             }
         });
