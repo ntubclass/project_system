@@ -6,3 +6,5 @@ django-allauth[socialaccount]
 requests==2.32.3
 channels==4.0.0
 daphne==4.0.0
+python-magic==0.4.27
+python-magic-bin==0.4.14
