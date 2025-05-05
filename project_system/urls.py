@@ -21,6 +21,7 @@ from task_manager.views import (
     upload_file,
     download_file,
     delete_file,
+    project_detail,
 )
 
 urlpatterns = (
@@ -43,6 +44,8 @@ urlpatterns = (
         path('upload_file/', upload_file.main, name='upload_file'),
         path('download_file/', download_file.main, name='download_file'),
         path('delete_file/', delete_file.main, name='delete_file'),
+        path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'), 
+        path('project/<int:project_id>/', project_detail.main, name='project_detail'),   
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )

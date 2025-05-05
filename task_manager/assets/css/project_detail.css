@@ -1,0 +1,117 @@
+:root {
+  --white: #FFFFFF;
+  --light-blue-gray: #F9FAFB;
+  --dark-blue-gray: #E5E5EB;
+  --border-color: #C2C9D6;
+  --light-gray: #909090;
+  --dark-gray: #404040;
+  --dark-blue: #2563EB;
+  --light-blue: #EFF6FF;
+  --dark-purple: #A855F7;
+  --light-purple: #FAF5FF;
+  --dark-green: #16A34A;
+  --light-green: #F0FDF4;
+  --dark-yellow: #CA8A04;
+  --light-yellow: #FEFCE8;
+  --dark-red: #DC2626;
+  --light-red: #fee8e8;
+  --orange: #F97316;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F9FAFB;
+  letter-spacing: 1px;
+}
+
+.project-overview-container {
+  padding: 30px;
+  max-width: 1200px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #404040;
+  margin-bottom: 25px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #909090;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #404040;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-container {
+  margin-top: 15px;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #E5E5EB;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 75%;
+  background-color: #2563EB;
+  border-radius: 4px;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-icon {
+  color: #2563EB;
+}
+
+.people-icon {
+  color: #A855F7;
+  background-color: #FAF5FF;
+}
+
+.time-icon {
+  color: #F97316;
+  background-color: #FFF7ED;
+}
+
+.additional-info {
+  font-size: 13px;
+  color: #909090;
+  margin-top: 10px;
+}
