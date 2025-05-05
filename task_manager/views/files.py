@@ -6,12 +6,13 @@ from task_manager.utils import hum_convert
 from task_manager.utils import get_file_icon
 
 @login_required(login_url="login")
-def main(request):
+def main(request, project_id):
     context = {
+        "project_id": project_id,
         "file_data": [],
     }
 
-    project = Project.objects.get(name = "123")
+    project = Project.objects.get(project_id=project_id)
     files = File.objects.filter(project_id=project.project_id)
     for m in files:
         data = {}
