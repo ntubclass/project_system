@@ -30,17 +30,17 @@
         </div>
         <div class="projects-grid" id="projectsGrid">
             {% for i in project_data %}
-                <div class="project-card">
+                <div class="project-card" onclick="window.location.href='{% url 'project_detail' i.project_id %}'" style="cursor: pointer;">
                     <div class="card-header">
                         <div class="project-title">{{i.name}}</div>
                         <div class="status-null">未進行</div>
                     </div>
                     <div class="progress-label">
                         <div>進度</div>
-                        <div>60%</div>
+                        <div>{{i.percent}}%</div>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress-fill" progress=20></div>
+                        <div class="progress-fill" progress="{{i.percent}}"></div>
                     </div>
                     <div class="card-info">
                         <div class="user-avatar">
@@ -53,7 +53,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="tasks">12個任務</div>
-                        <a href="#" class="details-btn">查看詳情</a>
+                        <a href="{% url 'project_detail' i.project_id %}" class="details-btn">查看詳情</a>
                     </div>
                 </div>
             {% endfor %}

@@ -1,0 +1,76 @@
+{% extends 'project_detail_base.html' %}
+{% load static %}
+
+{% block title %}{{ project.name }} | 專案詳情{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+{% endblock %}
+
+{% block sidebar %}
+{% include 'layout/project_detail_sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+{% include 'layout/project_detail_header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="project-overview-container">
+  <h1 class="section-title">專案概覽</h1>
+  
+  <div class="stats-grid">
+      <!-- 進度卡片 -->
+      <div class="stat-card">
+          <div class="stat-label">線進度</div>
+          <div class="stat-value">
+              75%
+              <div class="chart-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="8,16 12,12 16,16 20,10" />
+                  </svg>
+              </div>
+          </div>
+          <div class="progress-container">
+              <div class="progress-bar">
+                  <div class="progress-fill"></div>
+              </div>
+          </div>
+      </div>
+      
+      <!-- 成員卡片 -->
+      <div class="stat-card">
+          <div class="stat-label">專案成員</div>
+          <div class="stat-value">
+              5人
+              <div class="people-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                      <circle cx="12" cy="7" r="4" />
+                  </svg>
+              </div>
+          </div>
+          <div class="additional-info">管理成員</div>
+      </div>
+      
+      <!-- 時間卡片 -->
+      <div class="stat-card">
+          <div class="stat-label">剩餘時間</div>
+          <div class="stat-value">
+              32天
+              <div class="time-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12,6 12,12 16,14" />
+                  </svg>
+              </div>
+          </div>
+          <div class="additional-info">截止日期：2025-02-24</div>
+      </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/project_detail_layout.js' %}"></script>
+{% endblock %}
