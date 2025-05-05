@@ -1,8 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'project_detail_base.html' %}
 {% load static %}
-{% block title %}聊天室{% endblock %}
+{% block title %}{{ project.name }} | 聊天室{% endblock %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/chat_room.css' %}">
+{% endblock %}
+
+
+{% block sidebar %}
+{% include 'layout/project_detail_sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+{% include 'layout/project_detail_header.html' %}
 {% endblock %}
 
 {% block content %}

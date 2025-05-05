@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 
 
 @login_required(login_url="login")
-def main(request):
+def main(request, project_id):
     if request.method == "POST":
         try:
             uploaded_files = request.FILES.getlist('files')

@@ -9,7 +9,7 @@ from django.http import HttpResponseNotAllowed
 
 @login_required(login_url="login")
 @require_http_methods(["POST"])
-def main(request):
+def main(request, project_id):
 
     if request.method == 'POST':
         file_name = request.POST.get('file_name')
