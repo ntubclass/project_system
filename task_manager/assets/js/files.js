@@ -143,7 +143,13 @@ document.addEventListener('DOMContentLoaded', function() {
             for (let i = 0; i < files.length; i++) {
                 //檢查檔案大小限制
                 if (files[i].size > 200 * 1024 * 1024) {
-                    alert(`檔案 ${files[i].name} 超過大小限制！`);
+                    Swal.fire({
+                        icon: 'error',
+                        title: "超過大小限制",
+                        text: `檔案 ${files[i].name} 超過大小限制！`,
+                        target: document.getElementById('uploadFileDialog'),
+                        draggable: true,
+                    });
                     continue;
                 }
                 addFileToSelection(files[i]);
@@ -268,7 +274,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             if (selectedFiles.size === 0) {
-                alert('請選擇至少一個檔案進行上傳！');
+                Swal.fire({
+                    icon: 'warning',
+                    title: "請選擇檔案",
+                    text: `請選擇至少一個檔案進行上傳！`,
+                    target: document.getElementById('uploadFileDialog'),
+                    draggable: true,
+                });
                 return;
             }
             
@@ -334,28 +346,53 @@ document.addEventListener('DOMContentLoaded', function() {
                 try {
                     const response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        alert('檔案上傳成功！');
                         // 關閉對話框
                         uploadDialog.close();
                         // 重置上傳狀態
                         resetUploadState();
                         // 重新載入頁面以顯示新上傳的檔案
-                        window.location.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            title: "上傳成功",
+                            text: "檔案已成功上傳！",
+                            draggable: true,
+                        }).then((result) => {
+                            window.location.reload();
+                        });
                     } else if (response.duplicate) {
                         // 處理重複檔案的情況
                         // 先重置進度區域
                         resetUploadProgressArea();
                         showDuplicateConfirmDialog(response.duplicate_files);
                     } else {
-                        alert(response.message || '上傳失敗，請稍後再試！');
+                        Swal.fire({
+                            icon: 'error',
+                            title: "上傳失敗",
+                            text: response.error || "伺服器錯誤，請稍後再試！",
+                            target: document.getElementById('uploadFileDialog'),
+                            draggable: true,
+                        });
                         resetUploadProgressArea();
                     }
                 } catch (e) {
-                    alert('伺服器回應解析錯誤，請稍後再試！');
+                    console.error('解析回應錯誤：', e);
+                    Swal.fire({
+                        icon: 'error',
+                        title: "上傳失敗",
+                        text: "伺服器回應格式錯誤！",
+                        target: document.getElementById('uploadFileDialog'),
+                        draggable: true,
+                    });
                     resetUploadProgressArea();
                 }
             } else {
-                alert('上傳失敗，伺服器回應錯誤！');
+                Swal.fire({
+                    icon: 'error',
+                    title: "上傳失敗",
+                    text: "伺服器錯誤，請稍後再試！",
+                    target: document.getElementById('uploadFileDialog'),
+                    draggable: true,
+                });
                 // 重置上傳進度界面
                 resetUploadProgressArea();
             }
@@ -363,7 +400,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 設置錯誤事件
         xhr.addEventListener('error', function() {
-            alert('上傳失敗，網路連接錯誤！');
+            Swal.fire({
+                icon: 'error',
+                title: "上傳失敗",
+                text: "網路連接錯誤，請稍後再試！",
+                target: document.getElementById('uploadFileDialog'),
+                draggable: true,
+            });
             // 重置上傳進度界面
             resetUploadProgressArea();
         });
@@ -491,9 +534,19 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => {
                 console.error('下載錯誤：', error);
                 if (error.error) {
-                    alert(error.error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: "下載失敗",
+                        text: error.error,
+                        draggable: true,
+                    });
                 } else {
-                    alert('下載失敗，請稍後再試！');
+                    Swal.fire({
+                        icon: 'error',
+                        title: "下載失敗",
+                        text: "伺服器錯誤，請稍後再試！",
+                        draggable: true,
+                    });
                 }
             });
         });
@@ -501,32 +554,57 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function deleteFile(fileId, fileName) {
-    const confirmDelete = confirm(`確定要刪除檔案 "${fileName}" 嗎？`);
-    
-    if (confirmDelete) {
-        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        
-        fetch('/delete_file/', {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': csrftoken
-            },
-            body: new URLSearchParams({
-                'file_id': fileId
+    Swal.fire({
+        title: "確認刪除檔案",
+        text: `您確定要刪除檔案 "${fileName}" 嗎？`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "刪除",
+        cancelButtonText: "取消",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            
+            fetch('/delete_file/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                body: new URLSearchParams({
+                    'file_id': fileId
+                })
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('檔案已刪除');
-                location.reload(); // 重新載入頁面
-            } else {
-                alert('刪除失敗：' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('刪除操作發生錯誤');
-        });
-    }
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: "刪除成功",
+                        text: "檔案已成功刪除！",
+                        target: document.getElementById('uploadFileDialog'),
+                        draggable: true,
+                    });
+                    location.reload(); // 重新載入頁面
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: "刪除失敗",
+                        text: data.error || "伺服器錯誤，請稍後再試！",
+                        target: document.getElementById('uploadFileDialog'),
+                        draggable: true,
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: "刪除失敗",
+                    text: "伺服器錯誤，請稍後再試！",
+                    target: document.getElementById('uploadFileDialog'),
+                    draggable: true,
+                });
+            });
+        }
+    });
 }
