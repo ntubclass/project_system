@@ -1,11 +1,13 @@
 .project {
-  background-color: var(--light-blue-gray);
-  min-height: calc(100vh - 65px);
+  min-height: calc(80vh); /* Adjusted to fit the header height */
+}
+
+.content {
+  overflow: hidden;
 }
 
 .main-content {
-  margin-left: 250px; /* 與sidebar寬度相同 */
-  padding: 40px;
+  padding: 20px;
   padding-bottom: 0;
   transition: margin-left 0.3s ease;
   height: 90vh; /* Set height to window height */
@@ -224,7 +226,7 @@
 .chat-input-section {
   position: sticky;
   width: 100%;
-  bottom: 10px;
+  bottom: 5px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -232,6 +234,7 @@
   border-radius: 8px;
   justify-content: center;
   background-color: #ffffff; /* Ensure background color for visibility */
+  margin-top: 20px;
 }
 
 .chat-input-field {
@@ -279,58 +282,6 @@
   font-weight: 500;
 }
 
-.status {
-  background-color: var(--light-blue);
-  color: var(--dark-blue);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: var(--font-size-12);
-}
-
-.status-null {
-  background-color: var(--dark-blue-gray);
-  color: var(--dark-gray);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: var(--font-size-14);
-}
-
-.status-done {
-  background-color: var(--light-green);
-  color: var(--dark-green);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: var(--font-size-14);
-}
-
-.status-delay {
-  background-color: var(--light-red);
-  color: var(--dark-red);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: var(--font-size-14);
-}
-
-.progress-label {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
-  font-size: var(--font-size-14);
-}
-
-.progress-bar {
-  height: 6px;
-  background-color: #e0e0e0;
-  border-radius: 3px;
-  margin-bottom: 16px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: var(--dark-blue);
-  width: 60%;
-}
 
 .card-info {
   display: flex;

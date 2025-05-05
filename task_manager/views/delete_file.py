@@ -7,7 +7,7 @@ import os
 from django.http import HttpResponseNotAllowed
 
 @login_required(login_url="login")
-def main(request):
+def main(request, project_id):
     if request.method == 'POST':
         file_id = request.POST.get('file_id')
         

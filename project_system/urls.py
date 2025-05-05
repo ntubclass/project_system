@@ -39,13 +39,13 @@ urlpatterns = (
         path('accounts/', include('allauth.urls')),
 		path('user_profile/', user_profile.main, name='user_profile'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
-        path('chat/<int:id>/', chat.main, name='chat'),
-        path('files/', files.main, name='files'),
-        path('upload_file/', upload_file.main, name='upload_file'),
-        path('download_file/', download_file.main, name='download_file'),
-        path('delete_file/', delete_file.main, name='delete_file'),
+        path('chat/<int:project_id>/', chat.main, name='chat'),
+        path('files/<int:project_id>/', files.main, name='files'),
+        path('upload_file/<int:project_id>/', upload_file.main, name='upload_file'),
+        path('download_file/<int:project_id>/', download_file.main, name='download_file'),
+        path('delete_file/<int:project_id>/', delete_file.main, name='delete_file'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'), 
-        path('project/<int:project_id>/', project_detail.main, name='project_detail'),   
+        path('project_detail/<int:project_id>/', project_detail.main, name='project_detail'),   
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
