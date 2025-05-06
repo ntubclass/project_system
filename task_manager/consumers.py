@@ -2,7 +2,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from task_manager.models.project import Project
 from task_manager.models.project_member import ProjectMember
-from task_manager.models.Message import Message
+from task_manager.models.message import Message
 from django.contrib.auth.models import User
 from channels.db import database_sync_to_async
 
