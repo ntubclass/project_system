@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from task_manager.models.project import Project
 from task_manager.models.project_member import ProjectMember
-from task_manager.models.Message import Message
+from task_manager.models.message import Message
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url="login")
