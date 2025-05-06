@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 處理貼上操作
         input.addEventListener('paste', function(e) {
             e.preventDefault();
-            const pasteData = e.clipboardData.getData('text').trim().substr(0, 6);
+            const pasteData = e.clipboardData.getData('text').trim().slice(0, 6);
             
             if (/^\d+$/.test(pasteData)) {
                 // 填充每個輸入框
