@@ -8,6 +8,15 @@ SECRET_KEY = "66zc9)tc#cwk+vym)nwd^37sai%5jgghllu(+nyna)%qz6cofj"
 DEBUG = True
 ALLOWED_HOSTS = []
 
+# 邮件配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '11156019@ntub.edu.tw'
+EMAIL_HOST_PASSWORD = 'ubmx wkst zgta yhsu'
+DEFAULT_FROM_EMAIL = '11156019@ntub.edu.tw'
+
 INSTALLED_APPS = [
     "daphne",
     'django.contrib.admin',

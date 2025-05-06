@@ -22,6 +22,9 @@ from task_manager.views import (
     download_file,
     delete_file,
     project_detail,
+    forgot_password,
+    verify_code,
+    reset_password,
 )
 
 urlpatterns = (
@@ -45,7 +48,11 @@ urlpatterns = (
         path('download_file/<int:project_id>/', download_file.main, name='download_file'),
         path('delete_file/<int:project_id>/', delete_file.main, name='delete_file'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'), 
-        path('project_detail/<int:project_id>/', project_detail.main, name='project_detail'),   
+        path('project_detail/<int:project_id>/', project_detail.main, name='project_detail'),
+        path('forgot-password/', forgot_password.forgot_password_view, name='forgot_password'),
+        path('verify-code/', verify_code.verify_code_view, name='verify_code'),
+        path('resend-code/', verify_code.resend_code_view, name='resend_code'),
+        path('reset-password/', reset_password.reset_password_view, name='reset_password'),   
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
