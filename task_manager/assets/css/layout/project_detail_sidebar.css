@@ -1,27 +1,4 @@
-:root {
-  --white: #ffffff;
-  --light-gray: #a0a0a0;
-  --dark-gray: #444444;
-  --light-blue: #e6f0ff;
-  --light-blue-gray: #f0f4f8;
-  --dark-blue: #1a73e8;
-  --font-size-18: 18px;
-  --font-size-20: 20px;
-  --font-size-24: 24px;
-  --font-size-28: 28px;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-body {
-  background-color: #f5f5f5;
-}
-
+/* sidebar.css 專案詳情頁面 */
 .sidebar {
   width: 250px;
   background-color: var(--white);
@@ -37,7 +14,7 @@ body {
   flex-direction: column;
 }
 
-.sidebar.hidden {
+.sidebar-hidden {
   transform: translateX(-100%);
 }
 
@@ -85,93 +62,7 @@ body {
   text-align: center;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: var(--white);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 99;
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
-}
-
-.header-full {
-  margin-left: 0;
-}
-
-.menu-icon {
-  font-size: var(--font-size-24);
-  margin-right: 20px;
-  cursor: pointer;
-  color: var(--dark-gray);
-}
-
-.project-title {
-  font-size: var(--font-size-20);
-  font-weight: bold;
-  color: var(--dark-gray);
-  margin-right: 10px;
-}
-
-.project-subtitle {
-  font-size: var(--font-size-18);
-  color: var(--light-gray);
-}
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  border-radius: 4px;
-  padding: 8px 12px;
-  flex-grow: 1;
-  max-width: 600px;
-  margin-left: 20px;
-}
-
-.search-icon {
-  font-size: var(--font-size-20);
-  margin-right: 8px;
-  color: var(--light-gray);
-  display: none; /* 根據圖片隱藏搜索圖標 */
-}
-
-.search-input {
-  border: none;
-  background-color: transparent;
-  font-size: var(--font-size-18);
-  outline: none;
-  width: 100%;
-  display: none; /* 根據圖片隱藏搜索框 */
-}
-
-.user-icon-link {
-  margin-left: auto;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
-.user-icon {
-  font-size: var(--font-size-28);
-  color: var(--dark-gray);
-}
-
-.content {
-  padding: 20px;
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
-  height: calc(100vh - 60px);
-  overflow-y: auto;
-}
-
-.content-full {
-  margin-left: 0;
-}
-
-.back-link{
+.back-link {
   display: flex;
   align-items: center;
   padding: 16px 20px;
@@ -181,11 +72,13 @@ body {
   cursor: pointer;
 }
 
+.back-link:hover {
+  background-color: var(--light-blue-gray);
+}
+
+/* 響應式調整 */
 @media screen and (max-width: 768px) {
-  .header, .content {
-      margin-left: 0;
-  }
   .sidebar {
-      transform: translateX(-250px);
+    transform: translateX(-250px);
   }
 }
