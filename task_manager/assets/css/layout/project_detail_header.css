@@ -6,6 +6,9 @@
   --font-size-20: 20px;
   --font-size-24: 24px;
   --font-size-28: 28px;
+  --font-size-14: 14px;
+  --light-blue: #e1f5fe;
+  --dark-blue: #0277bd;
 }
 
 * {
@@ -45,6 +48,7 @@ body {
   z-index: 99;
   margin-left: 250px;
   transition: margin-left 0.3s ease;
+  height: 60px; /* 添加固定高度，與 header.css 一致 */
 }
 
 .header-full {
@@ -61,7 +65,7 @@ body {
 .project-title {
   font-size: var(--font-size-20);
   color: var(--dark-gray);
-  margin-right: 10px;
+  padding: 0 12px;
 }
 
 .project-subtitle {
@@ -70,32 +74,6 @@ body {
   background-color: var(--light-blue);
   font-size: var(--font-size-14);
   color: var(--dark-blue);
-}
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  border-radius: 4px;
-  padding: 8px 12px;
-  flex-grow: 1;
-  max-width: 600px;
-  margin-left: 20px;
-}
-
-.search-icon {
-  font-size: var(--font-size-20);
-  margin-right: 8px;
-  color: var(--light-gray);
-  display: none; /* 根據圖片隱藏搜索圖標 */
-}
-
-.search-input {
-  border: none;
-  background-color: transparent;
-  font-size: var(--font-size-18);
-  outline: none;
-  width: 100%;
-  display: none; /* 根據圖片隱藏搜索框 */
 }
 
 .user-icon-link {
