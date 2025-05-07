@@ -56,17 +56,6 @@
   margin-left: 8px;
 }
 
-.create-btn {
-  background-color: var(--dark-blue);
-  color: var(--white);
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
 .create-icon {
   margin-right: 8px;
 }
