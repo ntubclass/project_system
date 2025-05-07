@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{% static 'css/base/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/base/font-awesome.css' %}">
   <link rel="stylesheet" href="{% static 'css/base/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base/sweetalert2.css' %}">
   <link rel="stylesheet" href="{% static 'css/layout/header.css' %}">
   <link rel="stylesheet" href="{% static 'css/layout/sidebar.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/alert.css' %}">
@@ -19,7 +20,6 @@
 <body>
   {% include 'layout/header.html' %}
   {% include 'layout/sidebar.html' %}
-ㄈ
   {% if messages %}
     <ul>
       {% for message in messages %}
@@ -37,6 +37,7 @@
   <script src="{% static "js/layout.js" %}"></script>
   <script src="{% static "js/dialog.js" %}"></script>
   <script src="{% static "js/alert.js" %}"></script>
+  <script src="{% static "js/sweetalert2.js" %}"></script>
   {% block extra_js %}
   {% endblock %}
 </body>

@@ -10,9 +10,7 @@ class Message(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     create_time = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Message from {self.user_id.name} in {self.project_id.name}"
+    isPin = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'messages'
