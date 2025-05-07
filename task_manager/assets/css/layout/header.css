@@ -1,3 +1,4 @@
+/* header.css 更新 */
 .header {
   display: flex;
   align-items: center;
@@ -9,6 +10,7 @@
   z-index: 99;
   margin-left: 250px; /* 與sidebar寬度相同 */
   transition: margin-left 0.3s ease; /* 添加過渡效果 */
+  height: 60px; /* 添加固定高度 */
 }
 
 /* 當sidebar隱藏時header的樣式 */
