@@ -54,6 +54,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     throw new Error('CSRF token not found');
                 }
                 const csrfToken = csrfTokenElement.value;
+                // use url search params to get project id
+                const urlParts = window.location.pathname.split("/");
+                let projectId = null; // Initialize projectId to null
+                if (urlParts.length > 3) {
+                    projectId = urlParts[urlParts.length - 2];
+                }
+                
 
                 // Fetch search results from the server
                 const response = await fetch(`/dynamic_search_member/`, {
@@ -62,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrfToken,
                     },
-                    body: JSON.stringify({ search_query: query }),
+                    body: JSON.stringify({ search_query: query, project_id: projectId }),
                 });
 
                 if (!response.ok) {
