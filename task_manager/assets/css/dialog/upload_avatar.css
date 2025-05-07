@@ -25,8 +25,8 @@
 }
 
 .avatar-preview {
-    width: 200px;
-    height: 200px;
+    width: 240px;
+    height: 240px;
     border-radius: 50%;
     object-fit: cover;  
     border: 2px solid var(--light-gray);
@@ -50,8 +50,8 @@
 }
 
 .user-photo {
-    width: 200px;
-    height: 200px;
+    width: 240px;
+    height: 240px;
     object-fit: cover;
     object-position: center;
     display: block; 
@@ -61,8 +61,8 @@
 }
 
 #userAvatar {
-    width: 200px;
-    height: 200px;
+    width: 240px;
+    height: 240px;
     object-fit: cover;
 }
 
