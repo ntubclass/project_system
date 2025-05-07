@@ -21,6 +21,7 @@
     gap: 50px; 
     padding: 30px 80px; 
     width: calc(100% - 250px); 
+    justify-content: center;
 }
 
 /* 當側邊欄隱藏時的樣式 */

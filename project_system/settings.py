@@ -8,15 +8,26 @@ SECRET_KEY = "66zc9)tc#cwk+vym)nwd^37sai%5jgghllu(+nyna)%qz6cofj"
 DEBUG = True
 ALLOWED_HOSTS = []
 
+# 邮件配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '11156019@ntub.edu.tw'
+EMAIL_HOST_PASSWORD = 'ubmx wkst zgta yhsu'
+DEFAULT_FROM_EMAIL = '11156019@ntub.edu.tw'
+
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "task_manager",
-    "allauth",
+    "daphne",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'task_manager',
+    "channels",
+	"allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
@@ -113,3 +124,13 @@ AUTHENTICATION_BACKENDS = [
 SOCIALACCOUNT_ADAPTER = 'task_manager.utils.socialaccount_adapter.CustomSocialAccountAdapter'
 SOCIALACCOUNT_AUTO_SIGNUP = False
 SOCIALACCOUNT_QUERY_EMAIL = True
+
+ASGI_APPLICATION = 'project_system.asgi.application'  # 指定 ASGI 應用
+
+# The InMemoryChannelLayer is used for local development and testing purposes only.
+# It should not be used in production as it does not support persistence or scaling.
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}

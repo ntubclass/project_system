@@ -1,0 +1,28 @@
+<dialog class="dialog-backdrop" id="addMemberDialog">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">新增成員</h2>
+                <i class="fa-solid fa-xmark close-btn" id="closeMemberBtn"></i>
+            </div>
+            
+            <div id="addMemberForm">
+                <div class="form-group">
+                    <label for="memberSearch">搜尋電子郵件或名字</label>
+                    <input type="text" id="memberSearch" name="memberSearch" class="form-control" placeholder="輸入..." required>
+                </div>
+                
+                <div class="form-group">
+                    <ul id="memberResults" class="member-results">
+                        <!-- 動態搜尋結果將顯示在這裡 -->
+                    </ul>
+                </div>
+                
+                {% comment %} <div class="dialog-actions">
+                    <button type="button" id="cancelMemberBtn" class="cancel-btn">取消</button>
+                    <button id="addMemberBtn" class="submit-btn">新增</button>
+                </div> {% endcomment %}
+            </div>
+        </div>
+    </div>
+</dialog>
