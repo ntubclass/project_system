@@ -26,7 +26,8 @@ from task_manager.views import (
     forgot_password,
     verify_code,
     reset_password,
-    members_list
+    members_list,
+    create_task
 )
 
 urlpatterns = (
@@ -40,10 +41,10 @@ urlpatterns = (
         path('logout/', logout.logout_view, name='logout'),
         path('project/', project.main, name='project'),
         path('create_project/', create_project.main, name='create_project'),
-        path('create_task/<int:project_id>/', create_project.main, name='create_task'),
+        path('create_task/<int:project_id>/', create_task.main, name='create_task'),
         path('dynamic_search_member/', dynamic_search_member.main, name='dynamic_search_member'),
         path('accounts/', include('allauth.urls')),
-		    path('user_profile/', user_profile.main, name='user_profile'),
+		path('user_profile/', user_profile.main, name='user_profile'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
         path('chat/<int:project_id>/', chat.main, name='chat'),
         path('files/<int:project_id>/', files.main, name='files'),
