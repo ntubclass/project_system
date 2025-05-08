@@ -43,7 +43,7 @@ urlpatterns = (
         path('create_task/<int:project_id>/', create_project.main, name='create_task'),
         path('dynamic_search_member/', dynamic_search_member.main, name='dynamic_search_member'),
         path('accounts/', include('allauth.urls')),
-		path('user_profile/', user_profile.main, name='user_profile'),
+		    path('user_profile/', user_profile.main, name='user_profile'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
         path('chat/<int:project_id>/', chat.main, name='chat'),
         path('files/<int:project_id>/', files.main, name='files'),
@@ -52,12 +52,11 @@ urlpatterns = (
         path('delete_file/<int:project_id>/', delete_file.main, name='delete_file'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'), 
         path('project_detail/<int:project_id>/', project_detail.main, name='project_detail'),
-        path('forgot-password/', forgot_password.forgot_password_view, name='forgot_password'),
-        path('verify-code/', verify_code.verify_code_view, name='verify_code'),
-        path('resend-code/', verify_code.resend_code_view, name='resend_code'),
-        path('reset-password/', reset_password.reset_password_view, name='reset_password'),
-        path("member_list/<int:project_id>/", members_list.main, name='member_list'),
-        
+        path("member_list/<int:project_id>/", members_list.main, name='member_list'),   
+        path('forgot_password/', forgot_password.forgot_password_view, name='forgot_password'),
+        path('verify_code/', verify_code.verify_code_view, name='verify_code'),
+        path('resend_code/', verify_code.resend_code_view, name='resend_code'),
+        path('reset_password/', reset_password.reset_password_view, name='reset_password'),   
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
