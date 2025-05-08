@@ -28,7 +28,8 @@ body {
 
 .project-overview-container {
   padding: 30px;
-  max-width: 1200px;
+  padding-left: 60px;
+  width: 90%;
 }
 
 .section-title {
@@ -177,10 +178,85 @@ body {
   margin: 40px 0;
 }
 
-.gantt-container {
+.task-viewer-container {
   width: 100%;
-  height: 500px; /* Set a default height */
-  max-height: 80vh; /* Optional: Limit the height to 80% of the viewport */
-  overflow: auto; /* Add scrollbars if content overflows */
-  background-color: var(--light-blue-gray); /* Optional: Background color */
+  height: 100%;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.gantt-target {
+  width: 100%;
+  height: 600px;
+  margin: 20px 0;
+}
+
+.gantt-container {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Custom Gantt chart colors */
+.bar-wrapper {
+  fill-opacity: 0.9;
+}
+
+.bar {
+  fill: #4caf50;
+}
+
+.bar-progress {
+  fill: #2e7d32;
+}
+
+.bar-invalid {
+  fill: #ff5252;
+}
+
+.bar-label {
+  font-weight: bold;
+}
+
+.lower-text {
+  font-size: 12px;
+}
+
+/* Timeline styles */
+.grid-line, .tick {
+  stroke: #e0e0e0;
+}
+
+.today-highlight {
+  stroke: #ff5722;
+  stroke-width: 2px;
+}
+
+/* Custom task colors */
+.task-redesign .bar {
+  fill: #5c6bc0;
+}
+
+.task-content .bar {
+  fill: #26a69a;
+}
+
+.task-styles .bar {
+  fill: #ff7043;
+}
+
+/* Details popup styling */
+.details-container {
+  background: white;
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.details-container h4 {
+  margin-top: 0;
+  color: #3f51b5;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
 }
