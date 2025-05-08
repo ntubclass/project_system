@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
+from task_manager import views
 
 
 from task_manager.views import (
@@ -25,6 +26,7 @@ from task_manager.views import (
     forgot_password,
     verify_code,
     reset_password,
+    members_list
 )
 
 urlpatterns = (
@@ -53,7 +55,9 @@ urlpatterns = (
         path('forgot-password/', forgot_password.forgot_password_view, name='forgot_password'),
         path('verify-code/', verify_code.verify_code_view, name='verify_code'),
         path('resend-code/', verify_code.resend_code_view, name='resend_code'),
-        path('reset-password/', reset_password.reset_password_view, name='reset_password'),   
+        path('reset-password/', reset_password.reset_password_view, name='reset_password'),
+        path("member_list/<int:project_id>/", members_list.main, name='member_list'),
+        
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
