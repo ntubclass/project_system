@@ -100,7 +100,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "task_manager/assets"),
-    os.path.join(BASE_DIR, "task_manager/assets/node_modules"),
 ]
 
 

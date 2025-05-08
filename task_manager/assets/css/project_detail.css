@@ -115,3 +115,72 @@ body {
   color: #909090;
   margin-top: 10px;
 }
+
+.status-switch {
+  position: relative;
+  display: flex;
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 4px;
+  width: fit-content;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.slider {
+  position: absolute;
+  top: 4px;
+  height: calc(100% - 8px);
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: left 0.3s ease, width 0.3s ease; /* Smooth transition for both position and width */
+  z-index: 0;
+}
+
+.switch-option {
+  position: relative;
+  z-index: 1;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 6px;
+  transition: color 0.3s;
+}
+
+.switch-option.active {
+  color: #000;
+}
+
+.switch-option:not(.active):hover {
+  color: #666;
+}
+
+.create-btn {
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.toolbar{
+  display: flex;
+  gap: 20px;
+  margin: 40px 0;
+}
+
+.gantt-container {
+  width: 100%;
+  height: 500px; /* Set a default height */
+  max-height: 80vh; /* Optional: Limit the height to 80% of the viewport */
+  overflow: auto; /* Add scrollbars if content overflows */
+  background-color: var(--light-blue-gray); /* Optional: Background color */
+}

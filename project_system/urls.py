@@ -38,6 +38,7 @@ urlpatterns = (
         path('logout/', logout.logout_view, name='logout'),
         path('project/', project.main, name='project'),
         path('create_project/', create_project.main, name='create_project'),
+        path('create_task/<int:project_id>/', create_project.main, name='create_task'),
         path('dynamic_search_member/', dynamic_search_member.main, name='dynamic_search_member'),
         path('accounts/', include('allauth.urls')),
 		path('user_profile/', user_profile.main, name='user_profile'),

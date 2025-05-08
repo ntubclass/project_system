@@ -75,4 +75,26 @@ document.addEventListener("DOMContentLoaded", function () {
       saveMenuState(isHidden);
     });
   }
+
+  const firstButton = document.querySelector('.status-switch .switch-option');
+  const slider = document.querySelector('.status-switch .slider');
+
+  if (firstButton && slider) {
+    const buttonWidth = firstButton.offsetWidth; // Get the width of the first button
+    slider.style.left = `${firstButton.offsetLeft}px`; // Position the slider under the first button
+    slider.style.width = `${buttonWidth}px`; // Match the slider's width to the first button
+    firstButton.classList.add('active'); // Ensure the first button is active
+  }
+
+  // Add click event listeners to all buttons
+  document.querySelectorAll('.status-switch .switch-option').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.status-switch .switch-option').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      const buttonWidth = button.offsetWidth; // Get the width of the clicked button
+      slider.style.left = `${button.offsetLeft}px`; // Position the slider based on the button's offset
+      slider.style.width = `${buttonWidth}px`; // Match the slider's width to the clicked button
+    });
+  });
 });

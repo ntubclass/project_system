@@ -5,6 +5,9 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/create_task_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/frappe_gantt.css' %}">
 {% endblock %}
 
 {% block sidebar %}
@@ -18,7 +21,19 @@
 {% block content %}
 <div class="project-overview-container">
   <h1 class="section-title">專案概覽</h1>
-  
+  <div class="toolbar">
+    <div class="status-switch">
+        <div class="slider"></div>
+        <button class="switch-option active" data-view="list">清單</button>
+        <button class="switch-option" data-view="calendar">行事曆</button>
+        <button class="switch-option" data-view="gantt">甘特圖</button>
+    </div>
+    <button class="create-btn" id="openCreateTaskBtn">
+        <i class="create-icon fa-solid fa-plus"></i>
+        建立專案
+    </button>
+   </div>
+
   <div class="stats-grid">
       <!-- 進度卡片 -->
       <div class="stat-card">
@@ -68,8 +83,17 @@
           <div class="additional-info">截止日期：2025-02-24</div>
       </div>
   </div>
+  <div class="task-viewer-container" id="taskViewerContainer">
+  </div>
+     
 </div>
+
+{% include 'dialog/create_task_dialog.html' %}
+{% include 'dialog/add_member_dialog.html' %}
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/add_member_dialog.js' %}"></script>
+<script src="{% static 'js/task_viewer.js' %}"></script>
+<script src="{% static 'js/frappe_gantt.umd.js' %}"></script>
 {% endblock %}
