@@ -1,11 +1,11 @@
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.http import HttpResponseNotAllowed, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from task_manager.models.project import Project
 from task_manager.models.task import Task
 from task_manager.models.task_member import TaskMember
-from task_manager.models.project_member import ProjectMember  # 添加這行
+from task_manager.models.project_member import ProjectMember
 from django.contrib.auth.models import User
 from datetime import datetime, date
 
@@ -22,19 +22,23 @@ def main(request, project_id):
         start_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
         
-        project = Project.objects.get(id=project_id)
+        project = Project.objects.get(project_id=project_id)
         
-        if due_date_obj <= start_date_obj:
-            messages.warning(request, "截止日期必須在今天或之後")
-            return redirect("/project/")
+        if due_date_obj < start_date_obj:
+            messages.warning(request, "截止日期必須在開始日期之後")
+            return redirect(f"/project_detail/{project_id}")
         
-        if project.end_date <= due_date_obj:
+        if project.start_date.date() > start_date_obj:
+            messages.warning(request, "開始日期必須在專案開始日期之後")
+            return redirect(f"/project_detail/{project_id}")
+        
+        if project.end_date.date() < due_date_obj:
             messages.warning(request, "截止日期必須在專案截止日期之前")
-            return redirect("/project/")
+            return redirect(f"/project_detail/{project_id}")
 
         # 創建新專案
         new_task = Task(
-            project_id=project_id, name=taskName, content=content, end_date=dueDate, user_id=user
+            project_id=project, name=taskName, content=content, end_date=dueDate
         )
         new_task.save()
 
@@ -42,9 +46,9 @@ def main(request, project_id):
             member_name = request.POST.get(f"member_name_{i}")
             member_email = request.POST.get(f"member_email_{i}")
             user = User.objects.get(username=member_name, email=member_email)
-            task_member = TaskMember(task_id=taskName, user_id=user)
+            task_member = TaskMember(task_id=new_task.task_id, user_id=user)
             task_member.save()
 
-        messages.success(request, "專案創建成功")
-        return redirect("/project/")
+        messages.success(request, "任務已成功創建")
+        return redirect(f"/project_detail/{project_id}")
     return HttpResponseNotAllowed(["POST"])
