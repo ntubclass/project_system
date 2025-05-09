@@ -17,12 +17,21 @@ def main(request, project_id):
         dueDate = request.POST.get("startDate")
         dueDate = request.POST.get("dueDate")
         user = User.objects.get(username=request.user)
+        project = Project.objects.get(project_id=project_id)
         member_count = int(request.POST.get("member_count", "0"))
+
+        # 檢查用戶是否有權限查看此專案（是創建者或成員）
+        is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
+        is_creator = (project.user_id == request.user)
+    
+        if not (is_member or is_creator):
+            messages.error(request, "您沒有權限新增此專案任務")
+            return redirect('project')
 
         start_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
         
-        project = Project.objects.get(project_id=project_id)
+        
         
         if due_date_obj < start_date_obj:
             messages.warning(request, "截止日期必須在開始日期之後")
