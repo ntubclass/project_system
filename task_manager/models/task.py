@@ -11,6 +11,7 @@ class Task(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
     content = models.TextField()
+    progress = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

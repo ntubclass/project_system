@@ -27,7 +27,8 @@ from task_manager.views import (
     verify_code,
     reset_password,
     members_list,
-    create_task
+    create_task,
+    project_task,
 )
 
 urlpatterns = (
@@ -54,6 +55,7 @@ urlpatterns = (
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'), 
         path('project_detail/<int:project_id>/', project_detail.main, name='project_detail'),
         path("member_list/<int:project_id>/", members_list.main, name='member_list'),   
+        path("project_task/<int:project_id>/", project_task.main, name='project_task'),
         path('forgot_password/', forgot_password.forgot_password_view, name='forgot_password'),
         path('verify_code/', verify_code.verify_code_view, name='verify_code'),
         path('resend_code/', verify_code.resend_code_view, name='resend_code'),
