@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="{% static 'css/dialog/create_task_dialog.css' %}">
 <link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
 <link rel="stylesheet" href="{% static 'css/frappe_gantt.css' %}">
+<link rel="stylesheet" href="{% static 'css/task_list.css' %}">
 {% endblock %}
 
 {% block sidebar %}
@@ -78,7 +79,7 @@
     <div class="toolbar-right">
         <div class="status-switch">
             <div class="slider"></div>
-            <button class="switch-option active" data-view="list">清單</button>
+            <button class="switch-option active" data-view="task_list">清單</button>
             <button class="switch-option" data-view="calendar">行事曆</button>
             <button class="switch-option" data-view="gantt">甘特圖</button>
         </div>
@@ -100,4 +101,5 @@
 <script src="{% static 'js/add_member_dialog.js' %}"></script>
 <script src="{% static 'js/task_viewer.js' %}"></script>
 <script src="{% static 'js/frappe_gantt.umd.js' %}"></script>
+<script src="{% static 'js/task_list.js' %}"></script>
 {% endblock %}
