@@ -7,9 +7,9 @@ from task_manager import views
 
 
 from task_manager.views import (
+    my_task,
     test,
     project,
-    task_list,
     login,
     register,
     create_project,
@@ -34,7 +34,7 @@ from task_manager.views import (
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
-        path("task/", task_list.main, name="task"),
+        path("my_task/", my_task.main, name="my_task"),
         path("login/", login.login_view, name="login"),
         path("", RedirectView.as_view(url="/login/")),
         path('test/', test.main, name='test'),
