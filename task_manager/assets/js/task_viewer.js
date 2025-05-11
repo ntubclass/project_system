@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
           projectId = urlParts[urlParts.length - 2];
         }
 
-        fetch(`/project_task/${projectId}`, {
+        fetch(`/get_project_task/${projectId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -38,20 +38,20 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
           })
           .then((data) => {
-            console.log("Task data received:", data);
+            // Extract tasks array from the response object
+            const tasks = data.tasks_data;
+
+            // Check if tasks exist and have items
+            if (!tasks || tasks.length === 0) {
+              taskViewerContainer.innerHTML =
+                '<div class="error-message">No tasks found for this project.</div>';
+              return;
+            }
 
             if (view == "gantt") {
               try {
                 taskViewerContainer.innerHTML =
                   '<div id="gantt" class="gantt-target"></div>';
-
-                // Extract tasks array from the response object
-                const tasks = data.tasks_data;
-
-                // Check if tasks exist and have items
-                if (!tasks || tasks.length === 0) {
-                  throw new Error("No tasks found");
-                }
 
                 // Format tasks for Gantt chart
                 const ganttTasks = tasks.map((task) => {
@@ -92,6 +92,35 @@ document.addEventListener("DOMContentLoaded", function () {
                 taskViewerContainer.innerHTML =
                   '<div class="error-message">Failed to load Gantt chart. Please try again later.</div>';
               }
+            } else if (view == "task_list") {
+              try {
+                // Create container for list view
+                taskViewerContainer.innerHTML =
+                  '<div id="task-list-container" class="task-list-container"></div>';
+
+                // Use the TaskRenderer to render the list view
+                const listContainer = document.getElementById(
+                  "task-list-container"
+                );
+
+                // Add project name to each task for rendering
+                const tasksWithProject = tasks.map((task) => {
+                  return {
+                    ...task,
+                    project_name: data.project_name || "Project",
+                  };
+                });
+
+                // Initialize TaskRenderer with the container and tasks
+                const taskRenderer = new TaskRenderer({
+                  container: listContainer,
+                  tasks: tasksWithProject,
+                });
+              } catch (listError) {
+                console.error("Error initializing List view:", listError);
+                taskViewerContainer.innerHTML =
+                  '<div class="error-message">Failed to load task list. Please try again later.</div>';
+              }
             }
           })
           .catch((error) => {
@@ -106,4 +135,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+
+  // Trigger click on the default active button to load initial view
+  const activeButton = document.querySelector(
+    ".status-switch .switch-option.active"
+  );
+  if (activeButton) {
+    activeButton.click();
+  }
 });

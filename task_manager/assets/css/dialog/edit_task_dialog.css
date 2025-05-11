@@ -1,0 +1,260 @@
+/* 對話框背景遮罩 */
+.dialog-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    outline: none;
+    overflow: visible;
+    z-index: 1000;
+  }
+  
+  .dialog-backdrop::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  /* 確保對話框在不同的浏覽器中顯示一致 */
+  .dialog-backdrop:modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* 對話框容器 */
+  #editTaskDialog .dialog-container {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+    animation: dialog-fade-in 0.2s ease-out;
+  }
+  
+  @keyframes dialog-fade-in {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes dialog-fade-out {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+  }
+  
+  .dialog-backdrop[closing] .dialog-container {
+    animation: dialog-fade-out 0.2s ease-out forwards;
+  }
+  
+  /* 對話框內容 */
+  .dialog-content {
+    padding: 24px;
+    width: 100%;
+  }
+  
+  /* 對話框標題列 */
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* 關閉按鈕 */
+  .close-btn {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--dark-gray);
+    padding: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+  }
+  
+  .close-btn:hover {
+    background-color: var(--light-blue-gray);
+  }
+  
+  /* 對話框標題 */
+  .dialog-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    color: var(--dark-gray);
+  }
+  
+  /* 表單組件 */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--dark-gray);
+  }
+  
+  #content{
+    height: 120px;
+    resize: none;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: var(--white);
+  }
+  
+  .form-control:focus {
+    border-color: var(--dark-blue);
+    outline: none;
+  }
+  
+  /* 日期輸入容器 */
+  .date-input-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  /* 確保日期輸入框正確顯示 */
+  input[type="date"] {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* 成員區域 */
+  .member-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .add-member-btn {
+    background-color: transparent;
+    color: var(--dark-blue);
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+  
+  .add-member-btn:hover {
+    text-decoration: underline;
+  }
+  
+  .members-list {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px;
+    min-height: 50px;
+    background-color: var(--white);
+  }
+  
+  /* 對話框按鈕 */
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  
+  .cancel-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    color: var(--dark-gray);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .submit-btn {
+    padding: 8px 16px;
+    background-color: var(--dark-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn:hover {
+    background-color: var(--light-blue-gray);
+  }
+  
+  .submit-btn:hover {
+    background-color: #1b4fc6; /* 略微深色的藍色 */
+  }
+  
+  /* 動態搜尋結果樣式 */
+  .members-list {
+    list-style: none;
+    margin: 0;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--white);
+    min-height: calc(40px * 3); /* 預設高度為三個項目 */
+    overflow-y: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .members-list li {
+    padding: 8px;
+    cursor: pointer;
+    color: var(--dark-gray);
+    height: 40px; /* 確保每個項目高度一致 */
+    display: flex;
+    align-items: center; /* 垂直置中 */
+  }
+  
+  .members-list li:hover {
+    background-color: var(--light-blue-gray);
+  }
+  
+  .form-errors {
+    margin-top: 15px;
+  }
+  
+  .form-errors .alert {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .form-errors .alert-warning {
+    background-color: #FFF3CD;
+    border: 0.5px solid #FFECB5;
+    color: #79611C;
+  }
+  
+  .form-errors .alert-danger {
+    background-color: #F8D7DA;
+    border: 0.5px solid #F5C2C7;
+    color: #92373F;
+  }
