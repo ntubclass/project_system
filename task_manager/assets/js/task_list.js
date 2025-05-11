@@ -27,11 +27,7 @@ class TaskRenderer {
    * @returns {boolean} - True if task is completed
    */
   isTaskCompleted(task) {
-    return (
-      task.progress >= 100 ||
-      task.status === "completed" ||
-      (task.end_date && new Date(task.end_date) < new Date())
-    );
+    return task.progress >= 100;
   }
 
   /**

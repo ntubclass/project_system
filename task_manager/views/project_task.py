@@ -1,27 +1,39 @@
 from django.shortcuts import render
 from task_manager.models.task import Task  
-from task_manager.models.project import Project
+from task_manager.models.task_member import TaskMember  
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
 @login_required(login_url="login")
 def main(request, project_id):
-    if request.method == "GET":
-        tasks = Task.objects.filter(project_id=project_id)
+    context = {
+        "project_id": project_id,
+        "my_tasks": [],
+        "participate_tasks": [],
+    }
 
-        context = {
-            'tasks_data': []
-        }
+    my_tasks = Task.objects.filter(project_id=project_id, user_id=request.user)
+    participate_tasks = TaskMember.objects.filter(task_id__project_id=project_id, user_id=request.user)
 
-        for task in tasks:
-            task_data = {
-                "id": task.task_id,
-                "name": task.name,
-                "project_name": task.project_id.name,
-                "progress": task.progress,  
-                "start_date": task.start_date.strftime("%Y-%m-%d %H:%M:%S"),
-                "end_date": task.end_date.strftime("%Y-%m-%d %H:%M:%S"),
-            }
-            context['tasks_data'].append(task_data)
+    for task in my_tasks:
+        context["my_tasks"].append({
+            "task_id": task.task_id,
+            "user_name": task.user_id.username,
+            "task_name": task.name,
+            "end_date": task.end_date,
+            "content": task.content,
+            "progress": task.progress,
+        })
 
-        return JsonResponse(context)
+    for task_member in participate_tasks:
+        task = task_member.task_id
+        context["participate_tasks"].append({
+            "task_id": task.task_id,
+            "user_name": task.user_id.username,
+            "task_name": task.name,
+            "end_date": task.end_date,
+            "content": task.content,
+            "progress": task.progress,
+        })
+    
+    return render(request, "project_task.html", context)
