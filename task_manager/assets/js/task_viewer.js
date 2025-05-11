@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
           projectId = urlParts[urlParts.length - 2];
         }
 
-        fetch(`/project_task/${projectId}`, {
+        fetch(`/get_project_task/${projectId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

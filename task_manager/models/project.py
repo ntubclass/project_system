@@ -9,7 +9,7 @@ class Project(models.Model):
     end_date = models.DateTimeField()
     description = models.TextField(blank=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    percent = models.IntegerField(default=0)
+    progress = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
