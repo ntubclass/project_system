@@ -27,11 +27,7 @@ class TaskRenderer {
    * @returns {boolean} - True if task is completed
    */
   isTaskCompleted(task) {
-    return (
-      task.progress >= 100 ||
-      task.status === "completed" ||
-      (task.end_date && new Date(task.end_date) < new Date())
-    );
+    return task.progress >= 100;
   }
 
   /**
@@ -57,8 +53,31 @@ class TaskRenderer {
       }
     });
 
-    // Generate HTML
+    // Generate HTML with category section at the top
     const html = `
+          <!-- Category summary cards -->
+          <div class="category-section">
+            <div class="category-cards">
+                <div class="category-card" data-category="in_progress">
+                    <div class="category-info">
+                        <div class="category-title">進行中任務</div>
+                        <div class="category-count">${
+                          inProgressTasks.length
+                        }</div>
+                    </div>
+                </div>
+                <div class="category-card" data-category="completed">
+                    <div class="category-info">
+                        <div class="category-title">已完成任務</div>
+                        <div class="category-count">${
+                          completedTasks.length
+                        }</div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <!-- Task sections -->
           <div class="task-section" data-section-type="continue">
               <div class="section-header">
                   <div class="section-title">
@@ -97,6 +116,12 @@ class TaskRenderer {
 
     // Add click handlers for section headers
     this.addSectionToggleHandlers();
+
+    // Add click handlers for category cards
+    this.addCategoryCardHandlers();
+
+    // Initialize progress bars
+    this.initProgressBars();
   }
 
   /**
@@ -108,29 +133,95 @@ class TaskRenderer {
   createTaskCardHTML(task, isCompleted) {
     const taskId = task.id;
 
-    const dateLabel = isCompleted ? "完成日期" : "截止日期";
+    const dateLabel = "截止日期";
     const dateValue = task.end_date;
-    const dateFormatted = dateValue ? dateValue.split(" ")[0] : "No date";
+    const dateFormatted = dateValue ? dateValue.split(" ")[0] : "未設定";
 
     return `
-          <div class="task-card" data-task-id="${taskId}">
-              <div class="task-info">
-                  <div class="task-title">${task.name}</div>
-                  <div class="project-name">${task.project_name}</div>
-              </div>
-              <div class="progress-container">
-                  <div class="progress-label">進度</div>
-                  <div class="progress-percentage">${task.progress}%</div>
-              </div>
-              <div class="progress-bar">
-                  <div class="progress-fill" style="width: ${task.progress}%"></div>
-              </div>
-              <div class="task-due-date">
-                  <i class="date-icon far fa-calendar"></i>
-                  ${dateLabel}：${dateFormatted}
-              </div>
-          </div>
-      `;
+        <div class="task-card ${
+          isCompleted ? "completed" : ""
+        }" data-task-id="${taskId}">
+            <div class="task-info">
+                <div class="task-title">${task.name}</div>
+                <div class="project-name">${task.project_name || "專案"}</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-label">進度</div>
+                <div class="progress-percentage">${task.progress}%</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${
+                  task.progress
+                }%" progress="${task.progress}"></div>
+            </div>
+            <div class="task-due-date">
+                <i class="date-icon far fa-calendar"></i>
+                ${dateLabel}：${dateFormatted}
+            </div>
+        </div>
+    `;
+  }
+
+  addSectionToggleHandlers() {
+    const sectionHeaders = this.findByQuery(".section-header");
+    sectionHeaders.forEach((header) => {
+      header.addEventListener("click", () => {
+        const section = header.parentElement;
+        const taskCards = section.querySelector(".task-cards");
+        const icon = header.querySelector(".section-icon");
+
+        if (taskCards.style.display === "none") {
+          taskCards.style.display = "grid";
+          icon.classList.remove("fa-caret-right");
+          icon.classList.add("fa-caret-down");
+        } else {
+          taskCards.style.display = "none";
+          icon.classList.remove("fa-caret-down");
+          icon.classList.add("fa-caret-right");
+        }
+      });
+    });
+  }
+
+  /**
+   * Initialize and set up progress bars
+   */
+  initProgressBars() {
+    const progressBars = this.findByQuery(".progress-fill");
+    progressBars.forEach((bar) => {
+      // 取得已設定的 width 百分比 (如果直接在 style 中設定)
+      const style = window.getComputedStyle(bar);
+      const width = style.width;
+      const parentWidth = window.getComputedStyle(bar.parentElement).width;
+
+      // 計算進度百分比
+      let progressValue = Math.round(
+        (parseInt(width) / parseInt(parentWidth)) * 100
+      );
+
+      // 如果沒有通過 style 直接設定，檢查是否有 progress 屬性
+      if (isNaN(progressValue) && bar.hasAttribute("progress")) {
+        progressValue = bar.getAttribute("progress");
+      }
+
+      // 若進度值存在，更新相應的進度文字
+      if (progressValue) {
+        const progressBarContainer = bar.closest(".progress-bar");
+        const progressContainer = progressBarContainer.previousElementSibling;
+
+        if (
+          progressContainer &&
+          progressContainer.classList.contains("progress-container")
+        ) {
+          const percentageDisplay = progressContainer.querySelector(
+            ".progress-percentage"
+          );
+          if (percentageDisplay) {
+            percentageDisplay.textContent = `${progressValue}%`;
+          }
+        }
+      }
+    });
   }
 
   /**
@@ -142,7 +233,7 @@ class TaskRenderer {
       header.addEventListener("click", () => {
         const taskCards = header.nextElementSibling;
         taskCards.style.display =
-          taskCards.style.display === "none" ? "flex" : "none";
+          taskCards.style.display === "none" ? "grid" : "none";
 
         // Toggle icon
         const icon = header.querySelector(".section-icon");
@@ -151,140 +242,69 @@ class TaskRenderer {
       });
     });
   }
-}
 
-document.addEventListener("DOMContentLoaded", function () {
-  const sampleTasks = [
-    {
-      id: 1,
-      name: "設計使用者介面",
-      project_name: "專案A - 網站改版",
-      progress: 75,
-      start_date: "2025-04-01 09:00:00",
-      end_date: "2025-05-15 18:00:00",
-      status: "in_progress",
-    },
-    {
-      id: 2,
-      name: "後端API開發",
-      project_name: "專案A - 網站改版",
-      progress: 60,
-      start_date: "2025-04-05 09:00:00",
-      end_date: "2025-05-20 18:00:00",
-      status: "in_progress",
-    },
-    {
-      id: 3,
-      name: "資料庫設計",
-      project_name: "專案B - 行動應用",
-      progress: 100,
-      start_date: "2025-03-15 09:00:00",
-      end_date: "2025-04-10 18:00:00",
-      status: "completed",
-    },
-    {
-      id: 4,
-      name: "使用者測試",
-      project_name: "專案A - 網站改版",
-      progress: 25,
-      start_date: "2025-05-01 09:00:00",
-      end_date: "2025-05-30 18:00:00",
-      status: "in_progress",
-    },
-    {
-      id: 5,
-      name: "架構規劃",
-      project_name: "專案C - 新系統",
-      progress: 100,
-      start_date: "2025-02-10 09:00:00",
-      end_date: "2025-03-01 18:00:00",
-      status: "completed",
-    },
-    {
-      id: 6,
-      name: "功能優化",
-      project_name: "專案B - 行動應用",
-      progress: 40,
-      start_date: "2025-05-01 09:00:00",
-      end_date: "2025-06-15 18:00:00",
-      status: "in_progress",
-    },
-    {
-      id: 7,
-      name: "需求分析",
-      project_name: "專案C - 新系統",
-      progress: 100,
-      start_date: "2025-01-15 09:00:00",
-      end_date: "2025-02-05 18:00:00",
-      status: "completed",
-    },
-  ];
+  /**
+   * Add handlers for category card clicks
+   */
+  addCategoryCardHandlers() {
+    const categoryCards = this.findByQuery(".category-card");
+    categoryCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        // Remove active class from all cards
+        categoryCards.forEach((c) => c.classList.remove("active"));
 
-  const taskRenderer = new TaskRenderer({
-    container: "#taskList",
-    tasks: sampleTasks,
-  });
-  // 視圖按鈕切換
-  const viewButtons = document.querySelectorAll(".view-btn");
-  viewButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      viewButtons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-    });
-  });
+        // Add active class to clicked card
+        card.classList.add("active");
 
-  // 任務區段摺疊/展開
-  const sectionHeaders = document.querySelectorAll(".section-header");
-  sectionHeaders.forEach((header) => {
-    header.addEventListener("click", () => {
-      const section = header.parentElement;
-      const taskCards = section.querySelector(".task-cards");
-      const icon = header.querySelector(".section-icon");
+        // Get category type and scroll to corresponding section
+        const category = card.getAttribute("data-category");
+        const sectionType =
+          category === "in_progress" ? "continue" : "completed";
 
-      if (taskCards.style.display === "none") {
-        taskCards.style.display = "grid";
-        icon.classList.remove("fa-caret-right");
-        icon.classList.add("fa-caret-down");
-      } else {
-        taskCards.style.display = "none";
-        icon.classList.remove("fa-caret-down");
-        icon.classList.add("fa-caret-right");
-      }
-    });
-  });
+        // Find the corresponding task section and scroll to it
+        const section = this.findByQuery(
+          `[data-section-type="${sectionType}"]`
+        )[0];
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
 
-  // 設置任務進度條 - 類似 project.js 的方式
-  const progressBars = document.querySelectorAll(".progress-fill");
-  progressBars.forEach((bar) => {
-    // 取得已設定的 width 百分比 (如果直接在 style 中設定)
-    const style = window.getComputedStyle(bar);
-    const width = style.width;
-    const parentWidth = window.getComputedStyle(bar.parentElement).width;
-
-    // 計算進度百分比
-    let progressValue = (parseInt(width) / parseInt(parentWidth)) * 100;
-
-    // 如果沒有通過 style 直接設定，檢查是否有 progress 屬性
-    if (isNaN(progressValue) && bar.hasAttribute("progress")) {
-      progressValue = bar.getAttribute("progress");
-    }
-
-    // 若進度值存在，更新相應的進度文字
-    if (progressValue) {
-      const progressBarContainer = bar.closest(".progress-bar");
-      const progressContainer = progressBarContainer.previousElementSibling;
-
-      if (
-        progressContainer &&
-        progressContainer.classList.contains("progress-container")
-      ) {
-        const percentageDisplay = progressContainer.querySelector(
-          ".progress-percentage"
-        );
-        if (percentageDisplay) {
-          percentageDisplay.textContent = `${progressValue}%`;
+          // Make sure the section is expanded
+          const taskCards = section.querySelector(".task-cards");
+          if (taskCards && taskCards.style.display === "none") {
+            // Simulate a click on the header to expand it
+            section.querySelector(".section-header").click();
+          }
         }
-      }
+      });
+    });
+
+    // Set first category card as active by default
+    if (categoryCards.length > 0) {
+      categoryCards[0].classList.add("active");
     }
-  });
-});
+  }
+
+  /**
+   * Update progress for a specific task
+   * @param {string|number} taskId - ID of the task to update
+   * @param {number} progress - New progress value (0-100)
+   */
+  updateTaskProgress(taskId, progress) {
+    // Find the task card
+    const taskCard = this.findByQuery(`[data-task-id="${taskId}"]`)[0];
+    if (!taskCard) return;
+
+    // Update the progress display
+    const progressPercentage = taskCard.querySelector(".progress-percentage");
+    if (progressPercentage) {
+      progressPercentage.textContent = `${progress}%`;
+    }
+
+    // Update the progress bar
+    const progressFill = taskCard.querySelector(".progress-fill");
+    if (progressFill) {
+      progressFill.style.width = `${progress}%`;
+      progressFill.setAttribute("progress", progress);
+    }
+  }
+}

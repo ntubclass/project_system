@@ -7,9 +7,9 @@ from task_manager import views
 
 
 from task_manager.views import (
+    my_task,
     test,
     project,
-    task_list,
     login,
     register,
     create_project,
@@ -29,12 +29,13 @@ from task_manager.views import (
     members_list,
     create_task,
     project_task,
+    get_project_task,
 )
 
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
-        path("task/", task_list.main, name="task"),
+        path("my_task/", my_task.main, name="my_task"),
         path("login/", login.login_view, name="login"),
         path("", RedirectView.as_view(url="/login/")),
         path('test/', test.main, name='test'),
@@ -55,6 +56,7 @@ urlpatterns = (
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'), 
         path('project_detail/<int:project_id>/', project_detail.main, name='project_detail'),
         path("member_list/<int:project_id>/", members_list.main, name='member_list'),   
+        path("get_project_task/<int:project_id>/", get_project_task.main, name='get_project_task'),
         path("project_task/<int:project_id>/", project_task.main, name='project_task'),
         path('forgot_password/', forgot_password.forgot_password_view, name='forgot_password'),
         path('verify_code/', verify_code.verify_code_view, name='verify_code'),
