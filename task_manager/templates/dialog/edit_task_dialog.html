@@ -2,37 +2,31 @@
     <div class="dialog-container">
         <div class="dialog-content">
             <div class="dialog-header">
-                <h2 class="dialog-title">更新任務</h2>
+                <h2 class="dialog-title">修改任務</h2>
                 <button type="button" class="close-btn" id="closeEditTaskBtn">&times;</button>
             </div>
-            
-
-            <form id="editTaskForm" action="{% url 'create_task' project_id %}" method="post">
+            <form id="editTaskForm" action="#" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="taskName">任務名稱</label>
                     <input type="text" id="taskName" name="taskName" class="form-control" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="dueDate">開始日期</label>
+                    <label for="startDate">開始日期</label>
                     <div class="date-input-container">
-                        <input type="date" id="dueDate" name="dueDate" class="form-control" required>
+                        <input type="date" id="startDate" name="startDate" class="form-control" required>
                     </div>
                 </div>
-                
                 <div class="form-group">
-                    <label for="dueDate">截止日期</label>
+                    <label for="endDate">截止日期</label>
                     <div class="date-input-container">
-                        <input type="date" id="dueDate" name="dueDate" class="form-control" required>
+                        <input type="date" id="endDate" name="endDate" class="form-control" required>
                     </div>
                 </div>
-                
                 <div class="form-group">
                     <label for="content">任務說明</label>
                     <textarea id="content" name="content" class="form-control"></textarea>
                 </div>
-                
                 <div class="form-group">
                     <div class="member-header">
                         <label>邀請成員</label>
@@ -42,16 +36,10 @@
                         <!-- 這裡是成員列表的顯示區域 -->
                     </div>
                 </div>
-                
-                <div id="formErrors" class="form-errors"></div>
-                
-
-            <form id="editTaskForm" action="#" method="post">
-                {% csrf_token %}
                 <div id="formErrors" class="form-errors"></div>
                 <div class="dialog-actions">
                     <button type="button" id="cancelEditTaskBtn" class="cancel-btn">取消</button>
-                    <button type="submit" id="submitEditTaskBtn" class="submit-btn">建立</button>
+                    <button type="submit" id="submitEditTaskBtn" class="submit-btn">修改</button>
                 </div>
             </form>
         </div>
