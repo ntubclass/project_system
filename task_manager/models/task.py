@@ -1,5 +1,6 @@
 from django.db import models
 from .project import Project
+from django.contrib.auth.models import User
 
 
 class Task(models.Model):
@@ -11,6 +12,8 @@ class Task(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
     content = models.TextField()
+    progress = models.IntegerField(default=0)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

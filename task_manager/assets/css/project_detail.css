@@ -171,6 +171,16 @@ body {
 
 .toolbar{
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toolbar-left .section-title {
+  margin: 0;
+}
+
+.toolbar-right {
+  display: flex;
   gap: 20px;
   margin: 40px 0;
 }
@@ -179,9 +189,6 @@ body {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .gantt-target {
@@ -257,3 +264,5 @@ body {
   border-bottom: 1px solid #eee;
   padding-bottom: 8px;
 }
+
+
