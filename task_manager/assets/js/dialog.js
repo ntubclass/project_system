@@ -80,12 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
     "closeUpdateTaskBtn"
   );
   setup_dialog(
-    "openEditTaskBtn",
-    "editTaskDialog",
-    "cancelEditTaskBtn",
-    "closeEditTaskBtn"
-  );
-  setup_dialog(
     "openCreateTaskBtn",
     "createTaskDialog",
     "cancelTaskBtn",
@@ -93,6 +87,13 @@ document.addEventListener("DOMContentLoaded", function () {
   );
   setup_dialog(
     "openAddMemberBtn",
+    "addMemberDialog",
+    "cancelMemberBtn",
+    "closeMemberBtn"
+  );
+
+   setup_dialog(
+    "openEditAddMemberBtn",
     "addMemberDialog",
     "cancelMemberBtn",
     "closeMemberBtn"
