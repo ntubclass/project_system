@@ -8,13 +8,14 @@
             
             <form id="updateTaskForm" action="#" method="post">
                 {% csrf_token %}
+                <input type="hidden" id="taskIdInput" name="task_id">
                 
                 <!-- Progress Bar Section -->
                 <div class="progress-section">
                     <div class="progress-label">目前進度</div>
-                    <div class="progress-value">75%</div>
+                    <div class="progress-value" id="currentProgress">0%</div>
                     <div class="progress-bar-container">
-                        <div class="progress-bar" style="width: 75%">
+                        <div class="progress-bar" id="progressBar" style="width: 0%">
                             <div class="progress-marker"></div>
                         </div>
                     </div>
@@ -29,41 +30,21 @@
                         <div class="table-cell">進度</div>
                     </div>
                     
-                    <div class="progress-table-row">
-                        <div class="table-cell">張三</div>
-                        <div class="table-cell">2025-02-24</div>
-                        <div class="table-cell">完了個事物</div>
-                        <div class="table-cell">10%</div>
-                    </div>
-                    
-                    <div class="progress-table-row">
-                        <div class="table-cell">張三</div>
-                        <div class="table-cell">2025-02-24</div>
-                        <div class="table-cell">完了個事物</div>
-                        <div class="table-cell">30%</div>
-                    </div>
-                    
-                    <div class="progress-table-row">
-                        <div class="table-cell">張三</div>
-                        <div class="table-cell">2025-02-24</div>
-                        <div class="table-cell">完了個事物</div>
-                        <div class="table-cell">60%</div>
-                    </div>
-                    
-                    <div class="progress-table-row">
-                        <div class="table-cell">張三</div>
-                        <div class="table-cell">2025-02-24</div>
-                        <div class="table-cell">完了個事物</div>
-                        <div class="table-cell">75%</div>
+                    <div id="historyTableBody">
+                        <!-- Task history will be loaded here -->
+                        <div class="progress-table-row loading-message">
+                            <div class="table-cell">載入中...</div>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Add New Progress Entry -->
                 <div class="add-progress-entry">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="請填寫事項">
+                        <input type="text" class="form-control" id="infoInput" name="info" placeholder="請填寫事項" required>
                         <div class="input-addon">
-                            <input type="text" class="progress-input" placeholder="%">
+                            <input type="number" class="progress-input" id="progressInput" name="progress" 
+                                   placeholder="%" min="0" max="100" required>
                         </div>
                     </div>
                 </div>
