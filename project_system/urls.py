@@ -7,9 +7,9 @@ from task_manager import views
 
 
 from task_manager.views import (
+    my_task,
     test,
     project,
-    task_list,
     login,
     register,
     create_project,
@@ -26,13 +26,17 @@ from task_manager.views import (
     forgot_password,
     verify_code,
     reset_password,
-    member_list,
+    members_list,
+    create_task,
+    project_task,
+    get_project_task,
+    edit_task,
 )
 
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
-        path("task/", task_list.main, name="task"),
+        path("my_task/", my_task.main, name="my_task"),
         path("login/", login.login_view, name="login"),
         path("", RedirectView.as_view(url="/login/")),
         path('test/', test.main, name='test'),
@@ -40,7 +44,7 @@ urlpatterns = (
         path('logout/', logout.logout_view, name='logout'),
         path('project/', project.main, name='project'),
         path('create_project/', create_project.main, name='create_project'),
-        path('create_task/<int:project_id>/', create_project.main, name='create_task'),
+        path('create_task/<int:project_id>/', create_task.main, name='create_task'),
         path('dynamic_search_member/', dynamic_search_member.main, name='dynamic_search_member'),
         path('accounts/', include('allauth.urls')),
 		path('user_profile/', user_profile.main, name='user_profile'),
@@ -52,7 +56,10 @@ urlpatterns = (
         path('delete_file/<int:project_id>/', delete_file.main, name='delete_file'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'), 
         path('project_detail/<int:project_id>/', project_detail.main, name='project_detail'),
-        path("member_list/<int:project_id>/", member_list.main, name='member_list'),   
+        path("member_list/<int:project_id>/", members_list.main, name='member_list'),   
+        path("edit_task/<int:task_id>/", edit_task.main, name='edit_task'),  
+        path("get_project_task/<int:project_id>/", get_project_task.main, name='get_project_task'),
+        path("project_task/<int:project_id>/", project_task.main, name='project_task'),
         path('forgot_password/', forgot_password.forgot_password_view, name='forgot_password'),
         path('verify_code/', verify_code.verify_code_view, name='verify_code'),
         path('resend_code/', verify_code.resend_code_view, name='resend_code'),
