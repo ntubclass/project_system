@@ -29,7 +29,6 @@ body {
 .project-overview-container {
   padding: 30px;
   padding-left: 60px;
-  width: 90%;
 }
 
 .section-title {
@@ -41,7 +40,7 @@ body {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 2.5fr 1.5fr 1.5fr;
   gap: 20px;
   margin-bottom: 30px;
 }
@@ -103,12 +102,10 @@ body {
 
 .people-icon {
   color: #A855F7;
-  background-color: #FAF5FF;
 }
 
 .time-icon {
   color: #F97316;
-  background-color: #FFF7ED;
 }
 
 .additional-info {
@@ -174,6 +171,16 @@ body {
 
 .toolbar{
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toolbar-left .section-title {
+  margin: 0;
+}
+
+.toolbar-right {
+  display: flex;
   gap: 20px;
   margin: 40px 0;
 }
@@ -182,9 +189,6 @@ body {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .gantt-target {
@@ -260,3 +264,5 @@ body {
   border-bottom: 1px solid #eee;
   padding-bottom: 8px;
 }
+
+

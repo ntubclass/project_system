@@ -1,0 +1,79 @@
+<dialog class="dialog-backdrop" id="updateTaskDialog">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">更新任務進度</h2>
+                <button type="button" class="close-btn" id="closeUpdateTaskBtn">&times;</button>
+            </div>
+            
+            <form id="updateTaskForm" action="#" method="post">
+                {% csrf_token %}
+                
+                <!-- Progress Bar Section -->
+                <div class="progress-section">
+                    <div class="progress-label">目前進度</div>
+                    <div class="progress-value">75%</div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 75%">
+                            <div class="progress-marker"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress History Table -->
+                <div class="progress-history">
+                    <div class="progress-table-header">
+                        <div class="table-cell">填寫者</div>
+                        <div class="table-cell">時間</div>
+                        <div class="table-cell">事項</div>
+                        <div class="table-cell">進度</div>
+                    </div>
+                    
+                    <div class="progress-table-row">
+                        <div class="table-cell">張三</div>
+                        <div class="table-cell">2025-02-24</div>
+                        <div class="table-cell">完了個事物</div>
+                        <div class="table-cell">10%</div>
+                    </div>
+                    
+                    <div class="progress-table-row">
+                        <div class="table-cell">張三</div>
+                        <div class="table-cell">2025-02-24</div>
+                        <div class="table-cell">完了個事物</div>
+                        <div class="table-cell">30%</div>
+                    </div>
+                    
+                    <div class="progress-table-row">
+                        <div class="table-cell">張三</div>
+                        <div class="table-cell">2025-02-24</div>
+                        <div class="table-cell">完了個事物</div>
+                        <div class="table-cell">60%</div>
+                    </div>
+                    
+                    <div class="progress-table-row">
+                        <div class="table-cell">張三</div>
+                        <div class="table-cell">2025-02-24</div>
+                        <div class="table-cell">完了個事物</div>
+                        <div class="table-cell">75%</div>
+                    </div>
+                </div>
+                
+                <!-- Add New Progress Entry -->
+                <div class="add-progress-entry">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="請填寫事項">
+                        <div class="input-addon">
+                            <input type="text" class="progress-input" placeholder="%">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="formErrors" class="form-errors"></div>
+                <div class="dialog-actions">
+                    <button type="button" id="cancelUpdateTaskBtn" class="cancel-btn">取消</button>
+                    <button type="submit" id="submitUpdateTaskBtn" class="submit-btn">更新</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</dialog>

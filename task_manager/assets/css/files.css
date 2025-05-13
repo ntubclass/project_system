@@ -337,13 +337,11 @@ dialog:not([open]) {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-    padding: 16px 24px;
-    border-top: 1px solid #ddd;
-    background-color: #f8f9fa;
+    padding: 12px 20px;
 }
 
 .cancel-btn, .confirm-btn {
-    padding: 10px 24px;
+    padding: 5px 20px;
     border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
@@ -421,11 +419,10 @@ dialog:not([open]) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border-color);
     background-color: var(--light-blue-gray);
 }
 
-.preview-header h3 {
+.preview-header div {
     font-size: var(--font-size-16);
     color: var(--dark-gray);
 }

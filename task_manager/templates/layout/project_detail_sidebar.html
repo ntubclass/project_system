@@ -6,6 +6,10 @@
             <i class="sidebar-item-icon fa-solid fa-home"></i>
             <div>首頁</div>
         </a>
+        <a href="{% url 'project_task' project_id%}" class="sidebar-item {% if request.resolver_match.url_name == 'project_task' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-folder"></i>
+            <div>任務</div>
+        </a>
         <a href="{% url 'chat' project_id %}" class="sidebar-item {% if request.resolver_match.url_name == 'chat' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-comment"></i>
             <div>聊天室</div>
