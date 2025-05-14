@@ -14,7 +14,7 @@ def main(request, project_id):
     if request.method == "POST":
         taskName = request.POST.get("taskName")
         content = request.POST.get("content")
-        dueDate = request.POST.get("startDate")
+        startDate = request.POST.get("startDate")
         dueDate = request.POST.get("dueDate")
         user = User.objects.get(username=request.user)
         project = Project.objects.get(project_id=project_id)
@@ -28,7 +28,7 @@ def main(request, project_id):
             messages.error(request, "您沒有權限新增此專案任務")
             return redirect('project')
 
-        start_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
+        start_date_obj = datetime.strptime(startDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
         
         

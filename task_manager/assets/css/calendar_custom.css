@@ -1,0 +1,106 @@
+:root {
+  --cal-bar-color: #fff;
+  --cal-tick-color: #f3f3f3;
+  --cal-tick-color-thick: #ededed;
+  --cal-border-color: #ebeff2;
+  --cal-text-dark: #171717;
+  --cal-header-background: #fff;
+  --cal-row-color: #fdfdfd;
+  --cal-row-border-color: #c7c7c7;
+  --cal-weekend-highlight-color: #f7f7f7;
+}
+
+.fc {
+  background-color: var(--cal-header-background);
+  border: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.fc .fc-toolbar {
+  background-color: var(--cal-header-background);
+  border-bottom: 1px solid var(--cal-row-border-color);
+}
+
+.fc .fc-toolbar-title {
+  color: var(--cal-text-dark);
+}
+
+.fc .fc-button-primary {
+  background-color: var(--cal-tick-color);
+  border-color: var(--cal-tick-color);
+  color: var(--cal-text-dark);
+  transition-property: background-color;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition-duration: .15s;
+  border-radius: .5rem;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: #e0e0e0;
+  border-color: #e0e0e0;
+  filter: none;
+}
+
+.fc .fc-button-primary:focus,
+.fc .fc-button-primary:active:focus,
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background-color: var(--dark-gray);
+  border-color: var(--dark-gray);
+  color: var(--white);
+  box-shadow: none;
+}
+
+.fc .fc-daygrid-day {
+  background-color: var(--cal-row-color);
+  border-color: var(--cal-border-color);
+}
+
+.fc .fc-day-today {
+  background-color: var(--cal-tick-color-thick) !important;
+}
+
+.fc-event.task-completed {
+  background-color: var(--dark-green);
+  border-color: var(--dark-green);
+  outline: 1px solid var(--cal-row-border-color);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: transform .3s ease;
+}
+
+.fc-event.task-in-progress {
+  background-color: var(--dark-blue);
+  border-color: var(--dark-blue);
+  outline: 1px solid var(--cal-row-border-color);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: transform .3s ease;
+}
+
+.fc-event:hover {
+  transform: scale(1.02);
+}
+
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number,
+.fc-daygrid-event .fc-event-title {
+  text-decoration: none;
+}
+
+.fc .fc-daygrid-day.fc-day-sat,
+.fc .fc-daygrid-day.fc-day-sun {
+  background-color: var(--cal-row-color);
+}
+
+.view-btn:focus,
+.view-btn:active {
+  outline: none;
+  box-shadow: none;
+}

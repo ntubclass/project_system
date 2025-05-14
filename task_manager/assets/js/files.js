@@ -412,7 +412,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // 打開連接並發送請求
-        xhr.open('POST', '/upload_file/');
+        xhr.open('POST', `/upload_file/${window.PROJECT_ID}/`);
         xhr.setRequestHeader('X-CSRFToken', csrfToken);
         xhr.send(formData);
     }
@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             
             // 使用 POST 請求下載
-            fetch('/download_file/', {
+            fetch(`/download_file/${window.PROJECT_ID}/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrfToken,
@@ -565,7 +565,7 @@ function deleteFile(fileId, fileName) {
         if (result.isConfirmed) {
             const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             
-            fetch('/delete_file/', {
+            fetch(`/delete_file/${window.PROJECT_ID}/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrftoken
