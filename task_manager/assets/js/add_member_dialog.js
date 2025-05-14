@@ -185,4 +185,31 @@ document.addEventListener("DOMContentLoaded", function () {
             this.appendChild(countInput);
         });
     }
+    const createTaskForm = document.getElementById('createTaskForm');
+    if (createTaskForm) {
+        createTaskForm.addEventListener('submit', function(event) {
+            // 創建隱藏輸入欄位來存儲成員列表
+            addMemberlist.forEach((member, index) => {
+                const nameInput = document.createElement('input');
+                nameInput.type = 'hidden';
+                nameInput.name = `member_name_${index}`;
+                nameInput.value = member.name;
+
+                const emailInput = document.createElement('input');
+                emailInput.type = 'hidden';
+                emailInput.name = `member_email_${index}`;
+                emailInput.value = member.email;
+                
+                this.appendChild(nameInput);
+                this.appendChild(emailInput);
+            });
+
+            // 添加成員數量的隱藏欄位
+            const countInput = document.createElement('input');
+            countInput.type = 'hidden';
+            countInput.name = 'member_count';
+            countInput.value = addMemberlist.length;
+            this.appendChild(countInput);
+    });
+        }
 });
