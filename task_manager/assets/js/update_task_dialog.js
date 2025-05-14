@@ -27,8 +27,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function resetForm() {
     updateTaskForm.reset();
     formErrors.innerHTML = "";
-    historyTableBody.innerHTML =
-      '<div class="progress-table-row loading-message"><div class="table-cell">載入中...</div></div>';
+    // 重置為載入中的表格行
+    historyTableBody.innerHTML = `
+      <tr class="progress-table-row loading-message">
+        <td colspan="4">載入中...</td>
+      </tr>
+    `;
     currentTaskId = null;
   }
 
@@ -82,8 +86,12 @@ document.addEventListener("DOMContentLoaded", function () {
     currentTaskId = taskId;
     taskIdInput.value = taskId;
 
-    historyTableBody.innerHTML =
-      '<div class="progress-table-row loading-message"><div class="table-cell">載入中...</div></div>';
+    // 顯示載入中訊息
+    historyTableBody.innerHTML = `
+      <tr class="progress-table-row loading-message">
+        <td colspan="4">載入中...</td>
+      </tr>
+    `;
 
     fetch(`/update_task/${taskId}`)
       .then((response) => {
@@ -102,6 +110,12 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => {
         console.error("Error fetching task data:", error);
         showError("發生錯誤，請重試");
+        // 顯示錯誤訊息在表格中
+        historyTableBody.innerHTML = `
+          <tr class="progress-table-row">
+            <td colspan="4" style="color: #dc3545; text-align: center;">載入失敗，請重試</td>
+          </tr>
+        `;
       });
   }
 
@@ -112,26 +126,29 @@ document.addEventListener("DOMContentLoaded", function () {
     progressBar.style.width = `${progress}%`;
     currentProgress.textContent = `${progress}%`;
 
-    // Clear loading message
+    // Clear existing content
     historyTableBody.innerHTML = "";
 
-    // Add history rows
+    // Add history rows using table row elements
     if (history && history.length > 0) {
       history.forEach((item) => {
-        const row = document.createElement("div");
+        const row = document.createElement("tr");
         row.className = "progress-table-row";
         row.innerHTML = `
-          <div class="table-cell">${escapeHTML(item.user)}</div>
-          <div class="table-cell">${escapeHTML(item.updated_at)}</div>
-          <div class="table-cell">${escapeHTML(item.info)}</div>
-          <div class="table-cell">${item.progress}%</div>
+          <td>${escapeHTML(item.user)}</td>
+          <td>${escapeHTML(item.updated_at)}</td>
+          <td>${escapeHTML(item.info)}</td>
+          <td class="progress-percentage">${item.progress}%</td>
         `;
         historyTableBody.appendChild(row);
       });
     } else {
-      const emptyRow = document.createElement("div");
+      // No history available
+      const emptyRow = document.createElement("tr");
       emptyRow.className = "progress-table-row";
-      emptyRow.innerHTML = '<div class="table-cell">尚無歷史紀錄</div>';
+      emptyRow.innerHTML = `
+        <td colspan="4" style="text-align: center; color: #6b7280;">尚無歷史紀錄</td>
+      `;
       historyTableBody.appendChild(emptyRow);
     }
   }
@@ -165,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const csrftoken = document.querySelector(
         "[name=csrfmiddlewaretoken]"
       ).value;
+      
       // Submit form using fetch
       fetch(`/update_task/${currentTaskId}/`, {
         method: "POST",
@@ -181,6 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Clear form inputs
             infoInput.value = "";
+            progressInput.value = "";
 
             // Show success message
             showSuccess("進度已成功更新");
@@ -212,6 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function escapeHTML(str) {
+    if (!str) return '';
     return str
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
@@ -220,7 +240,26 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/'/g, "&#039;");
   }
 
-  // Add a success message style to CSS (can be added to your CSS file)
+  // Format date time for display
+  function formatDateTime(dateString) {
+    if (!dateString) return '';
+    
+    try {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    } catch (error) {
+      return dateString; // Return original string if parsing fails
+    }
+  }
+
+  // Add a success message style to CSS
   const style = document.createElement("style");
   style.innerHTML = `
     .form-errors .alert-success {
@@ -234,4 +273,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   `;
   document.head.appendChild(style);
+
+  // Make loadTaskData globally accessible if needed
+  window.openUpdateTaskDialog = function(taskId) {
+    loadTaskData(taskId);
+    openDialog();
+  };
 });
