@@ -40,7 +40,8 @@ def forgot_password_view(request):
             return redirect('verify_code')
             
         except Exception as e:
-            messages.error(request, f"發送驗證碼失敗，請稍後再試: {str(e)}")
+            messages.error(request, f"發送驗證碼失敗，請稍後再試")
+            print(f"發送郵件失敗: {e}")
             return render(request, 'forgot_password.html')
     
     # GET請求直接渲染忘記密碼頁面
