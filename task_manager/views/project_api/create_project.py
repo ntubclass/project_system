@@ -14,6 +14,7 @@ def main(request):  # 移除 project_id 參數，因為這是創建新專案的�
     if request.method == "POST":
         projectName = request.POST.get("projectName")
         description = request.POST.get("description")
+        startDate = request.POST.get("startDate")
         dueDate = request.POST.get("dueDate")
         user = User.objects.get(username=request.user)
         member_count = int(request.POST.get("member_count", "0"))
@@ -23,14 +24,21 @@ def main(request):  # 移除 project_id 參數，因為這是創建新專案的�
             return redirect("/project/")
 
         today = date.today()  # 現在 date 已正確導入
+        start_date_obj = datetime.strptime(startDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
         if due_date_obj <= today:
             messages.warning(request, "截止日期必須在今天或之後")
             return redirect("/project/")
+        elif start_date_obj <= today:
+            messages.warning(request, "開始日期必須在今天或之後")
+            return redirect("/project/")
+        elif due_date_obj < start_date_obj:
+            messages.warning(request, "截止日期必須在開始日期之後")
+            return redirect("/project/")
 
         # 創建新專案
         new_project = Project(
-            name=projectName, description=description, end_date=dueDate, user_id=user
+            name=projectName, description=description, start_date=startDate, end_date=dueDate, user_id=user
         )
         new_project.save()
 
