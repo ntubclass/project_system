@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
               li.innerHTML = `
                 <div>
                   <img src="${member.photo || '/static/default-avatar.png'}" class="user-photo">
-                  <span>${member.name}</span>
+                  <span class="user-name">${member.name}</span>
                   <span class="user-email">${member.email}</span>
                 </div>
               `;
