@@ -3,36 +3,24 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
-from task_manager import views
 
 
 from task_manager.views import (
     my_task,
     test,
-    project,
-    login,
-    register,
-    create_project,
     dynamic_search_member,
-    user_profile,
-    upload_avatar_api,
-    logout,
-    chat,
-    files,
-    upload_file,
-    download_file,
-    delete_file,
-    project_detail,
-    forgot_password,
-    verify_code,
-    reset_password,
     member_list,
-    create_task,
-    project_task,
-    get_project_task,
-    edit_task,
-    update_task,
 )
+
+from task_manager.views.chat_api import chat
+from task_manager.views.file_api import delete_file, download_file, files, upload_file
+from task_manager.views.login_api import login, logout, register, reset_password, verify_code, forgot_password
+from task_manager.views.project_api import create_project, project
+from task_manager.views.project_detail_api import get_project_task, project_detail
+from task_manager.views.project_task_api import project_task
+from task_manager.views.task_api import edit_task, create_task, update_task
+from task_manager.views.user_profile_api import user_profile, upload_avatar_api
+
 
 urlpatterns = (
     [
@@ -48,8 +36,7 @@ urlpatterns = (
         path('create_task/<int:project_id>/', create_task.main, name='create_task'),
         path('dynamic_search_member/', dynamic_search_member.main, name='dynamic_search_member'),
         path('accounts/', include('allauth.urls')),
-		path('user_profile/', user_profile.main, name='user_profile'),
-        path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'),    
+		path('user_profile/', user_profile.main, name='user_profile'),  
         path('chat/<int:project_id>/', chat.main, name='chat'),
         path('files/<int:project_id>/', files.main, name='files'),
         path('upload_file/<int:project_id>/', upload_file.main, name='upload_file'),

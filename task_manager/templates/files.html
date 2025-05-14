@@ -80,5 +80,9 @@
 
 {% endblock %}
 {% block extra_js %}
+<script>
+    // 傳遞 project_id 給 JavaScript
+    window.PROJECT_ID = {{ project_id }};
+</script>
 <script src="{% static 'js/files.js' %}"></script>
 {% endblock %}
