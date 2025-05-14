@@ -15,7 +15,7 @@ def main(request, project_id):
             uploaded_files = request.FILES.getlist('files')
             
             user = User.objects.get(id=request.user.id)
-            project = Project.objects.get(name = "123")
+            project = Project.objects.get(project_id=project_id)
 
             # 檢查重複檔案
             duplicate_files = []
