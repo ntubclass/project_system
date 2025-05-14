@@ -12,8 +12,7 @@ def main(request, project_id):
         "file_data": [],
     }
 
-    project = Project.objects.get(project_id=project_id)
-    files = File.objects.filter(project_id=project.project_id)
+    files = File.objects.filter(project_id=project_id)
     for m in files:
         data = {}
         for field in m._meta.fields:
