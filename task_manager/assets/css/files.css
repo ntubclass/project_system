@@ -531,13 +531,9 @@ dialog:not([open]) {
 .file-remove-btn {
     background: none;
     border: none;
-    color: var(--light-gray);
+    color: var(--dark-red);
     font-size: var(--font-size-16);
     cursor: pointer;
-}
-
-.file-remove-btn:hover {
-    color: var(--red);
 }
 
 /* 上傳進度區域 */
