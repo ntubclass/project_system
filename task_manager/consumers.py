@@ -124,6 +124,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             if user_id:
                 message_id = await self.save_message(self.room_id, user_id, message_content)
                 
+                # Get user information including photo
+                user_data = await self.get_user_data(user_id)
+                
                 # Send chat message event to the group
                 await self.channel_layer.group_send(
                     self.room_group_name,
@@ -131,9 +134,30 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'type': 'chat_message',
                         'message': message_content,
                         'user_id': user_id,
+                        'username': user_data.get('username'),
+                        'user_photo': user_data.get('photo_url'),
                         'message_id': message_id,
                     }
                 )
+
+    @database_sync_to_async
+    def get_user_data(self, user_id):
+        """取得用戶資料包括頭像"""
+        try:
+            user = User.objects.get(id=user_id)
+            # 假設您有 UserInfo 模型來存儲用戶頭像
+            # 請根據您的實際模型結構調整
+            user_info = getattr(user, 'userinfo', None)
+            
+            return {
+                'username': user.username,
+                'photo_url': user_info.photo.url if user_info and user_info.photo else None,
+            }
+        except User.DoesNotExist:
+            return {
+                'username': 'Unknown User',
+                'photo_url': None,
+            }
 
     @database_sync_to_async
     def is_project_manager(self, project_id, user_id):
@@ -196,6 +220,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event['message']
         user_id = event['user_id']
+        username = event.get('username')
+        user_photo = event.get('user_photo')
         message_id = event.get('message_id')
         
         # Send message to WebSocket (to all users including sender)
@@ -203,6 +229,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'type': 'chat_message',
             'message': message,
             'user_id': user_id,
+            'username': username,
+            'user_photo': user_photo,
             'message_id': message_id,
         }))
     

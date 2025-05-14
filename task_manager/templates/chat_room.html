@@ -24,7 +24,13 @@
         <div class="chat-grid" id="chatGrid">
             {% for message in messages_history %}
                 <div class="chat-message {% if message.user_id.id == user.id %}chat-right{% else %}chat-left{% endif %} {% if message.isPin %} pinned {% endif %}" data-message-id="{{ message.message_id }}">
-                    <div class="chat-avatar"></div>
+                    <div class="chat-avatar">
+                        {% if message.user_id.userinfo.photo %}
+                            <img src="{{ message.user_id.userinfo.photo.url }}" alt="{{ message.user_id.username }}" class="chat-avatar-image" />
+                        {% else %}
+                            <i class="fa-solid fa-user"></i>
+                        {% endif %}
+                    </div>
                     <div class="chat-message-content">
                         <div class="chat-message-header">
                             <span class="chat-name">{% if message.user_id.id == user.id %}You{% else %}{{ message.user_id.username }}{% endif %}</span>
