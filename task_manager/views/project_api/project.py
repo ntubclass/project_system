@@ -26,6 +26,11 @@ def main(request):
                     field_value = field_value.strftime("%Y/%m/%d")
                 else:
                     field_value = ""
+            elif field_name == "start_date":
+                if field_value is not None:
+                    field_value = field_value.strftime("%Y/%m/%d")
+                else:
+                    field_value = ""
             elif field_name == "user_id":
                 user = User.objects.get(id=field_value.id)
                 data["photo"] = user.userinfo.photo.url
