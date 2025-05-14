@@ -3,6 +3,12 @@
   <div class="project-title">專案A</div>
   <div class="project-subtitle">進行中</div>
   <a href="{% url 'user_profile' %}" class="user-icon-link">
+    <div class="user-header-photo">
+      {% if user.userinfo.photo %}
+      <img src="{{ user.userinfo.photo.url }}" alt="{{ user.username }}" class="user-header-image" />
+      {% else %}
       <i class="user-icon fa-solid fa-circle-user"></i>
+      {% endif %}
+    </div>
   </a>
 </div>
