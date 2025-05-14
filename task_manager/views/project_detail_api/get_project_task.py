@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from task_manager.models.task import Task  
-from task_manager.models.project import Project
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from task_manager.models.user_info import UserInfo
 
 @login_required(login_url="login")
 def main(request, project_id):
@@ -17,6 +16,8 @@ def main(request, project_id):
             task_data = {
                 "id": task.task_id,
                 "name": task.name,
+                "username": task.user_id.username,
+                "user_avatar": UserInfo.objects.get(user_id=task.user_id).photo.url,
                 "project_name": task.project_id.name,
                 "progress": task.progress,  
                 "start_date": task.start_date.strftime("%Y-%m-%d %H:%M:%S"),

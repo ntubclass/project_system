@@ -56,6 +56,18 @@
   margin-bottom: 4px;
 }
 
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+}
+
 .project-name {
   font-size: var(--font-size-14);
   color: var(--light-gray);
@@ -95,6 +107,24 @@
 .date-icon {
   margin-right: 8px;
 }
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-12);
+  color: var(--light-gray);
+}
+
 
 /* 完成任務的計數器 */
 .continue {

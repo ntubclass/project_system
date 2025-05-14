@@ -143,7 +143,6 @@ class TaskRenderer {
         }" data-task-id="${taskId}">
             <div class="task-info">
                 <div class="task-title">${task.name}</div>
-                <div class="project-name">${task.project_name || "專案"}</div>
             </div>
             <div class="progress-container">
                 <div class="progress-label">進度</div>
@@ -154,9 +153,16 @@ class TaskRenderer {
                   task.progress
                 }%" progress="${task.progress}"></div>
             </div>
-            <div class="task-due-date">
-                <i class="date-icon far fa-calendar"></i>
-                ${dateLabel}：${dateFormatted}
+            <div class="card-info">
+              <div class="user-avatar">
+                  <img src="${
+                    task.user_avatar || "default-avatar.png"
+                  }" alt="User Avatar" class="avatar">
+              </div>
+              <div class="task-due-date">
+                  <i class="date-icon far fa-calendar"></i>
+                  ${dateLabel}：${dateFormatted}
+              </div>
             </div>
         </div>
     `;
