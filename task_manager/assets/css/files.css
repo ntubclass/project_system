@@ -1,14 +1,21 @@
-.cloud-files {
-    min-height: calc(80vh);
+body {
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F9FAFB;
+  letter-spacing: 1px;
 }
 
-.main-content {
-    padding: 30px;
-    transition: margin-left 0.3s ease;
+.project-overview-container {
+  padding: 30px;
+  padding-left: 60px;
 }
 
-.main-content-full {
-    margin-left: 0;
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #404040;
+  margin-bottom: 25px;
 }
 
 .title-bar {
@@ -74,14 +81,14 @@
     border-radius: 4px;
     padding: 8px 12px;
     max-width: 400px;
-    background-color: var(--white); /* 確保搜尋框有白色背景 */
+    background-color: var(--white);
 }
 
 .search-icon {
-    font-size: 16px; /* Adjust the size of the icon */
-    color: #555; /* Set the color of the icon */
-    margin-right: 8px; /* Add spacing to the right of the icon */
-    cursor: pointer; /* Change the cursor to a pointer on hover */
+    font-size: 16px;
+    color: #555;
+    margin-right: 8px;
+    cursor: pointer;
     display: block;
 }
 
@@ -92,7 +99,6 @@
     font-size: var(--font-size-14);
     background-color: transparent;
     display:block;
-
 }
 
 /* 檔案列表容器 */
@@ -111,12 +117,32 @@
     color: var(--light-gray);
     font-size: var(--font-size-14);
     background-color: var(--white);
+    align-items: center;
 }
 
 .file-header-cell {
     padding: 0 8px;
+    display: flex;
+    align-items: center;
 }
 
+/* 檔案列表標題對齊設定 */
+.file-header-cell.name-cell {
+    justify-content: flex-start;
+}
+
+.file-header-cell.owner-cell,
+.file-header-cell.date-cell,
+.file-header-cell.size-cell {
+    justify-content: center;
+    text-align: center;
+}
+
+.file-header-cell.action-cell {
+    justify-content: center;
+}
+
+/* 欄位寬度設定 */
 .name-cell {
     flex: 3;
 }
@@ -156,6 +182,24 @@
 
 .file-cell {
     padding: 0 8px;
+    display: flex;
+    align-items: center;
+}
+
+/* 檔案列表內容對齊設定 */
+.file-cell.name-cell {
+    justify-content: flex-start;
+}
+
+.file-cell.owner-cell,
+.file-cell.date-cell,
+.file-cell.size-cell {
+    justify-content: center;
+    text-align: center;
+}
+
+.file-cell.action-cell {
+    justify-content: center;
 }
 
 .name-cell {
@@ -176,58 +220,59 @@
 
 /* 檔案類型圖示 */
 .pdf-icon {
-    background-color: #f8d7da;  /* 淡紅 */
-    color: #721c24;            /* 深紅 */
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
 .word-icon {
-    background-color: #d1ecf1;  /* 淺藍 */
-    color: #0c5460;            /* 深藍 */
+    background-color: #d1ecf1;
+    color: #0c5460;
 }
 
 .excel-icon {
-    background-color: #d4edda;  /* 淺綠 */
-    color: #155724;             /* 深綠 */
+    background-color: #d4edda;
+    color: #155724;
 }
 
 .ppt-icon {
-    background-color: #fff3cd;  /* 淺橘 */
-    color: #856404;             /* 深橘 */
+    background-color: #fff3cd;
+    color: #856404;
 }
 
 .image-icon {
-    background-color: #e2d6f3;  /* 淡紫 */
-    color: #4b0082;             /* 靛紫 */
+    background-color: #e2d6f3;
+    color: #4b0082;
 }
 
 .text-icon {
-    background-color: #f1f1f1;  /* 淺灰 */
-    color: #333333;             /* 深灰 */
+    background-color: #f1f1f1;
+    color: #333333;
 }
 
 .archive-icon {
-    background-color: #f0e2d0;  /* 淡棕 */
-    color: #6e4c1e;             /* 深棕 */
+    background-color: #f0e2d0;
+    color: #6e4c1e;
 }
 
 .audio-icon {
-    background-color: #d1f2eb;  /* 淺青綠 */
-    color: #117864;             /* 深青綠 */
+    background-color: #d1f2eb;
+    color: #117864;
 }
 
 .video-icon {
-    background-color: #e6e6fa;  /* 淡靛紫 */
-    color: #4b0082;             /* 靛紫 */
+    background-color: #e6e6fa;
+    color: #4b0082;
 }
 
 .default-icon {
-    background-color: #e2e3e5;  /* 淡銀灰 */
-    color: #383d41;             /* 深灰黑 */
+    background-color: #e2e3e5;
+    color: #383d41;
 }
 
 .file-details {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .file-name {
@@ -244,6 +289,7 @@
 .download-btn {
     color: var(--light-gray);
     font-size: var(--font-size-16);
+  transition: color .2s ease;
 }
 
 .download-btn:hover {
@@ -264,22 +310,17 @@
     margin: auto;
     position: fixed;
     left: 50%;
-    
-    /* Changed positioning */
     top: 5%;
     transform: translateX(-50%);
-    
-    /* Add overflow handling for tall content */
     overflow-y: auto;
 }
 
-/* Adjust for very tall content */
 @media screen and (min-height: 800px) {
     .custom-dialog {
         top: 10%;
     }
 }
-/* 確保對話框 backdrop 正確移除 */
+
 dialog:not([open]) {
     display: none;
 }
@@ -316,6 +357,7 @@ dialog:not([open]) {
     font-size: var(--font-size-18);
     font-weight: bold;
     color: var(--dark-gray);
+    margin: 0;
 }
 
 .close-btn {
@@ -329,8 +371,8 @@ dialog:not([open]) {
 .dialog-content {
     padding: 24px;
     background-color: #ffffff;
-    overflow-y: auto;  /* 添加滚动条 */
-    flex: 1;  /* 使内容区域可伸缩 */
+    overflow-y: auto;
+    flex: 1;
 }
 
 .dialog-actions {
@@ -605,7 +647,7 @@ dialog[closing]::backdrop {
 }
 
 #confirmOverwriteDialog {
-    z-index: 101; /* 確保確認對話框在上傳對話框之上 */
+    z-index: 101;
 }
 
 /* 響應式調整 */
