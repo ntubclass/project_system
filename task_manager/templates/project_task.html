@@ -5,11 +5,9 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/project_task.css' %}">
-<link rel="stylesheet" href="{% static 'css/dialog/create_task_dialog.css' %}">
 <link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
 <link rel="stylesheet" href="{% static 'css/dialog/update_task_dialog.css' %}">
-\<link rel="stylesheet" href="{% static 'css/dialog/edit_task_dialog.css' %}">
-<link rel="stylesheet" href="{% static 'css/frappe_gantt.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/edit_task_dialog.css' %}">
 {% endblock %}
 
 {% block sidebar %}
@@ -33,10 +31,10 @@
       
     <div class="task-items">
       {% for task in my_tasks %}
-      <div class="task-item">
+      <div class="task-item" task-id="{{ task.task_id }}">
         <div class="task-info">
           <div class="task-avatar">
-            <img src="{% static 'images/avatar-placeholder.png' %}" alt="User avatar">
+            <img src="{{task.photo}}" alt="User avatar">
           </div>
           <div class="username">{{ task.user_name }}</div>
         </div>
@@ -52,8 +50,8 @@
           <span class="progress-text">{{ task.progress }}%</span>
         </div>
         <div class="task-actions">
-          <button class="btn-update" id="openUpdateTaskBtn" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
-          <button class="btn-edit" id="openEditTaskBtn" data-task-id="{{ task.task_id }}"><i class="fas fa-edit"></i></button>
+          <button class="btn-update"  data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
+          <button class="btn-edit"  data-task-id="{{ task.task_id }}"><i class="fas fa-edit"></i></button>
           <button class="btn-delete" data-task-id="{{ task.task_id }}"><i class="fas fa-times"></i></button>
         </div>
       </div>
@@ -67,7 +65,7 @@
       
       <div class="task-items">
       {% for task in participate_tasks %}
-      <div class="task-item">
+      <div class="task-item" task-id="{{ task.task_id }}">
         <div class="task-avatar">
           <img src="{% static 'images/avatar-placeholder.png' %}" alt="User avatar">
         </div>
@@ -86,7 +84,7 @@
           <span class="progress-text">{{ task.progress }}%</span>
         </div>
         <div class="task-actions">
-          <button class="btn-update" id="openUpdateTaskBtn" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
+          <button class="btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
         </div>
       </div>
       {% endfor %}
@@ -95,7 +93,6 @@
   </div>
 </div>
 
-{% include 'dialog/create_task_dialog.html' %}
 {% include 'dialog/update_task_dialog.html' %}
 {% include 'dialog/edit_task_dialog.html' %}
 {% include 'dialog/add_member_dialog.html' %}
@@ -103,6 +100,8 @@
 
 {% block extra_js %}
 <script src="{% static 'js/add_member_dialog.js' %}"></script>
+<script src="{% static 'js/edit_task_dialog.js' %}"></script>
+<script src="{% static 'js/update_task_dialog.js' %}"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Toggle section visibility

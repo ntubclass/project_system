@@ -1,97 +1,61 @@
 {% extends 'project_detail_base.html' %}
 {% load static %}
-
 {% block title %}{{ project.name }} | 專案詳情{% endblock %}
-
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
 <link rel="stylesheet" href="{% static 'css/dialog/create_task_dialog.css' %}">
 <link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
 <link rel="stylesheet" href="{% static 'css/frappe_gantt.css' %}">
-{% endblock %}
+<link rel="stylesheet" href="{% static 'css/member_list.css' %}">
 
+{% endblock %}
 {% block sidebar %}
 {% include 'layout/project_detail_sidebar.html' %}
 {% endblock %}
-
 {% block header %}
 {% include 'layout/project_detail_header.html' %}
 {% endblock %}
-
 {% block content %}
 <div class="project-overview-container">
   <h1 class="section-title">成員管理</h1>
   <div class="toolbar">
-    <div class="status-switch">
-        <div class="slider"></div>
-        <button class="switch-option active" data-view="list">清單</button>
-        <button class="switch-option" data-view="calendar">行事曆</button>
-        <button class="switch-option" data-view="gantt">甘特圖</button>
-    </div>
-    <button class="create-btn" id="openCreateTaskBtn">
+    <button class="create-btn" id="openAddMemberBtn">
         <i class="create-icon fa-solid fa-plus"></i>
-        建立專案
+        新增成員
     </button>
-   </div>
+  </div>
 
-  <div class="stats-grid">
-      <!-- 進度卡片 -->
-      <div class="stat-card">
-          <div class="stat-label">線進度</div>
-          <div class="stat-value">
-              75%
-              <div class="chart-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="8,16 12,12 16,16 20,10" />
-                  </svg>
-              </div>
-          </div>
-          <div class="progress-container">
-              <div class="progress-bar">
-                  <div class="progress-fill"></div>
-              </div>
-          </div>
-      </div>
-      
-      <!-- 成員卡片 -->
-      <div class="stat-card">
-          <div class="stat-label">專案成員</div>
-          <div class="stat-value">
-              5人
-              <div class="people-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                      <circle cx="12" cy="7" r="4" />
-                  </svg>
-              </div>
-          </div>
-          <div class="additional-info">管理成員</div>
-      </div>
-      
-      <!-- 時間卡片 -->
-      <div class="stat-card">
-          <div class="stat-label">剩餘時間</div>
-          <div class="stat-value">
-              32天
-              <div class="time-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                      <circle cx="12" cy="12" r="10" />
-                      <polyline points="12,6 12,12 16,14" />
-                  </svg>
-              </div>
-          </div>
-          <div class="additional-info">截止日期：2025-02-24</div>
-      </div>
+  <div class="search-container mb-4">
+    <input type="text" placeholder="搜尋成員..." class="search-input" />
   </div>
-  <div class="task-viewer-container" id="taskViewerContainer">
+
+  <div class="members-container">
+    {% for member in members %}
+<div class="member-item">
+  <div class="member-info">
+    <div class="member-avatar"></div>
+    <div class="member-details">
+      <div class="member-name">{{ member.name }}</div>
+      <div class="member-email">
+        <i class="email-icon fa-solid fa-envelope"></i>
+        {{ member.email }}
+      </div>
+    </div>
   </div>
-     
+  <div class="member-actions">
+    <span class="member-role">{{ member.role }}</span>
+    <button class="remove-member-btn">
+      <i class="remove-icon fa-solid fa-xmark" style="color:red;"></i>
+    </button>
+  </div>
 </div>
+{% endfor %}
 
+  </div>
+</div>
 {% include 'dialog/create_task_dialog.html' %}
 {% include 'dialog/add_member_dialog.html' %}
 {% endblock %}
-
 {% block extra_js %}
 <script src="{% static 'js/add_member_dialog.js' %}"></script>
 <script src="{% static 'js/task_viewer.js' %}"></script>

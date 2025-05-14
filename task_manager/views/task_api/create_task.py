@@ -55,7 +55,7 @@ def main(request, project_id):
             member_name = request.POST.get(f"member_name_{i}")
             member_email = request.POST.get(f"member_email_{i}")
             user = User.objects.get(username=member_name, email=member_email)
-            task_member = TaskMember(task_id=new_task.task_id, user_id=user)
+            task_member = TaskMember(task_id=new_task, user_id=user)
             task_member.save()
 
         messages.success(request, "任務已成功創建")
