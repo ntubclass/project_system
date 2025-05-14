@@ -121,6 +121,63 @@ document.addEventListener("DOMContentLoaded", function () {
                 taskViewerContainer.innerHTML =
                   '<div class="error-message">Failed to load task list. Please try again later.</div>';
               }
+            } else if (view == "calendar") {
+              taskViewerContainer.innerHTML = '<div id="calendar"></div>';
+
+              const calendarEl = document.getElementById("calendar");
+              const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: "dayGridMonth",
+                headerToolbar: {
+                  left: "prev,next",
+                  center: "title",
+                  right: "today",
+                },
+                locale: "zh-tw",
+                displayEventTime: false, 
+                eventTimeFormat: {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  meridiem: false,
+                },
+                events: tasks.map((task) => ({
+                  id: task.id,
+                  title: task.name,
+                  start: task.start_date,
+                  end: task.end_date,
+                  color:
+                    task.progress >= 100
+                      ? "var(--dark-green)"
+                      : "var(--dark-blue)",
+                  className:
+                    task.progress >= 100
+                      ? "task-completed"
+                      : "task-in-progress",
+                  extendedProps: {
+                    progress: task.progress,
+                    description: task.description,
+                  },
+                })),
+                eventClick: function (info) {
+              
+                    Swal.fire({
+                      title: info.event.title,
+                      html: `
+                        <div class="task-detail-popup">
+                          <p><strong>進度:</strong> ${info.event.extendedProps.progress}%</p>
+                          <p><strong>開始:</strong> ${info.event.start.toLocaleDateString()}</p>
+                          <p><strong>結束:</strong> ${info.event.end ? info.event.end.toLocaleDateString() : "無結束日期"}</p>
+                          ${info.event.extendedProps.description ? `<p><strong>描述:</strong> ${info.event.extendedProps.description}</p>` : ''}
+                        </div>
+                      `,
+                      icon: info.event.extendedProps.progress >= 100 ? "success" : "info",
+                    });
+                },
+              });
+              calendar.render();
+
+              window.addEventListener("resize", function () {
+                calendar.updateSize();
+              });
             }
           })
           .catch((error) => {
