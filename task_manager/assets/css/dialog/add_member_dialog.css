@@ -39,6 +39,17 @@
   animation: dialog-fade-in 0.2s ease-out;
 }
 
+#editProjectDialog .dialog-container {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: 0;
+  animation: dialog-fade-in 0.2s ease-out;
+}
+
 @keyframes dialog-fade-in {
   from {
     opacity: 0;

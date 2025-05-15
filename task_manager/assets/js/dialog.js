@@ -74,12 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
     "closeProjectBtn"
   );
   setup_dialog(
-    "openUpdateTaskBtn",
-    "updateTaskDialog",
-    "cancelUpdateTaskBtn",
-    "closeUpdateTaskBtn"
-  );
-  setup_dialog(
     "openCreateTaskBtn",
     "createTaskDialog",
     "cancelTaskBtn",
@@ -91,8 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "cancelMemberBtn",
     "closeMemberBtn"
   );
-
-   setup_dialog(
+  setup_dialog(
     "openEditAddMemberBtn",
     "addMemberDialog",
     "cancelMemberBtn",

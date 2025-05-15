@@ -4,7 +4,7 @@ from django.contrib import messages  # 添加這一行導入 messages
 from task_manager.models.project import Project
 from task_manager.models.task import Task
 from task_manager.models.project_member import ProjectMember
-from django.contrib.auth.models import User
+from datetime import datetime
 
 @login_required(login_url="login")
 def main(request, project_id):
@@ -90,6 +90,7 @@ def main(request, project_id):
         "completed_tasks": completed_tasks,
         "ongoing_count": len(ongoing_tasks),
         "completed_count": len(completed_tasks),
+        "date_now": datetime.now().strftime("%Y-%m-%d"),
     }
     
     return render(request, "project_detail.html", context)

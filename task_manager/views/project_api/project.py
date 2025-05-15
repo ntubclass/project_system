@@ -23,12 +23,12 @@ def main(request):
 
             if field_name == "end_date":
                 if field_value is not None:
-                    field_value = field_value.strftime("%Y/%m/%d")
+                    field_value = field_value.strftime("%Y-%m-%d")
                 else:
                     field_value = ""
             elif field_name == "start_date":
                 if field_value is not None:
-                    field_value = field_value.strftime("%Y/%m/%d")
+                    field_value = field_value.strftime("%Y-%m-%d")
                 else:
                     field_value = ""
             elif field_name == "user_id":
