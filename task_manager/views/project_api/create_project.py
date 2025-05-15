@@ -20,10 +20,14 @@ def main(request):
         today = date.today()
         start_date_obj = datetime.strptime(startDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
-        if due_date_obj <= today:
+
+        print(start_date_obj<today)
+        print(today)
+
+        if due_date_obj < today:
             messages.warning(request, "截止日期必須在今天或之後")
             return redirect("/project/")
-        elif start_date_obj <= today:
+        elif start_date_obj < today:
             messages.warning(request, "開始日期必須在今天或之後")
             return redirect("/project/")
         elif due_date_obj < start_date_obj:

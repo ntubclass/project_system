@@ -15,7 +15,7 @@ from task_manager.views.chat_api import chat
 from task_manager.views.file_api import delete_file, download_file, files, upload_file
 from task_manager.views.login_api import login, logout, register, reset_password, verify_code, forgot_password
 from task_manager.views.my_task_api import my_task, get_my_task
-from task_manager.views.project_api import create_project, project, edit_project, get_project_data
+from task_manager.views.project_api import create_project, project, edit_project, get_project_data, delete_project
 from task_manager.views.project_detail_api import get_project_task, project_detail
 from task_manager.views.project_task_api import project_task
 from task_manager.views.task_api import edit_task, create_task, update_task, delete_task
@@ -35,6 +35,7 @@ urlpatterns = (
         path('project/', project.main, name='project'),
         path('create_project/', create_project.main, name='create_project'),
         path('edit_project/', edit_project.main, name='edit_project'),
+        path('delete_project/', delete_project.main, name='delete_project'),
         path('get_project_data/<int:project_id>/', get_project_data.main, name='get_project_data'),
         path('create_task/<int:project_id>/', create_task.main, name='create_task'),
         path('dynamic_search_member/', dynamic_search_member.main, name='dynamic_search_member'),
