@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <img src="${
                       member.photo || "/static/default-avatar.png"
                     }" class="user-photo">
-                    <span>${member.name}</span>
+                    <span class="user-name">${member.name}</span>
                     <span class="user-email">${member.email}</span>
                   </div>
                 `;
@@ -222,8 +222,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (updateTaskForm) updateTaskForm.reset();
       if (formErrors) formErrors.innerHTML = "";
       if (historyTableBody)
-        historyTableBody.innerHTML =
-          '<div class="progress-table-row loading-message"><div class="table-cell">載入中...</div></div>';
+        historyTableBody.innerHTML = `
+        <tr class="progress-table-row loading-message">
+          <td colspan="4">載入中...</td>
+        </tr>
+      `;
       currentTaskId = null;
     }
 
@@ -234,7 +237,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (historyTableBody) {
         historyTableBody.innerHTML =
-          '<div class="progress-table-row loading-message"><div class="table-cell">載入中...</div></div>';
+          historyTableBody.innerHTML = `
+        <tr class="progress-table-row loading-message">
+          <td colspan="4">載入中...</td>
+        </tr>
+      `;
       }
 
       fetch(`/update_task/${taskId}`)
@@ -272,23 +279,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Add history rows
         if (history && history.length > 0) {
-          history.forEach((item) => {
-            const row = document.createElement("div");
-            row.className = "progress-table-row";
-            row.innerHTML = `
-              <div class="table-cell">${escapeHTML(item.user)}</div>
-              <div class="table-cell">${escapeHTML(item.updated_at)}</div>
-              <div class="table-cell">${escapeHTML(item.info)}</div>
-              <div class="table-cell">${item.progress}%</div>
-            `;
-            historyTableBody.appendChild(row);
-          });
-        } else {
-          const emptyRow = document.createElement("div");
-          emptyRow.className = "progress-table-row";
-          emptyRow.innerHTML = '<div class="table-cell">尚無歷史紀錄</div>';
-          historyTableBody.appendChild(emptyRow);
-        }
+        history.forEach((item) => {
+          const row = document.createElement("tr");
+          row.className = "progress-table-row";
+          row.innerHTML = `
+            <td>${escapeHTML(item.user)}</td>
+            <td>${escapeHTML(item.updated_at)}</td>
+            <td>${escapeHTML(item.info)}</td>
+            <td class="progress-percentage">${item.progress}%</td>
+          `;
+          historyTableBody.appendChild(row);
+        });
+      } else {
+        const emptyRow = document.createElement("tr");
+        emptyRow.className = "progress-table-row";
+        emptyRow.innerHTML = `<td colspan="4" style="text-align: center; color: #6b7280;">尚無歷史紀錄</td>`;
+        historyTableBody.appendChild(emptyRow);
+      }
       }
     }
 
