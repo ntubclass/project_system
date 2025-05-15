@@ -9,6 +9,23 @@
   transition: margin-left 0.3s ease;
 }
 
+.card-footer button {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--light-gray);
+  border-radius: 4px;
+}
+
+.btn-edit:hover {
+  color: var(--dark-blue);
+}
+
+.btn-delete:hover {
+  color: var(--dark-red);
+}
+
 .main-content-full {
   margin-left: 0;
 }
