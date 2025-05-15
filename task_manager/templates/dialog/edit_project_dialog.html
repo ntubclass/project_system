@@ -1,16 +1,16 @@
-<dialog class="dialog-backdrop" id="createTaskDialog">
+<dialog class="dialog-backdrop" id="editProjectDialog">
     <div class="dialog-container">
         <div class="dialog-content">
             <div class="dialog-header">
-                <h2 class="dialog-title">建立新任務</h2>
-                <button type="button" class="close-btn" id="closeTaskBtn">&times;</button>
+                <h2 class="dialog-title">編輯專案</h2>
+                <button type="button" class="close-btn" id="closeProjectBtn">&times;</button>
             </div>
             
-            <form id="createTaskForm" action="{% url 'create_task' project_id %}" method="post">
+            <form id="editProjectForm" action="{% url 'edit_project' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="taskName">任務名稱</label>
-                    <input type="text" id="taskName" name="taskName" class="form-control" required>
+                    <label for="projectName">專案名稱</label>
+                    <input type="text" id="projectName" name="projectName" class="form-control" required>
                 </div>
 
                 <div class="form-group">
@@ -28,14 +28,14 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="content">任務說明</label>
-                    <textarea id="content" name="content" class="form-control"></textarea>
+                    <label for="description">描述</label>
+                    <textarea id="description" name="description" class="form-control"></textarea>
                 </div>
                 
                 <div class="form-group">
                     <div class="member-header">
                         <label>邀請成員</label>
-                        <button type="button" id="openAddMemberBtn" class="add-member-btn">新增</button>
+                        <button type="button" id="openEditAddMemberBtn" class="add-member-btn">新增</button>
                     </div>
                     <div id="membersList" class="members-list">
                         <!-- 這裡是成員列表的顯示區域 -->
@@ -45,8 +45,8 @@
                 <div id="formErrors" class="form-errors"></div>
                 
                 <div class="dialog-actions">
-                    <button type="button" id="cancelTaskBtn" class="cancel-btn">取消</button>
-                    <button type="submit" id="submitTaskBtn" class="submit-btn">建立</button>
+                    <button type="button" id="cancelProjectBtn" class="cancel-btn">取消</button>
+                    <button type="submit" id="submitProjectBtn" class="submit-btn">更新</button>
                 </div>
             </form>
         </div>

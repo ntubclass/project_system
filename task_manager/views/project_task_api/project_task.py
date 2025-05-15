@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from task_manager.models.task import Task  
-from task_manager.models.task_member import TaskMember  
-from task_manager.models.user_info import UserInfo
+from task_manager.models.task_member import TaskMember
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 
 @login_required(login_url="login")
 def main(request, project_id):

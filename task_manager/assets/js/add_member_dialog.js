@@ -8,6 +8,21 @@ const selectedMemberInfo = {
 // Array to store the list of added members
 const addMemberlist = [];
 
+function add_existing_member(name, email, photo) {
+    // Check if the member already exists in the list
+    const existingMember = addMemberlist.find(member => member.email === email);
+    if (existingMember) {
+        return; // Member already exists, do nothing
+    }
+
+    // Add the new member to the list
+    addMemberlist.push({
+        name: name,
+        email: email,
+        photo: photo || '/static/default-avatar.png', // Default photo path
+    });
+}
+
 // Helper function to get a valid photo URL
 function getPhotoUrl(photo) {
     return photo || '/static/default-avatar.png';
@@ -161,6 +176,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const createProjectForm = document.getElementById('createProjectForm');
     if (createProjectForm) {
         createProjectForm.addEventListener('submit', function(event) {
+            // 創建隱藏輸入欄位來存儲成員列表
+            addMemberlist.forEach((member, index) => {
+                const nameInput = document.createElement('input');
+                nameInput.type = 'hidden';
+                nameInput.name = `member_name_${index}`;
+                nameInput.value = member.name;
+                
+                const emailInput = document.createElement('input');
+                emailInput.type = 'hidden';
+                emailInput.name = `member_email_${index}`;
+                emailInput.value = member.email;
+                
+                this.appendChild(nameInput);
+                this.appendChild(emailInput);
+            });
+            
+            // 添加成員數量的隱藏欄位
+            const countInput = document.createElement('input');
+            countInput.type = 'hidden';
+            countInput.name = 'member_count';
+            countInput.value = addMemberlist.length;
+            this.appendChild(countInput);
+        });
+    }
+    const editProjectForm = document.getElementById('editProjectForm');
+    if (editProjectForm) {
+        editProjectForm.addEventListener('submit', function(event) {
             // 創建隱藏輸入欄位來存儲成員列表
             addMemberlist.forEach((member, index) => {
                 const nameInput = document.createElement('input');
