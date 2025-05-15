@@ -8,35 +8,35 @@
             <form id="editTaskForm" action="#" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="taskName">任務名稱</label>
-                    <input type="text" id="taskName" name="taskName" class="form-control" required>
+                    <label for="editTaskName">任務名稱</label>
+                    <input type="text" id="editTaskName" name="taskName" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="startDate">開始日期</label>
+                    <label for="editStartDate">開始日期</label>
                     <div class="date-input-container">
-                        <input type="date" id="startDate" name="startDate" class="form-control" required>
+                        <input type="date" id="editStartDate" name="startDate" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="endDate">截止日期</label>
+                    <label for="editEndDate">截止日期</label>
                     <div class="date-input-container">
-                        <input type="date" id="endDate" name="endDate" class="form-control" required>
+                        <input type="date" id="editEndDate" name="endDate" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="content">任務說明</label>
-                    <textarea id="content" name="content" class="form-control"></textarea>
+                    <label for="editContent">任務說明</label>
+                    <textarea id="editContent" name="content" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
                     <div class="member-header">
                         <label>邀請成員</label>
-                        <button type="button" id="openAddMemberBtn" class="add-member-btn">新增</button>
+                        <button type="button" id="openEditMemberBtn" class="add-member-btn">新增</button>
                     </div>
-                    <div id="membersList" class="members-list">
+                    <div id="editMembersList" class="members-list">
                         <!-- 這裡是成員列表的顯示區域 -->
                     </div>
                 </div>
-                <div id="formErrors" class="form-errors"></div>
+                <div id="editFormErrors" class="form-errors"></div>
                 <div class="dialog-actions">
                     <button type="button" id="cancelEditTaskBtn" class="cancel-btn">取消</button>
                     <button type="submit" id="submitEditTaskBtn" class="submit-btn">修改</button>

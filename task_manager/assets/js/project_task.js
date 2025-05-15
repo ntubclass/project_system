@@ -1,3 +1,40 @@
+window.updateTaskMembersListUI = function () {
+  const membersList = document.getElementById("editMembersList");
+  if (!membersList) return;
+
+  membersList.innerHTML = "";
+
+  if (!window.editMemberlist) {
+    window.editMemberlist = [];
+  }
+
+  window.editMemberlist.forEach((member, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <div class="member-box">
+        <div>
+          <img src="${
+            member.photo || "/static/default-avatar.png"
+          }" class="user-photo">
+          <span class="user-name">${member.name}</span>
+          <span class="user-email">${member.email}</span>
+        </div>
+        <i class="fa-solid fa-xmark remove-edit-member" data-index="${index}"></i>
+      </div>
+    `;
+    membersList.appendChild(li);
+  });
+
+  // Add event listeners to remove buttons
+  document.querySelectorAll(".remove-edit-member").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const index = parseInt(this.getAttribute("data-index"), 10);
+      window.editMemberlist.splice(index, 1);
+      window.updateTaskMembersListUI();
+    });
+  });
+};
+
 document.addEventListener("DOMContentLoaded", function () {
   // Reusable dialog setup function
   function setupDialog(dialogId, cancelBtnId, closeBtnId) {
@@ -72,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/'/g, "&#039;");
   }
 
-  // Setup Edit Task Dialog functionality
+  // Replace the setupEditTaskDialog function with this updated version
   function setupEditTaskDialog() {
     const { dialog, closeDialogWithAnimation } = setupDialog(
       "editTaskDialog",
@@ -80,8 +117,8 @@ document.addEventListener("DOMContentLoaded", function () {
       "closeEditTaskBtn"
     );
 
-    // Global variable for member list
-    window.addMemberlist = window.addMemberlist || [];
+    // Global variable for member list - use editMemberlist for the edit dialog
+    window.editMemberlist = window.editMemberlist || [];
 
     // Bind all .btn-edit buttons
     document.querySelectorAll(".btn-edit").forEach((btn) => {
@@ -101,37 +138,64 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((data) => {
             const task = data.task || {};
 
-            document.getElementById("taskName").value = task.task_name || "";
-            document.getElementById("startDate").value = (
+            // Use the correct ID references from edit_task_dialog.html
+            document.getElementById("editTaskName").value =
+              task.task_name || "";
+            document.getElementById("editStartDate").value = (
               task.start_date || ""
             ).split("T")[0];
-            document.getElementById("endDate").value = (
+            document.getElementById("editEndDate").value = (
               task.end_date || ""
             ).split("T")[0];
-            document.getElementById("content").value = task.content || "";
+            document.getElementById("editContent").value = task.content || "";
 
-            const membersList = document.getElementById("membersList");
-            addMemberlist.length = 0;
-            membersList.innerHTML = "";
-            if (task.members && Array.isArray(task.members)) {
-              task.members.forEach((member) => {
-                const li = document.createElement("li");
-                li.innerHTML = `
-                  <div>
-                    <img src="${
-                      member.photo || "/static/default-avatar.png"
-                    }" class="user-photo">
-                    <span class="user-name">${member.name}</span>
-                    <span class="user-email">${member.email}</span>
+            // Use the correct ID for the members list in the edit dialog
+            const membersList = document.getElementById("editMembersList");
+            window.editMemberlist.length = 0;
+
+            if (membersList) {
+              membersList.innerHTML = "";
+              if (task.members && Array.isArray(task.members)) {
+                task.members.forEach((member) => {
+                  const li = document.createElement("li");
+                  li.innerHTML = `
+                  <div class="member-box">
+                    <div>
+                      <img src="${
+                        member.photo || "/static/default-avatar.png"
+                      }" class="user-photo">
+                      <span class="user-name">${member.name}</span>
+                      <span class="user-email">${member.email}</span>
+                    </div>
+                    <i class="fa-solid fa-xmark remove-edit-member" data-index="${
+                      window.editMemberlist.length
+                    }"></i>
                   </div>
                 `;
-                membersList.appendChild(li);
-                addMemberlist.push({
-                  name: member.name,
-                  email: member.email,
-                  photo: member.photo || "/static/default-avatar.png",
+                  membersList.appendChild(li);
+
+                  // Add member to editMemberlist array
+                  window.editMemberlist.push({
+                    name: member.name,
+                    email: member.email,
+                    photo: member.photo || "/static/default-avatar.png",
+                  });
                 });
-              });
+
+                // Add remove event listeners
+                document
+                  .querySelectorAll(".remove-edit-member")
+                  .forEach((btn) => {
+                    btn.addEventListener("click", function () {
+                      const index = parseInt(
+                        this.getAttribute("data-index"),
+                        10
+                      );
+                      window.editMemberlist.splice(index, 1);
+                      updateEditMembersListUI();
+                    });
+                  });
+              }
             }
 
             if (dialog) dialog.showModal();
@@ -141,6 +205,53 @@ document.addEventListener("DOMContentLoaded", function () {
           });
       });
     });
+
+    // Function to update the edit members list UI
+    function updateEditMembersListUI() {
+      const membersList = document.getElementById("editMembersList");
+      if (!membersList) return;
+
+      membersList.innerHTML = "";
+
+      window.editMemberlist.forEach((member, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+        <div class="member-box">
+          <div>
+            <img src="${
+              member.photo || "/static/default-avatar.png"
+            }" class="user-photo">
+            <span class="user-name">${member.name}</span>
+            <span class="user-email">${member.email}</span>
+          </div>
+          <i class="fa-solid fa-xmark remove-edit-member" data-index="${index}"></i>
+        </div>
+      `;
+        membersList.appendChild(li);
+      });
+
+      // Add event listeners to remove buttons
+      document.querySelectorAll(".remove-edit-member").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const index = parseInt(this.getAttribute("data-index"), 10);
+          window.editMemberlist.splice(index, 1);
+          updateEditMembersListUI();
+        });
+      });
+    }
+
+    // Add event listener for the openEditMemberBtn
+    const openEditMemberBtn = document.getElementById("openEditMemberBtn");
+    if (openEditMemberBtn) {
+      openEditMemberBtn.addEventListener("click", function () {
+        const editMemberDialog = document.getElementById("editMemberDialog");
+        if (editMemberDialog) {
+          // Set a data attribute to indicate the referrer dialog
+          editMemberDialog.setAttribute("data-referrer-dialog", "editTask");
+          editMemberDialog.showModal();
+        }
+      });
+    }
 
     // Handle form submission
     document
@@ -154,7 +265,8 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        addMemberlist.forEach((member, index) => {
+        // Use editMemberlist instead of addMemberlist
+        window.editMemberlist.forEach((member, index) => {
           const nameInput = document.createElement("input");
           nameInput.type = "hidden";
           nameInput.name = `member_name_${index}`;
@@ -173,7 +285,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const countInput = document.createElement("input");
         countInput.type = "hidden";
         countInput.name = "member_count";
-        countInput.value = addMemberlist.length;
+        countInput.value = window.editMemberlist.length;
         this.appendChild(countInput);
 
         const formData = new FormData(this);
@@ -188,11 +300,18 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
-              dialog.close();
-              // Optional: refresh the page or update UI as needed
+              closeDialogWithAnimation();
+              // Reload page to reflect changes
+              window.location.reload();
             } else {
-              // You could use showError here instead of alert
-              console.error(data.error || "更新失敗");
+              const formErrors = document.getElementById("editFormErrors");
+              if (formErrors) {
+                formErrors.innerHTML = `<div class="alert alert-danger">${escapeHTML(
+                  data.error || "更新失敗"
+                )}</div>`;
+              } else {
+                console.error(data.error || "更新失敗");
+              }
             }
           })
           .catch((err) => {
@@ -236,8 +355,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (taskIdInput) taskIdInput.value = taskId;
 
       if (historyTableBody) {
-        historyTableBody.innerHTML =
-          historyTableBody.innerHTML = `
+        historyTableBody.innerHTML = historyTableBody.innerHTML = `
         <tr class="progress-table-row loading-message">
           <td colspan="4">載入中...</td>
         </tr>
@@ -279,23 +397,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Add history rows
         if (history && history.length > 0) {
-        history.forEach((item) => {
-          const row = document.createElement("tr");
-          row.className = "progress-table-row";
-          row.innerHTML = `
+          history.forEach((item) => {
+            const row = document.createElement("tr");
+            row.className = "progress-table-row";
+            row.innerHTML = `
             <td>${escapeHTML(item.user)}</td>
             <td>${escapeHTML(item.updated_at)}</td>
             <td>${escapeHTML(item.info)}</td>
             <td class="progress-percentage">${item.progress}%</td>
           `;
-          historyTableBody.appendChild(row);
-        });
-      } else {
-        const emptyRow = document.createElement("tr");
-        emptyRow.className = "progress-table-row";
-        emptyRow.innerHTML = `<td colspan="4" style="text-align: center; color: #6b7280;">尚無歷史紀錄</td>`;
-        historyTableBody.appendChild(emptyRow);
-      }
+            historyTableBody.appendChild(row);
+          });
+        } else {
+          const emptyRow = document.createElement("tr");
+          emptyRow.className = "progress-table-row";
+          emptyRow.innerHTML = `<td colspan="4" style="text-align: center; color: #6b7280;">尚無歷史紀錄</td>`;
+          historyTableBody.appendChild(emptyRow);
+        }
       }
     }
 
