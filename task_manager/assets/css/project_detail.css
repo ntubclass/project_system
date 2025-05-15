@@ -69,18 +69,18 @@ body {
   justify-content: space-between;
 }
 
-.progress-container {
+.project-progress-container {
   margin-top: 15px;
 }
 
-.progress-bar {
+.project-progress-bar {
   height: 8px;
   background-color: #E5E5EB;
   border-radius: 4px;
   overflow: hidden;
 }
 
-.progress-fill {
+.project-progress-fill {
   height: 100%;
   width: 75%;
   background-color: #2563EB;
@@ -211,7 +211,7 @@ body {
   fill: #4caf50;
 }
 
-.bar-progress {
+.bar-project-progress {
   fill: #2e7d32;
 }
 

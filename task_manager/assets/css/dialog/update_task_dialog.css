@@ -30,7 +30,7 @@
   
   /* 對話框容器 */
   #updateTaskDialog .dialog-container {
-    background-color: var(--white);
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -70,25 +70,8 @@
     margin-bottom: 20px;
   }
   
-  /* 關閉按鈕 */
-  .close-btn {
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--dark-gray);
-    padding: 0;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-  }
-  
   .close-btn:hover {
-    background-color: var(--light-blue-gray);
+    background-color: #f3f4f6;
   }
   
   /* 對話框標題 */
@@ -96,7 +79,7 @@
     font-size: 20px;
     font-weight: 500;
     margin: 0;
-    color: var(--dark-gray);
+    color: #404040;
   }
   
   /* 表單組件 */
@@ -108,7 +91,7 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
-    color: var(--dark-gray);
+    color: #404040;
   }
   
   #content{
@@ -119,14 +102,13 @@
   .form-control {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border: 1px solid #d0d5dd;
     font-size: 14px;
-    background-color: var(--white);
+    background-color: #ffffff;
   }
   
   .form-control:focus {
-    border-color: var(--dark-blue);
+    border-color: #2563EB;
     outline: none;
   }
   
@@ -140,28 +122,28 @@
   
   .cancel-btn {
     padding: 8px 16px;
-    border: 1px solid var(--border-color);
-    background-color: var(--white);
-    color: var(--dark-gray);
+    border: 1px solid #d0d5dd;
+    background-color: #ffffff;
+    color: #404040;
     border-radius: 4px;
     cursor: pointer;
   }
   
   .submit-btn {
     padding: 8px 16px;
-    background-color: var(--dark-blue);
-    color: var(--white);
+    background-color: #2563EB;
+    color: #ffffff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   
   .cancel-btn:hover {
-    background-color: var(--light-blue-gray);
+    background-color: #f3f4f6;
   }
   
   .submit-btn:hover {
-    background-color: #1b4fc6; /* 略微深色的藍色 */
+    background-color: #1d4ed8; /* 略微深色的藍色 */
   }
   
   
@@ -188,23 +170,24 @@
     color: #92373F;
   }
 
-  /* Add these styles to your existing CSS */
-
 /* Progress bar styles */
 .progress-section {
   margin-bottom: 20px;
 }
 
+.progress-label,
+.progress-value{
+  font-size: 14px;
+  color: #404040;
+  margin-bottom: 5px;
+}
+
 .progress-label {
   float: left;
-  font-size: 14px;
-  color: var(--dark-gray);
 }
 
 .progress-value {
   float: right;
-  font-size: 14px;
-  color: var(--dark-gray);
 }
 
 .progress-bar-container {
@@ -241,23 +224,76 @@
   margin: 30px 0;
 }
 
-.progress-table-header {
-  display: flex;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--dark-gray);
+.progress-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* 表格標題行 */
+.progress-table-header th {
+  padding: 12px 8px;
+  text-align: center;
   font-weight: 500;
+  font-size: 14px;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f9fafb;
 }
 
-.progress-table-row {
-  display: flex;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border-color);
+/* 表格內容行 */
+.progress-table-row td {
+  padding: 16px 8px;
+  text-align: center;
+  font-size: 14px;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+  word-wrap: break-word;
+  vertical-align: middle;
 }
 
-.table-cell {
-  flex: 1;
-  padding: 0 5px;
+/* 最後一行去除底邊框 */
+.progress-table-row:last-child td {
+  border-bottom: none;
+}
+
+/* 行懸停效果 */
+.progress-table-row:hover {
+  background-color: #f9fafb;
+}
+
+/* 列寬度調整 */
+.progress-table th:nth-child(1),
+.progress-table td:nth-child(1) {
+  width: 20%;
+}
+
+.progress-table th:nth-child(2),
+.progress-table td:nth-child(2) {
+  width: 25%;
+}
+
+.progress-table th:nth-child(3),
+.progress-table td:nth-child(3) {
+  width: 35%;
+  text-align: center; /* 事項欄位靠左對齊 */
+  padding-left: 16px;
+  /* white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden; */
+}
+
+.progress-table th:nth-child(4),
+.progress-table td:nth-child(4) {
+  width: 20%;
+}
+
+
+/* 載入中訊息 */
+.loading-message td {
+  text-align: center;
+  color: #9ca3af;
+  font-style: italic;
 }
 
 /* Add progress entry */
@@ -265,23 +301,64 @@
   margin-top: 20px;
 }
 
+/* 修改輸入框組樣式以實現圖二的外觀 */
 .input-group {
   display: flex;
   align-items: center;
+  border: 1px solid #d0d5dd; /* 統一的邊框 */
+  border-radius: 8px; /* 統一的圓角 */
+  overflow: hidden; /* 確保圓角效果 */
+  background-color: white; /* 統一背景色 */
 }
 
+/* 主要輸入框樣式 */
+.input-group .form-control {
+  flex: 1;
+  border: none; /* 移除邊框 */
+  border-radius: 0; /* 移除圓角 */
+  padding: 14px 16px; /* 調整內邊距 */
+  font-size: 14px;
+  background-color: transparent; /* 透明背景 */
+  outline: none; /* 移除outline */
+}
+
+/* 分隔線和進度輸入框容器 */
 .input-addon {
-  width: 60px;
-  margin-left: 10px;
+  width: 80px; /* 增加寬度以容納 % 符號 */
+  border-left: 1px solid #d0d5dd; /* 左側分隔線 */
+  display: flex;
+  align-items: center;
+  background-color: #f9fafb; /* 輕微的背景色差異 */
+  position: relative;
 }
 
+/* 進度輸入框樣式 */
 .progress-input {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border: none; /* 移除邊框 */
+  padding: 14px 25px 14px 12px; /* 右側留出空間給 % 符號 */
   font-size: 14px;
   text-align: center;
+  background-color: transparent; /* 透明背景 */
+  outline: none; /* 移除outline */
+}
+
+/* % 符號樣式 - 定位在輸入框內部右側 */
+.input-addon::after {
+  content: '%';
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 14px;
+  pointer-events: none; /* 防止阻擋輸入框的點擊 */
+}
+
+/* 整體輸入組的焦點效果 */
+.input-group:focus-within {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
 }
 
 /* Update dialog actions */
@@ -306,5 +383,5 @@
   right: 10px;
   cursor: pointer;
   font-size: 20px;
-  color: var(--dark-gray);
+  color: #404040;
 }

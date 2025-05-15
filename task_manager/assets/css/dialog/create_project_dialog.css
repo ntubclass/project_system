@@ -220,16 +220,18 @@ input[type="date"] {
   background-color: var(--white);
   min-height: calc(40px * 3); /* 預設高度為三個項目 */
   overflow-y: auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .members-list li {
   padding: 8px;
+  width: 100%;
   cursor: pointer;
   color: var(--dark-gray);
-  height: 40px; /* 確保每個項目高度一致 */
+  height: 40px;
   display: flex;
-  align-items: center; /* 垂直置中 */
+  align-items: center;
+  justify-content: space-between; /* 讓內容分佈在兩端 */
+  box-sizing: border-box;
 }
 
 .members-list li:hover {
@@ -257,4 +259,17 @@ input[type="date"] {
   background-color: #F8D7DA;
   border: 0.5px solid #F5C2C7;
   color: #92373F;
+}
+
+.member-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* 姓名在左，叉叉在右 */
+  align-items: center;
+  width: 100%; /* 確保 member-box 占滿 li 的寬度 */
+}
+
+.member-box > .fa-solid {
+  color: var(--dark-red);
+  cursor: pointer; /* 讓叉叉也有點擊cursor */
 }
