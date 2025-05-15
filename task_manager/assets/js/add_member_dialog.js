@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         li.innerHTML = `
                             <div>
                                 <img src="${getPhotoUrl(user.photo)}" class="user-photo">
-                                <span>${user.name}</span>
+                                <span class="user-name">${user.name}</span>
                                 <span class="user-email">${user.email}</span>
                             </div>
                         `;
@@ -143,10 +143,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             addMemberlist.forEach(member => {
                                 const li = document.createElement('li');
                                 li.innerHTML = `
-                                    <div>
-                                        <img src="${getPhotoUrl(member.photo)}" class="user-photo">
-                                        <span>${member.name}</span>
-                                        <span class="user-email">${member.email}</span>
+                                    <div class="member-box">
+                                        <div>
+                                            <img src="${getPhotoUrl(member.photo)}" class="user-photo">
+                                            <span class="user-name">${member.name}</span>
+                                            <span class="user-email">${member.email}</span>
+                                        </div>
+                                        <i class="fa-solid fa-xmark"></i>
                                     </div>
                                 `;
                                 membersList.appendChild(li);
