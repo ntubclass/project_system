@@ -21,9 +21,6 @@ def main(request):
         start_date_obj = datetime.strptime(startDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
 
-        print(start_date_obj<today)
-        print(today)
-
         if due_date_obj < today:
             messages.warning(request, "截止日期必須在今天或之後")
             return redirect("/project/")
