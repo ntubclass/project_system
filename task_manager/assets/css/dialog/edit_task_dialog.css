@@ -74,16 +74,14 @@
   .close-btn {
     background: transparent;
     border: none;
-    font-size: 24px;
+    font-size: 32px;
     cursor: pointer;
-    color: var(--dark-gray);
+    color: var(--dark-red);
     padding: 0;
     line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
     border-radius: 50%;
   }
   
@@ -220,7 +218,6 @@
     background-color: var(--white);
     min-height: calc(40px * 3); /* 預設高度為三個項目 */
     overflow-y: auto;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .members-list li {

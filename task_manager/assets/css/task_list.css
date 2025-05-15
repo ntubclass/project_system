@@ -14,8 +14,8 @@
 .section-title {
   display: flex;
   align-items: center;
-  font-size: var(--font-size-18);
-  font-weight: 500;
+  font-size: var(--font-size-24);
+  font-weight: bolder;
   color: var(--dark-gray);
 }
 
