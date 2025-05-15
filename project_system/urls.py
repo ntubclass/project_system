@@ -6,7 +6,6 @@ from django.views.generic import RedirectView
 
 
 from task_manager.views import (
-    my_task,
     test,
     dynamic_search_member,
     member_list,
@@ -15,10 +14,11 @@ from task_manager.views import (
 from task_manager.views.chat_api import chat
 from task_manager.views.file_api import delete_file, download_file, files, upload_file
 from task_manager.views.login_api import login, logout, register, reset_password, verify_code, forgot_password
+from task_manager.views.my_task_api import my_task, get_my_task
 from task_manager.views.project_api import create_project, project
 from task_manager.views.project_detail_api import get_project_task, project_detail
 from task_manager.views.project_task_api import project_task
-from task_manager.views.task_api import edit_task, create_task, update_task
+from task_manager.views.task_api import edit_task, create_task, update_task, delete_task
 from task_manager.views.user_profile_api import user_profile, upload_avatar_api
 
 
@@ -26,6 +26,7 @@ urlpatterns = (
     [
         path("admin/", admin.site.urls),
         path("my_task/", my_task.main, name="my_task"),
+        path("get_my_task/", get_my_task.main, name="get_my_task"),
         path("login/", login.login_view, name="login"),
         path("", RedirectView.as_view(url="/login/")),
         path('test/', test.main, name='test'),
@@ -46,7 +47,8 @@ urlpatterns = (
         path('project_detail/<int:project_id>/', project_detail.main, name='project_detail'),
         path("member_list/<int:project_id>/", member_list.main, name='member_list'),   
         path("edit_task/<int:task_id>/", edit_task.main, name='edit_task'),
-        path("update_task/<int:task_id>/", update_task.main, name='update_task'),    
+        path("update_task/<int:task_id>/", update_task.main, name='update_task'), 
+        path("delete_task/<int:task_id>/", delete_task.main, name='delete_task'),   
         path("get_project_task/<int:project_id>/", get_project_task.main, name='get_project_task'),
         path("project_task/<int:project_id>/", project_task.main, name='project_task'),
         path('forgot_password/', forgot_password.forgot_password_view, name='forgot_password'),
