@@ -30,31 +30,35 @@
         </div>
         <div class="projects-grid" id="projectsGrid">
             {% for i in project_data %}
-                <div class="project-card" onclick="window.location.href='{% url 'project_detail' i.project_id %}'" style="cursor: pointer;">
-                    <div class="card-header">
-                        <div class="project-title">{{i.name}}</div>
-                        <div class="status-null">未進行</div>
-                    </div>
-                    <div class="progress-label">
-                        <div>進度</div>
-                        <div>{{i.percent}}%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" progress="{{i.progress}}"></div>
-                    </div>
-                    <div class="card-info">
-                        <div class="user-avatar">
-                            <img src="{{i.photo}}" class="avatar"></img>
+                <div class="project-card" style="cursor: pointer;">
+                    <div onclick="window.location.href='{% url 'project_detail' i.project_id %}'">
+                        <div class="card-header">
+                            <div class="project-title">{{i.name}}</div>
+                            <div class="status-null">未進行</div>
                         </div>
-                        <div class="date">
-                            <i class="date-icon fa-regular fa-calendar"></i>
-                            {{i.start_date}}
-                            <span>~</span>
-                            {{i.end_date}}
+                        <div class="progress-label">
+                            <div>進度</div>
+                            <div>{{i.percent}}%</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" progress="{{i.progress}}"></div>
+                        </div>
+                        <div class="card-info">
+                            <div class="user-avatar">
+                                <img src="{{i.photo}}" class="avatar"></img>
+                            </div>
+                            <div class="date">
+                                <i class="date-icon fa-regular fa-calendar"></i>
+                                {{i.start_date}}
+                                <span>~</span>
+                                {{i.end_date}}
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
                         <div class="tasks">12個任務</div>
+                        <button class="btn-edit"  data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
+                        <button class="btn-delete" data-project-id="{{ i.project_id }}"><i class="fas fa-times"></i></button>
                         <a href="{% url 'project_detail' i.project_id %}" class="details-btn">查看詳情</a>
                     </div>
                 </div>
@@ -63,12 +67,12 @@
     </div>
 </div>
 
+{% include 'dialog/edit_project_dialog.html'%}
 {% include 'dialog/create_project_dialog.html' %}
 {% include 'dialog/add_member_dialog.html' %}
 
 {% endblock %}
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{% static 'js/project.js' %}"></script>
 <script src="{% static 'js/dialog.js' %}"></script>
 <script src="{% static 'js/add_member_dialog.js' %}"></script>
