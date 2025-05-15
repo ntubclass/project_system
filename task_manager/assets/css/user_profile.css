@@ -37,7 +37,7 @@
 .user-card {
     background-color: var(--white);
     border-radius: 20px;
-    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.15), 3px 3px 3px rgba(0, 0, 0, 0.15); 
+    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.1), 3px 3px 3px rgba(0, 0, 0, 0.1); 
     padding: 20px 15px; 
     width: 380px; 
     max-width: 380px;
@@ -168,7 +168,7 @@
 .profile-form {
   background-color: var(--white);
   border: 1px solid var(--light-gray);
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15), -3px 3px 3px rgba(0, 0, 0, 0.25); 
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1), -3px 3px 3px rgba(0, 0, 0, 0.1); 
   border-radius: 18px; 
   padding: 30px 40px; 
   flex: 1;

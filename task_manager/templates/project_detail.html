@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="{% static 'css/frappe_gantt.css' %}">
 <link rel="stylesheet" href="{% static 'css/task_list.css' %}">
 <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+<link rel="stylesheet" href="{% static 'css/calendar_custom.css' %}">
+<link rel="stylesheet" href="{% static 'css/swal_custom.css' %}">
 {% endblock %}
 
 {% block sidebar %}
@@ -34,9 +36,9 @@
                 <i class="fa-solid fa-chart-line"></i>
               </div>
           </div>
-          <div class="progress-container">
-              <div class="progress-bar">
-                  <div class="progress-fill"></div>
+          <div class="project-progress-container">
+              <div class="project-progress-bar">
+                  <div class="project-progress-fill"></div>
               </div>
           </div>
       </div>
@@ -92,7 +94,7 @@
 
 {% block extra_js %}
 <script src="{% static 'js/add_member_dialog.js' %}"></script>
-<script src="{% static 'js/task_viewer.js' %}"></script>
+<script src="{% static 'js/project_detail.js' %}"></script>
 <script src="{% static 'js/frappe_gantt.umd.js' %}"></script>
 <script src="{% static 'js/task_list.js' %}"></script>
 <script src="{% static 'js/calendar.js' %}"></script>

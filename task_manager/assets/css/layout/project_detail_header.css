@@ -46,6 +46,32 @@
   align-items: center;
 }
 
+/* 用戶頭像容器 */
+.user-header-photo {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--light-gray);
+  transition: transform 0.2s ease;
+}
+
+.user-header-photo:hover {
+  transform: scale(1.05);
+}
+
+/* 用戶頭像圖片 */
+.user-header-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* 當沒有頭像時的圖標樣式 */
 .user-icon {
   font-size: var(--font-size-28);
   color: var(--dark-gray);

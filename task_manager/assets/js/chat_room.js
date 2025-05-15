@@ -16,6 +16,15 @@ document.addEventListener("DOMContentLoaded", function () {
     "ws://" + window.location.host + "/ws/chat/" + roomId + "/"
   );
 
+  // Function to create avatar HTML
+  function createAvatarHTML(userPhoto, username) {
+    if (userPhoto) {
+      return `<img src="${userPhoto}" alt="${username}" class="chat-avatar-image" />`;
+    } else {
+      return `<i class="fa-solid fa-user"></i>`;
+    }
+  }
+
   // Enable the Send button when there's text input
   chatInputField.addEventListener("input", function () {
     chatSendButton.disabled = !chatInputField.value.trim();
@@ -41,6 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Handle regular chat message
       const message = data.message;
       const userId = data.user_id;
+      const username = data.username || `User ${userId}`;
+      const userPhoto = data.user_photo || null;
 
       // Check if message is from current user or someone else
       const isCurrentUser = userId === currentUserId;
@@ -56,13 +67,15 @@ document.addEventListener("DOMContentLoaded", function () {
         data.message_id || "temp-" + Date.now()
       );
       messageElement.innerHTML = `
-            <div class="chat-avatar"></div>
+            <div class="chat-avatar">
+                ${createAvatarHTML(userPhoto, username)}
+            </div>
             <div class="chat-message-content">
                 <div class="chat-message-header">
                     <span class="chat-name">${
-                      isCurrentUser ? "You" : "User " + userId
+                      isCurrentUser ? "You" : username
                     }</span>
-                    <span class="chat-timestamp">${new Date().toLocaleTimeString()}</span>
+                    <span class="chat-timestamp">${new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
                     <span class="pin-message" title="釘選此訊息"><i class="fas fa-thumbtack"></i></span>
                 </div>
                 <div class="chat-message-text">${message}</div>
