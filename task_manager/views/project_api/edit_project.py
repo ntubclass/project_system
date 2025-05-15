@@ -15,7 +15,7 @@ def main(request):
         description = request.POST.get("description")
         startDate = request.POST.get("startDate")
         dueDate = request.POST.get("dueDate")
-        user = User.objects.get(username=request.user)
+        user = User.objects.get(username=request.user.username)
         member_count = int(request.POST.get("member_count", "0"))
 
         today = date.today()
