@@ -179,4 +179,64 @@ document.addEventListener('DOMContentLoaded', () => {
             memberCountField.value = memberCount;
         }
     }
+
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+    deleteButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            Swal.fire({
+                title: "您確定要刪除此專案嗎？",
+                text: `此操作無法撤銷！`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "刪除",
+                cancelButtonText: "取消",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                    
+                    fetch(`/delete_project/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        },
+                        body: new URLSearchParams({
+                            'project_id': button.getAttribute('data-project-id')
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: "刪除成功",
+                                text: "專案已成功刪除！",
+                                target: document.getElementById('uploadFileDialog'),
+                                draggable: true,
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: "刪除失敗",
+                                text: data.error || "伺服器錯誤，請稍後再試！",
+                                target: document.getElementById('uploadFileDialog'),
+                                draggable: true,
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: "刪除失敗",
+                            text: "伺服器錯誤，請稍後再試！",
+                            target: document.getElementById('uploadFileDialog'),
+                            draggable: true,
+                        });
+                    });
+                }
+            });
+        });
+    });
 });
