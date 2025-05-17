@@ -28,17 +28,7 @@
 }
 
 /* Dialog Container */
-#editMemberDialog .dialog-container {
-  background-color: var(--white);
-  border-radius: 8px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-  margin: 0;
-  animation: dialog-fade-in 0.2s ease-out;
-}
-
-#editProjectDialog .dialog-container {
+.dialog-container {
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -229,23 +219,31 @@
   background-color: #1b4fc6;
 }
 
-/* Member List Items */
-.member-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px;
-  border-bottom: 1px solid var(--border-color);
+/* Members List */
+.members-list {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
   background-color: var(--white);
-  transition: background-color 0.2s ease;
 }
 
-.member-item:last-child {
+.member-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.member-box:last-child {
   border-bottom: none;
 }
 
-.member-item:hover {
-  background-color: var(--light-blue-gray);
+.member-box > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .user-photo {
@@ -257,13 +255,78 @@
   background-color: var(--light-gray);
 }
 
-.user-email {
-  font-size: 12px;
-  color: var(--light-gray);
-}
-
-.member-item span {
+.user-name {
   font-size: 14px;
   color: var(--dark-gray);
   font-weight: 500;
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--light-gray);
+  margin-left: 8px;
+}
+
+.remove-member,
+.remove-edit-member, 
+.remove-edit-task-member {
+  color: var(--light-gray);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+}
+
+.remove-member:hover,
+.remove-edit-member:hover, 
+.remove-edit-task-member:hover {
+  color: var(--dark-gray);
+}
+
+/* Member header styles */
+.member-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.add-member-btn {
+  padding: 4px 12px;
+  background-color: var(--dark-blue);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.add-member-btn:hover {
+  background-color: #1b4fc6;
+}
+
+/* Ensure edit member dialog styles work correctly */
+#editMemberForm {
+  width: 100%;
+}
+
+#editMemberSearch {
+  width: 100%;
+}
+
+#editMemberResults {
+  width: 100%;
+}
+
+/* Error styles */
+.form-errors {
+  margin-top: 16px;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
 }
