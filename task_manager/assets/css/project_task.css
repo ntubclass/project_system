@@ -265,3 +265,15 @@ body {
     margin-left: auto;
   }
 }
+
+.create-btn {
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+}

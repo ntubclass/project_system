@@ -86,8 +86,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "closeMemberBtn"
   );
   setup_dialog(
-    "openEditAddMemberBtn",
-    "addMemberDialog",
+    "openEditMemberBtn",
+    "editMemberDialog",
     "cancelMemberBtn",
     "closeMemberBtn"
   );

@@ -1,0 +1,23 @@
+<dialog class="dialog-backdrop" id="editMemberDialog">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">編輯成員</h2>
+                <i class="fa-solid fa-xmark close-btn" id="closeEditMemberBtn"></i>
+            </div>
+            
+            <div id="editMemberForm">
+                <div class="form-group">
+                    <label for="editMemberSearch">搜尋電子郵件或名字</label>
+                    <input type="text" id="editMemberSearch" name="editMemberSearch" class="form-control" placeholder="輸入..." required>
+                </div>
+                
+                <div class="form-group">
+                    <ul id="editMemberResults" class="member-results">
+                        <!-- 動態搜尋結果將顯示在這裡 -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
