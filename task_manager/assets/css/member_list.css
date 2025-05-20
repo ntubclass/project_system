@@ -1,28 +1,40 @@
+body {
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F9FAFB;
+  letter-spacing: 1px;
+}
+
 .project-overview-container {
   padding: 30px;
+  padding-left: 60px;
 }
 
 .section-title {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
+  color: #404040;
+  margin: 0;
 }
 
-.toolbar {
+.title-bar {
   display: flex;
-  justify-content: flex-end; /* 將內容靠右對齊 */
-  margin-bottom: 16px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
 }
-
 
 .create-btn {
-  background-color: #2563eb;
-  color: white;
-  padding: 8px 16px;
+  background-color: var(--dark-blue);
+  color: var(--white);
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  font-weight: bold;
+  font-size: var(--font-size-14);
 }
 
 .create-btn i {
@@ -30,14 +42,34 @@
 }
 
 .search-container {
-  margin-bottom: 24px;
+  height: 80px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+  max-width: 400px;
+  background-color: var(--white);
+}
+
+.search-icon {
+  font-size: 16px;
+  color: #555;
+  margin-right: 8px;
+  cursor: pointer;
+  display: block;
 }
 
 .search-input {
-  padding: 8px 12px;
-  width: 250px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: var(--font-size-14);
+  background-color: transparent;
+  display: block;
 }
 
 .members-container {
@@ -48,11 +80,11 @@
 
 .member-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 14px 20px;
   border-bottom: 1px solid #eee;
   background-color: white;
+  font-size: var(--font-size-16);
 }
 
 .member-item:last-child {
@@ -62,6 +94,8 @@
 .member-info {
   display: flex;
   align-items: center;
+  width: 150px;
+  margin-right: 20px;
 }
 
 .member-avatar {
@@ -70,40 +104,82 @@
   border-radius: 50%;
   background-color: #cbd5e1;
   margin-right: 12px;
-}
-
-.member-details {
-  display: flex;
-  flex-direction: column;
+  flex-shrink: 0;
 }
 
 .member-name {
-  font-weight: bold;
+  font-weight: 500;
+  color: #444;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .member-email {
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  width: 250px;
+  margin-right: 20px;
   color: #666;
 }
 
 .email-icon {
-  margin-right: 5px;
-}
-
-.member-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  margin-right: 8px;
+  color: #666;
+  flex-shrink: 0;
 }
 
 .member-role {
-  font-size: 14px;
+  flex: 1;
   color: #444;
+  padding-right: 20px;
 }
 
 .remove-member-btn {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  color: var(--dark-red);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.remove-member-btn:hover {
+  color: var(--button-red-hover);
+  transform: scale(1.15);
+}
+
+/* 響應式調整 */
+@media screen and (max-width: 768px) {
+  .member-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+  
+  .member-info {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .member-email {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .member-role {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .remove-member-btn {
+    align-self: flex-end;
+    margin-top: -120px;
+  }
 }
