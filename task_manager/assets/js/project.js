@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to update the project members list UI
   function updateProjectEditMembersUI() {
-    const membersList = document.getElementById("editProjectMembersList");
+    const membersList = document.getElementById("editMembersList");
     if (!membersList) return;
 
     membersList.innerHTML = "";
