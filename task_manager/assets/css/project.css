@@ -18,14 +18,6 @@
   border-radius: 4px;
 }
 
-.btn-edit:hover {
-  color: var(--dark-blue);
-}
-
-.btn-delete:hover {
-  color: var(--dark-red);
-}
-
 .main-content-full {
   margin-left: 0;
 }
@@ -99,9 +91,39 @@
   margin-bottom: 12px;
 }
 
+.card-header div{
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.btn-edit, .btn-delete{
+    background-color: transparent;
+    border: none;
+    transition: color .2s ease;
+    transition: transform 0.3s ease;
+}
+
+.btn-edit{
+  color: var(--dark-blue);
+}
+
+.btn-delete{
+  color: var(--dark-red);
+}
+
+.card-header .btn-edit:hover {
+  color: var(--button-blue-hover);
+  transform: scale(1.15);
+}
+
+.card-header .btn-delete:hover {
+  color: var(--button-red-hover);
+  transform: scale(1.15);
+}
+
 .project-title {
   font-size: var(--font-size-18);
-  font-weight: 500;
+  padding-right: 10px;
 }
 
 .status {

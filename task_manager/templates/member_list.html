@@ -17,40 +17,41 @@
 {% endblock %}
 {% block content %}
 <div class="project-overview-container">
-  <h1 class="section-title">成員管理</h1>
-  <div class="toolbar">
-    <button class="create-btn" id="openAddMemberBtn">
-        <i class="create-icon fa-solid fa-plus"></i>
-        新增成員
-    </button>
-  </div>
+    <div class="title-bar">
+      <h1 class="section-title">成員管理</h1>
+      <button class="create-btn" id="openAddMemberBtn">
+          <i class="create-icon fa-solid fa-plus"></i>
+          新增成員
+      </button>
+    </div>
 
-  <div class="search-container mb-4">
-    <input type="text" placeholder="搜尋成員..." class="search-input" />
-  </div>
+    <div class="search-container">
+        <div class="search-box">
+            <i class="search-icon fa-solid fa-search"></i>
+            <input type="text" placeholder="搜尋成員..." class="search-input">
+        </div>
+    </div>
 
   <div class="members-container">
     {% for member in members %}
-<div class="member-item">
-  <div class="member-info">
-    <div class="member-avatar"></div>
-    <div class="member-details">
-      <div class="member-name">{{ member.name }}</div>
-      <div class="member-email">
+    <div class="member-item">
+    <div class="member-info">
+        <div class="member-avatar"></div>
+        <div class="member-name">{{ member.name }}</div>
+    </div>
+    
+    <div class="member-email">
         <i class="email-icon fa-solid fa-envelope"></i>
         {{ member.email }}
-      </div>
     </div>
-  </div>
-  <div class="member-actions">
-    <span class="member-role">{{ member.role }}</span>
+    
+    <div class="member-role">{{ member.role }}</div>
+    
     <button class="remove-member-btn">
-      <i class="remove-icon fa-solid fa-xmark" style="color:red;"></i>
+        <i class="remove-icon fa-solid fa-xmark"></i>
     </button>
-  </div>
 </div>
-{% endfor %}
-
+    {% endfor %}
   </div>
 </div>
 {% include 'dialog/create_task_dialog.html' %}

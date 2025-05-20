@@ -19,11 +19,10 @@
 
 .fc .fc-toolbar {
   background-color: var(--cal-header-background);
-  border-bottom: 1px solid var(--cal-row-border-color);
 }
 
 .fc .fc-toolbar-title {
-  color: var(--cal-text-dark);
+  color: #404040;
 }
 
 .fc .fc-button-primary {
@@ -86,6 +85,11 @@
 
 .fc-event:hover {
   transform: scale(1.02);
+}
+
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number{
+  color: #7d7d7d;
 }
 
 .fc .fc-col-header-cell-cushion,

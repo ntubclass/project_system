@@ -35,8 +35,14 @@
                 <div class="project-card" style="cursor: pointer;">
                     <div onclick="window.location.href='{% url 'project_detail' i.project_id %}'">
                         <div class="card-header">
-                            <div class="project-title">{{i.name}}</div>
-                            <div class="status-null">未進行</div>
+                            <div>
+                                <div class="project-title">{{i.name}}</div>
+                                <div class="status-null">未進行</div>
+                            </div>
+                            <div class='btn-box'>
+                                <button class="btn-edit"  data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" data-project-id="{{ i.project_id }}"><i class="fas fa-times"></i></button>
+                            </div>
                         </div>
                         <div class="progress-label">
                             <div>進度</div>
@@ -59,8 +65,6 @@
                     </div>
                     <div class="card-footer">
                         <div class="tasks">12個任務</div>
-                        <button class="btn-edit"  data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
-                        <button class="btn-delete" data-project-id="{{ i.project_id }}"><i class="fas fa-times"></i></button>
                         <a href="{% url 'project_detail' i.project_id %}" class="details-btn">查看詳情</a>
                     </div>
                 </div>
