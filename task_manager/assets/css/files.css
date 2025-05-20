@@ -15,14 +15,14 @@ body {
   font-size: 24px;
   font-weight: bold;
   color: #404040;
-  margin-bottom: 25px;
+  margin: 0;
 }
 
 .title-bar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: flex-start;
+    margin-bottom: 15px;
 }
 
 .title {
@@ -50,15 +50,17 @@ body {
 .delete-btn {
     background: none;
     border: none;
-    color: #dc3545;
+    color: var(--dark-red);
     cursor: pointer;
     padding: 5px;
     margin-left: 5px;
     transition: color 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .delete-btn:hover {
-    color: #c82333;
+    transform: scale(1.15);
+    color: var(--button-red-hover);
 }
 
 .download-btn,
@@ -70,8 +72,7 @@ body {
 
 /* 搜尋框 */
 .search-container {
-    margin-bottom: 50px;
-    height: 5px;
+    height: 80px;
 }
 
 .search-box {
@@ -287,13 +288,15 @@ body {
 }
 
 .download-btn {
-    color: var(--light-gray);
+    color: var(--dark-blue);
     font-size: var(--font-size-16);
-  transition: color .2s ease;
+    transition: color .2s ease;
+    transition: transform 0.3s ease;
 }
 
 .download-btn:hover {
-    color: var(--dark-blue);
+    color: var(--button-blue-hover);
+    transform: scale(1.15);
 }
 
 .custom-dialog {

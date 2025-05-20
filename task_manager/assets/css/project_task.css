@@ -137,7 +137,7 @@ body {
   display: flex;
   flex: 1;
   align-items: center;
-  gap: 20px;
+  gap: 15px; /* 減少間隔 */
   font-size: 18px;
 }
 
@@ -181,14 +181,12 @@ body {
   color: var(--light-gray);
   font-size: 16px;
   white-space: nowrap;
-  margin-left: auto; /* 將截止日期推到右邊 */
 }
 
 .task-progress {
   display: flex;
   align-items: center;
-  min-width: 200px; /* 固定進度條區域寬度 */
-  margin: 0 30px;
+  flex: 1; /* 讓進度條佔據所有可用空間 */
 }
 
 .progress {
@@ -225,7 +223,6 @@ body {
   border: none;
   padding: 6px;
   cursor: pointer;
-  color: var(--light-gray);
   border-radius: 4px;
   width: 32px;
   height: 32px;
@@ -233,14 +230,26 @@ body {
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
-.btn-edit:hover {
+.btn-update, .btn-edit{
   color: var(--dark-blue);
 }
 
-.btn-delete:hover {
+.btn-delete {
   color: var(--dark-red);
+}
+
+.btn-update:hover,
+.btn-edit:hover {
+  color: var(--button-blue-hover);
+  transform: scale(1.15);
+}
+
+.btn-delete:hover {
+  color: var(--button-red-hover);
+  transform: scale(1.15);
 }
 
 .btn-view:hover {

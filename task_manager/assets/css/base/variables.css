@@ -13,6 +13,7 @@ body {
   --light-gray: #909090;
   --dark-gray: #404040;
   
+  --button-blue-hover:#194fc4;
   --dark-blue: #2563EB;
   --light-blue: #EFF6FF;
   
@@ -25,6 +26,7 @@ body {
   --dark-yellow: #CA8A04;
   --light-yellow: #FEFCE8;
   
+  --button-red-hover: #c82333;
   --dark-red: #DC2626;
   --light-red: #fee8e8;
   
