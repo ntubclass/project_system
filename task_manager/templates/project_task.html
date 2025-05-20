@@ -80,8 +80,8 @@
         <div class="task-details">
           <span class="task-name">{{ task.task_name }}</span>
           <span class="status in-progress">進行中</span>
+          <div class="task-date">截止日期: {{task.end_date}}</div>
         </div>
-        <div class="task-date">截止日期: {{task.end_date}}</div>
         <div class="task-progress">
           <div class="progress">
             <div class="progress-bar" style="width: {{ task.progress }}%"></div>

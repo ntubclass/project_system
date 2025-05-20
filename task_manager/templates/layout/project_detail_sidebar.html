@@ -18,7 +18,7 @@
             <i class="sidebar-item-icon fa-solid fa-folder"></i>
             <div>檔案</div>
         </a>
-        <a href="{% url 'member_list' project_id%}" class="sidebar-item {% if request.resolver_match.url_name == 'members' %}active{% endif %}">
+        <a href="{% url 'member_list' project_id%}" class="sidebar-item {% if request.resolver_match.url_name == 'member_list' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-users"></i>
             <div>成員</div>
         </a>
