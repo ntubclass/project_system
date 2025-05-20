@@ -142,11 +142,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         const csrfToken = csrfTokenElement.value;
 
-        // Get project ID from URL
-        const urlParts = window.location.pathname.split("/");
+         const urlParts = window.location.pathname.split("/");
         let projectId = null;
-        if (urlParts.length > 3) {
-          projectId = urlParts[urlParts.length - 2];
+
+        // If the URL contains 'member_list', ignore projectId
+        if (urlParts.includes("member_list")) {
+          projectId = null;
+        } else {
+          // Try to find a numeric segment as projectId (for /project/ID/ and similar)
+          for (let i = 0; i < urlParts.length; i++) {
+            if (/^\d+$/.test(urlParts[i])) {
+              projectId = urlParts[i];
+              break;
+            }
+          }
         }
 
         // Fetch search results from the server
