@@ -4,7 +4,9 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/project.css' %}">
     <link rel="stylesheet" href="{% static 'css/dialog/create_project_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/edit_project_dialog.css' %}">
     <link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/edit_member_dialog.css' %}">
 {% endblock %}
 {% block content %}
 <div class="project">
@@ -74,10 +76,11 @@
 {% include 'dialog/edit_project_dialog.html'%}
 {% include 'dialog/create_project_dialog.html' %}
 {% include 'dialog/add_member_dialog.html' %}
-
+{% include 'dialog/edit_member_dialog.html' %}
 {% endblock %}
 {% block extra_js %}
 <script src="{% static 'js/project.js' %}"></script>
 <script src="{% static 'js/dialog.js' %}"></script>
 <script src="{% static 'js/add_member_dialog.js' %}"></script>
+<script src="{% static 'js/edit_member_dialog.js' %}"></script>
 {% endblock %}
