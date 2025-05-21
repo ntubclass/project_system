@@ -3,11 +3,9 @@
 {% block title %}{{ project.name }} | 專案詳情{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
-<link rel="stylesheet" href="{% static 'css/dialog/create_task_dialog.css' %}">
 <link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
-<link rel="stylesheet" href="{% static 'css/frappe_gantt.css' %}">
 <link rel="stylesheet" href="{% static 'css/member_list.css' %}">
-
+<link rel="stylesheet" href="{% static 'css/dialog/member_list_dialog.css' %}">
 {% endblock %}
 {% block sidebar %}
 {% include 'layout/project_detail_sidebar.html' %}
@@ -19,7 +17,7 @@
 <div class="project-overview-container">
     <div class="title-bar">
       <h1 class="section-title">成員管理</h1>
-      <button class="create-btn" id="openAddMemberBtn">
+      <button class="create-btn" id="openMemberListBtn">
           <i class="create-icon fa-solid fa-plus"></i>
           新增成員
       </button>
@@ -54,7 +52,7 @@
     {% endfor %}
   </div>
 </div>
-{% include 'dialog/create_task_dialog.html' %}
+{% include 'dialog/member_list_dialog.html' %}
 {% include 'dialog/add_member_dialog.html' %}
 {% endblock %}
 {% block extra_js %}

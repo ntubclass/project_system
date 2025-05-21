@@ -91,4 +91,10 @@ document.addEventListener("DOMContentLoaded", function () {
     "cancelMemberBtn",
     "closeMemberBtn"
   );
+  setup_dialog(
+    "openMemberListBtn",
+    "memberListDialog",
+    "cancelMemberListBtn",
+    "closeMemberListBtn"
+  );
 });
