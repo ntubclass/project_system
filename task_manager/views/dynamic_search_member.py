@@ -7,44 +7,47 @@ from task_manager.models.project import Project
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
+
 @login_required(login_url="login")
 def main(request):
     if request.method == "POST":
         context = {
             "user_data": [],
         }
-
         body_unicode = request.body.decode("utf-8")
         body = json.loads(body_unicode)
         search_query = body["search_query"]
         project_id = body["project_id"]
+        is_member_list = body.get("is_member_list", False)
 
         if not search_query:
             return JsonResponse(context)
 
-        member_ids = []
-        # 只搜尋專案成員與管理者，且符合搜尋條件且排除自己
         users = User.objects.filter(
             Q(username__icontains=search_query) | Q(email__icontains=search_query),
         ).exclude(id=request.user.id)
-        
+
         if project_id:
-            # 取得專案管理者 id
+            project_members = ProjectMember.objects.filter(project_id=project_id).values_list('user_id', flat=True)
+            member_ids = list(project_members)
             try:
                 project = Project.objects.get(project_id=project_id)
-                manager_id = project.user_id_id  # 根據你的 Project model 欄位名稱調整
+                manager_id = project.user_id_id
             except Project.DoesNotExist:
                 manager_id = None
 
-            # 取得專案成員 id
-            project_members = ProjectMember.objects.filter(project_id=project_id).values_list('user_id', flat=True)
-            member_ids = list(project_members) + [manager_id]
-            # 過濾出符合條件的用戶
-            users = users.filter(
-                Q(id__in=member_ids) | Q(id=manager_id)
-            ).exclude(id=request.user.id)
+            if manager_id and manager_id not in member_ids:
+                member_ids.append(manager_id)
+
+            if is_member_list:
+                # 只顯示「不是這個專案成員」的用戶
+                users = users.exclude(id__in=member_ids)
+            else:
+                # 只顯示「是這個專案成員」的用戶
+                users = users.filter(id__in=member_ids)
+
         users = users[:10]
-        
+
         user_data = []
         for user in users:
             try:
