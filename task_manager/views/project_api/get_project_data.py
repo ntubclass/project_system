@@ -33,8 +33,6 @@ def main(request, project_id):
             "progress": project.progress,
             "members": members_data
         }
-
-        print(project_data)
         
         return JsonResponse(project_data)
         

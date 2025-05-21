@@ -142,11 +142,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         const csrfToken = csrfTokenElement.value;
 
-        // Get project ID from URL
-        const urlParts = window.location.pathname.split("/");
+         const urlParts = window.location.pathname.split("/");
         let projectId = null;
-        if (urlParts.length > 3) {
-          projectId = urlParts[urlParts.length - 2];
+
+        // If the URL contains 'member_list', ignore projectId
+        if (urlParts.includes("member_list")) {
+          projectId = null;
+        } else {
+          // Try to find a numeric segment as projectId (for /project/ID/ and similar)
+          for (let i = 0; i < urlParts.length; i++) {
+            if (/^\d+$/.test(urlParts[i])) {
+              projectId = urlParts[i];
+              break;
+            }
+          }
         }
 
         // Fetch search results from the server
@@ -250,6 +259,34 @@ document.addEventListener("DOMContentLoaded", function () {
   const createTaskForm = document.getElementById("createTaskForm");
   if (createTaskForm) {
     createTaskForm.addEventListener("submit", function (event) {
+      // Create hidden input fields for member list
+      addMemberlist.forEach((member, index) => {
+        const nameInput = document.createElement("input");
+        nameInput.type = "hidden";
+        nameInput.name = `member_name_${index}`;
+        nameInput.value = member.name;
+
+        const emailInput = document.createElement("input");
+        emailInput.type = "hidden";
+        emailInput.name = `member_email_${index}`;
+        emailInput.value = member.email;
+
+        this.appendChild(nameInput);
+        this.appendChild(emailInput);
+      });
+
+      // Add member count hidden field
+      const countInput = document.createElement("input");
+      countInput.type = "hidden";
+      countInput.name = "member_count";
+      countInput.value = addMemberlist.length;
+      this.appendChild(countInput);
+    });
+  }
+
+  const memberListForm = document.getElementById("memberListForm");
+  if (memberListForm) {
+    memberListForm.addEventListener("submit", function (event) {
       // Create hidden input fields for member list
       addMemberlist.forEach((member, index) => {
         const nameInput = document.createElement("input");

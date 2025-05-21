@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Get project ID from URL for editing context
         const urlParts = window.location.pathname.split("/");
         let projectId = null;
-        if (urlParts.length > 3) {
+        if (urlParts.length > 3 ) {
           projectId = urlParts[urlParts.length - 2];
         }
 
@@ -278,38 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Handle edit form submission for project
-  const editProjectForm = document.getElementById("editProjectForm");
-  if (editProjectForm) {
-    editProjectForm.addEventListener("submit", function (event) {
-      // Create hidden input fields for member list
-      const members = window.taskEditing.projectMembers || [];
 
-      members.forEach((member, index) => {
-        const nameInput = document.createElement("input");
-        nameInput.type = "hidden";
-        nameInput.name = `member_name_${index}`;
-        nameInput.value = member.name;
-
-        const emailInput = document.createElement("input");
-        emailInput.type = "hidden";
-        emailInput.name = `member_email_${index}`;
-        emailInput.value = member.email;
-
-        this.appendChild(nameInput);
-        this.appendChild(emailInput);
-      });
-
-      // Add member count hidden field
-      const countInput = document.createElement("input");
-      countInput.type = "hidden";
-      countInput.name = "member_count";
-      countInput.value = members.length;
-      this.appendChild(countInput);
-    });
-  }
-
-  // Function to populate existing members when editing a project
   window.loadExistingMembers = function (members) {
     // Clear existing members first
     window.taskEditing.projectMembers = [];
