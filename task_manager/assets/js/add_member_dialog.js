@@ -144,19 +144,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
          const urlParts = window.location.pathname.split("/");
         let projectId = null;
+        let is_member_list = false;
 
-        // If the URL contains 'member_list', ignore projectId
+        // 如果 URL 包含 'member_list'，設為 true
         if (urlParts.includes("member_list")) {
-          projectId = null;
-        } else {
-          // Try to find a numeric segment as projectId (for /project/ID/ and similar)
-          for (let i = 0; i < urlParts.length; i++) {
-            if (/^\d+$/.test(urlParts[i])) {
-              projectId = urlParts[i];
-              break;
-            }
+          is_member_list = true;
+        }
+
+        // 如果有 projectId（數字段），也設為 true
+        for (let i = 0; i < urlParts.length; i++) {
+          if (/^\d+$/.test(urlParts[i])) {
+            projectId = urlParts[i];
+            is_member_list = true;
+            break;
           }
         }
+        
 
         // Fetch search results from the server
         const response = await fetch(`/dynamic_search_member/`, {
@@ -165,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "Content-Type": "application/json",
             "X-CSRFToken": csrfToken,
           },
-          body: JSON.stringify({ search_query: query, project_id: projectId }),
+          body: JSON.stringify({ search_query: query, project_id: projectId, is_member_list: is_member_list, }),
         });
 
         if (!response.ok) {
