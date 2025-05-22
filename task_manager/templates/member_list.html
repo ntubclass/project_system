@@ -32,23 +32,25 @@
 
   <div class="members-container">
     {% for member in members %}
-    <div class="member-item">
-    <div class="member-info">
-        <div class="member-avatar"></div>
-        <div class="member-name">{{ member.name }}</div>
-    </div>
-    
-    <div class="member-email">
-        <i class="email-icon fa-solid fa-envelope"></i>
-        {{ member.email }}
-    </div>
-    
-    <div class="member-role">{{ member.role }}</div>
-    
-    <button class="remove-member-btn">
-        <i class="remove-icon fa-solid fa-xmark"></i>
-    </button>
-</div>
+        <div class="member-item">
+        <div class="member-info">
+            <img class="member-avatar" src="{{ member.photo }}" alt="{{ member.name }}" />
+            <div class="member-name">{{ member.name }}</div>
+        </div>
+        
+        <div class="member-email">
+            <i class="email-icon fa-solid fa-envelope"></i>
+            {{ member.email }}
+        </div>
+        
+        <div class="member-role">{{ member.role }}</div>
+        
+        {% if member.role != '專案擁有者' %}
+        <button class="remove-member-btn" type="button" onclick="deleteMember('{{ member.email }}', '{{ member.name }}')">
+            <i class="remove-icon fa-solid fa-xmark"></i>
+        </button>
+        {% endif %}
+        </div>
     {% endfor %}
   </div>
 </div>
@@ -58,5 +60,6 @@
 {% block extra_js %}
 <script src="{% static 'js/add_member_dialog.js' %}"></script>
 <script src="{% static 'js/search_member.js' %}"></script>
+<script src="{% static 'js/delete_member.js' %}"></script>
 
 {% endblock %}
