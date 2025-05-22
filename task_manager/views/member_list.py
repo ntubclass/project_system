@@ -1,10 +1,47 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from task_manager.models.project_member import ProjectMember
 from task_manager.models.project import Project
 from task_manager.models.user_info import UserInfo
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 def main(request, project_id):
+    project = get_object_or_404(Project, project_id=project_id)
+    if request.method == "POST":
+        # 刪除成員
+        delete_email = request.POST.get("delete_member_email")
+        if delete_email:
+            try:
+                user = User.objects.get(email=delete_email)
+                # 不允許刪除專案擁有者
+                if user.id == project.user_id.id:
+                    messages.error(request, "不能刪除專案擁有者！")
+                else:
+                    ProjectMember.objects.filter(project_id=project, user_id=user).delete()
+                    messages.success(request, f"已刪除成員 {user.username}")
+            except User.DoesNotExist:
+                messages.error(request, "找不到該成員")
+            return redirect('member_list', project_id=project_id)
+        # 新增成員邏輯
+        member_count = int(request.POST.get("member_count", 0))
+        added = 0
+        for i in range(member_count):
+            member_name = request.POST.get(f"member_name_{i}")
+            member_email = request.POST.get(f"member_email_{i}")
+            try:
+                user = User.objects.get(username=member_name, email=member_email)
+                # 避免重複加入
+                if not ProjectMember.objects.filter(project_id=project, user_id=user).exists() and user.id != project.user_id.id:
+                    ProjectMember.objects.create(project_id=project, user_id=user)
+                    added += 1
+            except User.DoesNotExist:
+                continue
+        if added > 0:
+            messages.success(request, f"成功新增 {added} 位成員！")
+        elif member_count > 0:
+            messages.warning(request, "沒有新增任何成員，可能已存在或資料有誤。")
+        return redirect('member_list', project_id=project_id)
+
     # 取得專案
     project = get_object_or_404(Project, project_id=project_id)
     # 取得專案成員
