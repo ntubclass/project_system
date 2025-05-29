@@ -31,16 +31,6 @@
                     <input type="text" id="searchInput" placeholder="搜索用戶..." oninput="filterUsers()">
                 </div>
 
-                <!-- Role Filter -->
-                <div class="select-wrapper">
-                    <select id="roleFilter" onchange="filterUsers()">
-                        <option value="專案管理者">專案管理者</option>
-                        <option value="一般使用者">一般使用者</option>
-                        <option value="all" selected>全部角色</option>
-                    </select>
-                    <i data-feather="chevron-down" class="select-arrow"></i>
-                </div>
-
                 <!-- Status Filter -->
                 <div class="filter-tabs">
                     <button class="filter-tab active" data-status="all" onclick="setStatusFilter(this, 'all')">全部</button>
@@ -57,7 +47,6 @@
                     <thead>
                         <tr>
                             <th>用戶資訊</th>
-                            <th>角色</th>
                             <th>狀態</th>
                             <th>最後活動</th>
                             <th>專案數</th>
@@ -75,9 +64,6 @@
                                         <div class="user-email">{{ user.email }}</div>
                                     </div>
                                 </div>
-                            </td>
-                            <td>
-                                <span class="badge {% if user.role == '專案管理者' %}badge-admin{% else %}badge-user{% endif %}">{{ user.role }}</span>
                             </td>
                             <td>
                                 <span class="badge {% if user.status == 'active' %}badge-active{% else %}badge-inactive{% endif %}">
@@ -124,10 +110,25 @@
             </div>
         </div>
     </div>
-
-    <script src="{% static 'js/script.js' %}"></script>
+    
     <script>
-      feather.replace()
+        feather.replace();
+        function filterUsers() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#userTableBody tr');
+            let visibleCount = 0;
+            rows.forEach(row => {
+                const name = row.querySelector('.user-name')?.textContent.toLowerCase() || '';
+                const email = row.querySelector('.user-email')?.textContent.toLowerCase() || '';
+                if (name.includes(input) || email.includes(input)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            document.getElementById('showingCount').textContent = visibleCount;
+        }
     </script>
 </body>
 </html>
