@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from task_manager.models.project_member import ProjectMember
 from datetime import datetime
+from task_manager.models.task import Task
 
 @login_required(login_url="login")
 def main(request):
@@ -36,5 +37,15 @@ def main(request):
                 data["photo"] = user.userinfo.photo.url
 
             data[field_name] = field_value
+        tasks = Task.objects.filter(project_id=m.project_id)
+        total = 0
+        for t in tasks:
+            total += int(t.progress)
+        if total != 0:
+            total_progress = int(total/len(tasks))
+        else:
+            total_progress = 0
+        data["total_progress"] = total_progress
+        data["task_count"] = tasks.count()
         context["project_data"].append(data)
     return render(request, "project.html", context)

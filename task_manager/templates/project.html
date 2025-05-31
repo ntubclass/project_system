@@ -31,50 +31,45 @@
             </div>
         </div>
         <div class="projects-grid" id="projectsGrid">
-    {% for i in project_data %}
-        <div class="project-card" style="cursor: pointer;">
-            <div onclick="window.location.href='{% url 'project_detail' i.project_id %}'">
-                <div class="card-header">
-                    <div>
-                        <!-- 加入 title 屬性顯示完整專案名稱 -->
-                        <div class="project-title" title="{{ i.name }}">{{ i.name }}</div>
-                        <div class="status-null">未進行</div>
+            {% for i in project_data %}
+                <div class="project-card" style="cursor: pointer;">
+                    <div onclick="window.location.href='{% url 'project_detail' i.project_id %}'">
+                        <div class="card-header">
+                            <div>
+                                <div class="project-title">{{i.name}}</div>
+                                <div class="status-null">未進行</div>
+                            </div>
+                            <div class='btn-box'>
+                                <button class="btn-edit"  data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" data-project-id="{{ i.project_id }}" onclick="event.stopPropagation(); handleButtonClick()"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="progress-label">
+                            <div>進度</div>
+                            <div>{{i.total_progress}}%</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" progress="{{i.total_progress}}"></div>
+                        </div>
+                        <div class="card-info">
+                            <div class="user-avatar">
+                                <img src="{{i.photo}}" class="avatar"></img>
+                            </div>
+                            <div class="date">
+                                <i class="date-icon fa-regular fa-calendar"></i>
+                                {{i.start_date}}
+                                <span>~</span>
+                                {{i.end_date}}
+                            </div>
+                        </div>
                     </div>
-                    <div class='btn-box'>
-                        <button class="btn-edit" data-project-id="{{ i.project_id }}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn-delete" data-project-id="{{ i.project_id }}">
-                            <i class="fas fa-times"></i>
-                        </button>
+                    <div class="card-footer">
+                        <div class="tasks">{{i.task_count}}個任務</div>
+                        <a href="{% url 'project_detail' i.project_id %}" class="details-btn">查看詳情</a>
                     </div>
                 </div>
-                <div class="progress-label">
-                    <div>進度</div>
-                    <div>{{i.percent}}%</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" progress="{{i.progress}}"></div>
-                </div>
-                <div class="card-info">
-                    <div class="user-avatar">
-                        <img src="{{i.photo}}" class="avatar"></img>
-                    </div>
-                    <div class="date">
-                        <i class="date-icon fa-regular fa-calendar"></i>
-                        {{i.start_date}}
-                        <span>~</span>
-                        {{i.end_date}}
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="tasks">12個任務</div>
-                <a href="{% url 'project_detail' i.project_id %}" class="details-btn">查看詳情</a>
-            </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-</div>
     </div>
 </div>
 
