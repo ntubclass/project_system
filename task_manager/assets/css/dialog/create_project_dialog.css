@@ -165,7 +165,8 @@ input[type="date"] {
 }
 
 .add-member-btn:hover {
-  text-decoration: underline;
+  background-color: #1b4fc6;
+  text-decoration: none;
 }
 
 .members-list {

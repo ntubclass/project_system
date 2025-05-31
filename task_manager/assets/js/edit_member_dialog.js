@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           // Display "No results found" message
           const li = document.createElement("li");
-          li.textContent = "No results found";
+          li.textContent = "沒有符合成員";
           li.style.color = "var(--light-gray)";
           resultsContainer.appendChild(li);
         }
