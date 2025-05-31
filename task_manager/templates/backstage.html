@@ -1,0 +1,46 @@
+{% extends 'backstage_base.html' %}
+{% load static %}
+{% block title %}後臺管理{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/backstage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/create_project_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/edit_project_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/edit_member_dialog.css' %}">
+{% endblock %}
+{% block content %}
+<div class="project">
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="title-bar">
+            <div class="title">專案管理</div>
+            <div class="actions">
+                <div class="sort-dropdown">
+                    排序方式
+                    <i class="dropdown-icon fa-solid fa-caret-down"></i>
+                    <select style="display:none;">
+                        <option value="recent">最新建立</option>
+                        <option value="name">名稱</option>
+                        <option value="progress">進度</option>
+                    </select>
+                </div>
+                <button class="create-btn" id="openCreateProjectBtn">
+                    <i class="create-icon fa-solid fa-plus"></i>
+                    建立專案
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'dialog/edit_project_dialog.html'%}
+{% include 'dialog/create_project_dialog.html' %}
+{% include 'dialog/add_member_dialog.html' %}
+{% include 'dialog/edit_member_dialog.html' %}
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/project.js' %}"></script>
+<script src="{% static 'js/dialog.js' %}"></script>
+<script src="{% static 'js/add_member_dialog.js' %}"></script>
+<script src="{% static 'js/edit_member_dialog.js' %}"></script>
+{% endblock %}

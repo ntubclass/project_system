@@ -8,8 +8,8 @@
         <i class="sidebar-item-icon fa-solid fa-file"></i>
         <div>任務</div>
     </a>
-    <div class="sidebar-item">
+    <a href="{% url 'backstage'%}" class="sidebar-item {% if request.path == '/backstage/' %}active{% endif %}">
         <i class="sidebar-item-icon fa-solid fa-gear"></i>
         <div>系統</div>
-    </div>
+    </a>
 </div>
