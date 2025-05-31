@@ -35,6 +35,11 @@ body {
   align-items: center;
   cursor: pointer;
   font-size: var(--font-size-14);
+  transition: background-color ease 0.2s;
+}
+
+.create-btn:hover {
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
 
 .create-btn i {
