@@ -21,15 +21,15 @@ def main(request):
         start_date_obj = datetime.strptime(startDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
 
-        # if due_date_obj < today:
-        #     messages.warning(request, "截止日期必須在今天或之後")
-        #     return redirect("/project/")
-        # elif start_date_obj < today:
-        #     messages.warning(request, "開始日期必須在今天或之後")
-        #     return redirect("/project/")
-        # elif due_date_obj < start_date_obj:
-        #     messages.warning(request, "截止日期必須在開始日期之後")
-        #     return redirect("/project/")
+        if due_date_obj < today:
+            messages.warning(request, "截止日期必須在今天或之後")
+            return redirect("/project/")
+        elif start_date_obj < today:
+            messages.warning(request, "開始日期必須在今天或之後")
+            return redirect("/project/")
+        elif due_date_obj < start_date_obj:
+            messages.warning(request, "截止日期必須在開始日期之後")
+            return redirect("/project/")
 
         # 創建新專案
         new_project = Project(
