@@ -59,7 +59,7 @@ urlpatterns = (
         path('verify_code/', verify_code.verify_code_view, name='verify_code'),
         path('resend_code/', verify_code.resend_code_view, name='resend_code'),
         path('reset_password/', reset_password.reset_password_view, name='reset_password'),
-        path('user_management', user_management.main, name='user_management'),   
+        path('user_management/', user_management.main, name='user_management'),   
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
