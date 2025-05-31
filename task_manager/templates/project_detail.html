@@ -31,7 +31,7 @@
       <div class="stat-card">
           <div class="stat-label">總進度</div>
           <div class="stat-value">
-              75%
+              {{ total_progress }}%
               <div class="chart-icon">
                 <i class="fa-solid fa-chart-line"></i>
               </div>
@@ -47,7 +47,7 @@
       <div class="stat-card">
           <div class="stat-label">專案成員</div>
           <div class="stat-value">
-              5人
+              {{member_amount}}人
               <div class="people-icon">
                 <i class="fa-solid fa-user"></i>
               </div>
@@ -59,12 +59,12 @@
       <div class="stat-card">
           <div class="stat-label">剩餘時間</div>
           <div class="stat-value">
-              32天
+              {{end_date_diff}}天
               <div class="time-icon">
                 <i class="fa-solid fa-clock"></i>
               </div>
           </div>
-          <div class="additional-info">截止日期：2025-02-24</div>
+          <div class="additional-info">截止日期：{{end_date}}</div>
       </div>
   </div>
   <div class="toolbar">
