@@ -420,8 +420,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Open dialog when any .btn-update button is clicked
     document.querySelectorAll(".btn-update").forEach((btn) => {
       btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation();
         const taskId = this.getAttribute("data-task-id");
         if (taskId) {
           loadTaskData(taskId);
@@ -433,8 +431,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Form submission
     if (updateTaskForm) {
       updateTaskForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-
         const infoInput = document.getElementById("infoInput");
         const progressInput = document.getElementById("progressInput");
 

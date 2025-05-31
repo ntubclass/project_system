@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render
 from task_manager.models.task import Task  
 from task_manager.models.task_member import TaskMember
@@ -17,8 +18,37 @@ def main(request, project_id):
         user_id=request.user
     ).values_list('task_id', flat=True)
     participate_tasks = Task.objects.filter(task_id__in=participate_task_ids).exclude(user_id=request.user)
+#     .in-progress {
+#   background-color: var(--light-blue);
+#   color: var(--dark-blue);
+# }
 
+# .completed {
+#   background-color: var(--light-green);
+#   color: var(--dark-green);
+# }
+
+# .not-started {
+#   background-color: var(--light-yellow);
+#   color: var(--dark-yellow);
+# }
+
+# .overtime {
+#   background-color: var(--light-red);
+#   color: var(--dark-red);
+# }
     for task in my_tasks:
+        status = ""
+        today = datetime.datetime.today()
+        if task.progress == 100:
+            status = "completed"
+        elif task.end_date < today and task.progress < 100:
+            status = "overtime"
+        elif today < task.start_date:
+            status = "not-started"
+        else:
+            status = "in-progress"
+
         context["my_tasks"].append({
             "task_id": task.task_id,
             "user_name": task.user_id.username,
@@ -26,11 +56,24 @@ def main(request, project_id):
             "end_date": task.end_date,
             "content": task.content,
             "progress": task.progress,
+            "status": status,
             'photo': task.user_id.userinfo.photo.url,
         })
 
     for task_member in participate_tasks:
         task = task_member
+
+        status = ""
+        today = datetime.datetime.today()
+        if task.progress == 100:
+            status = "completed"
+        elif task.end_date < today and task.progress < 100:
+            status = "overtime"
+        elif today < task.start_date:
+            status = "not-started"
+        else:
+            status = "in-progress"
+
         context["participate_tasks"].append({
             "task_id": task.task_id,
             "user_name": task.user_id.username,
@@ -38,6 +81,8 @@ def main(request, project_id):
             "end_date": task.end_date,
             "content": task.content,
             "progress": task.progress,
+            "status": status,
+
             'photo':  task.user_id.userinfo.photo.url,
         })
     
