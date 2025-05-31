@@ -47,7 +47,7 @@ def main(request, project_id):
 
         # 創建新專案
         new_task = Task(
-            user_id=user,  project_id=project, name=taskName, content=content, end_date=dueDate
+            user_id=user,  project_id=project, name=taskName, content=content, start_date=startDate, end_date=dueDate
         )
         new_task.save()
 

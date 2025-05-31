@@ -9,7 +9,7 @@ class Task(models.Model):
         Project, on_delete=models.CASCADE, related_name="tasks"
     )
     name = models.CharField(max_length=100)
-    start_date = models.DateTimeField(auto_now_add=True)
+    start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     content = models.TextField()
     progress = models.IntegerField(default=0)
