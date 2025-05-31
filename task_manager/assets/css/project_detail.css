@@ -167,6 +167,11 @@ body {
   align-items: center;
   cursor: pointer;
   width: fit-content;
+  transition: background-color ease 0.2s;
+}
+
+.create-btn:hover {
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
 
 .toolbar{

@@ -223,6 +223,7 @@
   background-color: var(--dark-blue);
   color: var(--white);
   border: none;
+  transition: background-color ease 0.2s;
 }
 
 .submit-btn:hover {

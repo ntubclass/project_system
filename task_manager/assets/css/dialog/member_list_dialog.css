@@ -142,21 +142,23 @@ input[type="date"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
 }
 
 .add-member-btn {
-  background-color: transparent;
-  color: var(--dark-blue);
+  background-color: var(--dark-blue);
+  color: var(--white);
   border: none;
   font-size: 14px;
   cursor: pointer;
   padding: 4px 8px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  transition: background-color ease 0.2s;
+  border-radius: 4px;
 }
 
 .add-member-btn:hover {
-    background-color: #1b4fc6;
-    text-decoration: none;
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
 
 .members-list {
@@ -191,6 +193,7 @@ input[type="date"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color ease 0.2s;
 }
 
 .cancel-btn:hover {

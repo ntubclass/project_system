@@ -279,12 +279,10 @@ body {
 .btn-update:hover,
 .btn-edit:hover {
   color: var(--button-blue-hover);
-  transform: scale(1.15);
 }
 
 .btn-delete:hover {
   color: var(--button-red-hover);
-  transform: scale(1.15);
 }
 
 .btn-view:hover {
@@ -320,4 +318,9 @@ body {
     align-items: center;
     cursor: pointer;
     font-size: var(--font-size-14);
+    transition: background-color ease 0.2s;
+}
+
+.create-btn:hover {
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
