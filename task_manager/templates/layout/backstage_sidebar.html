@@ -1,0 +1,31 @@
+<div class="sidebar" id="sidebar">
+  <h1 class="sidebar-title">系統管理控制台</h1>
+  <div class="sidebar-content">
+      <div class="sidebar-menu">
+        <a href="{% url 'backstage'%}" class="sidebar-item {% if request.resolver_match.url_name == 'project_detail' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-chart-line"></i>
+            <div>系統概覽</div>
+        </a>
+        <a href="#" class="sidebar-item {% if request.resolver_match.url_name == 'project_task' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-users"></i>
+            <div>用戶管理</div>
+        </a>
+        <a href="#" class="sidebar-item {% if request.resolver_match.url_name == 'chat' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-folder-closed"></i>
+            <div>專案管理</div>
+        </a>
+        <a href="#" class="sidebar-item {% if request.resolver_match.url_name == 'files' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-comment"></i>
+            <div>聊天室管理</div>
+        </a>
+        <a href="#" class="sidebar-item {% if request.resolver_match.url_name == 'member_list' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-folder"></i>
+            <div>檔案管理</div>
+        </a>
+      </div>
+      <a href="{% url 'project' %}" class="back-link">
+          <i class="sidebar-item-icon fa-solid fa-arrow-left"></i>
+          <div>返回專案列表</div>
+      </a>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="header" id="header">
+  <i id="menuToggle" class="menu-icon fa-solid fa-bars"></i>
+  <a href="{% url 'user_profile' %}" class="user-icon-link">
+    <p>Hi 歡迎回來,{{ user.username }}管理員</p>
+    <div class="user-header-photo">
+      {% if user.userinfo.photo %}
+      <img src="{{ user.userinfo.photo.url }}" alt="{{ user.username }}" class="user-header-image" />
+      {% else %}
+      <i class="user-icon fa-solid fa-circle-user"></i>
+      {% endif %}
+    </div>
+  </a>
+</div>
