@@ -28,20 +28,18 @@
 
   <div class="stats-grid">
       <!-- 進度卡片 -->
-      <div class="stat-card">
-          <div class="stat-label">總進度</div>
-          <div class="stat-value">
-              {{ total_progress }}%
-              <div class="chart-icon">
-                <i class="fa-solid fa-chart-line"></i>
-              </div>
-          </div>
-          <div class="project-progress-container">
-              <div class="project-progress-bar">
-                    <div class="project-progress-fill" style="width: 100%" progress="100"></div>
-              </div>
-          </div>
-      </div>
+        <div class="stat-card">
+            <div class="stat-label">總進度</div>
+            <div class="stat-value">
+                {{ total_progress }}%
+                <div class="chart-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" progress="75"></div>
+            </div>
+        </div>
       
       <!-- 成員卡片 -->
       <div class="stat-card">

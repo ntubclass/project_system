@@ -1,4 +1,35 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // 設置進度條長度和更新顯示的百分比
+  function initializeProgressBars() {
+    // 獲取所有進度條元素
+    const progressBars = document.querySelectorAll(".progress-fill");
+
+    // 遍歷每個進度條元素
+    progressBars.forEach((bar) => {
+      // 獲取progress屬性值
+      const progressValue = bar.getAttribute("progress");
+
+      // 如果存在progress屬性，則設置寬度
+      if (progressValue) {
+        // 設置進度條寬度為progress值的百分比
+        bar.style.width = `${progressValue}%`;
+
+        // 更新 stat-value 中的百分比顯示
+        const statCard = bar.closest(".stat-card");
+        if (statCard) {
+          const progressPercentage = statCard.querySelector(".progress-percentage");
+          if (progressPercentage) {
+            progressPercentage.textContent = progressValue;
+          }
+        }
+      }
+    });
+  }
+
+  // 初始化進度條
+  initializeProgressBars();
+
+  // 任務切換功能
   const buttons = document.querySelectorAll(".status-switch .switch-option");
   const taskViewerContainer = document.getElementById("taskViewerContainer");
 
