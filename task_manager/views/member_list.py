@@ -51,13 +51,16 @@ def main(request, project_id):
     creator = project.user_id
     try:
         creator_photo = creator.userinfo.photo.url if creator.userinfo.photo else None
+        creator_job = creator.userinfo.job if hasattr(creator.userinfo, 'job') else ''
     except Exception:
         creator_photo = None
+        creator_job = ''
     members.append({
         "name": creator.username,
         "email": creator.email,
         "role": "專案擁有者",
         "photo": creator_photo,
+        "job": creator_job,
     })
     # 取得其他成員
     for member in project_members:
@@ -67,13 +70,16 @@ def main(request, project_id):
             continue
         try:
             photo_url = user.userinfo.photo.url if user.userinfo.photo else None
+            job = user.userinfo.job if hasattr(user.userinfo, 'job') else ''
         except Exception:
             photo_url = None
+            job = ''
         members.append({
             "name": user.username,
             "email": user.email,
             "role": "專案成員",
             "photo": photo_url,
+            "job": job,
         })
     context = {
         "project_id": project_id,
