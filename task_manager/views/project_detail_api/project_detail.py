@@ -4,7 +4,7 @@ from django.contrib import messages  # 添加這一行導入 messages
 from task_manager.models.project import Project
 from task_manager.models.task import Task
 from task_manager.models.project_member import ProjectMember
-from datetime import datetime
+from datetime import date
 
 @login_required(login_url="login")
 def main(request, project_id):
@@ -22,75 +22,33 @@ def main(request, project_id):
     
     # 獲取專案任務
     tasks = Task.objects.filter(project_id=project_id)
-    
-    # 分類任務
-    ongoing_tasks = []
-    completed_tasks = []
-    
-    for task in tasks:
-        task_data = {
-            "id": task.task_id,
-            "name": task.name,
-            "content": task.content,
-            "start_date": task.start_date,
-            "end_date": task.end_date,
-            "progress": 75,  # 這裡應該從數據庫獲取或計算
-            "assignees": [],  # 這裡需要獲取任務負責人
-        }
-        
-        # 將任務添加到對應類別中
-        # 實際情況下，應該根據任務的完成狀態進行判斷
-        if task.task_id % 2 == 0:  # 假設偶數ID為已完成任務
-            completed_tasks.append(task_data)
-        else:
-            ongoing_tasks.append(task_data)
+
+    total = 0
+    for t in tasks:
+        total += int(t.progress)
+    if total != 0:
+        total_progress = int(total/len(tasks))
+    else:
+        total_progress = 0
     
     # 獲取專案成員
     project_members = ProjectMember.objects.filter(project_id=project_id)
-    members = []
+    member_amount = project_members.count()+1
+
+    #計算專案結束日期
+    today = date.today()
+    diff = project.end_date.date() - today
+    if diff.days <=0:
+        end_date_diff = f"已過期{-diff.days}"
+    else:
+        end_date_diff = diff.days
     
-    for member in project_members:
-        user = member.user_id
-        try:
-            photo_url = user.userinfo.photo.url if user.userinfo.photo else None
-        except:
-            photo_url = None
-        
-        members.append({
-            "id": user.id,
-            "name": user.username,
-            "email": user.email,
-            "photo": photo_url,
-        })
-    
-    # 添加專案創建者
-    creator = project.user_id
-    try:
-        creator_photo = creator.userinfo.photo.url if creator.userinfo.photo else None
-    except:
-        creator_photo = None
-    
-    creator_data = {
-        "id": creator.id,
-        "name": creator.username,
-        "email": creator.email,
-        "photo": creator_photo,
-        "is_creator": True
-    }
-    
-    # 確保創建者不會被重複添加
-    if not any(member["id"] == creator.id for member in members):
-        members.append(creator_data)
-    
-    # 準備模板上下文
     context = {
         "project_id": project_id,
-        "members": members,
-        "ongoing_tasks": ongoing_tasks,
-        "completed_tasks": completed_tasks,
-        "ongoing_count": len(ongoing_tasks),
-        "completed_count": len(completed_tasks),
-        "date_now": datetime.now().strftime("%Y-%m-%d"),
+        "total_progress": total_progress,
+        "member_amount": member_amount,
+        "end_date": project.end_date.strftime("%Y-%m-%d"),
+        "end_date_diff": end_date_diff,
     }
     
     return render(request, "project_detail.html", context)
