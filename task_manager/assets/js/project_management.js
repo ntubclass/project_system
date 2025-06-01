@@ -1,155 +1,144 @@
-/**
- * 過濾專案列表函數
- * 根據搜尋輸入框的內容過濾專案表格
- */
-function filterProjects() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const rows = document.querySelectorAll('#projectTableBody tr');
-    let visibleCount = 0;
-    
-    rows.forEach(row => {
-        const name = row.querySelector('.project-name')?.textContent.toLowerCase() || '';
-        const description = row.querySelector('.project-description')?.textContent.toLowerCase() || '';
-        const manager = row.querySelector('.assignee-name')?.textContent.toLowerCase() || '';
-        
-        if (name.includes(input) || description.includes(input) || manager.includes(input)) {
-            row.style.display = '';
-            visibleCount++;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-    
-    // 更新顯示的專案數量（如果有顯示元素的話）
-    const showingCountElement = document.getElementById('showingCount');
-    if (showingCountElement) {
-        showingCountElement.textContent = visibleCount;
-    }
-}
+let searchTimeout;
 
-/**
- * 設定狀態篩選
- * @param {HTMLElement} button - 被點擊的篩選按鈕
- * @param {string} status - 要篩選的狀態
- */
-function setStatusFilter(button, status) {
-    // 移除所有活躍狀態
-    document.querySelectorAll('.filter-tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    // 設定當前按鈕為活躍
-    button.classList.add('active');
-    
-    // 篩選專案
-    const rows = document.querySelectorAll('#projectTableBody tr');
-    let visibleCount = 0;
-    
-    rows.forEach(row => {
-        const rowStatus = row.getAttribute('data-status');
-        if (status === 'all' || rowStatus === status) {
-            row.style.display = '';
-            visibleCount++;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-    
-    // 同時執行搜尋篩選
-    if (document.getElementById('searchInput').value) {
-        filterProjects();
-    }
-}
-
-/**
- * 新增專案
- */
-function addProject() {
-    // TODO: 實作新增專案功能
-    // 可以開啟模態框或導航到新增專案頁面
-    if (confirm('即將導航到新增專案頁面，是否繼續？')) {
-        // window.location.href = '/create_project/';
-        alert('新增專案功能待實作');
-    }
-}
-
-/**
- * 編輯專案
- * @param {number} projectId - 專案ID
- */
-function editProject(projectId) {
-    // TODO: 實作編輯專案功能
-    // 可以開啟模態框或導航到編輯專案頁面
-    if (confirm('即將導航到編輯專案頁面，是否繼續？')) {
-        // window.location.href = `/edit_project/${projectId}/`;
-        alert(`編輯專案功能待實作，專案ID: ${projectId}`);
-    }
-}
-
-/**
- * 刪除專案
- * @param {number} projectId - 專案ID
- */
-function deleteProject(projectId) {
-    if (confirm('確定要刪除此專案嗎？此操作無法復原。')) {
-        alert(`刪除專案功能待實作，專案ID: ${projectId}`);
-    }
-}
-
-/**
- * 取得 CSRF Token（Django 需要）
- * @returns {string} CSRF Token
- */
-function getCsrfToken() {
-    const token = document.querySelector('[name=csrfmiddlewaretoken]');
-    return token ? token.value : '';
-}
-
-/**
- * 跳轉到指定頁面
- * @param {number} page - 頁碼
- */
 function goToPage(page) {
     const url = new URL(window.location);
     url.searchParams.set('page', page);
+    
+    // 保持搜尋關鍵字
+    const searchInput = document.querySelector('.search-input');
+    if (searchInput && searchInput.value.trim()) {
+        url.searchParams.set('search', searchInput.value.trim());
+    }
+    
     window.location.href = url.toString();
 }
 
-/**
- * 重新整理專案列表並保持當前頁碼
- */
-function refreshProjectList() {
-    window.location.reload();
+function previousPage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = parseInt(urlParams.get('page')) || 1;
+    
+    if (currentPage > 1) {
+        goToPage(currentPage - 1);
+    }
 }
 
-/**
- * 導航到專案詳情頁面
- * @param {number} projectId - 專案ID
- */
-function viewProjectDetail(projectId) {
-    window.location.href = `/project_detail/${projectId}/`;
+function nextPage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = parseInt(urlParams.get('page')) || 1;
+    
+    // 從 DOM 取得總頁數
+    const paginationNumbers = document.querySelectorAll('.pagination-number');
+    const totalPages = paginationNumbers.length > 0 ? 
+        Math.max(...Array.from(paginationNumbers).map(btn => parseInt(btn.textContent))) : 1;
+    
+    if (currentPage < totalPages) {
+        goToPage(currentPage + 1);
+    }
 }
 
-// 綁定搜尋輸入框事件
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        // 即時搜尋
-        searchInput.addEventListener('input', filterProjects);
-        searchInput.addEventListener('keyup', filterProjects);
-        
-        // 支援 Enter 鍵搜尋
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                filterProjects();
-            }
-        });
+function performSearch(searchTerm) {
+    const url = new URL(window.location);
+    
+    if (searchTerm && searchTerm.trim()) {
+        url.searchParams.set('search', searchTerm.trim());
+    } else {
+        url.searchParams.delete('search');
     }
     
-    // 初始化篩選器狀態
-    const activeTab = document.querySelector('.filter-tab.active');
-    if (activeTab) {
-        const status = activeTab.getAttribute('data-status');
-        setStatusFilter(activeTab, status);
+    // 搜尋時回到第一頁
+    url.searchParams.delete('page');
+    window.location.href = url.toString();
+}
+
+function filterTable(searchTerm) {
+    const tableBody = document.getElementById('projectTableBody');
+    const rows = tableBody.querySelectorAll('tr');
+    let visibleCount = 0;
+    
+    searchTerm = searchTerm.toLowerCase();
+    
+    rows.forEach(row => {
+        const projectName = row.querySelector('.project-name')?.textContent.toLowerCase() || '';
+        const projectDesc = row.querySelector('.project-description')?.textContent.toLowerCase() || '';
+        const assigneeName = row.querySelector('.assignee-name')?.textContent.toLowerCase() || '';
+        const timelineInfo = row.querySelector('.timeline-info')?.textContent.toLowerCase() || '';
+        
+        const isVisible = projectName.includes(searchTerm) || 
+                         projectDesc.includes(searchTerm) || 
+                         assigneeName.includes(searchTerm) || 
+                         timelineInfo.includes(searchTerm);
+        
+        if (isVisible) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // 更新顯示數量
+    const showingCount = document.getElementById('showingCount');
+    if (showingCount) {
+        showingCount.textContent = visibleCount;
     }
+    
+    // 隱藏分頁控制當使用前端搜尋時
+    const paginationControls = document.querySelector('.pagination-controls');
+    if (paginationControls) {
+        paginationControls.style.display = searchTerm ? 'none' : '';
+    }
+}
+
+function initializeSearch() {
+    const searchInput = document.querySelector('.search-input');
+    if (!searchInput) return;
+    
+    // 載入頁面時設定搜尋值
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchParam = urlParams.get('search');
+    if (searchParam) {
+        searchInput.value = searchParam;
+    }
+    
+    // 即時搜尋
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value;
+        
+        clearTimeout(searchTimeout);
+        
+        if (searchTerm.length === 0) {
+            // 清空搜尋時顯示所有項目
+            filterTable('');
+        } else if (searchTerm.length >= 2) {
+            // 前端即時篩選
+            filterTable(searchTerm);
+        }
+    });
+    
+    // Enter 鍵觸發後端搜尋
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            clearTimeout(searchTimeout);
+            performSearch(this.value);
+        }
+    });
+    
+    // 延遲後端搜尋（可選）
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value;
+        
+        clearTimeout(searchTimeout);
+        
+        if (searchTerm.length >= 3) {
+            searchTimeout = setTimeout(() => {
+                performSearch(searchTerm);
+            }, 1000);
+        }
+    });
+}
+
+// 頁面載入完成後初始化
+document.addEventListener('DOMContentLoaded', function() {
+    initializeSearch();
 });
