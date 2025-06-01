@@ -6,9 +6,29 @@ class TaskRenderer {
         ? document.querySelector(options.container)
         : options.container || document.getElementById("mainContent");
 
+    // Check if container exists
+    if (!this.container) {
+      return; // Exit constructor if container is not found
+    }
+
+    // Debug container for showing task data
+    this.debugContainer = options.debugContainer || null;
+
     // Initialize if task data is provided
     if (options.tasks) {
+      // Add debug output
+      if (this.debugContainer) {
+        this.debugContainer.innerHTML = `<pre>Task data: ${JSON.stringify(
+          options.tasks,
+          null,
+          2
+        )}</pre>`;
+      }
+
       this.renderTasks(options.tasks);
+    } else {
+      this.container.innerHTML =
+        '<div class="no-tasks-message">No tasks provided</div>';
     }
   }
 
@@ -18,16 +38,8 @@ class TaskRenderer {
    * @returns {NodeList} - Matching DOM elements
    */
   findByQuery(query) {
+    if (!this.container) return [];
     return this.container.querySelectorAll(query);
-  }
-
-  /**
-   * Check if a task is completed
-   * @param {Object} task - Task data
-   * @returns {boolean} - True if task is completed
-   */
-  isTaskCompleted(task) {
-    return task.progress >= 100;
   }
 
   /**
@@ -35,35 +47,52 @@ class TaskRenderer {
    * @param {Array} tasks - Array of task objects
    */
   renderTasks(tasks) {
+    // Check if container exists before attempting to render
+    if (!this.container) {
+      return;
+    }
+
     if (!tasks || !tasks.length) {
       this.container.innerHTML =
         '<div class="no-tasks-message">No tasks found</div>';
       return;
     }
 
-    // Split into in-progress and completed tasks
-    const inProgressTasks = [];
-    const completedTasks = [];
-
-    tasks.forEach((task) => {
-      if (this.isTaskCompleted(task)) {
-        completedTasks.push(task);
-      } else {
-        inProgressTasks.push(task);
-      }
-    });
+    // Split into different categories based on status property
+    const notStartedTasks = tasks.filter(
+      (task) => task.status === "not-started"
+    );
+    const inProgressTasks = tasks.filter(
+      (task) => task.status === "in-progress"
+    );
+    const completedTasks = tasks.filter((task) => task.status === "completed");
+    const overdueTasks = tasks.filter((task) => task.status === "overdue");
 
     // Generate HTML with category section at the top
     const html = `
           <!-- Category summary cards -->
           <div class="category-section">
             <div class="category-cards">
+                <div class="category-card" data-category="not_started">
+                    <div class="category-info">
+                        <div class="category-title">未開始任務</div>
+                        <div class="category-count">${
+                          notStartedTasks.length
+                        }</div>
+                    </div>
+                </div>
                 <div class="category-card" data-category="in_progress">
                     <div class="category-info">
                         <div class="category-title">進行中任務</div>
                         <div class="category-count">${
                           inProgressTasks.length
                         }</div>
+                    </div>
+                </div>
+                <div class="category-card" data-category="overdue">
+                    <div class="category-info">
+                        <div class="category-title">逾時任務</div>
+                        <div class="category-count">${overdueTasks.length}</div>
                     </div>
                 </div>
                 <div class="category-card" data-category="completed">
@@ -78,27 +107,60 @@ class TaskRenderer {
           </div>
           
           <!-- Task sections -->
-          <div class="task-section" data-section-type="continue">
+          <div class="task-section" data-section-type="not_started">
               <div class="section-header">
                   <div class="section-title">
-                      <i class="section-icon continue fas fa-caret-down"></i>
-                      進行中任務
+                      <i class="section-icon not-started fas fa-caret-down"></i>
+                      <span class="status not-started">未開始</span>
                   </div>
-                  <div class="task-count continue">${
+                  <div class="task-count not-started">${
+                    notStartedTasks.length
+                  }</div>
+              </div>
+              <div class="task-cards">
+                  ${notStartedTasks
+                    .map((task) => this.createTaskCardHTML(task))
+                    .join("")}
+              </div>
+          </div>
+          
+          <div class="task-section" data-section-type="in-progress">
+              <div class="section-header">
+                  <div class="section-title">
+                      <i class="section-icon in-progress fas fa-caret-down"></i>
+                      <span class="status in-progress">進行中任務</span>
+                  </div>
+                  <div class="task-count in-progress">${
                     inProgressTasks.length
                   }</div>
               </div>
               <div class="task-cards">
                   ${inProgressTasks
-                    .map((task) => this.createTaskCardHTML(task, false))
+                    .map((task) => this.createTaskCardHTML(task))
                     .join("")}
               </div>
           </div>
+          
+          <div class="task-section" data-section-type="overdue">
+              <div class="section-header">
+                  <div class="section-title">
+                      <i class="section-icon overdue fas fa-caret-down"></i>
+                      <span class="status overdue">逾時任務</span>
+                  </div>
+                  <div class="task-count overdue">${overdueTasks.length}</div>
+              </div>
+              <div class="task-cards">
+                  ${overdueTasks
+                    .map((task) => this.createTaskCardHTML(task))
+                    .join("")}
+              </div>
+          </div>
+          
           <div class="task-section" data-section-type="completed">
               <div class="section-header">
                   <div class="section-title">
                       <i class="section-icon completed fas fa-caret-down"></i>
-                      已完成任務
+                      <span class="status completed">已完成任務</span>
                   </div>
                   <div class="task-count completed">${
                     completedTasks.length
@@ -106,7 +168,7 @@ class TaskRenderer {
               </div>
               <div class="task-cards">
                   ${completedTasks
-                    .map((task) => this.createTaskCardHTML(task, true))
+                    .map((task) => this.createTaskCardHTML(task))
                     .join("")}
               </div>
           </div>
@@ -127,66 +189,68 @@ class TaskRenderer {
   /**
    * Create HTML for a task card
    * @param {Object} task - Task data
-   * @param {boolean} isCompleted - Whether the task is completed
    * @returns {string} - HTML string
    */
-  createTaskCardHTML(task, isCompleted) {
-    const taskId = task.id;
+  createTaskCardHTML(task) {
+    const taskId = task.id || task.task_id;
+    if (!taskId) {
+      return "";
+    }
+
+    const status = task.status || "";
+    const isOverdue = status === "overdue";
+    const progress = task.progress || 0;
+    const projectName = task.project_name || "";
 
     const dateLabel = "截止日期";
     const dateValue = task.end_date;
-    const dateFormatted = dateValue ? dateValue.split(" ")[0] : "未設定";
+    let dateFormatted = "未設定";
+
+    try {
+      if (dateValue) {
+        dateFormatted =
+          typeof dateValue === "string"
+            ? dateValue.split(" ")[0]
+            : dateValue.toISOString().split("T")[0];
+      }
+    } catch (e) {
+      // Silent error handling
+    }
 
     return `
-        <div class="task-card ${
-          isCompleted ? "completed" : ""
-        }" data-task-id="${taskId}">
+        <div class="task-card ${status}" data-task-id="${taskId}">
             <div class="task-info">
-                <div class="task-title">${task.name}</div>
+                <div class="task-title">${task.name || task.task_name}</div>
+                ${
+                  projectName
+                    ? `<div class="project-name">${projectName}</div>`
+                    : ""
+                }
+                <span class="status ${status}"></span>
             </div>
             <div class="progress-container">
                 <div class="progress-label">進度</div>
                 <div class="progress-percentage">${task.progress}%</div>
             </div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: ${
-                  task.progress
-                }%" progress="${task.progress}"></div>
+                <div class="progress-fill ${isOverdue ? "overdue" : ""}" 
+                     style="width: ${task.progress}%" 
+                     progress="${task.progress}">
+                </div>
             </div>
             <div class="card-info">
               <div class="user-avatar">
                   <img src="${
-                    task.user_avatar || "default-avatar.png"
+                    task.photo || task.user_avatar || "default-avatar.png"
                   }" alt="User Avatar" class="avatar">
               </div>
-              <div class="task-due-date">
+              <div class="task-due-date ${isOverdue ? "overdue" : ""}">
                   <i class="date-icon far fa-calendar"></i>
                   ${dateLabel}：${dateFormatted}
               </div>
             </div>
         </div>
     `;
-  }
-
-  addSectionToggleHandlers() {
-    const sectionHeaders = this.findByQuery(".section-header");
-    sectionHeaders.forEach((header) => {
-      header.addEventListener("click", () => {
-        const section = header.parentElement;
-        const taskCards = section.querySelector(".task-cards");
-        const icon = header.querySelector(".section-icon");
-
-        if (taskCards.style.display === "none") {
-          taskCards.style.display = "grid";
-          icon.classList.remove("fa-caret-right");
-          icon.classList.add("fa-caret-down");
-        } else {
-          taskCards.style.display = "none";
-          icon.classList.remove("fa-caret-down");
-          icon.classList.add("fa-caret-right");
-        }
-      });
-    });
   }
 
   /**
@@ -294,8 +358,9 @@ class TaskRenderer {
    * Update progress for a specific task
    * @param {string|number} taskId - ID of the task to update
    * @param {number} progress - New progress value (0-100)
+   * @param {string} status - Optional new status
    */
-  updateTaskProgress(taskId, progress) {
+  updateTaskProgress(taskId, progress, status) {
     // Find the task card
     const taskCard = this.findByQuery(`[data-task-id="${taskId}"]`)[0];
     if (!taskCard) return;
@@ -312,5 +377,79 @@ class TaskRenderer {
       progressFill.style.width = `${progress}%`;
       progressFill.setAttribute("progress", progress);
     }
+
+    // Update status if provided
+    if (status) {
+      const statusElement = taskCard.querySelector(".status");
+      if (statusElement) {
+        // Remove all existing status classes
+        statusElement.classList.remove(
+          "not-started",
+          "in-progress",
+          "overdue",
+          "completed"
+        );
+        // Add the new status class
+        statusElement.classList.add(status);
+      }
+
+      // Update the task card status class as well
+      taskCard.classList.remove(
+        "not-started",
+        "in-progress",
+        "overdue",
+        "completed"
+      );
+      taskCard.classList.add(status);
+    }
   }
 }
+
+// Add auto-initialization if the page includes task data
+document.addEventListener("DOMContentLoaded", function () {
+  // Check for task data in the global scope or in a data attribute
+  const taskData = window.taskData || [];
+
+  // Make sure the container exists before initializing
+  const container = document.getElementById("mainContent");
+
+  if (!container) {
+    // Try an alternative container
+    const altContainer =
+      document.querySelector(".task-container") ||
+      document.querySelector("main") ||
+      document.body;
+
+    if (altContainer) {
+      // Create a new div to serve as mainContent
+      const newMainContent = document.createElement("div");
+      newMainContent.id = "mainContent";
+      altContainer.appendChild(newMainContent);
+    } else {
+      return;
+    }
+  }
+
+  // If we have data in the page, initialize the renderer
+  if (taskData.length) {
+    new TaskRenderer({
+      container: container,
+      tasks: taskData,
+    });
+  } else {
+    // Try to find tasks in the context
+    const myTasks = window.myTasks || [];
+    const participateTasks = window.participateTasks || [];
+
+    if (myTasks.length || participateTasks.length) {
+      try {
+        new TaskRenderer({
+          container: container,
+          tasks: [...myTasks, ...participateTasks],
+        });
+      } catch (error) {
+        // Silent error handling
+      }
+    }
+  }
+});

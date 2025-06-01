@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // 更新 stat-value 中的百分比顯示
         const statCard = bar.closest(".stat-card");
         if (statCard) {
-          const progressPercentage = statCard.querySelector(".progress-percentage");
+          const progressPercentage = statCard.querySelector(
+            ".progress-percentage"
+          );
           if (progressPercentage) {
             progressPercentage.textContent = progressValue;
           }
@@ -138,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const tasksWithProject = tasks.map((task) => {
                   return {
                     ...task,
-                    project_name: data.project_name || "Project",
+                    project_name: data.project_name,
                   };
                 });
 
@@ -164,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   right: "today",
                 },
                 locale: "zh-tw",
-                displayEventTime: false, 
+                displayEventTime: false,
                 eventTimeFormat: {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -189,19 +191,31 @@ document.addEventListener("DOMContentLoaded", function () {
                   },
                 })),
                 eventClick: function (info) {
-              
-                    Swal.fire({
-                      title: info.event.title,
-                      html: `
+                  Swal.fire({
+                    title: info.event.title,
+                    html: `
                         <div class="task-detail-popup">
-                          <p><strong>進度:</strong> ${info.event.extendedProps.progress}%</p>
+                          <p><strong>進度:</strong> ${
+                            info.event.extendedProps.progress
+                          }%</p>
                           <p><strong>開始:</strong> ${info.event.start.toLocaleDateString()}</p>
-                          <p><strong>結束:</strong> ${info.event.end ? info.event.end.toLocaleDateString() : "無結束日期"}</p>
-                          ${info.event.extendedProps.description ? `<p><strong>描述:</strong> ${info.event.extendedProps.description}</p>` : ''}
+                          <p><strong>結束:</strong> ${
+                            info.event.end
+                              ? info.event.end.toLocaleDateString()
+                              : "無結束日期"
+                          }</p>
+                          ${
+                            info.event.extendedProps.description
+                              ? `<p><strong>描述:</strong> ${info.event.extendedProps.description}</p>`
+                              : ""
+                          }
                         </div>
                       `,
-                      icon: info.event.extendedProps.progress >= 100 ? "success" : "info",
-                    });
+                    icon:
+                      info.event.extendedProps.progress >= 100
+                        ? "success"
+                        : "info",
+                  });
                 },
               });
               calendar.render();
