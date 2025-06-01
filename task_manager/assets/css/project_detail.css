@@ -27,8 +27,8 @@ body {
 }
 
 .project-overview-container {
-  padding: 30px;
-  padding-left: 60px;
+  padding: 50px 60px;
+  width: 100%;
 }
 
 .section-title {
@@ -167,6 +167,11 @@ body {
   align-items: center;
   cursor: pointer;
   width: fit-content;
+  transition: background-color ease 0.2s;
+}
+
+.create-btn:hover {
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
 
 .toolbar{

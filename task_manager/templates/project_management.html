@@ -1,0 +1,105 @@
+{% extends 'backstage_base.html' %}
+{% load static %}
+{% block title %}後臺管理|專案管理{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/project_management.css' %}">
+{% endblock %}
+{% block content %}
+<div class="project-overview-container">
+    <!-- Header -->
+    <div class="title-bar">
+        <h1 class="section-title">專案管理</h1>
+        <button class="create-btn" id="openMemberListBtn">
+          <i class="create-icon fa-solid fa-plus"></i>
+            新增專案
+        </button>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <i class="search-icon fa-solid fa-search"></i>
+            <input type="text" placeholder="搜尋專案..." class="search-input">
+        </div>
+    </div>
+
+    <!-- Project Table -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>專案名稱</th>
+                        <th>進度</th>
+                        <th>負責人/團隊</th>
+                        <th>時程</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="projectTableBody">
+                    {% for project in projects %}
+                    <tr data-project="{{ project.name }}" data-status="{{ project.status }}">
+                        <td>
+                            <div class="project-info">
+                                <div class="project-name">{{ project.name }}</div>
+                                <div class="project-description">{{ project.description }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span class="progress-percentage">{{ project.progress }}%</span>
+                                    <span class="progress-days">已完成{{ project.completed_tasks }}個任務</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {{ project.progress }}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="assignee-info">
+                                <div class="assignee-name">負責人: {{ project.manager }}</div>
+                                <div class="team-size">共 {{ project.team_size }} 成員</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="timeline-info">
+                                <div>{{ project.start_date }} ~ {{ project.end_date }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <button class="action-btn edit" onclick="editProject({{ project.id }})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteProject({{ project.id }})">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 分頁信息 -->
+        <div class="pagination">
+            <div class="pagination-info">
+                顯示 1 至 <span id="showingCount">{{ users|length }}</span> 筆，共 <span id="totalCount">{{ total_users }}</span> 筆
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" onclick="previousPage()" {% if current_page == 1 %}disabled{% endif %}>上一頁</button>
+                {% for page_num in page_range %}
+                <button class="pagination-number {% if page_num == current_page %}active{% endif %}" onclick="goToPage({{ page_num }})">{{ page_num }}</button>
+                {% endfor %}
+                <button class="pagination-btn" onclick="nextPage()" {% if current_page == total_pages %}disabled{% endif %}>下一頁</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/project_management.js' %}"></script>
+{% endblock %}

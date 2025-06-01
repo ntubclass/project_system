@@ -5,7 +5,7 @@
 
 .main-content {
   margin-left: 250px; /* 與sidebar寬度相同 */
-  padding: 40px;
+  padding: 40px 60px;
   transition: margin-left 0.3s ease;
 }
 
@@ -25,7 +25,7 @@
 .title-bar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 40px;
 }
 
@@ -65,6 +65,11 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: background-color ease 0.2s;
+}
+
+.create-btn:hover {
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
 
 .create-icon {
@@ -83,6 +88,12 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
   position: relative;
+  transition: all ease 0.3s;
+}
+
+.project-card:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .card-header {
@@ -109,16 +120,15 @@
 
 .btn-delete{
   color: var(--dark-red);
+  font-size: 18px;
 }
 
 .card-header .btn-edit:hover {
   color: var(--button-blue-hover);
-  transform: scale(1.15);
 }
 
 .card-header .btn-delete:hover {
   color: var(--button-red-hover);
-  transform: scale(1.15);
 }
 
 .project-title {
@@ -261,12 +271,18 @@
   content: "未開始";
 }
 
-.overdue {
+.overtime {
   background-color: var(--light-red);
   color: var(--dark-red);
 }
-.overdue:empty:after {
+
+.overtime:empty:after {
   content: "已逾期";
+}
+
+.btn-box{
+  display: flex;
+  align-items: center;
 }
 
 /* Responsive adjustments */
