@@ -131,15 +131,6 @@
 }
 
 
-/* 完成任務的計數器 */
-.continue {
-  color: var(--orange);
-}
-
-.completed {
-  color: var(--dark-green);
-}
-
 /* 響應式設計 - 與 project 頁面保持一致 */
 @media screen and (max-width: 768px) {
   .main-content {
@@ -252,5 +243,36 @@
 }
 
 
+/* Replace the conflicting CSS rules */
+i.not-started {
+  color: var(--dark-gray);
+}
+
+i.in-progress {
+  color: var(--dark-blue);
+}
 
 
+i.completed {
+  color: var(--dark-green);
+}
+
+i.overdue {
+  color: var(--dark-red);
+}
+
+.task-count.not-started {
+  color: var(--dark-gray);
+}
+
+.task-count.in-progress {
+  color: var(--dark-blue);
+}
+
+.task-count.completed {
+  color: var(--dark-green);
+}
+
+.task-count.overdue {
+  color: var(--dark-red);
+}

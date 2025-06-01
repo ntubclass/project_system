@@ -13,7 +13,8 @@ from task_manager.views import (
     user_management,
     project_management,
     chat_management,
-    files_management
+    files_management,
+    task_management,
 )
 
 from task_manager.views.chat_api import chat
@@ -68,6 +69,7 @@ urlpatterns = (
         path('project_management/', project_management.main, name='project_management'),   
         path('chat_management/', chat_management.main, name='chat_management'),   
         path('files_management/', files_management.main, name='files_management'),   
+        path('task_management/', task_management.main, name='task_management'),   
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
