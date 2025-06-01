@@ -243,4 +243,36 @@
 }
 
 
+/* Replace the conflicting CSS rules */
+i.not-started {
+  color: var(--dark-gray);
+}
 
+i.in-progress {
+  color: var(--dark-blue);
+}
+
+
+i.completed {
+  color: var(--dark-green);
+}
+
+i.overdue {
+  color: var(--dark-red);
+}
+
+.task-count.not-started {
+  color: var(--dark-gray);
+}
+
+.task-count.in-progress {
+  color: var(--dark-blue);
+}
+
+.task-count.completed {
+  color: var(--dark-green);
+}
+
+.task-count.overdue {
+  color: var(--dark-red);
+}
