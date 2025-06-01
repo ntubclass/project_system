@@ -1,5 +1,5 @@
 <div class="sidebar" id="sidebar">
-  <h1 class="sidebar-title">系統管理控制台</h1>
+  <a href="{% url 'project' %}"><h1 class="sidebar-title">系統管理控制台</h1></a>
   <div class="sidebar-content">
       <div class="sidebar-menu">
         <a href="{% url 'backstage' %}" class="sidebar-item {% if request.resolver_match.url_name == 'backstage' %}active{% endif %}">
@@ -8,19 +8,19 @@
         </a>
         <a href="{% url 'user_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'user_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-users"></i>
-            <div>用戶管理</div>
+            <div>用戶</div>
         </a>
         <a href="{% url 'project_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'project_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-folder-closed"></i>
-            <div>專案管理</div>
+            <div>專案</div>
         </a>
         <a href="{% url 'chat_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'chat_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-comment"></i>
-            <div>聊天室管理</div>
+            <div>聊天室</div>
         </a>
         <a href="{% url 'files_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'files_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-folder"></i>
-            <div>檔案管理</div>
+            <div>檔案</div>
         </a>
       </div>
       <a href="{% url 'project' %}" class="back-link">

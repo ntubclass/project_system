@@ -1,4 +1,8 @@
 /* sidebar.css 專案詳情頁面 */
+a{
+  text-decoration: none;
+}
+
 .sidebar {
   width: 250px;
   background-color: var(--white);
@@ -39,6 +43,7 @@
 .sidebar-item {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   padding: 16px 20px;
   color: var(--dark-gray);
   font-size: var(--font-size-20);
