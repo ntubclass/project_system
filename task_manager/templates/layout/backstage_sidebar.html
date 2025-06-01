@@ -4,7 +4,7 @@
       <div class="sidebar-menu">
         <a href="{% url 'backstage' %}" class="sidebar-item {% if request.resolver_match.url_name == 'backstage' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-chart-line"></i>
-            <div>系統概覽</div>
+            <div>首頁</div>
         </a>
         <a href="{% url 'user_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'user_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-users"></i>
