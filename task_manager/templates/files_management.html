@@ -1,0 +1,75 @@
+{% extends 'backstage_base.html' %}
+{% load static %}
+{% block title %}後臺管理|檔案管理{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/files_management.css' %}">
+{% endblock %}
+{% block content %}
+<div class="project-overview-container">
+    <div class="title-bar">
+        <h1 class="section-title">檔案共享</h1>
+        <button class="upload-btn" id="openUploadFileBtn" aria-label="Upload File">
+            <i class="upload-icon fa-solid fa-upload"></i>
+            上傳檔案
+        </button>
+    </div>
+    
+    <!-- 搜尋框 -->
+    <div class="search-container">
+        <div class="search-box">
+            <i class="search-icon fa-solid fa-search"></i>
+            <input type="text" placeholder="搜尋檔案..." class="search-input">
+        </div>
+    </div>
+    
+    <!-- 檔案列表容器 -->
+    <div class="file-table-container">
+        <!-- 檔案列表標題 -->
+        <div class="file-table-header">
+            <div class="file-header-cell name-cell">檔案名稱</div>
+            <div class="file-header-cell owner-cell">上傳者</div>
+            <div class="file-header-cell date-cell">上傳日期/時間</div>
+            <div class="file-header-cell size-cell">大小</div>
+            <div class="file-header-cell action-cell"></div>
+        </div>
+        
+        <!-- 檔案列表 -->
+        <div class="file-table-body">
+            {% for i in file_data %}
+                <div class="file-row">
+                    <div class="file-cell name-cell">
+                        <div class="file-icon {{ i.class_bgClass }}">
+                            <i class="fa-solid {{ i.class_icon }}"></i>
+                        </div>
+                        <div class="file-details">
+                            <div class="file-name">{{ i.file_name }}</div>
+                            <div class="file-type">{{ i.file_type }}</div>
+                        </div>
+                    </div>
+                    <div class="file-cell owner-cell">{{ i.user_id }}</div>
+                    <div class="file-cell date-cell">{{ i.create_time }}</div>
+                    <div class="file-cell size-cell">{{ i.file_size }}</div>
+                    <div class="file-cell action-cell">
+                        <a href="#" class="download-btn">
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                        <button class="delete-btn" onclick="deleteFile({{ i.file_id }}, '{{ i.file_name }}')" title="刪除">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% include 'dialog/upload_file_dialog.html' %}
+
+{% endblock %}
+{% block extra_js %}
+<script>
+    // 傳遞 project_id 給 JavaScript
+    window.PROJECT_ID = {{ project_id }};
+</script>
+<script src="{% static 'js/files_management.js' %}"></script>
+{% endblock %}

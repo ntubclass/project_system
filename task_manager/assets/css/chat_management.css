@@ -39,7 +39,7 @@ body {
 }
 
 .create-btn:hover {
-  background-color: var(--dark-blue); /* 略微深色的藍色 */
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
 
 .create-btn i {
@@ -101,15 +101,15 @@ thead {
 }
 
 th {
-    text-align: center;
+    text-align: left;
     padding: 12px 16px;
     font-weight: 500;
-    color: var(--dark-gray);
+    color: #374151;
     font-size: 14px;
 }
 
-th:first-child {
-    text-align: left;
+th:last-child {
+    text-align: right;
 }
 
 tbody tr {
@@ -122,16 +122,30 @@ tbody tr:hover {
 }
 
 td {
-    color: #404040;
-    text-align: center;
     padding: 16px;
     font-size: 14px;
+    vertical-align: top;
 }
 
-td:first-child {
-    text-align: left;
+.no-data {
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    padding: 32px 16px;
 }
 
+/* Project Info */
+.project-info {
+    display: flex;
+    align-items: center;
+}
+
+.project-name {
+    font-weight: 500;
+    color: #111827;
+}
+
+/* User Info */
 .user-info {
     display: flex;
     align-items: center;
@@ -141,7 +155,7 @@ td:first-child {
 .user-avatar {
     width: 32px;
     height: 32px;
-    background-color: var(--dark-blue);
+    background-color: #2563eb;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -149,48 +163,48 @@ td:first-child {
     justify-content: center;
     font-weight: 500;
     font-size: 14px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.user-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .user-details .user-name {
     font-weight: 500;
-    color: var(--dark-gray);
+    color: #111827;
     margin-bottom: 2px;
 }
 
 .user-details .user-email {
-    color: var(--light-gray);
+    color: #6b7280;
     font-size: 12px;
 }
 
-.badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-weight: 500;
-    font-size: 14px;
+/* Message Content */
+.message-content {
+    color: #374151;
+    line-height: 1.5;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+/* Message Time */
+.message-time {
+    color: #6b7280;
+    font-size: 13px;
     white-space: nowrap;
 }
 
-.badge-admin {
-    background-color: #dbeafe;
-    color: var(--dark-blue);
-}
-
-.badge-user {
-    background-color: #f3f4f6;
-    color: var(--dark-gray);
-}
-
-.badge-active {
-    background-color: #d1fae5;
-    color: #065f46;
-}
-
+/* Actions */
 .actions {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 8px;
 }
 
@@ -200,18 +214,8 @@ td:first-child {
     background: none;
     border-radius: 8px;
     cursor: pointer;
-    color: var(--light-gray);
+    color: #6b7280;
     transition: all 0.2s;
-}
-
-.action-btn:hover.edit {
-    color: var(--dark-blue);
-    background-color: #eff6ff;
-}
-
-.action-btn:hover.mail {
-    color: #059669;
-    background-color: #ecfdf5;
 }
 
 .action-btn:hover.delete {
@@ -231,7 +235,7 @@ td:first-child {
 
 .pagination-info {
     font-size: 14px;
-    color: var(--dark-gray);
+    color: #374151;
 }
 
 .pagination-controls {
@@ -248,6 +252,8 @@ td:first-child {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
+    text-decoration: none;
+    color: #374151;
 }
 
 .pagination-btn:hover:not(:disabled) {
@@ -269,11 +275,13 @@ td:first-child {
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s;
+    text-decoration: none;
+    color: #374151;
     border: none;
 }
 
 .pagination-number.active {
-    background-color: var(--dark-blue);
+    background-color: #2563eb;
     color: white;
 }
 
@@ -284,6 +292,93 @@ td:first-child {
 
 .pagination-number:not(.active):hover {
     background-color: #f3f4f6;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.close {
+    font-size: 24px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: color 0.2s;
+}
+
+.close:hover {
+    color: #374151;
+}
+
+.modal-body {
+    padding: 16px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-secondary {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+.btn-danger {
+    background-color: #dc2626;
+    color: white;
+    border: 1px solid #dc2626;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c;
 }
 
 /* Utility Classes */
@@ -323,5 +418,18 @@ td:first-child {
 
     .actions {
         justify-content: center;
+    }
+
+    .message-content {
+        max-width: 200px;
+    }
+    
+    /* 在手機上隱藏部分欄位 */
+    th:nth-child(2), td:nth-child(2) {
+        display: none;
+    }
+    
+    th:nth-child(4), td:nth-child(4) {
+        display: none;
     }
 }

@@ -39,7 +39,7 @@ body {
 }
 
 .create-btn:hover {
-  background-color: var(--dark-blue); /* 略微深色的藍色 */
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
 
 .create-btn i {
@@ -121,8 +121,11 @@ tbody tr:hover {
     background-color: #f9fafb;
 }
 
+tbody tr:last-child {
+    border-bottom: none;
+}
+
 td {
-    color: #404040;
     text-align: center;
     padding: 16px;
     font-size: 14px;
@@ -132,61 +135,78 @@ td:first-child {
     text-align: left;
 }
 
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+
+/* Project Info */
+.project-info .project-name {
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 4px;
+    font-size: 15px;
 }
 
-.user-avatar {
-    width: 32px;
-    height: 32px;
-    background-color: var(--dark-blue);
-    color: white;
-    border-radius: 50%;
+.project-info .project-description {
+    color: var(--light-gray);
+    font-size: 13px;
+}
+
+/* Progress Container */
+.progress-container {
+    min-width: 120px;
+}
+
+.progress-info {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.progress-percentage {
+    font-weight: 600;
+    color: var(--dark-gray);
     font-size: 14px;
 }
 
-.user-details .user-name {
-    font-weight: 500;
-    color: var(--dark-gray);
-    margin-bottom: 2px;
-}
-
-.user-details .user-email {
+.progress-days {
     color: var(--light-gray);
     font-size: 12px;
 }
 
-.badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    border-radius: 15px;
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #e5e7eb;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* Assignee Info */
+.assignee-info .assignee-name {
     font-weight: 500;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-.badge-admin {
-    background-color: #dbeafe;
-    color: var(--dark-blue);
-}
-
-.badge-user {
-    background-color: #f3f4f6;
     color: var(--dark-gray);
+    margin-bottom: 2px;
+    font-size: 14px;
 }
 
-.badge-active {
-    background-color: #d1fae5;
-    color: #065f46;
+.assignee-info .team-size {
+    color: var(--light-gray);
+    font-size: 12px;
 }
 
+/* Timeline Info */
+.timeline-info {
+    color: var(--dark-gray);
+    font-size: 13px;
+}
+
+/* Actions */
 .actions {
     display: flex;
     align-items: center;
@@ -198,20 +218,18 @@ td:first-child {
     padding: 8px;
     border: none;
     background: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     color: var(--light-gray);
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .action-btn:hover.edit {
-    color: var(--dark-blue);
+    color: #3b82f6;
     background-color: #eff6ff;
-}
-
-.action-btn:hover.mail {
-    color: #059669;
-    background-color: #ecfdf5;
 }
 
 .action-btn:hover.delete {
@@ -219,7 +237,11 @@ td:first-child {
     background-color: #fef2f2;
 }
 
-/* Pagination */
+.action-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
 .pagination {
     display: flex;
     align-items: center;
@@ -286,11 +308,6 @@ td:first-child {
     background-color: #f3f4f6;
 }
 
-/* Utility Classes */
-.hidden {
-    display: none;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .filter-row {
@@ -308,11 +325,6 @@ td:first-child {
         align-items: stretch;
     }
 
-    .pagination {
-        flex-direction: column;
-        gap: 12px;
-    }
-
     .container {
         padding: 16px;
     }
@@ -321,7 +333,28 @@ td:first-child {
         -webkit-overflow-scrolling: touch;
     }
 
-    .actions {
-        justify-content: center;
+    .progress-container {
+        min-width: 100px;
+    }
+
+    .progress-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .timeline-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    th, td {
+        padding: 12px 8px;
+    }
+
+    .pagination {
+        flex-direction: column;
+        gap: 12px;
     }
 }
