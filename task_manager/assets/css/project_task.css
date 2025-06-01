@@ -191,11 +191,11 @@ body {
   content: "未開始";
 }
 
-.overtime {
+.overdue {
   background-color: var(--light-red);
   color: var(--dark-red);
 }
-.overtime:empty:after {
+.overdue:empty:after {
   content: "已逾期";
 }
 

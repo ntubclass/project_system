@@ -1,3 +1,4 @@
+import datetime
 from task_manager.models.task import Task  
 from task_manager.models.task_member import TaskMember  
 from django.contrib.auth.decorators import login_required
@@ -24,6 +25,17 @@ def main(request):
         }
 
         for task in all_tasks:
+            status = ""
+            today = datetime.datetime.today()
+            if task.progress == 100:
+                status = "completed"
+            elif task.end_date < today and task.progress < 100:
+                status = "overdue"
+            elif today < task.start_date:
+                status = "not-started"
+            else:
+                status = "in-progress"
+
             task_data = {
                 "id": task.task_id,
                 "name": task.name,
@@ -31,6 +43,7 @@ def main(request):
                 "user_avatar": UserInfo.objects.get(user_id=task.user_id).photo.url,
                 "project_name": task.project_id.name,
                 "progress": task.progress,  
+                "status": status,
                 "start_date": task.start_date.strftime("%Y-%m-%d %H:%M:%S"),
                 "end_date": task.end_date.strftime("%Y-%m-%d %H:%M:%S"),
             }

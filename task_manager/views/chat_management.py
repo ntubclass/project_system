@@ -7,13 +7,8 @@ from django.core.paginator import Paginator
 from datetime import datetime, timedelta
 
 def main(request):
-    # 獲取所有聊天訊息 - 請根據實際的聊天訊息模型調整
-    # 這裡假設有一個 ChatMessage 模型，包含以下欄位：
-    # - project: 關聯的專案
-    # - user: 發送訊息的用戶
-    # - content: 訊息內容
-    # - create_time: 建立時間
-    # - message_id: 訊息ID
+    # 取得所有訊息
+    messages = Message.objects.all().order_by('-create_time')
     
     # 假設的查詢邏輯 - 請根據實際模型調整
     # all_messages = ChatMessage.objects.select_related('user', 'project').order_by('-create_time')
