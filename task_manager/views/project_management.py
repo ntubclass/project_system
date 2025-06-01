@@ -36,8 +36,7 @@ def main(request):
                 else:
                     field_value = ""
             elif field_name == "user_id":
-                user = User.objects.get(id=field_value.id)
-                data["user_name"] = user.username
+                data["user_name"] = m.user.username
 
             data[field_name] = field_value
         
@@ -55,7 +54,10 @@ def main(request):
         project_data.append(data)
 
     paginator = Paginator(project_data, 5)
-    page_number = request.GET.get('page', 1)
+    try:
+        page_number = int(request.GET.get('page', 1))
+    except ValueError:
+        page_number = 1
     page_obj = paginator.get_page(page_number)
 
     start_index = (page_obj.number - 1) * paginator.per_page + 1
