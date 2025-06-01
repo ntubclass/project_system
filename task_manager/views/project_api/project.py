@@ -33,8 +33,7 @@ def main(request):
                 else:
                     field_value = ""
             elif field_name == "user_id":
-                user = User.objects.get(id=field_value.id)
-                data["photo"] = user.userinfo.photo.url
+                data["photo"] = field_value.userinfo.photo.url
 
             data[field_name] = field_value
         tasks = Task.objects.filter(project_id=m.project_id)

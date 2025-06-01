@@ -4,6 +4,7 @@ from task_manager.models.project import Project
 from task_manager.models.project_member import ProjectMember
 from task_manager.models.task import Task
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 def main(request):
     search_query = request.GET.get('search', '').strip()
@@ -11,7 +12,6 @@ def main(request):
     # 根據搜尋條件篩選專案
     if search_query:
         # 使用 Q 物件進行多欄位搜尋
-        from django.db.models import Q
         project = Project.objects.filter(
             Q(name__icontains=search_query) |
             Q(description__icontains=search_query)
@@ -36,7 +36,7 @@ def main(request):
                 else:
                     field_value = ""
             elif field_name == "user_id":
-                data["user_name"] = m.user.username
+                data["user_name"] = field_value.username
 
             data[field_name] = field_value
         
