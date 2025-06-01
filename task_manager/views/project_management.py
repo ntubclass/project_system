@@ -36,8 +36,7 @@ def main(request):
                 else:
                     field_value = ""
             elif field_name == "user_id":
-                user = User.objects.get(id=field_value.id)
-                data["user_name"] = user.username
+                data["user_name"] = m.user.username
 
             data[field_name] = field_value
         
