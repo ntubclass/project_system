@@ -125,15 +125,6 @@
 }
 
 
-/* 完成任務的計數器 */
-.continue {
-  color: var(--orange);
-}
-
-.completed {
-  color: var(--dark-green);
-}
-
 /* 響應式設計 - 與 project 頁面保持一致 */
 @media screen and (max-width: 768px) {
   .main-content {
@@ -239,7 +230,6 @@
   cursor: pointer;
   width: fit-content;
 }
-
 
 
 

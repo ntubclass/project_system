@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from django.shortcuts import render
 from task_manager.models.task import Task  
 from task_manager.models.task_member import TaskMember
@@ -18,33 +18,16 @@ def main(request, project_id):
         user_id=request.user
     ).values_list('task_id', flat=True)
     participate_tasks = Task.objects.filter(task_id__in=participate_task_ids).exclude(user_id=request.user)
-#     .in-progress {
-#   background-color: var(--light-blue);
-#   color: var(--dark-blue);
-# }
 
-# .completed {
-#   background-color: var(--light-green);
-#   color: var(--dark-green);
-# }
 
-# .not-started {
-#   background-color: var(--light-yellow);
-#   color: var(--dark-yellow);
-# }
-
-# .overtime {
-#   background-color: var(--light-red);
-#   color: var(--dark-red);
-# }
     for task in my_tasks:
         status = ""
-        today = datetime.datetime.today()
+        today = datetime.today().date()  # Get just the date part
         if task.progress == 100:
             status = "completed"
-        elif task.end_date < today and task.progress < 100:
-            status = "overtime"
-        elif today < task.start_date:
+        elif task.end_date.date() < today and task.progress < 100:
+            status = "overdue"
+        elif today < task.start_date.date():
             status = "not-started"
         else:
             status = "in-progress"
@@ -53,7 +36,7 @@ def main(request, project_id):
             "task_id": task.task_id,
             "user_name": task.user_id.username,
             "task_name": task.name,
-            "end_date": task.end_date,
+            "end_date": task.end_date.strftime('%Y-%m-%d'),  # Format datetime to string
             "content": task.content,
             "progress": task.progress,
             "status": status,
@@ -64,12 +47,12 @@ def main(request, project_id):
         task = task_member
 
         status = ""
-        today = datetime.datetime.today()
+        today = datetime.today().date()  # Get just the date part
         if task.progress == 100:
             status = "completed"
-        elif task.end_date < today and task.progress < 100:
-            status = "overtime"
-        elif today < task.start_date:
+        elif task.end_date.date() < today and task.progress < 100:
+            status = "overdue"
+        elif today < task.start_date.date():
             status = "not-started"
         else:
             status = "in-progress"
@@ -78,11 +61,10 @@ def main(request, project_id):
             "task_id": task.task_id,
             "user_name": task.user_id.username,
             "task_name": task.name,
-            "end_date": task.end_date,
+            "end_date": task.end_date.strftime('%Y-%m-%d'),  # Format datetime to string
             "content": task.content,
             "progress": task.progress,
             "status": status,
-
             'photo':  task.user_id.userinfo.photo.url,
         })
     
