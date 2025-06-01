@@ -24,7 +24,7 @@ def main(request, project_id):
                 status = "not-started"
             else:
                 status = "in-progress"
-
+                
             task_data = {
                 "id": task.task_id,
                 "name": task.name,
