@@ -14,6 +14,10 @@
             <i class="sidebar-item-icon fa-solid fa-folder-closed"></i>
             <div>專案</div>
         </a>
+        <a href="{% url 'task_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'task_management' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-folder-closed"></i>
+            <div>任務</div>
+        </a>
         <a href="{% url 'chat_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'chat_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-comment"></i>
             <div>聊天室</div>
