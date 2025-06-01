@@ -78,7 +78,6 @@
 }
 
 .content {
-  padding: 20px;
   margin-left: 250px;
   transition: margin-left 0.3s ease;
   height: calc(100vh - 60px);
@@ -91,6 +90,8 @@
 
 .project-overview-container {
   transition: margin-left 0.3s ease;
+  width: 100%;
+  padding: 40px;
   width: 100%;
 }
 
