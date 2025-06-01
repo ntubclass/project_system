@@ -2,23 +2,23 @@
   <h1 class="sidebar-title">系統管理控制台</h1>
   <div class="sidebar-content">
       <div class="sidebar-menu">
-        <a href="{% url 'backstage'%}" class="sidebar-item {% if request.resolver_match.url_name == 'project_detail' %}active{% endif %}">
+        <a href="{% url 'backstage' %}" class="sidebar-item {% if request.resolver_match.url_name == 'backstage' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-chart-line"></i>
             <div>系統概覽</div>
         </a>
-        <a href="#" class="sidebar-item {% if request.resolver_match.url_name == 'project_task' %}active{% endif %}">
+        <a href="{% url 'user_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'user_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-users"></i>
             <div>用戶管理</div>
         </a>
-        <a href="#" class="sidebar-item {% if request.resolver_match.url_name == 'chat' %}active{% endif %}">
+        <a href="{% url 'project_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'project_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-folder-closed"></i>
             <div>專案管理</div>
         </a>
-        <a href="#" class="sidebar-item {% if request.resolver_match.url_name == 'files' %}active{% endif %}">
+        <a href="{% url 'chat_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'chat_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-comment"></i>
             <div>聊天室管理</div>
         </a>
-        <a href="#" class="sidebar-item {% if request.resolver_match.url_name == 'member_list' %}active{% endif %}">
+        <a href="{% url 'files_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'files_management' %}active{% endif %}">
             <i class="sidebar-item-icon fa-solid fa-folder"></i>
             <div>檔案管理</div>
         </a>

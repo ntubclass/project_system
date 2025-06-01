@@ -32,15 +32,14 @@ body {
 }
 
 .project-overview-container {
-  padding: 30px;
-  padding-left: 60px;
+  padding: 50px 60px;
   width: 100%;
 }
 
 .title-bar{
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 15px;
 }
 

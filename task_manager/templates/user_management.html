@@ -1,134 +1,98 @@
+{% extends 'backstage_base.html' %}
 {% load static %}
+{% block title %}後臺管理|用戶管理{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/user_management.css' %}">
 {% endblock %}
+{% block content %}
+<div class="project-overview-container">
+    <!-- Header -->
+    <div class="title-bar">
+        <h1 class="section-title">用戶管理</h1>
+        <button class="create-btn" id="openMemberListBtn">
+          <i class="create-icon fa-solid fa-plus"></i>
+            新增用戶
+        </button>
+    </div>
 
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用戶管理</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>用戶管理</h1>
-            <button class="btn-primary" onclick="addUser()">
-                <i data-feather="plus"></i>
-                新增用戶
-            </button>
+    <div class="search-container">
+        <div class="search-box">
+            <i class="search-icon fa-solid fa-search"></i>
+            <input type="text" placeholder="搜尋成員..." class="search-input">
         </div>
+    </div>
 
-        <!-- Filter Panel -->
-        <div class="filter-panel">
-            <div class="filter-row">
-                <!-- Search Box -->
-                <div class="search-box">
-                    <i data-feather="search" class="search-icon"></i>
-                    <input type="text" id="searchInput" placeholder="搜索用戶..." oninput="filterUsers()">
-                </div>
-
-                <!-- Status Filter -->
-                <div class="filter-tabs">
-                    <button class="filter-tab active" data-status="all" onclick="setStatusFilter(this, 'all')">全部</button>
-                    <button class="filter-tab" data-status="active" onclick="setStatusFilter(this, 'active')">活躍</button>
-                    <button class="filter-tab" data-status="inactive" onclick="setStatusFilter(this, 'inactive')">未啟用</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- User Table -->
-        <div class="table-container">
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>用戶資訊</th>
-                            <th>狀態</th>
-                            <th>最後活動</th>
-                            <th>專案數</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userTableBody">
-                        {% for user in users %}
-                        <tr data-user="{{ user.name }}" data-role="{{ user.role }}" data-status="{{ user.status }}">
-                            <td>
-                                <div class="user-info">
-                                    <div class="user-avatar">{{ user.name|slice:":1" }}</div>
-                                    <div class="user-details">
-                                        <div class="user-name">{{ user.name }}</div>
-                                        <div class="user-email">{{ user.email }}</div>
-                                    </div>
+    <!-- User Table -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>用戶資訊</th>
+                        <th>狀態</th>
+                        <th>最後活動</th>
+                        <th>專案數</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    {% for user in users %}
+                    <tr data-user="{{ user.name }}" data-role="{{ user.role }}" data-status="{{ user.status }}">
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">{{ user.name|slice:":1" }}</div>
+                                <div class="user-details">
+                                    <div class="user-name">{{ user.name }}</div>
+                                    <div class="user-email">{{ user.email }}</div>
                                 </div>
-                            </td>
-                            <td>
-                                <span class="badge {% if user.status == 'active' %}badge-active{% else %}badge-inactive{% endif %}">
-                                    {% if user.status == 'active' %}使用中{% else %}未啟用{% endif %}
-                                </span>
-                            </td>
-                            <td>{{ user.last_active }}</td>
-                            <td>{{ user.operations_count }}</td>
-                            <td>
-                                <div class="actions">
-                                    <button class="action-btn edit" onclick="editUser({{ user.id }})">
-                                        <i data-feather="edit-2"></i>
-                                    </button>
-                                    <button class="action-btn mail" onclick="mailUser({{ user.id }})">
-                                        <i data-feather="mail"></i>
-                                    </button>
-                                    <button class="action-btn delete" onclick="deleteUser({{ user.id }})">
-                                        <i data-feather="trash-2"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="6">無用戶資料</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination">
-                <div class="pagination-info">
-                    顯示 1 至 <span id="showingCount">{{ users|length }}</span> 筆，共 <span id="totalCount">{{ total_users }}</span> 筆
-                </div>
-                <div class="pagination-controls">
-                    <button class="pagination-btn" onclick="previousPage()" {% if current_page == 1 %}disabled{% endif %}>上一頁</button>
-                    {% for page_num in page_range %}
-                    <button class="pagination-number {% if page_num == current_page %}active{% endif %}" onclick="goToPage({{ page_num }})">{{ page_num }}</button>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge {% if user.status == 'active' %}badge-active{% else %}badge-inactive{% endif %}">
+                                {% if user.status == 'active' %}使用中{% else %}未啟用{% endif %}
+                            </span>
+                        </td>
+                        <td>{{ user.last_active }}</td>
+                        <td>{{ user.operations_count }}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="action-btn edit" onclick="editUser({{ user.id }})">
+                                    <i data-feather="edit-2"></i>
+                                </button>
+                                <button class="action-btn mail" onclick="mailUser({{ user.id }})">
+                                    <i data-feather="mail"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteUser({{ user.id }})">
+                                    <i data-feather="trash-2"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">無用戶資料</td>
+                    </tr>
                     {% endfor %}
-                    <button class="pagination-btn" onclick="nextPage()" {% if current_page == total_pages %}disabled{% endif %}>下一頁</button>
-                </div>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="pagination-info">
+                顯示 1 至 <span id="showingCount">{{ users|length }}</span> 筆，共 <span id="totalCount">{{ total_users }}</span> 筆
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" onclick="previousPage()" {% if current_page == 1 %}disabled{% endif %}>上一頁</button>
+                {% for page_num in page_range %}
+                <button class="pagination-number {% if page_num == current_page %}active{% endif %}" onclick="goToPage({{ page_num }})">{{ page_num }}</button>
+                {% endfor %}
+                <button class="pagination-btn" onclick="nextPage()" {% if current_page == total_pages %}disabled{% endif %}>下一頁</button>
             </div>
         </div>
     </div>
-    
-    <script>
-        feather.replace();
-        function filterUsers() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const rows = document.querySelectorAll('#userTableBody tr');
-            let visibleCount = 0;
-            rows.forEach(row => {
-                const name = row.querySelector('.user-name')?.textContent.toLowerCase() || '';
-                const email = row.querySelector('.user-email')?.textContent.toLowerCase() || '';
-                if (name.includes(input) || email.includes(input)) {
-                    row.style.display = '';
-                    visibleCount++;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-            document.getElementById('showingCount').textContent = visibleCount;
-        }
-    </script>
-</body>
-</html>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+{% endblock %}

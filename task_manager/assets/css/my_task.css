@@ -7,7 +7,7 @@
 /* 主內容區 - 確保與 project.css 完全一致 */
 .main-content {
   margin-left: 250px; /* 與sidebar寬度相同 */
-  padding: 40px;
+  padding: 40px 60px;
   transition: margin-left 0.3s ease;
 }
 
@@ -23,7 +23,7 @@ main.content .task .main-content-full {
 .title-bar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 40px;
 }
 
