@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from task_manager.models.user_info import UserInfo
 from task_manager.models.project_member import ProjectMember
-# 假設聊天訊息模型 - 請根據實際情況調整
 # from task_manager.models.chat_message import ChatMessage
 from django.core.paginator import Paginator
+from datetime import datetime, timedelta
 
 def main(request):
     # 獲取所有聊天訊息 - 請根據實際的聊天訊息模型調整
@@ -36,8 +36,7 @@ def main(request):
     #         continue
     
     # 暫時的示例資料，實際使用時請替換為上面的查詢邏輯
-    from datetime import datetime, timedelta
-    messages = [
+    messages_data = [
         {
             'message_id': 1,
             'project_name': '專案管理系統',
@@ -89,21 +88,21 @@ def main(request):
     search_query = request.GET.get('search', '')
     if search_query:
         filtered_messages = []
-        for msg in messages:
+        for msg in messages_data:
             if (search_query.lower() in msg['project_name'].lower() or 
                 search_query.lower() in msg['user_name'].lower() or 
                 search_query.lower() in msg['content'].lower()):
                 filtered_messages.append(msg)
-        messages = filtered_messages
+        messages_data = filtered_messages
 
     # 分頁處理
-    paginator = Paginator(messages, 10)  # 每頁顯示10條訊息
+    paginator = Paginator(messages_data, 10)  # 每頁顯示10條訊息
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
     context = {
-        'messages': page_obj,
-        'total_messages': len(messages),
+        'messages_data': page_obj,
+        'total_messages': len(messages_data),
         'current_page': page_obj.number,
         'total_pages': paginator.num_pages,
         'page_range': paginator.page_range,
