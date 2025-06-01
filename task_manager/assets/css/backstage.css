@@ -62,6 +62,13 @@
   justify-content: space-between;
 }
 
+a{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
 .stats-text {
   flex: 1;
 }
