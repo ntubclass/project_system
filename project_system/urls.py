@@ -9,8 +9,11 @@ from task_manager.views import (
     test,
     dynamic_search_member,
     member_list,
+    backstage,
     user_management,
-    backstage
+    project_management,
+    chat_management,
+    files_management
 )
 
 from task_manager.views.chat_api import chat
@@ -62,6 +65,9 @@ urlpatterns = (
         path('reset_password/', reset_password.reset_password_view, name='reset_password'),
         path('backstage/', backstage.main, name='backstage'),   
         path('user_management/', user_management.main, name='user_management'),   
+        path('project_management/', project_management.main, name='project_management'),   
+        path('chat_management/', chat_management.main, name='chat_management'),   
+        path('files_management/', files_management.main, name='files_management'),   
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
