@@ -124,13 +124,13 @@ class TaskRenderer {
               </div>
           </div>
           
-          <div class="task-section" data-section-type="continue">
+          <div class="task-section" data-section-type="in-progress">
               <div class="section-header">
                   <div class="section-title">
-                      <i class="section-icon continue fas fa-caret-down"></i>
+                      <i class="section-icon in-progress fas fa-caret-down"></i>
                       <span class="status in-progress">進行中任務</span>
                   </div>
-                  <div class="task-count continue">${
+                  <div class="task-count in-progress">${
                     inProgressTasks.length
                   }</div>
               </div>
