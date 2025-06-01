@@ -17,26 +17,16 @@
   margin-left: 0;
 }
 
-.menu-icon {
-  font-size: var(--font-size-24);
-  margin-right: 20px;
-  cursor: pointer;
-  color: var(--dark-gray);
+a{
+  display: flex;
+  align-items: center;
 }
 
-.project-title {
-  font-size: var(--font-size-20);
+p{
+  font-size: var(--font-size-16);
   color: var(--dark-gray);
-  padding: 0 12px;
-  font-weight: bold;
-}
-
-.project-subtitle {
-  border-radius: 15px;
-  padding: 3px 10px;
-  background-color: var(--light-blue);
-  font-size: var(--font-size-14);
-  color: var(--dark-blue);
+  margin: 0;
+  margin-right: 10px;
 }
 
 .user-icon-link {
@@ -44,6 +34,13 @@
   text-decoration: none;
   display: flex;
   align-items: center;
+}
+
+.menu-icon {
+  font-size: var(--font-size-24);
+  margin-right: 20px;
+  cursor: pointer;
+  color: var(--dark-gray);
 }
 
 /* 用戶頭像容器 */
@@ -90,8 +87,6 @@
 
 .project-overview-container {
   transition: margin-left 0.3s ease;
-  width: 100%;
-  padding: 40px;
   width: 100%;
 }
 

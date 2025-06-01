@@ -1,0 +1,134 @@
+{% extends 'backstage_base.html' %}
+{% load static %}
+{% block title %}後臺管理|聊天室管理{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat_management.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="project-overview-container">
+    <!-- Header -->
+    <div class="title-bar">
+        <h1 class="section-title">聊天室管理</h1>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <i class="search-icon fa-solid fa-search"></i>
+            <input type="text" placeholder="搜尋訊息..." class="search-input">
+        </div>
+    </div>
+
+    <!-- Messages Table -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>專案</th>
+                        <th>用戶</th>
+                        <th>留言</th>
+                        <th>留言時間</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="messageTableBody">
+                    {% for message in messages %}
+                    <tr data-message-id="{{ message.message_id }}">
+                        <td>
+                            <div class="project-info">
+                                <div class="project-name">{{ message.project_name }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    {% if message.user_avatar %}
+                                        <img src="{{ message.user_avatar }}" alt="{{ message.user_name }}" class="user-avatar-image">
+                                    {% else %}
+                                        {{ message.user_name|slice:":1"|upper }}
+                                    {% endif %}
+                                </div>
+                                <div class="user-details">
+                                    <div class="user-name">{{ message.user_name }}</div>
+                                    <div class="user-email">{{ message.user_email }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="message-content">
+                                {{ message.content|truncatechars:50 }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="message-time">
+                                {{ message.create_time|date:"Y-m-d H:i" }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <button class="action-btn delete" onclick="showDeleteAlert()" title="刪除訊息">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="no-data">無聊天訊息</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="pagination-info">
+                顯示 {{ messages.start_index }} 至 {{ messages.end_index }} 筆，共 {{ total_messages }} 筆
+            </div>
+            <div class="pagination-controls">
+                {% if messages.has_previous %}
+                    <a href="?page={{ messages.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">上一頁</a>
+                {% else %}
+                    <button class="pagination-btn" disabled>上一頁</button>
+                {% endif %}
+                
+                {% for page_num in page_range %}
+                    {% if page_num == messages.number %}
+                        <button class="pagination-number active">{{ page_num }}</button>
+                    {% else %}
+                        <a href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-number">{{ page_num }}</a>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if messages.has_next %}
+                    <a href="?page={{ messages.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">下一頁</a>
+                {% else %}
+                    <button class="pagination-btn" disabled>下一頁</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 刪除提示彈窗 -->
+<div id="deleteModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>功能開發中</h3>
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>刪除功能尚在開發中，敬請期待！</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeDeleteModal()">確定</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/chat_management.js' %}"></script>
+{% endblock %}
