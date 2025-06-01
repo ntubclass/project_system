@@ -43,6 +43,12 @@
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 與 project 卡片陰影一致 */
+  transition: all ease 0.3s;
+}
+
+.task-card:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .task-info {
@@ -238,6 +244,11 @@
   align-items: center;
   cursor: pointer;
   width: fit-content;
+  transition: background-color ease 0.2s;
+}
+
+.create-btn:hover {
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
 
 
