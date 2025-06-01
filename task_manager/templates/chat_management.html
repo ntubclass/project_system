@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody id="messageTableBody">
-                    {% for message in messages %}
+                    {% for message in messages_data %}
                     <tr data-message-id="{{ message.message_id }}">
                         <td>
                             <div class="project-info">
@@ -85,25 +85,25 @@
         <!-- Pagination -->
         <div class="pagination">
             <div class="pagination-info">
-                顯示 {{ messages.start_index }} 至 {{ messages.end_index }} 筆，共 {{ total_messages }} 筆
+                顯示 {{ messages_data.start_index }} 至 {{ messages_data.end_index }} 筆，共 {{ total_messages }} 筆
             </div>
             <div class="pagination-controls">
-                {% if messages.has_previous %}
-                    <a href="?page={{ messages.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">上一頁</a>
+                {% if messages_data.has_previous %}
+                    <a href="?page={{ messages_data.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">上一頁</a>
                 {% else %}
                     <button class="pagination-btn" disabled>上一頁</button>
                 {% endif %}
                 
                 {% for page_num in page_range %}
-                    {% if page_num == messages.number %}
+                    {% if page_num == messages_data.number %}
                         <button class="pagination-number active">{{ page_num }}</button>
                     {% else %}
                         <a href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-number">{{ page_num }}</a>
                     {% endif %}
                 {% endfor %}
                 
-                {% if messages.has_next %}
-                    <a href="?page={{ messages.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">下一頁</a>
+                {% if messages_data.has_next %}
+                    <a href="?page={{ messages_data.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">下一頁</a>
                 {% else %}
                     <button class="pagination-btn" disabled>下一頁</button>
                 {% endif %}
