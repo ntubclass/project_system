@@ -1,0 +1,212 @@
+{% extends 'backstage_base.html' %}
+{% load static %}
+{% block title %}後臺管理|任務管理{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/task_management.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="project-overview-container">
+    <!-- Header -->
+    <div class="title-bar">
+        <h1 class="section-title">任務管理</h1>
+        <button class="create-btn">
+            <i class="fa-solid fa-plus"></i> 新增任務
+        </button>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <i class="search-icon fa-solid fa-search"></i>
+            <input type="text" placeholder="搜尋任務..." class="search-input">
+        </div>
+    </div>
+
+    <!-- Tasks Table -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>專案</th>
+                        <th>任務</th>
+                        <th>負責人</th>
+                        <th>狀態</th>
+                        <th>進度</th>
+                        <th>建立時間</th>
+                        <th>到期日</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTableBody">
+                    {% for task in tasks %}
+                    <tr data-task-id="{{ task.task_id }}">
+                        <td>
+                            <div class="project-info">
+                                <div class="project-name">{{ task.project_name }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="task-info">
+                                <div class="task-title">{{ task.title }}</div>
+                                <div class="task-description">{{ task.description|truncatechars:50 }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    {% if task.user_avatar %}
+                                        <img src="{{ task.user_avatar }}" alt="{{ task.user_name }}" class="user-avatar-image">
+                                    {% else %}
+                                        {{ task.user_name|slice:":1"|upper }}
+                                    {% endif %}
+                                </div>
+                                <div class="user-details">
+                                    <div class="user-name">{{ task.user_name }}</div>
+                                    <div class="user-email">{{ task.user_email }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="status-badge status-{{ task.status|lower }}">
+                                {{ task.status }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ task.progress }}%"></div>
+                                <span>{{ task.progress }}%</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="task-time">
+                                {{ task.create_time|date:"Y-m-d" }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="task-time">
+                                {% if task.due_date %}
+                                    {{ task.due_date|date:"Y-m-d" }}
+                                {% else %}
+                                    無到期日
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <button class="action-btn edit" onclick="showEditTaskModal('{{ task.task_id }}')" title="編輯任務">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="showDeleteAlert()" title="刪除任務">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="no-data">無任務資料</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="pagination-info">
+                顯示 {{ tasks.start_index }} 至 {{ tasks.end_index }} 筆，共 {{ total_tasks }} 筆
+            </div>
+            <div class="pagination-controls">
+                {% if tasks.has_previous %}
+                    <a href="?page={{ tasks.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">上一頁</a>
+                {% else %}
+                    <button class="pagination-btn" disabled>上一頁</button>
+                {% endif %}
+                
+                {% for page_num in page_range %}
+                    {% if page_num == tasks.number %}
+                        <button class="pagination-number active">{{ page_num }}</button>
+                    {% else %}
+                        <a href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-number">{{ page_num }}</a>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if tasks.has_next %}
+                    <a href="?page={{ tasks.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">下一頁</a>
+                {% else %}
+                    <button class="pagination-btn" disabled>下一頁</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 刪除提示彈窗 -->
+<div id="deleteModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>功能開發中</h3>
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>刪除功能尚在開發中，敬請期待！</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeDeleteModal()">確定</button>
+        </div>
+    </div>
+</div>
+
+<!-- 編輯任務彈窗 -->
+<div id="editTaskModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>編輯任務</h3>
+            <span class="close" onclick="closeEditTaskModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="editTaskForm">
+                <div class="form-group">
+                    <label for="taskTitle">任務標題</label>
+                    <input type="text" id="taskTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">任務描述</label>
+                    <textarea id="taskDescription" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="taskStatus">狀態</label>
+                    <select id="taskStatus" name="status">
+                        <option value="待處理">待處理</option>
+                        <option value="進行中">進行中</option>
+                        <option value="已完成">已完成</option>
+                        <option value="已暫停">已暫停</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskPriority">優先級</label>
+                    <select id="taskPriority" name="priority">
+                        <option value="低">低</option>
+                        <option value="中">中</option>
+                        <option value="高">高</option>
+                        <option value="緊急">緊急</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskDueDate">到期日</label>
+                    <input type="date" id="taskDueDate" name="due_date">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeEditTaskModal()">取消</button>
+            <button class="btn-primary" onclick="saveTaskChanges()">儲存</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/task_management.js' %}"></script>
+{% endblock %}
