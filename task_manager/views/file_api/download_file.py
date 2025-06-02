@@ -22,16 +22,18 @@ def main(request, project_id):
             
             # 查找檔案
             file_obj = File.objects.get(file_name=file_name)
-            
-            project = get_object_or_404(Project, project_id=project_id)
+            if not request.user.is_superuser:
+                project = get_object_or_404(Project, project_id=project_id)
 
-            #檢查使用者是否有權限下載
-            is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
-            is_creator = (project.user_id == request.user)
+                #檢查使用者是否有權限下載
+                is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
+                is_creator = (project.user_id == request.user)
 
             
-            if not (is_member or is_creator):
-                return JsonResponse({'error': '你沒有權限下載此檔案'}, status=403)
+                if not (is_member or is_creator):
+                    return JsonResponse({'error': '你沒有權限下載此檔案'}, status=403)
+            else:
+                project = get_object_or_404(Project, project_id=file_obj.project_id.project_id)
             
             file_path = os.path.join(settings.MEDIA_ROOT, file_obj.file_path)
             

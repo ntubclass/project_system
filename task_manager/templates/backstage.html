@@ -21,8 +21,8 @@
                 <a href="{% url 'user_management' %}" class="stats-content">
                     <div class="stats-text">
                         <h3>總用戶數</h3>
-                        <div class="stats-value">120</div>
-                        <p class="stats-details">85 活躍 15 待審核</p>
+                        <div class="stats-value">{{total_user}}</div>
+                        <p class="stats-details">{{total_active}} 啟用 {{total_inactive}} 未啟用 {{total_superuser}} 管理者</p>
                     </div>
                     <div class="stats-icon blue">
                         <i class="  fa-regular fa-user"></i>
@@ -35,7 +35,7 @@
                 <a href="{% url 'project_management' %}" class="stats-content">
                     <div class="stats-text">
                         <h3>專案總數</h3>
-                        <div class="stats-value">25</div>
+                        <div class="stats-value">{{total_project}}</div>
                         <p class="stats-details">18 進行中 7 已完成</p>
                     </div>
                     <div class="stats-icon purple">
@@ -49,7 +49,7 @@
                 <div class="stats-content">
                     <div class="stats-text">
                         <h3>任務總數</h3>
-                        <div class="stats-value">25</div>
+                        <div class="stats-value">{{total_task}}</div>
                         <p class="stats-details">18 進行中 7 已完成</p>
                     </div>
                     <div class="stats-icon yellow">
@@ -63,8 +63,8 @@
                 <a href="{% url 'files_management' %}" class="stats-content">
                     <div class="stats-text">
                         <h3>檔案數量</h3>
-                        <div class="stats-value">356</div>
-                        <p class="stats-details">總容量: 2.3 GB</p>
+                        <div class="stats-value">{{total_file}}</div>
+                        <p class="stats-details">總容量: {{total_file_size}}</p>
                     </div>
                     <div class="stats-icon green">
                         <i class="  fa-regular fa-folder"></i>

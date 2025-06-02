@@ -53,7 +53,7 @@ def main(request):
         data["member_amount"] = member_amount
         project_data.append(data)
 
-    paginator = Paginator(project_data, 5)
+    paginator = Paginator(project_data, 10)
     try:
         page_number = int(request.GET.get('page', 1))
     except ValueError:

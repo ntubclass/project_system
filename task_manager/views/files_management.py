@@ -1,27 +1,30 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
-from task_manager.models.user_info import UserInfo
-from task_manager.models.project_member import ProjectMember
-from django.db.models import Count
+from task_manager.models.file import File
+from task_manager.utils import hum_convert
+from task_manager.utils import get_file_icon
 
 def main(request):
-    """
-    檔案管理主頁面視圖
-    """
-    # 這裡可以添加檔案相關的數據處理邏輯
-    # 例如：取得所有檔案、分類統計等
-    
-    # 示例數據 - 您可以根據實際需求修改
-    files_data = []
-    
-    # 統計資訊
-    total_files = 0
-    total_size = 0
-    
     context = {
-        'files': files_data,
-        'total_files': total_files,
-        'total_size': total_size,
+        "file_data": [],
     }
+
+    files = File.objects.all()
+    for m in files:
+        data = {}
+        for field in m._meta.fields:
+            field_name = field.name
+            field_value = getattr(m, field_name)
+            data[field_name] = field_value
+            if field_name == "create_time":
+                field_value = field_value.strftime("%Y/%m/%d %H:%M:%S")
+            elif field_name == "file_size":
+                field_value = hum_convert.main(field_value)
+            elif field_name == "file_type":
+                field_value = field_value.split("/")[1]
+            data[field_name] = field_value
+        file_info = get_file_icon.main(m.file_name)
+        data["class_icon"] = file_info['icon']
+        data["class_bgClass"] = file_info['bgClass']   
+        context["file_data"].append(data)
     
     return render(request, 'files_management.html', context)
