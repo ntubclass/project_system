@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.db.models import Q
 from task_manager.models.user_info import UserInfo
 from task_manager.models.project_member import ProjectMember
 from task_manager.models.task import Task
@@ -9,16 +10,17 @@ from datetime import datetime, timedelta
 
 def main(request):
     # 取得所有任務
-    tasks = Task.objects.all().order_by('-start_date')
+    tasks = Task.objects.all()
     
     # 搜尋功能
     search_query = request.GET.get('search', '')
     if search_query:
-        tasks = tasks.filter(
-            name__icontains=search_query
-        ) | tasks.filter(
-            content__icontains=search_query
+        tasks = Task.objects.filter(
+            Q(name__icontains=search_query) |
+            Q(user_id__username__icontains=search_query) |
+            Q(project_id__name__icontains=search_query)
         )
+        
 
     # 準備任務數據，包含使用者和專案資訊
     tasks_data = []

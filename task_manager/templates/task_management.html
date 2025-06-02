@@ -3,18 +3,14 @@
 {% block title %}後臺管理|任務管理{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/task_management.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/edit_member_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/create_task_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/edit_task_dialog.css' %}">
 {% endblock %}
 {% block content %}
-
 <div class="project-overview-container">
-    <!-- Header -->
-    <div class="title-bar">
-        <h1 class="section-title">任務管理</h1>
-        <button class="create-btn">
-            <i class="fa-solid fa-plus"></i> 新增任務
-        </button>
-    </div>
-
+    {% csrf_token %}
+    {% csrf_token %}
     <div class="search-container">
         <div class="search-box">
             <i class="search-icon fa-solid fa-search"></i>
@@ -94,10 +90,8 @@
                         </td>
                         <td>
                             <div class="actions">
-                                <button class="action-btn edit" onclick="showEditTaskModal('{{ task.task_id }}')" title="編輯任務">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete" onclick="showDeleteAlert()" title="刪除任務">
+                                <button class="action-btn btn-edit edit" data-task-id="{{ task.task_id }}"><i class="fas fa-edit"></i></button>
+                                 <button class="action-btn btn-delete delete" onclick="deleteTask('{{ task.task_id }}')" title="刪除任務">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -141,72 +135,12 @@
         </div>
     </div>
 </div>
-
-<!-- 刪除提示彈窗 -->
-<div id="deleteModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>功能開發中</h3>
-            <span class="close" onclick="closeDeleteModal()">&times;</span>
-        </div>
-        <div class="modal-body">
-            <p>刪除功能尚在開發中，敬請期待！</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeDeleteModal()">確定</button>
-        </div>
-    </div>
-</div>
-
-<!-- 編輯任務彈窗 -->
-<div id="editTaskModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>編輯任務</h3>
-            <span class="close" onclick="closeEditTaskModal()">&times;</span>
-        </div>
-        <div class="modal-body">
-            <form id="editTaskForm">
-                <div class="form-group">
-                    <label for="taskTitle">任務標題</label>
-                    <input type="text" id="taskTitle" name="title" required>
-                </div>
-                <div class="form-group">
-                    <label for="taskDescription">任務描述</label>
-                    <textarea id="taskDescription" name="description" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="taskStatus">狀態</label>
-                    <select id="taskStatus" name="status">
-                        <option value="待處理">待處理</option>
-                        <option value="進行中">進行中</option>
-                        <option value="已完成">已完成</option>
-                        <option value="已暫停">已暫停</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="taskPriority">優先級</label>
-                    <select id="taskPriority" name="priority">
-                        <option value="低">低</option>
-                        <option value="中">中</option>
-                        <option value="高">高</option>
-                        <option value="緊急">緊急</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="taskDueDate">到期日</label>
-                    <input type="date" id="taskDueDate" name="due_date">
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeEditTaskModal()">取消</button>
-            <button class="btn-primary" onclick="saveTaskChanges()">儲存</button>
-        </div>
-    </div>
-</div>
-
+{% include 'dialog/edit_task_dialog.html' %}
+{% include 'dialog/edit_member_dialog.html' %}
 {% endblock %}
 {% block extra_js %}
 <script src="{% static 'js/task_management.js' %}"></script>
+<script src="{% static 'js/dialog.js' %}"></script>
+<script src="{% static 'js/edit_member_dialog.js' %}"></script>
+<script src="{% static 'js/project_task.js' %}"></script>
 {% endblock %}
