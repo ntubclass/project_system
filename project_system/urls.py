@@ -9,14 +9,9 @@ from task_manager.views import (
     test,
     dynamic_search_member,
     member_list,
-    backstage,
-    user_management,
-    project_management,
-    chat_management,
-    files_management,
-    task_management,
 )
 
+from task_manager.views.backstage import backstage, chat_management, files_management, project_management, task_management, user_management
 from task_manager.views.chat_api import chat
 from task_manager.views.file_api import delete_file, download_file, files, upload_file
 from task_manager.views.login_api import login, logout, register, reset_password, verify_code, forgot_password
