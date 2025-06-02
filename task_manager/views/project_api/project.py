@@ -33,6 +33,10 @@ def main(request):
                 else:
                     field_value = ""
             elif field_name == "user_id":
+                if field_value.id == request.user.id:
+                    data["can_edit"] = True
+                else:
+                    data["can_edit"] = False
                 data["photo"] = field_value.userinfo.photo.url
 
             data[field_name] = field_value

@@ -15,15 +15,6 @@
         <div class="title-bar">
             <div class="title">專案管理</div>
             <div class="actions">
-                <div class="sort-dropdown">
-                    排序方式
-                    <i class="dropdown-icon fa-solid fa-caret-down"></i>
-                    <select style="display:none;">
-                        <option value="recent">最新建立</option>
-                        <option value="name">名稱</option>
-                        <option value="progress">進度</option>
-                    </select>
-                </div>
                 <button class="create-btn" id="openCreateProjectBtn">
                     <i class="create-icon fa-solid fa-plus"></i>
                     建立專案
@@ -39,10 +30,12 @@
                                 <div class="project-title">{{i.name}}</div>
                                 <div class="status-null">未進行</div>
                             </div>
-                            <div class='btn-box'>
-                                <button class="btn-edit"  data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
-                                <button class="btn-delete" data-project-id="{{ i.project_id }}" onclick="event.stopPropagation(); handleButtonClick()"><i class="fas fa-times"></i></button>
-                            </div>
+                            {% if i.can_edit %}
+                                <div class='btn-box'>
+                                    <button class="btn-edit"  data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-delete" data-project-id="{{ i.project_id }}" onclick="event.stopPropagation(); handleButtonClick()"><i class="fas fa-times"></i></button>
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="progress-label">
                             <div>進度</div>
