@@ -48,7 +48,17 @@ def main(request):
             total_progress = int(total/len(tasks))
         else:
             total_progress = 0
+        today = datetime.today().date()
+        if total_progress == 100:
+            status = "已完成"
+        elif m.end_date.date() < today and total_progress < 100:
+            status = "已逾期"
+        elif today < m.start_date.date():
+            status = "未開始"
+        else:
+            status = "進行中"
         data["total_progress"] = total_progress
         data["task_count"] = tasks.count()
+        data["status"] = status
         context["project_data"].append(data)
     return render(request, "project.html", context)

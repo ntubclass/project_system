@@ -99,6 +99,26 @@
   width: 100%;
 }
 
+.status-進行中 {
+  background-color: var(--light-blue);
+  color: var(--dark-blue);
+}
+
+.status-已完成 {
+  background-color: var(--light-green);
+  color: var(--dark-green);
+}
+
+.status-未開始 {
+  background-color: var(--light-yellow);
+  color: var(--dark-yellow);
+}
+
+.status-已逾期 {
+  background-color: var(--light-red);
+  color: var(--dark-red);
+}
+
 /* 響應式調整 */
 @media screen and (max-width: 768px) {
   .header, .content {

@@ -24,11 +24,11 @@
         <div class="projects-grid" id="projectsGrid">
             {% for i in project_data %}
                 <div class="project-card" style="cursor: pointer;">
-                    <div onclick="window.location.href='{% url 'project_detail' i.project_id %}'">
+                    <div onclick="window.location.href='{% url 'project_detail' i.project_id %}?project={{i.project_id}}'">
                         <div class="card-header">
                             <div>
                                 <div class="project-title">{{i.name}}</div>
-                                <div class="status-null">未進行</div>
+                                <div class="status-null status-{{ i.status|lower }}">{{i.status}}</div>
                             </div>
                             {% if i.can_edit %}
                                 <div class='btn-box'>

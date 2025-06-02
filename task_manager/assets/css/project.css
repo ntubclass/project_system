@@ -247,37 +247,24 @@
   text-decoration: none;
 }
 
-.in-progress {
+.status-進行中 {
   background-color: var(--light-blue);
   color: var(--dark-blue);
 }
-.in-progress:empty:after {
-  content: "進行中";
-}
 
-.completed {
+.status-已完成 {
   background-color: var(--light-green);
   color: var(--dark-green);
 }
-.completed:empty:after {
-  content: "已完成";
-}
 
-.not-started {
+.status-未開始 {
   background-color: var(--light-yellow);
   color: var(--dark-yellow);
 }
-.not-started:empty:after {
-  content: "未開始";
-}
 
-.overdue {
+.status-已逾期 {
   background-color: var(--light-red);
   color: var(--dark-red);
-}
-
-.overdue:empty:after {
-  content: "已逾期";
 }
 
 .btn-box{
