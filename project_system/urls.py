@@ -9,14 +9,9 @@ from task_manager.views import (
     test,
     dynamic_search_member,
     member_list,
-    backstage,
-    user_management,
-    project_management,
-    chat_management,
-    files_management,
-    task_management,
 )
 
+from task_manager.views.backstage import backstage, chat_management, files_management, project_management, task_management, user_management
 from task_manager.views.chat_api import chat
 from task_manager.views.file_api import delete_file, download_file, files, upload_file
 from task_manager.views.login_api import login, logout, register, reset_password, verify_code, forgot_password
@@ -51,7 +46,7 @@ urlpatterns = (
         path('files/<int:project_id>/', files.main, name='files'),
         path('upload_file/<int:project_id>/', upload_file.main, name='upload_file'),
         path('download_file/<int:project_id>/', download_file.main, name='download_file'),
-        path('delete_file/<int:project_id>/', delete_file.main, name='delete_file'),
+        path('delete_file/', delete_file.main, name='delete_file'),
         path('upload_avatar_api/', upload_avatar_api.main, name='upload_avatar_api'), 
         path('project_detail/<int:project_id>/', project_detail.main, name='project_detail'),
         path("member_list/<int:project_id>/", member_list.main, name='member_list'),   

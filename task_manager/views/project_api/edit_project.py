@@ -15,28 +15,22 @@ def main(request):
         description = request.POST.get("description")
         startDate = request.POST.get("startDate")
         dueDate = request.POST.get("dueDate")
-        user = User.objects.get(username=request.user.username)
         member_count = int(request.POST.get("member_count", "0"))
 
-        today = date.today()
         start_date_obj = datetime.strptime(startDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
-        # if due_date_obj <= today:
-        #     messages.warning(request, "截止日期必須在今天或之後")
-        #     return redirect("/project/")
-        # elif start_date_obj <= today:
-        #     messages.warning(request, "開始日期必須在今天或之後")
-        #     return redirect("/project/")
-        # elif due_date_obj < start_date_obj:
-        #     messages.warning(request, "截止日期必須在開始日期之後")
-        #     return redirect("/project/")
+        if due_date_obj < start_date_obj:
+            messages.warning(request, "截止日期必須在開始日期之後")
+            return redirect("/project/")
 
         model_project = Project.objects.get(project_id=projectID)
+        if model_project.user_id.id != request.user.id:
+            messages.error(request, "您沒有權限編輯此專案")
+            return redirect("/project/")
         model_project.name = projectName
         model_project.description = description
         model_project.start_date = startDate
         model_project.end_date = dueDate
-        model_project.user_id = user
         model_project.save()
 
         ProjectMember.objects.filter(project_id=model_project).delete()
