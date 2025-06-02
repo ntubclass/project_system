@@ -17,7 +17,10 @@ def main(request):
             file_path = os.path.join(settings.MEDIA_ROOT, file_obj.file_path)
             if os.path.exists(file_path):
                 os.remove(file_path)
-        os.rmdir(f"{settings.MEDIA_ROOT}/uploads/{project.name}")
+        try:
+            os.rmdir(f"{settings.MEDIA_ROOT}/uploads/{project.name}")
+        except FileNotFoundError:
+            pass
         
         project.delete()
         return JsonResponse({'success': True})

@@ -308,6 +308,59 @@ td:first-child {
     background-color: #f3f4f6;
 }
 
+/* 搜尋結果提示樣式 */
+.search-results-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-term {
+    color: #495057;
+    font-weight: 500;
+}
+
+.clear-search-btn {
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.clear-search-btn:hover {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.clear-search-btn i {
+    margin-right: 4px;
+}
+
+/* 無搜尋結果時的樣式 */
+.no-results-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6c757d;
+    font-size: 16px;
+}
+
+.no-results-message i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+    color: #dee2e6;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .filter-row {
