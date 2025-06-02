@@ -8,10 +8,9 @@ from django.contrib.auth.models import User
 def main(request, project_id):
     try:
         project = Project.objects.get(project_id=project_id)
-        user = User.objects.get(id=request.user.id)
 
         # 檢查用戶權限
-        if not user.is_superuser:
+        if not request.user.is_superuser:
             if project.user_id.id != request.user.id:
                 return JsonResponse({}, status=403)
         

@@ -27,6 +27,7 @@
         <!-- 檔案列表標題 -->
         <div class="file-table-header">
             <div class="file-header-cell name-cell">檔案名稱</div>
+            <div class="file-header-cell project-cell">所屬專案</div>
             <div class="file-header-cell owner-cell">上傳者</div>
             <div class="file-header-cell date-cell">上傳日期/時間</div>
             <div class="file-header-cell size-cell">大小</div>
@@ -46,6 +47,7 @@
                             <div class="file-type">{{ i.file_type }}</div>
                         </div>
                     </div>
+                    <div class="file-cell project-cell">{{ i.project_id }}</div>
                     <div class="file-cell owner-cell">{{ i.user_id }}</div>
                     <div class="file-cell date-cell">{{ i.create_time }}</div>
                     <div class="file-cell size-cell">{{ i.file_size }}</div>
