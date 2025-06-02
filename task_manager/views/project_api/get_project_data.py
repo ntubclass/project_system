@@ -1,18 +1,19 @@
-# 在 views/project_api/ 目錄下新增檔案 get_project_data.py
-
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from task_manager.models.project import Project
 from task_manager.models.project_member import ProjectMember
+from django.contrib.auth.models import User
 
 @login_required(login_url="login")
 def main(request, project_id):
     try:
         project = Project.objects.get(project_id=project_id)
-        
+        user = User.objects.get(id=request.user.id)
+
         # 檢查用戶權限
-        if project.user_id.id != request.user.id:
-            return JsonResponse({"error": "您沒有權限編輯此專案"}, status=403)
+        if not user.is_superuser:
+            if project.user_id.id != request.user.id:
+                return JsonResponse({}, status=403)
         
         # 獲取專案成員
         project_members = ProjectMember.objects.filter(project_id=project)

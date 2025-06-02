@@ -2,16 +2,20 @@
 {% load static %}
 {% block title %}後臺管理|專案管理{% endblock %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/project_management.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project_management.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/create_project_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/edit_project_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/edit_member_dialog.css' %}">
 {% endblock %}
 {% block content %}
 <div class="project-overview-container">
     <!-- Header -->
     <div class="title-bar">
         <h1 class="section-title">專案管理</h1>
-        <button class="create-btn" id="openMemberListBtn">
+        <button class="create-btn" id="openCreateProjectBtn">
           <i class="create-icon fa-solid fa-plus"></i>
-            新增專案
+            建立專案
         </button>
     </div>
 
@@ -20,6 +24,14 @@
             <i class="search-icon fa-solid fa-search"></i>
             <input type="text" placeholder="搜尋專案..." class="search-input">
         </div>
+        {% if search_query %}
+        <div class="search-results-info">
+            <span class="search-term">搜尋 "{{ search_query }}" 的結果</span>
+            <button class="clear-search-btn" onclick="clearSearch()">
+                <i class="fas fa-times"></i> 清除搜尋
+            </button>
+        </div>
+        {% endif %}
     </div>
 
     <!-- Project Table -->
@@ -36,7 +48,7 @@
                     </tr>
                 </thead>
                 <tbody id="projectTableBody">
-                    {% for project in projects %}
+                    {% for project in project_data %}
                     <tr data-project="{{ project.name }}" data-status="{{ project.status }}">
                         <td>
                             <div class="project-info">
@@ -47,18 +59,18 @@
                         <td>
                             <div class="progress-container">
                                 <div class="progress-info">
-                                    <span class="progress-percentage">{{ project.progress }}%</span>
-                                    <span class="progress-days">已完成{{ project.completed_tasks }}個任務</span>
+                                    <span class="progress-percentage">{{ project.total_progress }}%</span>
+                                    <span class="progress-days">{{ project.task_count }}個任務</span>
                                 </div>
                                 <div class="progress-bar">
-                                    <div class="progress-fill" style="width: {{ project.progress }}%"></div>
+                                    <div class="progress-fill" style="width: {{ project.total_progress }}%"></div>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="assignee-info">
-                                <div class="assignee-name">負責人: {{ project.manager }}</div>
-                                <div class="team-size">共 {{ project.team_size }} 成員</div>
+                                <div class="assignee-name">負責人: {{ project.user_name }}</div>
+                                <div class="team-size">共 {{ project.member_amount }} 成員</div>
                             </div>
                         </td>
                         <td>
@@ -68,10 +80,10 @@
                         </td>
                         <td>
                             <div class="actions">
-                                <button class="action-btn edit" onclick="editProject({{ project.id }})">
+                                <button class="action-btn btn-edit edit" data-project-id="{{ project.project_id }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="action-btn delete" onclick="deleteProject({{ project.id }})">
+                                <button class="action-btn btn-delete delete" data-project-id="{{ project.project_id }}">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -86,7 +98,11 @@
         <!-- 分頁信息 -->
         <div class="pagination">
             <div class="pagination-info">
-                顯示 1 至 <span id="showingCount">{{ users|length }}</span> 筆，共 <span id="totalCount">{{ total_users }}</span> 筆
+                {% if total_project > 0 %}
+                    顯示 {{ start_index }} 至 <span id="showingCount">{{ end_index }}</span> 筆，共 <span id="totalCount">{{ total_project }}</span> 筆
+                {% else %}
+                    顯示 0 至 0 筆，共 0 筆
+                {% endif %}
             </div>
             <div class="pagination-controls">
                 <button class="pagination-btn" onclick="previousPage()" {% if current_page == 1 %}disabled{% endif %}>上一頁</button>
@@ -98,8 +114,17 @@
         </div>
     </div>
 </div>
+
+{% include 'dialog/edit_project_dialog.html'%}
+{% include 'dialog/create_project_dialog.html' %}
+{% include 'dialog/add_member_dialog.html' %}
+{% include 'dialog/edit_member_dialog.html' %}
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/project.js' %}"></script>
+<script src="{% static 'js/dialog.js' %}"></script>
+<script src="{% static 'js/add_member_dialog.js' %}"></script>
+<script src="{% static 'js/edit_member_dialog.js' %}"></script>
 <script src="{% static 'js/project_management.js' %}"></script>
 {% endblock %}
