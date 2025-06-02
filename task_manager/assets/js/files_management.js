@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             
             // 使用 POST 請求下載
-            fetch(`/download_file/${window.PROJECT_ID}/`, {
+            fetch(`/download_file/1/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrfToken,
@@ -565,7 +565,7 @@ function deleteFile(fileId, fileName) {
         if (result.isConfirmed) {
             const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             
-            fetch(`/delete_file/${window.PROJECT_ID}/`, {
+            fetch(`/delete_file/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrftoken
@@ -581,10 +581,10 @@ function deleteFile(fileId, fileName) {
                         icon: 'success',
                         title: "刪除成功",
                         text: "檔案已成功刪除！",
-                        target: document.getElementById('uploadFileDialog'),
                         draggable: true,
+                    }).then((result) => {
+                        location.reload();
                     });
-                    location.reload(); // 重新載入頁面
                 } else {
                     Swal.fire({
                         icon: 'error',
