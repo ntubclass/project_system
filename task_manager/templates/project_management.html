@@ -24,14 +24,14 @@
             <i class="search-icon fa-solid fa-search"></i>
             <input type="text" placeholder="搜尋專案..." class="search-input">
         </div>
-        {% if search_query %}
+        {% comment %} {% if search_query %}
         <div class="search-results-info">
             <span class="search-term">搜尋 "{{ search_query }}" 的結果</span>
             <button class="clear-search-btn" onclick="clearSearch()">
                 <i class="fas fa-times"></i> 清除搜尋
             </button>
         </div>
-        {% endif %}
+        {% endif %} {% endcomment %}
     </div>
 
     <!-- Project Table -->
