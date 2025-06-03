@@ -1,0 +1,515 @@
+/* 更換專案所有者對話框樣式 (Dialog版本) */
+.change-owner-dialog {
+    max-width: 500px;
+    width: 90vw;
+    max-height: 90vh; /* 限制最大高度為視窗高度的90% */
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden; /* 改為hidden，讓內部元素處理滾動 */
+    margin: auto; /* 確保對話框居中 */
+}
+
+#changeOwnerDialog {
+  overflow-y: auto; /* 垂直方向出現滾輪 */
+}
+
+.change-owner-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.change-owner-dialog[open] {
+    animation: dialogSlideIn 0.3s ease-out;
+}
+
+/* 關閉動畫 (參考 add_member_dialog.js 的方式) */
+.change-owner-dialog[closing] {
+    animation: dialogSlideOut 0.2s ease-in forwards;
+}
+
+@keyframes dialogSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes dialogSlideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+}
+
+.change-owner-dialog .dialog-content {
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* 讓內容填滿對話框 */
+    max-height: 90vh; /* 確保不超過視窗高度 */
+}
+
+.change-owner-dialog .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #fafafa;
+}
+
+.change-owner-dialog .dialog-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.change-owner-dialog .close-dialog {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.change-owner-dialog .close-dialog:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+}
+
+.change-owner-dialog .close-dialog:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.change-owner-form {
+    margin: 0;
+}
+
+.change-owner-dialog .dialog-body {
+    padding: 24px;
+}
+
+.change-owner-dialog .form-group {
+    margin-bottom: 20px;
+}
+
+.change-owner-dialog .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.change-owner-dialog .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #374151;
+    font-size: 14px;
+}
+
+.change-owner-dialog .required {
+    color: #ef4444;
+}
+
+.change-owner-dialog .form-input,
+.change-owner-dialog .form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.change-owner-dialog .form-input:focus,
+.change-owner-dialog .form-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.change-owner-dialog .form-input[readonly] {
+    background-color: #f9fafb;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+/* 搜尋結果樣式 */
+.search-results {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0 0;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    max-height: 200px; /* 減少搜尋結果的高度 */
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+    position: relative;
+    z-index: 10;
+}
+
+.search-results.show {
+    display: block;
+}
+
+/* 自定義滾動條樣式 */
+.search-results::-webkit-scrollbar {
+    width: 6px;
+}
+
+.search-results::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.search-results::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.search-results li {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background-color 0.2s ease;
+}
+
+.search-results li:last-child {
+    border-bottom: none;
+}
+
+.search-results li:hover {
+    background-color: #f9fafb;
+}
+
+.search-results li.no-results {
+    color: #6b7280;
+    cursor: default;
+    font-style: italic;
+    justify-content: center;
+}
+
+.search-results li.no-results:hover {
+    background-color: transparent;
+}
+
+.search-results li.more-results-info {
+    background-color: #f8fafc;
+    color: #64748b;
+    cursor: default;
+    font-size: 12px;
+    padding: 10px 16px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.search-results li.more-results-info:hover {
+    background-color: #f8fafc;
+}
+
+.search-results .more-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-results .more-info i {
+    color: #3b82f6;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.search-results .user-photo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #e5e7eb;
+    flex-shrink: 0;
+}
+
+.search-results .user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-results .user-name {
+    font-weight: 500;
+    color: #1f2937;
+    display: block;
+    font-size: 14px;
+}
+
+.search-results .user-email {
+    color: #6b7280;
+    font-size: 12px;
+    display: block;
+    margin-top: 2px;
+}
+
+/* 選中的所有者資訊樣式 */
+.selected-owner-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #f9fafb;
+}
+
+.selected-owner-info .user-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #e5e7eb;
+    flex-shrink: 0;
+}
+
+.selected-owner-info .user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.selected-owner-info .user-name {
+    font-weight: 500;
+    color: #1f2937;
+    display: block;
+    font-size: 14px;
+}
+
+.selected-owner-info .user-email {
+    color: #6b7280;
+    font-size: 12px;
+    display: block;
+    margin-top: 2px;
+}
+
+.btn-clear-selection {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-clear-selection:hover {
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+.btn-clear-selection:focus {
+    outline: 2px solid #ef4444;
+    outline-offset: 2px;
+}
+
+.change-owner-dialog .error-message {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 6px;
+    display: none;
+    line-height: 1.4;
+}
+
+.change-owner-dialog .error-message.show {
+    display: block;
+}
+
+.change-owner-dialog .warning-box {
+    background-color: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 6px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.change-owner-dialog .warning-box i {
+    color: #f59e0b;
+    margin-top: 2px;
+    flex-shrink: 0;
+    font-size: 16px;
+}
+
+.change-owner-dialog .warning-text {
+    font-size: 13px;
+    color: #92400e;
+    line-height: 1.5;
+}
+
+.change-owner-dialog .dialog-footer {
+    padding: 20px 24px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    background-color: #fafafa;
+}
+
+.change-owner-dialog .btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    min-width: 80px;
+}
+
+.change-owner-dialog .btn:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.change-owner-dialog .btn-secondary {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.change-owner-dialog .btn-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+.change-owner-dialog .btn-primary {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.change-owner-dialog .btn-primary:hover:not(:disabled) {
+    background-color: #2563eb;
+}
+
+.change-owner-dialog .btn-primary:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* 載入狀態 */
+.change-owner-dialog .btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.change-owner-dialog .btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin: auto;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    border-right-color: transparent;
+    animation: spin 1s linear infinite;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 更換所有者按鈕樣式 */
+.action-btn.btn-change-owner {
+    color: var(--light-gray);
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn.btn-change-owner:hover {
+    color: #3b82f6;
+    background-color: #eff6ff;
+}
+
+.action-btn.btn-change-owner:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .change-owner-dialog {
+        width: 95vw;
+        max-width: none;
+        margin: 20px;
+    }
+    
+    .change-owner-dialog .dialog-header,
+    .change-owner-dialog .dialog-body,
+    .change-owner-dialog .dialog-footer {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    
+    .change-owner-dialog .dialog-footer {
+        flex-direction: column;
+    }
+    
+    .change-owner-dialog .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* 無障礙輔助 */
+@media (prefers-reduced-motion: reduce) {
+    .change-owner-dialog[open] {
+        animation: none;
+    }
+    
+    .change-owner-dialog .btn,
+    .change-owner-dialog .close-dialog {
+        transition: none;
+    }
+}
