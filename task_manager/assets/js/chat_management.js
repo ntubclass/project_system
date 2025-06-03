@@ -1,115 +1,211 @@
-/**
- * 過濾訊息列表函數
- * 根據搜尋輸入框的內容過濾訊息表格
- */
-function filterMessages() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const rows = document.querySelectorAll('#messageTableBody tr');
-    let visibleCount = 0;
-    
-    rows.forEach(row => {
-        // 如果是空資料行，跳過
-        if (row.querySelector('.no-data')) {
-            return;
-        }
-        
-        const projectName = row.querySelector('.project-name')?.textContent.toLowerCase() || '';
-        const userName = row.querySelector('.user-name')?.textContent.toLowerCase() || '';
-        const messageContent = row.querySelector('.message-content')?.textContent.toLowerCase() || '';
-        
-        if (projectName.includes(input) || userName.includes(input) || messageContent.includes(input)) {
-            row.style.display = '';
-            visibleCount++;
-        } else {
-            row.style.display = 'none';
-        }
-    });
+let searchTimeout;
+
+function goToPage(page) {
+  const url = new URL(window.location);
+  url.searchParams.set("page", page);
+
+  // 保持搜尋關鍵字
+  const searchInput = document.querySelector(".search-input");
+  if (searchInput && searchInput.value.trim()) {
+    url.searchParams.set("search", searchInput.value.trim());
+  }
+
+  window.location.href = url.toString();
 }
 
-/**
- * 設置時間過濾器
- */
-function setMessageFilter(element, filter) {
-    // 移除所有活動狀態
-    document.querySelectorAll('.filter-tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    // 設置當前活動狀態
-    element.classList.add('active');
-    
-    const rows = document.querySelectorAll('#messageTableBody tr');
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-    
-    rows.forEach(row => {
-        if (row.querySelector('.no-data')) {
-            return;
-        }
-        
-        const timeText = row.querySelector('.message-time')?.textContent;
-        if (!timeText) return;
-        
-        // 解析時間格式 "YYYY-MM-DD HH:MM"
-        const messageTime = new Date(timeText.replace(' ', 'T'));
-        let shouldShow = true;
-        
-        switch (filter) {
-            case 'today':
-                shouldShow = messageTime >= today;
-                break;
-            case 'week':
-                shouldShow = messageTime >= weekAgo;
-                break;
-            case 'all':
-            default:
-                shouldShow = true;
-                break;
-        }
-        
-        row.style.display = shouldShow ? '' : 'none';
-    });
+function previousPage() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentPage = parseInt(urlParams.get("page")) || 1;
+
+  if (currentPage > 1) {
+    goToPage(currentPage - 1);
+  }
 }
 
-/**
- * 顯示刪除提示
- */
-function showDeleteAlert() {
-    document.getElementById('deleteModal').style.display = 'flex';
+function nextPage() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentPage = parseInt(urlParams.get("page")) || 1;
+
+  // 從 DOM 取得總頁數
+  const paginationNumbers = document.querySelectorAll(".pagination-number");
+  const totalPages =
+    paginationNumbers.length > 0
+      ? Math.max(
+          ...Array.from(paginationNumbers).map((btn) =>
+            parseInt(btn.textContent)
+          )
+        )
+      : 1;
+
+  if (currentPage < totalPages) {
+    goToPage(currentPage + 1);
+  }
 }
 
-/**
- * 關閉刪除彈窗
- */
-function closeDeleteModal() {
-    document.getElementById('deleteModal').style.display = 'none';
+function performSearch(searchTerm) {
+  const url = new URL(window.location);
+
+  if (searchTerm && searchTerm.trim()) {
+    url.searchParams.set("search", searchTerm.trim());
+  } else {
+    url.searchParams.delete("search");
+  }
+
+  // 搜尋時回到第一頁
+  url.searchParams.delete("page");
+  window.location.href = url.toString();
 }
 
-/**
- * 點擊外部關閉彈窗
- */
-window.onclick = function(event) {
-    const modal = document.getElementById('deleteModal');
-    if (event.target === modal) {
-        closeDeleteModal();
+function filterTable(searchTerm) {
+  const tableBody = document.getElementById("messageTableBody");
+  const rows = tableBody.querySelectorAll("tr");
+  let visibleCount = 0;
+
+  searchTerm = searchTerm.toLowerCase();
+
+  rows.forEach((row) => {
+    // Skip the "no data" row if present
+    if (row.querySelector(".no-data")) {
+      row.style.display = searchTerm ? "none" : "";
+      return;
     }
+
+    const projectName =
+      row.querySelector(".project-name")?.textContent.toLowerCase() || "";
+    const userName =
+      row.querySelector(".user-name")?.textContent.toLowerCase() || "";
+    const userEmail =
+      row.querySelector(".user-email")?.textContent.toLowerCase() || "";
+    const messageContent =
+      row.querySelector(".message-content")?.textContent.toLowerCase() || "";
+    const messageTime =
+      row.querySelector(".message-time")?.textContent.toLowerCase() || "";
+
+    const isVisible =
+      projectName.includes(searchTerm) ||
+      userName.includes(searchTerm) ||
+      userEmail.includes(searchTerm) ||
+      messageContent.includes(searchTerm) ||
+      messageTime.includes(searchTerm);
+
+    if (isVisible) {
+      row.style.display = "";
+      visibleCount++;
+    } else {
+      row.style.display = "none";
+    }
+  });
+
+  // 更新顯示數量
+  const showingCount = document.getElementById("showingCount");
+  if (showingCount) {
+    showingCount.textContent = visibleCount;
+  }
+
+  // 隱藏分頁控制當使用前端搜尋時
+  const paginationControls = document.querySelector(".pagination-controls");
+  if (paginationControls) {
+    paginationControls.style.display = searchTerm ? "none" : "";
+  }
 }
 
-// DOM 載入完成後的初始化
-document.addEventListener('DOMContentLoaded', function() {
-    // 綁定搜尋輸入框事件
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', filterMessages);
-        searchInput.addEventListener('keyup', filterMessages);
+function initializeSearch() {
+  const searchInput = document.querySelector(".search-input");
+  if (!searchInput) return;
+
+  // 載入頁面時設定搜尋值
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchParam = urlParams.get("search");
+  if (searchParam) {
+    searchInput.value = searchParam;
+  }
+
+  // 即時搜尋
+  searchInput.addEventListener("input", function () {
+    const searchTerm = this.value;
+
+    clearTimeout(searchTimeout);
+
+    if (searchTerm.length === 0) {
+      // 清空搜尋時顯示所有項目
+      filterTable("");
+    } else if (searchTerm.length >= 2) {
+      // 前端即時篩選
+      filterTable(searchTerm);
     }
-    
-    // 初始化時如果有搜尋參數，執行過濾
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchParam = urlParams.get('search');
-    if (searchParam && searchInput) {
-        searchInput.value = searchParam;
-        filterMessages();
+  });
+
+  // Enter 鍵觸發後端搜尋
+  searchInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      clearTimeout(searchTimeout);
+      performSearch(this.value);
     }
+  });
+
+  // 延遲後端搜尋（可選）
+  searchInput.addEventListener("input", function () {
+    const searchTerm = this.value;
+
+    clearTimeout(searchTimeout);
+
+    if (searchTerm.length >= 3) {
+      searchTimeout = setTimeout(() => {
+        performSearch(searchTerm);
+      }, 1000);
+    }
+  });
+}
+
+// 實際刪除訊息的功能 (將來實作)
+function deleteMessage(messageId) {
+  Swal.fire({
+    title: "確認刪除訊息",
+    text: "您確定要刪除這條訊息嗎？此操作無法恢復。",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "刪除",
+    cancelButtonText: "取消",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const csrftoken = document.querySelector(
+        "[name=csrfmiddlewaretoken]"
+      ).value;
+      const formData = new URLSearchParams();
+      formData.append("message_id", messageId);
+
+      fetch(window.location.pathname, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+        body: formData,
+      })
+        .then((response) => {
+          if (response.redirected) {
+            window.location.href = response.url;
+            return null;
+          }
+          return response.text();
+        })
+        .then((data) => {
+          // 若有訊息可在此處理
+          location.reload();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          Swal.fire({
+            icon: "error",
+            title: "刪除失敗",
+            text: "伺服器錯誤，請稍後再試！",
+          });
+        });
+    }
+  });
+}
+
+// 頁面載入完成後初始化
+document.addEventListener("DOMContentLoaded", function () {
+  initializeSearch();
 });
