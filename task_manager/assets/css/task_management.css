@@ -564,17 +564,6 @@ td {
     justify-content: center;
 }
 
-.action-btn {
-    padding: 8px;
-    border: none;
-    background: none;
-    border-radius: 6px;
-    cursor: pointer;
-    color: var(--light-gray);
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .action-btn:hover.edit {
