@@ -16,7 +16,7 @@ from task_manager.views.chat_api import chat
 from task_manager.views.file_api import delete_file, download_file, files, upload_file
 from task_manager.views.login_api import login, logout, register, reset_password, verify_code, forgot_password
 from task_manager.views.my_task_api import my_task, get_my_task
-from task_manager.views.project_api import create_project, project, edit_project, get_project_data, delete_project
+from task_manager.views.project_api import create_project, project, edit_project, get_project_data, delete_project, change_project_owner
 from task_manager.views.project_detail_api import get_project_task, project_detail
 from task_manager.views.project_task_api import project_task
 from task_manager.views.task_api import edit_task, create_task, update_task, delete_task
@@ -64,7 +64,8 @@ urlpatterns = (
         path('project_management/', project_management.main, name='project_management'),   
         path('chat_management/', chat_management.main, name='chat_management'),   
         path('files_management/', files_management.main, name='files_management'),   
-        path('task_management/', task_management.main, name='task_management'),   
+        path('task_management/', task_management.main, name='task_management'),
+        path('change_project_owner/', change_project_owner.main, name='change_project_owner'),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
