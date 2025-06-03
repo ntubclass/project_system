@@ -8,13 +8,13 @@ from django.views.generic import RedirectView
 from task_manager.views import (
     test,
     dynamic_search_member,
-    member_list,
 )
 
 from task_manager.views.backstage import backstage, chat_management, files_management, project_management, task_management, user_management
 from task_manager.views.chat_api import chat
 from task_manager.views.file_api import delete_file, download_file, files, upload_file
 from task_manager.views.login_api import login, logout, register, reset_password, verify_code, forgot_password
+from task_manager.views.member_api import member_list
 from task_manager.views.my_task_api import my_task, get_my_task
 from task_manager.views.project_api import create_project, project, edit_project, get_project_data, delete_project
 from task_manager.views.project_detail_api import get_project_task, project_detail
