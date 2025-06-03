@@ -1,9 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from task_manager.models.file import File
 from task_manager.utils import hum_convert
 from task_manager.utils import get_file_icon
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
+@login_required(login_url="login")
 def main(request):
+    if not request.user.is_superuser and not request.user.is_staff:
+        messages.error(request, "沒有權限查看此頁面")
+        return redirect('project')
+        
     context = {
         "file_data": [],
     }
