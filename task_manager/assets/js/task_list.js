@@ -325,26 +325,6 @@ class TaskRenderer {
 
         // Add active class to clicked card
         card.classList.add("active");
-
-        // Get category type and scroll to corresponding section
-        const category = card.getAttribute("data-category");
-        const sectionType =
-          category === "in_progress" ? "continue" : "completed";
-
-        // Find the corresponding task section and scroll to it
-        const section = this.findByQuery(
-          `[data-section-type="${sectionType}"]`
-        )[0];
-        if (section) {
-          section.scrollIntoView({ behavior: "smooth" });
-
-          // Make sure the section is expanded
-          const taskCards = section.querySelector(".task-cards");
-          if (taskCards && taskCards.style.display === "none") {
-            // Simulate a click on the header to expand it
-            section.querySelector(".section-header").click();
-          }
-        }
       });
     });
 
