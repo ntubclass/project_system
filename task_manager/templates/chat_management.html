@@ -8,6 +8,7 @@
 
 <div class="project-overview-container">
     <!-- Header -->
+    {% csrf_token %}
     <div class="title-bar">
         <h1 class="section-title">聊天室管理</h1>
     </div>
@@ -67,7 +68,7 @@
                         </td>
                         <td>
                             <div class="actions">
-                                <button class="action-btn delete" onclick="showDeleteAlert()" title="刪除訊息">
+                                <button class="action-btn delete" onclick="deleteMessage({{ message.message_id }})" title="刪除訊息">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -108,22 +109,6 @@
                     <button class="pagination-btn" disabled>下一頁</button>
                 {% endif %}
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- 刪除提示彈窗 -->
-<div id="deleteModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>功能開發中</h3>
-            <span class="close" onclick="closeDeleteModal()">&times;</span>
-        </div>
-        <div class="modal-body">
-            <p>刪除功能尚在開發中，敬請期待！</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeDeleteModal()">確定</button>
         </div>
     </div>
 </div>

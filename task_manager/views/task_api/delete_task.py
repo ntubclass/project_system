@@ -13,12 +13,12 @@ def main(request, task_id):
         task = Task.objects.get(task_id=task_id)
         project = task.project_id
 
-        is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
-        is_creator = (project.user_id == request.user)
+        # is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
+        # is_creator = (project.user_id == request.user)
     
-        if not (is_member or is_creator):
-            messages.error(request, "您沒有權限刪除此專案任務")
-            return redirect('project')
+        # if not (is_member or is_creator):
+        #     messages.error(request, "您沒有權限刪除此專案任務")
+        #     return redirect('project')
         
         # Delete related task history records
         TaskHistory.objects.filter(task_id=task).delete()
@@ -30,5 +30,3 @@ def main(request, task_id):
         task.delete()
 
         return JsonResponse({"message": "Task deleted successfully."}, status=200)
-    else:
-        return HttpResponseNotAllowed(["DELETE"])

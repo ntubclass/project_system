@@ -1,12 +1,21 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
 from task_manager.models.user_info import UserInfo
-from task_manager.models.project_member import ProjectMember
 from task_manager.models.message import Message
 from django.core.paginator import Paginator
-from datetime import datetime, timedelta
+from django.db.models import Q
 
 def main(request):
+    if request.method  == 'POST':
+        print("Received POST request in chat_management view")
+        message_id = request.POST.get('message_id')
+        if message_id:
+            try:
+                message = Message.objects.get(message_id=message_id)
+                message.delete()
+            except Message.DoesNotExist:
+                return render(request, 'chat_management.html', {'error': '訊息不存在或已被刪除'})
+
+
     # 取得所有訊息
     messages = Message.objects.all().order_by('-create_time')
     
@@ -14,10 +23,13 @@ def main(request):
     search_query = request.GET.get('search', '')
     if search_query:
         messages = messages.filter(
-            content__icontains=search_query
+            Q(content__icontains=search_query) |
+            Q(user_id__username__icontains=search_query) |
+            Q(user_id__email__icontains=search_query) |
+            Q(project_id__name__icontains=search_query)
         )
 
-    # 準備訊息數據，包含使用者和專案資訊
+
     messages_data = []
     for message in messages:
         try:
