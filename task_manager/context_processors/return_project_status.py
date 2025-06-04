@@ -24,6 +24,7 @@ def global_variables(request):
         else:
             status = "進行中"
         return {
+            'project_name': project.name,
             'project_status': status,
         }
     else:
