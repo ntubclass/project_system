@@ -35,7 +35,8 @@
                         <div class="chat-message-header">
                             <span class="chat-name">{% if message.user_id.id == user.id %}You{% else %}{{ message.user_id.username }}{% endif %}</span>
                             <span class="chat-timestamp">{{ message.create_time|date:"H:i" }}</span>
-                            <span class="pin-message {% if message.isPin %} active {% endif %}" title="釘選此訊息"><i class="fas fa-thumbtack"></i></span>
+                            {% if is_projectManager %}<span class="pin-message {% if message.isPin %} active {% endif %}" title="釘選此訊息"><i class="fas fa-thumbtack"></i></span>{% endif %}
+                            {% if message.user_id.id == user.id %}<button class="btn-delete" data-task-id="{{ message.message_id }}"><i class="fas fa-times"></i></button>{% endif %}
                         </div>
                         <div class="chat-message-text">{{ message.content }}</div>
                     </div>
@@ -54,6 +55,7 @@
 
 <script>
     const currentUserId = {{ user.id }};
+    const isProjectManager = {{ is_projectManager|yesno:"true,false" }};
 </script>
 {% endblock %}
 

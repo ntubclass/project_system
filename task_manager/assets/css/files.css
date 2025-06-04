@@ -332,9 +332,9 @@ dialog:not([open]) {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.custom-dialog[closing] {
+/* .custom-dialog[closing] {
     animation: fade-out 0.2s;
-}
+} */
 
 @keyframes fade-out {
     from { 
@@ -641,9 +641,9 @@ dialog:not([open]) {
 }
 
 /* 確保所有對話框都有正確的關閉行為 */
-dialog[closing]::backdrop {
+/* dialog[closing]::backdrop {
     animation: fade-out 0.2s;
-}
+} */
 
 #confirmOverwriteDialog {
     z-index: 101;
