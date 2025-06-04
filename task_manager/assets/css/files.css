@@ -70,36 +70,130 @@ body {
     justify-content: center;
 }
 
-/* 搜尋框 */
+/* 搜尋框樣式 */
 .search-container {
-    height: 80px;
+    margin-bottom: 20px;
 }
 
 .search-box {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 8px 12px;
+    position: relative;
     max-width: 400px;
-    background-color: var(--white);
 }
 
 .search-icon {
-    font-size: 16px;
-    color: #555;
-    margin-right: 8px;
-    cursor: pointer;
-    display: block;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 14px;
+    z-index: 1;
 }
 
 .search-input {
-    border: none;
-    outline: none;
     width: 100%;
-    font-size: var(--font-size-14);
-    background-color: transparent;
-    display:block;
+    padding: 10px 12px 10px 35px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+/* 載入和錯誤訊息樣式 */
+.loading-message,
+.no-results-message,
+.error-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+}
+
+.no-results-message {
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+}
+
+.loading-message {
+    color: #007bff;
+    background-color: #e7f3ff;
+    border: 1px solid #bee5eb;
+    border-radius: 6px;
+}
+
+.loading-message::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .search-container {
+        margin-bottom: 15px;
+    }
+    
+    .search-box {
+        max-width: 100%;
+    }
+    
+    .search-input {
+        font-size: 16px; /* 防止 iOS 自動縮放 */
+    }
+}
+
+/* 搜尋結果高亮 */
+.file-row.highlight {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+    transition: background-color 0.3s ease;
+}
+
+/* 搜尋統計資訊 */
+.search-stats {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #6c757d;
+    text-align: right;
+}
+
+.search-stats .result-count {
+    font-weight: 600;
+    color: #007bff;
 }
 
 /* 檔案列表容器 */
@@ -331,10 +425,6 @@ dialog:not([open]) {
 .custom-dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
-
-/* .custom-dialog[closing] {
-    animation: fade-out 0.2s;
-} */
 
 @keyframes fade-out {
     from { 
@@ -639,11 +729,6 @@ dialog:not([open]) {
     vertical-align: top;
     padding-top: 0.3em;
 }
-
-/* 確保所有對話框都有正確的關閉行為 */
-/* dialog[closing]::backdrop {
-    animation: fade-out 0.2s;
-} */
 
 #confirmOverwriteDialog {
     z-index: 101;
