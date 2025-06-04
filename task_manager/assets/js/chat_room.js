@@ -46,6 +46,21 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (data.type === "unpin_message") {
       // Clear the pinned message when an unpin event is received
       clearPinnedMessage();
+    } else if (data.type === "message_deleted") {
+      // Remove the message element from the DOM
+      const messageElement = document.querySelector(
+        `.chat-message[data-message-id="${data.message_id}"]`
+      );
+      if (messageElement) {
+        messageElement.remove();
+      }
+      // If the deleted message was pinned, clear the banner
+      if (
+        chatNotificationBanner.dataset.pinnedMessageId === data.message_id
+      ) {
+        clearPinnedMessage();
+      }
+      return;
     } else {
       // Handle regular chat message
       const message = data.message;
@@ -76,7 +91,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       isCurrentUser ? "You" : username
                     }</span>
                     <span class="chat-timestamp">${new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
-                    <span class="pin-message" title="釘選此訊息"><i class="fas fa-thumbtack"></i></span>
+                    ${(isProjectManager) ? `<span class="pin-message" title="釘選此訊息"><i class="fas fa-thumbtack"></i></span>` : ''}
+                    ${isCurrentUser ? `<button class="btn-delete" data-task-id="${data.message_id}"><i class="fas fa-times"></i></button>` : ''}
                 </div>
                 <div class="chat-message-text">${message}</div>
             </div>
@@ -86,6 +102,19 @@ document.addEventListener("DOMContentLoaded", function () {
       // Add click event listener to the newly created pin icon
       const pinIcon = messageElement.querySelector(".pin-message");
       addPinMessageListener(pinIcon);
+
+      // Add click event listener to the newly created delete button (if present)
+      const deleteBtn = messageElement.querySelector(".btn-delete");
+      if (deleteBtn) {
+        deleteBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const messageId = this.getAttribute("data-task-id");
+          if (messageId) {
+            deleteChatMessage(messageId);
+          }
+        });
+      }
 
       // Scroll to the bottom of the chat
       chatGrid.scrollTop = chatGrid.scrollHeight;
@@ -254,6 +283,48 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add pin message functionality to existing pin icons
   document.querySelectorAll(".pin-message").forEach((pin) => {
     addPinMessageListener(pin);
+  });
+
+  // Function to delete a chat message via WebSocket
+  function deleteChatMessage(messageId) {
+    Swal.fire({
+      title: "確認刪除訊息",
+      text: "您確定要刪除此訊息嗎？此操作無法還原。",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "刪除",
+      cancelButtonText: "取消",
+      confirmButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (chatSocket.readyState === WebSocket.OPEN) {
+          chatSocket.send(
+            JSON.stringify({
+              type: "delete_message",
+              message_id: messageId,
+            })
+          );
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "刪除失敗",
+            text: "WebSocket 連線未開啟，請稍後再試！",
+          });
+        }
+      }
+    });
+  }
+
+  // Listen for delete button clicks and use WebSocket deletion
+  document.querySelectorAll(".btn-delete").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const messageId = this.getAttribute("data-task-id");
+      if (messageId) {
+        deleteChatMessage(messageId);
+      }
+    });
   });
 
   // Initial scroll to bottom when loading page with existing messages

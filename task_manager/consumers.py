@@ -117,6 +117,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'user_id': user_id,
                     }
                 )
+        elif message_type == 'delete_message':
+            message_id = text_data_json.get('message_id')
+            # Only allow project manager or message owner to delete
+            is_manager = await self.is_project_manager(self.room_id, user_id)
+            is_owner = await self.is_message_owner(message_id, user_id)
+            if is_manager or is_owner:
+                deleted = await self.delete_message(self.room_id, message_id)
+                if deleted:
+                    await self.channel_layer.group_send(
+                        self.room_group_name,
+                        {
+                            'type': 'message_deleted_event',
+                            'message_id': message_id,
+                        }
+                    )
+            return
         else:
             # Handle chat message
             message_content = text_data_json.get('message')
@@ -142,7 +158,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_user_data(self, user_id):
-        """取得用戶資料包括頭像"""
         try:
             user = User.objects.get(id=user_id)
             # 假設您有 UserInfo 模型來存儲用戶頭像
@@ -217,6 +232,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
             print(f"Error pinning message: {e}")
             return False
 
+    @database_sync_to_async
+    def delete_message(self, project_id, message_id):
+        from task_manager.models.message import Message
+        try:
+            message = Message.objects.get(message_id=message_id, project_id__project_id=project_id)
+            message.delete()
+            return True
+        except Message.DoesNotExist:
+            return False
+
+    @database_sync_to_async
+    def is_message_owner(self, message_id, user_id):
+        from task_manager.models.message import Message
+        try:
+            message = Message.objects.get(message_id=message_id)
+            return message.user_id_id == user_id
+        except Message.DoesNotExist:
+            return False
+
     async def chat_message(self, event):
         message = event['message']
         user_id = event['user_id']
@@ -251,5 +285,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Send unpin message to WebSocket
         await self.send(text_data=json.dumps({
             'type': 'unpin_message',
+            'message_id': message_id,
+        }))
+
+    async def message_deleted_event(self, event):
+        message_id = event['message_id']
+        
+        # Send message deleted event to WebSocket
+        await self.send(text_data=json.dumps({
+            'type': 'message_deleted',
             'message_id': message_id,
         }))
