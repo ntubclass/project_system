@@ -1,3 +1,101 @@
+let searchTimeout;
+
+function performSearch(searchTerm) {
+    const url = new URL(window.location);
+    
+    if (searchTerm && searchTerm.trim()) {
+        url.searchParams.set('search', searchTerm.trim());
+    } else {
+        url.searchParams.delete('search');
+    }
+    
+    window.location.href = url.toString();
+}
+
+function filterTable(searchTerm) {
+    const fileTableBody = document.querySelector('.file-table-body');
+    const fileRows = fileTableBody.querySelectorAll('.file-row');
+    let visibleCount = 0;
+    
+    // 正規化搜尋詞，確保中文搜尋正常運作
+    searchTerm = searchTerm.toLowerCase().trim();
+    
+    fileRows.forEach(row => {
+        const fileName = row.querySelector('.file-name')?.textContent.toLowerCase().trim() || '';
+        const fileType = row.querySelector('.file-type')?.textContent.toLowerCase().trim() || '';
+        const ownerName = row.querySelector('.owner-cell')?.textContent.toLowerCase().trim() || '';
+        
+        // 使用 indexOf 而不是 includes 來確保中文相容性
+        const isVisible = fileName.indexOf(searchTerm) !== -1 || 
+                         fileType.indexOf(searchTerm) !== -1 || 
+                         ownerName.indexOf(searchTerm) !== -1;
+        
+        if (isVisible) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // 顯示無結果訊息
+    let noResultsMessage = fileTableBody.querySelector('.no-results-message');
+    if (visibleCount === 0 && searchTerm) {
+        if (!noResultsMessage) {
+            noResultsMessage = document.createElement('div');
+            noResultsMessage.className = 'no-results-message';
+            noResultsMessage.textContent = '沒有找到符合條件的檔案';
+            fileTableBody.appendChild(noResultsMessage);
+        }
+        noResultsMessage.style.display = 'block';
+    } else if (noResultsMessage) {
+        noResultsMessage.style.display = 'none';
+    }
+}
+
+function initializeSearch() {
+    const searchInput = document.querySelector('.search-input');
+    if (!searchInput) return;
+    
+    // 載入頁面時設定搜尋值
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchParam = urlParams.get('search');
+    if (searchParam) {
+        searchInput.value = searchParam;
+    }
+    
+    // 即時前端篩選
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value;
+        
+        clearTimeout(searchTimeout);
+        
+        if (searchTerm.length === 0) {
+            // 清空搜尋時顯示所有項目
+            filterTable('');
+        } else if (searchTerm.length >= 1) {
+            // 對中文友善：從1個字元開始篩選
+            filterTable(searchTerm);
+        }
+        
+        // 延遲後端搜尋（可選）
+        if (searchTerm.length >= 1) {
+            searchTimeout = setTimeout(() => {
+                performSearch(searchTerm);
+            }, 1500); // 1.5秒延遲
+        }
+    });
+    
+    // Enter 鍵觸發後端搜尋
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            clearTimeout(searchTimeout);
+            performSearch(this.value);
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // 檔案類型圖標映射
     const fileTypeIcons = {
@@ -20,7 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
         'default': { icon: 'fa-file', bgClass: 'default-icon' }
     };
 
-    const selectedFiles = new Map();  // 使用 Map 存儲已選擇的檔案
+    const selectedFiles = new Map();
+    
+    // 初始化搜尋功能
+    initializeSearch();
     
     // 取得元素
     const uploadBtn = document.getElementById('openUploadFileBtn');
@@ -37,28 +138,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 設置對話框
     if (uploadBtn && uploadDialog) {
-        // 確保對話框一開始是關閉的
         if (uploadDialog.hasAttribute("open")) {
             uploadDialog.close();
         }
 
-        // 打開對話框
         uploadBtn.addEventListener('click', function(e) {
             e.preventDefault();
             uploadDialog.showModal();
         });
 
-        // 自定義關閉對話框的函數，添加動畫
         function closeDialogWithAnimation() {
             uploadDialog.setAttribute("closing", "");
             setTimeout(() => {
                 uploadDialog.removeAttribute("closing");
                 uploadDialog.close();
-                resetUploadState();  // 重置上傳狀態
+                resetUploadState();
             }, 200);
         }
 
-        // 點擊對話框背景關閉
         uploadDialog.addEventListener("click", (e) => {
             const rect = uploadDialog.getBoundingClientRect();
             const isInDialog =
@@ -71,19 +168,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // 取消按鈕關閉對話框
         if (cancelUploadBtn) {
             cancelUploadBtn.addEventListener('click', closeDialogWithAnimation);
         }
 
-        // 關閉按鈕關閉對話框
         if (closeUploadBtn) {
             closeUploadBtn.addEventListener('click', closeDialogWithAnimation);
         }
         
-        // 對話框關閉事件
         uploadDialog.addEventListener('close', function() {
-            // 清理任何可能殘留的確認對話框
             const existingConfirmDialog = document.getElementById('confirmOverwriteDialog');
             if (existingConfirmDialog) {
                 document.body.removeChild(existingConfirmDialog);
@@ -93,7 +186,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 拖放檔案功能
     if (dropZone) {
-        // 阻止瀏覽器默認行為
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, preventDefaults, false);
         });
@@ -103,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
         }
 
-        // 高亮拖放區域
         ['dragenter', 'dragover'].forEach(eventName => {
             dropZone.addEventListener(eventName, highlight, false);
         });
@@ -120,7 +211,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dropZone.classList.remove('drag-over');
         }
 
-        // 處理拖放的檔案
         dropZone.addEventListener('drop', handleDrop, false);
 
         function handleDrop(e) {
@@ -130,18 +220,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // 處理檔案選擇
     if (fileInput) {
         fileInput.addEventListener('change', function() {
             handleFiles(this.files);
         });
     }
     
-    // 處理選擇的檔案
     function handleFiles(files) {
         if (files.length) {
             for (let i = 0; i < files.length; i++) {
-                //檢查檔案大小限制
                 if (files[i].size > 200 * 1024 * 1024) {
                     Swal.fire({
                         icon: 'error',
@@ -158,14 +245,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // 添加檔案到選擇列表
     function addFileToSelection(file) {
-        // 使用檔案的 name 和 lastModified 作為唯一標示符
         const fileId = `${file.name}-${file.lastModified}`;
         selectedFiles.set(fileId, file);
     }
     
-    // 清除所有選擇的檔案
     if (clearFilesBtn) {
         clearFilesBtn.addEventListener('click', function() {
             selectedFiles.clear();
@@ -173,16 +257,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 更新檔案預覽區域UI
     function updateFilePreviewUI() {
         if (selectedFiles.size > 0) {
             filePreviewArea.style.display = 'block';
             fileCount.textContent = selectedFiles.size;
             
-            // 清空現有預覽
             fileList.innerHTML = '';
             
-            // 添加每個檔案的預覽
             selectedFiles.forEach((file, fileId) => {
                 const fileItem = createFilePreviewItem(file, fileId);
                 fileList.appendChild(fileItem);
@@ -193,16 +274,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // 創建檔案預覽項目
     function createFilePreviewItem(file, fileId) {
         const fileItem = document.createElement('div');
         fileItem.className = 'file-item';
         
-        // 取得檔案類型
         const fileExt = file.name.split('.').pop().toLowerCase();
         const fileType = fileTypeIcons[fileExt] || fileTypeIcons['default'];
         
-        // 格式化檔案大小
         const fileSize = formatFileSize(file.size);
         
         fileItem.innerHTML = `
@@ -220,7 +298,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </button>
         `;
         
-        // 添加移除按鈕事件
         const removeBtn = fileItem.querySelector('.file-remove-btn');
         if (removeBtn) {
             removeBtn.addEventListener('click', function() {
@@ -233,7 +310,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return fileItem;
     }
 
-    // 格式化文件大小函數
     function formatFileSize(bytes) {
         if (bytes === 0) return '0 Bytes';
         const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -241,7 +317,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return parseFloat((bytes / Math.pow(1024, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
-    // 重置上傳進度區域
     function resetUploadProgressArea() {
         const uploadProgressArea = document.getElementById('uploadProgressArea');
         const progressBar = document.getElementById('uploadProgressBar');
@@ -258,17 +333,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (progressStats) progressStats.textContent = '0 / 0 MB';
     }
 
-    // 重置上傳狀態
     function resetUploadState() {
         selectedFiles.clear();
         fileList.innerHTML = '';
         filePreviewArea.style.display = 'none';
         fileCount.textContent = '0';
         if (fileInput) fileInput.value = '';
-        resetUploadProgressArea();  // 同時重置進度區域
+        resetUploadProgressArea();
     }
 
-    // 處理表單提交
     if (uploadForm) {
         uploadForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -284,31 +357,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            uploadFiles(false);  // 第一次嘗試上傳，不覆蓋
+            uploadFiles(false);
         });
     }
 
-    // 上傳檔案函數
     function uploadFiles(overwrite = false) {
-        // 建立 FormData
         const formData = new FormData();
         
-        // 添加所有選擇的檔案
         let totalSize = 0;
         selectedFiles.forEach(file => {
             formData.append('files', file);
             totalSize += file.size;
         });
         
-        // 如果是覆蓋模式，添加覆蓋參數
         if (overwrite) {
             formData.append('overwrite', 'true');
         }
         
-        // 獲取 CSRF Token
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-        // 顯示進度區域，隱藏檔案預覽區域
         const uploadProgressArea = document.getElementById('uploadProgressArea');
         const progressBar = document.getElementById('uploadProgressBar');
         const progressPercent = document.getElementById('uploadProgressPercent');
@@ -319,13 +386,10 @@ document.addEventListener('DOMContentLoaded', function() {
             uploadProgressArea.style.display = 'block';
         }
 
-        // 格式化總大小
         const formattedTotalSize = formatFileSize(totalSize);
         
-        // 創建 XHR 請求，以便追蹤上傳進度
         const xhr = new XMLHttpRequest();
         
-        // 監聽上傳進度
         xhr.upload.addEventListener('progress', function(e) {
             if (e.lengthComputable) {
                 const percent = Math.round((e.loaded / e.total) * 100);
@@ -337,20 +401,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // 設置超時
-        xhr.timeout = 0;  // 無限等待
+        xhr.timeout = 0;
         
-        // 設置完成事件
         xhr.addEventListener('load', function() {
             if (xhr.status >= 200 && xhr.status < 300) {
                 try {
                     const response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        // 關閉對話框
                         uploadDialog.close();
-                        // 重置上傳狀態
                         resetUploadState();
-                        // 重新載入頁面以顯示新上傳的檔案
                         Swal.fire({
                             icon: 'success',
                             title: "上傳成功",
@@ -360,8 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             window.location.reload();
                         });
                     } else if (response.duplicate) {
-                        // 處理重複檔案的情況
-                        // 先重置進度區域
                         resetUploadProgressArea();
                         showDuplicateConfirmDialog(response.duplicate_files);
                     } else {
@@ -393,12 +450,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     target: document.getElementById('uploadFileDialog'),
                     draggable: true,
                 });
-                // 重置上傳進度界面
                 resetUploadProgressArea();
             }
         });
         
-        // 設置錯誤事件
         xhr.addEventListener('error', function() {
             Swal.fire({
                 icon: 'error',
@@ -407,17 +462,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 target: document.getElementById('uploadFileDialog'),
                 draggable: true,
             });
-            // 重置上傳進度界面
             resetUploadProgressArea();
         });
         
-        // 打開連接並發送請求
         xhr.open('POST', `/upload_file/${window.PROJECT_ID}/`);
         xhr.setRequestHeader('X-CSRFToken', csrfToken);
         xhr.send(formData);
     }
 
-    // 顯示重複檔案確認對話框的函數
     function showDuplicateConfirmDialog(duplicateFiles) {
         let fileListHtml = '<ul>';
         duplicateFiles.forEach(file => {
@@ -425,7 +477,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         fileListHtml += '</ul>';
         
-        // 創建確認對話框
         const dialogHtml = `
             <dialog id="confirmOverwriteDialog" class="custom-dialog">
                 <div class="dialog-header">
@@ -453,7 +504,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </dialog>
         `;
         
-        // 添加對話框到頁面
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = dialogHtml;
         document.body.appendChild(tempDiv.firstElementChild);
@@ -463,16 +513,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const confirmBtn = document.getElementById('confirmOverwriteBtn');
         const closeConfirmBtn = document.getElementById('closeConfirmBtn');
         
-        // 顯示對話框
         confirmDialog.showModal();
         
-        // 統一的關閉處理函數
         const closeConfirmDialog = () => {
             confirmDialog.setAttribute("closing", "");
             confirmDialog.close();
         };
         
-        // 對話框關閉事件
         confirmDialog.addEventListener('close', () => {
             setTimeout(() => {
                 if (document.body.contains(confirmDialog)) {
@@ -481,18 +528,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 200);
         });
         
-        // 關閉按鈕
         if (closeConfirmBtn) {
             closeConfirmBtn.addEventListener('click', closeConfirmDialog);
         }
         
-        // 取消按鈕
         cancelBtn.addEventListener('click', closeConfirmDialog);
         
-        // 確認覆蓋按鈕
         confirmBtn.addEventListener('click', function() {
             confirmDialog.close();
-            uploadFiles(true);  // 重新上傳，設置覆蓋為 true
+            uploadFiles(true);
         });
     }
     
@@ -503,10 +547,8 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const fileName = this.closest('.file-row').querySelector('.file-name').textContent;
             
-            // 取得 CSRF Token
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             
-            // 使用 POST 請求下載
             fetch(`/download_file/${window.PROJECT_ID}/`, {
                 method: 'POST',
                 headers: {

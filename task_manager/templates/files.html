@@ -16,19 +16,19 @@
 
 {% block content %}
 <div class="project-overview-container">
-    {% comment %} <div class="title-bar">
+    <div class="title-bar">
         <h1 class="section-title">檔案共享</h1>
         <button class="upload-btn" id="openUploadFileBtn" aria-label="Upload File">
             <i class="upload-icon fa-solid fa-upload"></i>
             上傳檔案
         </button>
-    </div> {% endcomment %}
+    </div>
     
     <!-- 搜尋框 -->
     <div class="search-container">
         <div class="search-box">
             <i class="search-icon fa-solid fa-search"></i>
-            <input type="text" placeholder="搜尋檔案..." class="search-input">
+            <input type="text" placeholder="搜尋檔案..." class="search-input" value="{{ search_query }}">
         </div>
     </div>
     
@@ -45,30 +45,38 @@
         
         <!-- 檔案列表 -->
         <div class="file-table-body">
-            {% for i in file_data %}
-                <div class="file-row">
-                    <div class="file-cell name-cell">
-                        <div class="file-icon {{ i.class_bgClass }}">
-                            <i class="fa-solid {{ i.class_icon }}"></i>
+            {% if file_data %}
+                {% for i in file_data %}
+                    <div class="file-row">
+                        <div class="file-cell name-cell">
+                            <div class="file-icon {{ i.class_bgClass }}">
+                                <i class="fa-solid {{ i.class_icon }}"></i>
+                            </div>
+                            <div class="file-details">
+                                <div class="file-name">{{ i.file_name }}</div>
+                                <div class="file-type">{{ i.file_type }}</div>
+                            </div>
                         </div>
-                        <div class="file-details">
-                            <div class="file-name">{{ i.file_name }}</div>
-                            <div class="file-type">{{ i.file_type }}</div>
+                        <div class="file-cell owner-cell">{{ i.user_id }}</div>
+                        <div class="file-cell date-cell">{{ i.create_time }}</div>
+                        <div class="file-cell size-cell">{{ i.file_size }}</div>
+                        <div class="file-cell action-cell">
+                            <a href="#" class="download-btn">
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                            <button class="delete-btn" onclick="deleteFile({{ i.file_id }}, '{{ i.file_name }}')" title="刪除">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="file-cell owner-cell">{{ i.user_id }}</div>
-                    <div class="file-cell date-cell">{{ i.create_time }}</div>
-                    <div class="file-cell size-cell">{{ i.file_size }}</div>
-                    <div class="file-cell action-cell">
-                        <a href="#" class="download-btn">
-                            <i class="fa-solid fa-download"></i>
-                        </a>
-                        <button class="delete-btn" onclick="deleteFile({{ i.file_id }}, '{{ i.file_name }}')" title="刪除">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                {% if search_query %}
+                    <div class="no-results-message">沒有找到符合「{{ search_query }}」的檔案</div>
+                {% else %}
+                    <div class="no-results-message">此專案尚未上傳任何檔案</div>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 </div>
