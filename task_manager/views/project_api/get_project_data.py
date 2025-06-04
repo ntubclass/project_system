@@ -31,6 +31,8 @@ def main(request, project_id):
             "start_date": project.start_date.strftime('%Y-%m-%d'),
             "end_date": project.end_date.strftime('%Y-%m-%d'),
             "progress": project.progress,
+            "owner": project.user_id.username,
+            "owner_id": project.user_id.id,
             "members": members_data
         }
         

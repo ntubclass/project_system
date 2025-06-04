@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/dialog/edit_project_dialog.css' %}">
     <link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
     <link rel="stylesheet" href="{% static 'css/dialog/edit_member_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/change_owner_dialog.css' %}">
 {% endblock %}
 {% block content %}
 <div class="project-overview-container">
@@ -80,6 +81,9 @@
                         </td>
                         <td>
                             <div class="actions">
+                                <button class="action-btn btn-change-owner" data-project-id="{{ project.project_id }}">
+                                    <i class="fas fa-user-cog"></i>
+                                </button>
                                 <button class="action-btn btn-edit edit" data-project-id="{{ project.project_id }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -119,6 +123,7 @@
 {% include 'dialog/create_project_dialog.html' %}
 {% include 'dialog/add_member_dialog.html' %}
 {% include 'dialog/edit_member_dialog.html' %}
+{% include 'dialog/change_owner_dialog.html' %}
 {% endblock %}
 
 {% block extra_js %}
@@ -127,4 +132,5 @@
 <script src="{% static 'js/add_member_dialog.js' %}"></script>
 <script src="{% static 'js/edit_member_dialog.js' %}"></script>
 <script src="{% static 'js/project_management.js' %}"></script>
+<script src="{% static 'js/change_owner_dialog.js' %}"></script>
 {% endblock %}
