@@ -78,8 +78,8 @@ def global_search(request):
                 'meta': f'檔案 • {file.project_id.name}'
             })
         
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+    except Exception:
+        return JsonResponse({'error': 'An unexpected error occurred. Please try again later.'}, status=500)
     
     return JsonResponse({'results': results})
 
