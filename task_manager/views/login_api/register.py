@@ -18,6 +18,10 @@ def register_view(request):
         if password != confirm_password:
             messages.error(request, "密碼不一致，請重新確認")
             return redirect("/register")
+        
+        if User.objects.filter(username=full_name).exists():
+            messages.error(request, "此用戶名已被註冊")
+            return redirect("/register")
 
         if User.objects.filter(email=email).exists():
             messages.error(request, "此電子郵件已被註冊")
