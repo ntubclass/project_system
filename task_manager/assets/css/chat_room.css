@@ -74,7 +74,7 @@
 .chat-message {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 20px;
   padding: 10px;
   border-radius: 8px;
 }
@@ -379,4 +379,18 @@
     width: 95%;
     margin: 0 auto 15px auto;
   }
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    color: var(--light-gray);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+.btn-delete:hover {
+    transform: scale(1.15);
+    color: var(--button-red-hover);
 }
