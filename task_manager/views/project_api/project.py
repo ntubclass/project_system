@@ -61,4 +61,5 @@ def main(request):
         data["task_count"] = tasks.count()
         data["status"] = status
         context["project_data"].append(data)
+    context["project_data"].sort(key=lambda x: x["total_progress"], reverse=True)
     return render(request, "project.html", context)

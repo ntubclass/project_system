@@ -1,6 +1,6 @@
 <div class="header" id="header">
   <i id="menuToggle" class="menu-icon fa-solid fa-bars"></i>
-  <div class="project-title">專案A</div>
+  <div class="project-title">{{project_name}}</div>
   <div class="project-subtitle status-{{ project_status|lower }}">{{project_status}}</div>
   <a href="{% url 'user_profile' %}" class="user-icon-link">
     <div class="user-header-photo">

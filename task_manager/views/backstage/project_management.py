@@ -10,7 +10,7 @@ from django.contrib import messages
 
 @login_required(login_url="login")
 def main(request):
-    if not request.user.is_superuser and not request.user.is_staff:
+    if not request.user.is_superuser:
         messages.error(request, "沒有權限查看此頁面")
         return redirect('project')
         
