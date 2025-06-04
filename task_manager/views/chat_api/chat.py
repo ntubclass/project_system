@@ -46,6 +46,7 @@ def main(request, project_id):
         'pin_message': pin_message,
         'has_pin': has_pin,
         'room_id': project_id,
+        "is_projectManager": is_projectManager,
     }
     
     return render(request, 'chat_room.html', context)
