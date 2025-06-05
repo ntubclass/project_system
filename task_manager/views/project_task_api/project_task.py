@@ -1,5 +1,8 @@
 from datetime import datetime
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import redirect, render
+from task_manager.models.project import Project
+from task_manager.models.project_member import ProjectMember
 from task_manager.models.task import Task  
 from task_manager.models.task_member import TaskMember
 from django.contrib.auth.decorators import login_required
@@ -11,6 +14,16 @@ def main(request, project_id):
         "my_tasks": [],
         "participate_tasks": [],
     }
+    
+     # 檢查用戶是否有權限查看此專案（是創建者或成員）
+    project = Project.objects.filter(project_id=project_id).first()
+    is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
+    is_creator = (project.user_id == request.user)
+    
+    if not (is_member or is_creator):
+        # 如果不是專案成員或創建者，返回錯誤訊息
+        messages.error(request, "您沒有權限查看此專案")
+        return redirect('project')
 
     my_tasks = Task.objects.filter(project_id=project_id, user_id=request.user)
     participate_task_ids = TaskMember.objects.filter(
