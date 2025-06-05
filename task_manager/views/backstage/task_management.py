@@ -51,6 +51,7 @@ def main(request):
 
         tasks_data.append({
             'task_id': task.task_id,
+            'project_id': task.project_id.project_id if hasattr(task.project_id, 'project_id') else None,
             'project_name': task.project_id.name if hasattr(task.project_id, 'name') else '無專案',
             'title': task.name,  # 使用task.name代替title
             'description': task.content,  # 使用task.content代替description
