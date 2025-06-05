@@ -172,6 +172,20 @@ td:first-child {
     white-space: nowrap;
 }
 
+/* 狀態徽章：使用中 */
+.badge-active {
+  background-color: #d1fae5;
+  color: #059669;
+  border: 1px solid #059669;
+}
+
+/* 狀態徽章：未使用 */
+.badge-inactive {
+  background-color: #f3f4f6;
+  color: #ff0404;
+  border: 1px solid #ff0000;
+}
+
 .badge-admin {
     background-color: #dbeafe;
     color: var(--dark-blue);
@@ -180,11 +194,6 @@ td:first-child {
 .badge-user {
     background-color: #f3f4f6;
     color: var(--dark-gray);
-}
-
-.badge-active {
-    background-color: #d1fae5;
-    color: #065f46;
 }
 
 .actions {
