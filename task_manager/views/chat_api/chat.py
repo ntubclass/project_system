@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from task_manager.models.project import Project
 from task_manager.models.project_member import ProjectMember
 from task_manager.models.message import Message
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url="login")
@@ -13,19 +14,15 @@ def main(request, project_id):
     if not project_exists:
         return HttpResponse("Project does not exist", status=404)
     
-    # Check if the user is either the project manager OR a project member
-    is_projectManager = Project.objects.filter(
-        project_id=project_id, 
-        user_id=request.user.id
-    ).exists()
+    # 檢查用戶是否有權限查看此專案（是創建者或成員）
+    project = Project.objects.filter(project_id=project_id).first()
+    is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
+    is_creator = (project.user_id == request.user)
     
-    is_member = ProjectMember.objects.filter(
-        project_id=project_id, 
-        user_id=request.user.id
-    ).exists()
-
-    if not is_projectManager and not is_member:
-        return HttpResponse("You don't have permission to access this chat room", status=401)
+    if not (is_member or is_creator):
+        # 如果不是專案成員或創建者，返回錯誤訊息
+        messages.error(request, "您沒有權限查看此專案")
+        return redirect('project')
     
     
     # Get chat message history for this project

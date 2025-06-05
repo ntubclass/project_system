@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from task_manager.models.file import File
+from task_manager.models.project import Project
+from task_manager.models.project_member import ProjectMember
 from task_manager.utils import hum_convert
 from task_manager.utils import get_file_icon
+from django.contrib import messages
 
 @login_required(login_url="login")
 def main(request, project_id):
@@ -14,6 +17,16 @@ def main(request, project_id):
         "project_id": project_id,
         "file_data": [],
     }
+    
+    # 檢查用戶是否有權限查看此專案（是創建者或成員）
+    project = Project.objects.filter(project_id=project_id).first()
+    is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
+    is_creator = (project.user_id == request.user)
+    
+    if not (is_member or is_creator):
+        # 如果不是專案成員或創建者，返回錯誤訊息
+        messages.error(request, "您沒有權限查看此專案")
+        return redirect('project')
 
     files = File.objects.filter(project_id=project_id)
     
