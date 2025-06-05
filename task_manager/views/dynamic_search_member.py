@@ -26,7 +26,8 @@ def main(request):
         users = User.objects.filter(
             Q(username__icontains=search_query) | Q(email__icontains=search_query),
         ).exclude(id=request.user.id)
-
+    
+        print(project_id)
         if project_id:
             project_members = ProjectMember.objects.filter(project_id=project_id).values_list('user_id', flat=True)
             member_ids = list(project_members)
