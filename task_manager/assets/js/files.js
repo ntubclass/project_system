@@ -254,6 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clearFilesBtn.addEventListener('click', function() {
             selectedFiles.clear();
             updateFilePreviewUI();
+            resetUploadState();
         });
     }
     
