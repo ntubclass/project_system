@@ -6,9 +6,13 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 def main(request, project_id):
-    project = get_object_or_404(Project, project_id=project_id)
     # 檢查用戶是否有權限查看此專案（是創建者或成員）
-    project = Project.objects.filter(project_id=project_id).first()
+    try:
+        project = Project.objects.get(project_id=project_id)
+    except Project.DoesNotExist:
+        messages.error(request, "專案不存在")
+        return redirect('project')
+    
     is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
     is_creator = (project.user_id == request.user)
     

@@ -18,8 +18,12 @@ def main(request, project_id):
         "file_data": [],
     }
     
-    # 檢查用戶是否有權限查看此專案（是創建者或成員）
-    project = Project.objects.filter(project_id=project_id).first()
+    try:
+        project = Project.objects.get(project_id=project_id)
+    except Project.DoesNotExist:
+        messages.error(request, "專案不存在")
+        return redirect('project')
+    
     is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
     is_creator = (project.user_id == request.user)
     
