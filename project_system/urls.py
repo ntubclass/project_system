@@ -21,6 +21,7 @@ from task_manager.views.project_detail_api import get_project_task, project_deta
 from task_manager.views.project_task_api import project_task
 from task_manager.views.task_api import edit_task, create_task, update_task, delete_task
 from task_manager.views.user_profile_api import user_profile, upload_avatar_api
+from task_manager.views.global_search_api import global_search, search_suggestions
 
 
 urlpatterns = (
@@ -66,6 +67,8 @@ urlpatterns = (
         path('files_management/', files_management.main, name='files_management'),   
         path('task_management/', task_management.main, name='task_management'),
         path('change_project_owner/', change_project_owner.main, name='change_project_owner'),
+        path('global_search/', global_search, name='global_search'),
+        path('search_suggestions/', search_suggestions, name='search_suggestions'),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
