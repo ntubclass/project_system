@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from datetime import datetime
 
 @login_required(login_url="login")
 def main(request):
@@ -58,6 +59,21 @@ def main(request):
         data["total_progress"] = int(total_progress / total_tasks) if total_tasks > 0 else 0
         data["task_count"] = total_tasks
         data["member_amount"] = member_amount
+        
+        # Calculate project status
+        today = datetime.today().date()
+        total_progress_percent = data["total_progress"]
+        
+        if total_progress_percent == 100:
+            status = "已完成"
+        elif m.end_date.date() < today and total_progress_percent < 100:
+            status = "已逾期"
+        elif today < m.start_date.date():
+            status = "未開始"
+        else:
+            status = "進行中"
+        
+        data["status"] = status
         project_data.append(data)
 
     paginator = Paginator(project_data, 10)
