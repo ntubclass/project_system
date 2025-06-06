@@ -9,10 +9,6 @@
     <!-- Header -->
     <div class="title-bar">
         <h1 class="section-title">用戶管理</h1>
-        <button class="create-btn" id="openMemberListBtn">
-          <i class="create-icon fa-solid fa-plus"></i>
-            新增用戶
-        </button>
     </div>
 
     <div class="search-container">
@@ -32,6 +28,7 @@
                         <th>狀態</th>
                         <th>最後活動</th>
                         <th>專案數</th>
+                        <th class="task-count-col">任務數</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -56,6 +53,7 @@
                         </td>
                         <td>{{ user.last_active }}</td>
                         <td>{{ user.operations_count }}</td>
+                        <td class="task-count-col">{{ user.task_count }}</td>
                         <td>
                             <div class="actions">
                                 <button class="action-btn edit" onclick="editUser({{ user.id }})">
