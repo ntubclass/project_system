@@ -8,6 +8,10 @@ from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
 from django.utils import timezone
+from task_manager.models.project import Project
+from task_manager.models.task import Task
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 @login_required(login_url="login")
 def main(request):
@@ -29,28 +33,24 @@ def main(request):
             avatar_url = settings.MEDIA_URL + "avatars/avatar_1.png"
         # 角色判斷（可根據實際需求調整）
         role = '專案管理者' if user.is_superuser or user.is_staff else '一般使用者'
-        # 狀態（5分鐘內有登入紀錄顯示「使用中」，否則顯示「未使用」）
-        if user.is_active and user.last_login:
-            try:
-                now = timezone.now()
-                last_login = user.last_login
-                # 若 last_login 沒有 tzinfo，直接用 naive now 比較
-                if last_login.tzinfo is None:
-                    diff = (datetime.now() - last_login).total_seconds()
-                else:
-                    diff = (now - last_login).total_seconds()
-            except Exception:
-                diff = 999999
-            if diff < 300:
-                status = 'active'  # 使用中
-            else:
-                status = 'inactive'  # 未使用
+        # 狀態（10分鐘內有登入、實際建立專案或任務即為『使用中』）
+        ten_minutes_ago = timezone.now() - timezone.timedelta(minutes=10)
+        recent_login = user.last_login and user.last_login >= ten_minutes_ago
+        # 精準判斷：需有 created_at 欄位才可精確判斷建立時間
+        recent_project = Project.objects.filter(user_id=user, created_at__gte=ten_minutes_ago).exists() if hasattr(Project, 'created_at') else False
+        recent_task = Task.objects.filter(user_id=user, created_at__gte=ten_minutes_ago).exists() if hasattr(Task, 'created_at') else False
+        if user.is_active and (recent_login or recent_project or recent_task):
+            status = 'active'  # 使用中
         else:
             status = 'inactive'  # 未使用
         # 最後活動（可根據實際需求調整，這裡暫用date_joined）
         last_active = user.last_login.strftime('%Y-%m-%d %H:%M') if user.last_login else user.date_joined.strftime('%Y-%m-%d %H:%M')
-        # 專案數
-        operations_count = ProjectMember.objects.filter(user_id=user).count()
+        # 專案數（統計用戶作為專案成員或專案負責人的專案總數）
+        project_owner_count = ProjectMember.objects.filter(user_id=user).values('project_id').distinct().count()
+        project_creator_count = user.project_set.count() if hasattr(user, 'project_set') else 0
+        total_project_count = project_owner_count + project_creator_count
+        # 計算每個用戶的任務數量
+        task_count = Task.objects.filter(user_id=user).count()
         users.append({
             'id': user.id,
             'name': user.username,
@@ -58,7 +58,8 @@ def main(request):
             'role': role,
             'status': status,
             'last_active': last_active,
-            'operations_count': operations_count,
+            'operations_count': total_project_count,
+            'task_count': task_count,
             'avatar_url': avatar_url if not user.is_superuser else settings.MEDIA_URL + "avatars/avatar_1.png",  # superuser顯示預設頭像，其他用戶顯示自己頭像
         })
 
@@ -76,3 +77,20 @@ def main(request):
     }
 
     return render(request, 'user_management.html', context)
+
+@csrf_exempt
+@login_required(login_url="login")
+def delete_user(request):
+    if request.method == 'POST' and request.user.is_superuser:
+        user_id = request.POST.get('user_id')
+        if not user_id:
+            return JsonResponse({'success': False, 'error': '缺少 user_id'})
+        try:
+            user = User.objects.get(id=user_id)
+            if user.is_superuser:
+                return JsonResponse({'success': False, 'error': '無法刪除超級管理員'})
+            user.delete()
+            return JsonResponse({'success': True})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': '用戶不存在'})
+    return JsonResponse({'success': False, 'error': '權限不足或請求錯誤'})

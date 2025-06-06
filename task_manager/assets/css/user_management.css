@@ -112,6 +112,15 @@ th:first-child {
     text-align: left;
 }
 
+/* 新增：任務數欄位樣式 */
+th.task-count-col, td.task-count-col {
+    min-width: 90px;
+    max-width: 120px;
+    text-align: center;
+    color: #404040;
+    font-weight: 600;
+}
+
 tbody tr {
     border-bottom: 1px solid #f3f4f6;
     transition: background-color 0.2s;
@@ -332,5 +341,13 @@ td:first-child {
 
     .actions {
         justify-content: center;
+    }
+
+    /* 響應式調整：手機上縮小欄寬 */
+    th.task-count-col, td.task-count-col {
+        min-width: 60px;
+        font-size: 13px;
+        padding-left: 4px;
+        padding-right: 4px;
     }
 }
