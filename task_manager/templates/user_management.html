@@ -9,16 +9,12 @@
     <!-- Header -->
     <div class="title-bar">
         <h1 class="section-title">用戶管理</h1>
-        <button class="create-btn" id="openMemberListBtn">
-          <i class="create-icon fa-solid fa-plus"></i>
-            新增用戶
-        </button>
     </div>
 
     <div class="search-container">
         <div class="search-box">
             <i class="search-icon fa-solid fa-search"></i>
-            <input type="text" placeholder="搜尋用戶..." class="search-input">
+            <input type="text" id="searchInput" placeholder="搜尋用戶..." class="search-input">
         </div>
     </div>
 
@@ -32,6 +28,7 @@
                         <th>狀態</th>
                         <th>最後活動</th>
                         <th>專案數</th>
+                        <th class="task-count-col">任務數</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -40,7 +37,9 @@
                     <tr data-user="{{ user.name }}" data-role="{{ user.role }}" data-status="{{ user.status }}">
                         <td>
                             <div class="user-info">
-                                <div class="user-avatar">{{ user.name|slice:":1" }}</div>
+                                <div class="user-avatar" style="padding:0;background:none;width:32px;height:32px;">
+                                    <img src="{{ user.avatar_url }}" alt="{{ user.name }}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;" onerror="this.onerror=null;this.src='{{ STATIC_URL }}avatars/avatar_1.png';" />
+                                </div>
                                 <div class="user-details">
                                     <div class="user-name">{{ user.name }}</div>
                                     <div class="user-email">{{ user.email }}</div>
@@ -49,11 +48,12 @@
                         </td>
                         <td>
                             <span class="badge {% if user.status == 'active' %}badge-active{% else %}badge-inactive{% endif %}">
-                                {% if user.status == 'active' %}使用中{% else %}未啟用{% endif %}
+                                {% if user.status == 'active' %}使用中{% else %}未使用{% endif %}
                             </span>
                         </td>
                         <td>{{ user.last_active }}</td>
                         <td>{{ user.operations_count }}</td>
+                        <td class="task-count-col">{{ user.task_count }}</td>
                         <td>
                             <div class="actions">
                                 <button class="action-btn edit" onclick="editUser({{ user.id }})">
@@ -95,4 +95,5 @@
 {% endblock %}
 {% block extra_js %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="{% static 'js/user_management.js' %}"></script>
 {% endblock %}

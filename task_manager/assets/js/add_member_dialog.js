@@ -142,24 +142,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         const csrfToken = csrfTokenElement.value;
 
-         const urlParts = window.location.pathname.split("/");
-        let projectId = null;
+        // Get project ID from URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        let projectId = urlParams.get('project');
         let is_member_list = false;
 
-        // 如果 URL 包含 'member_list'，設為 true
+        // Check URL path for member_list context
+        const urlParts = window.location.pathname.split("/");
         if (urlParts.includes("member_list")) {
           is_member_list = true;
         }
-
-        // 如果有 projectId（數字段），也設為 true
-        for (let i = 0; i < urlParts.length; i++) {
-          if (/^\d+$/.test(urlParts[i])) {
-            projectId = urlParts[i];
-            is_member_list = true;
-            break;
-          }
-        }
-        
 
         // Fetch search results from the server
         const response = await fetch(`/dynamic_search_member/`, {
