@@ -72,7 +72,7 @@ a{
   align-items: center;
   justify-content: flex-start;
   padding: 16px 20px;
-  color: var(--light-gray);
+  color: #909090;
   font-size: var(--font-size-16);
   text-decoration: none;
   cursor: pointer;
