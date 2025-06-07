@@ -48,19 +48,23 @@ def main(request):
             avatar_url = task.user_id.userinfo.photo.url if hasattr(task.user_id, 'userinfo') and task.user_id.userinfo.photo else None
         except:
             avatar_url = None
-
+            
+        member_count = TaskMember.objects.filter(task_id=task.task_id).count()
+        
         tasks_data.append({
             'task_id': task.task_id,
+            'project_id': task.project_id.project_id if hasattr(task.project_id, 'project_id') else None,
             'project_name': task.project_id.name if hasattr(task.project_id, 'name') else '無專案',
-            'title': task.name,  # 使用task.name代替title
-            'description': task.content,  # 使用task.content代替description
+            'title': task.name,  
+            'description': task.content,  
             'status': status,
             'user_name': task.user_id.username if task.user_id else '未指派',
             'user_email': task.user_id.email if task.user_id else '',
             'user_avatar': avatar_url,
-            'create_time': task.start_date,  # 使用start_date作為創建時間
-            'due_date': task.end_date,  # end_date作為到期日
-            'progress': task.progress  # 添加進度字段
+            'create_time': task.start_date,  
+            'due_date': task.end_date,  
+            'progress': task.progress,  
+            "member_count": member_count + 1
         })
 
     # 分頁處理

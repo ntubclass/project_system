@@ -94,9 +94,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     start: task.start_date,
                     end: task.end_date,
                     progress: task.progress,
+                    status: task.status,
+                    description: task.description,
                   };
                 });
-
+                
                 const gantt = new Gantt("#gantt", ganttTasks, {
                   step: 24,
                   bar_height: 30,
@@ -104,18 +106,22 @@ document.addEventListener("DOMContentLoaded", function () {
                   bar_corner_radius: 3,
                   arrow_curve: 5,
                   padding: 18,
-                  view_mode: "Day", // Change to Week for a medium-level view
+                  view_mode: "Day",
                   date_format: "YYYY-MM-DD",
                   start_date: new Date(
-                    new Date().setDate(new Date().getDate() - 10)
-                  ), // Start 10 days before today
+                    new Date().setDate(new Date().getDate() - 14)
+                  ),
                   custom_popup_html: function (task) {
+                    const safeName = task.name || '';
+                    const safeDescription = task.description || '';
+                    
                     return `
                                 <div class="details-container">
-                                    <h4>${task.name}</h4>
-                                    <p>開始: ${task.start}</p>
-                                    <p>結束: ${task.end}</p>
-                                    <p>進度: ${task.progress}%</p>
+                                    <h4>${safeName}</h4>
+                                    <p>開始: ${task.start || ''}</p>
+                                    <p>結束: ${task.end || ''}</p>
+                                    <p>進度: ${task.progress || 0}%</p>
+                                    ${safeDescription ? `<p>描述: ${safeDescription}</p>` : ''}
                                 </div>
                             `;
                   },
@@ -178,16 +184,21 @@ document.addEventListener("DOMContentLoaded", function () {
                   start: task.start_date,
                   end: task.end_date,
                   color:
-                    task.progress >= 100
+                    task.status === 'completed'
                       ? "var(--dark-green)"
+                      : task.status === 'overdue'
+                      ? "var(--red)"
                       : "var(--dark-blue)",
                   className:
-                    task.progress >= 100
+                    task.status === 'completed'
                       ? "task-completed"
+                      : task.status === 'overdue'
+                      ? "task-overdue"
                       : "task-in-progress",
                   extendedProps: {
                     progress: task.progress,
                     description: task.description,
+                    status: task.status,
                   },
                 })),
                 eventClick: function (info) {
@@ -195,6 +206,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     title: info.event.title,
                     html: `
                         <div class="task-detail-popup">
+                          <p><strong>狀態:</strong> ${
+                            info.event.extendedProps.status === 'completed' ? '已完成' :
+                            info.event.extendedProps.status === 'overdue' ? '逾期' :
+                            info.event.extendedProps.status === 'not-started' ? '未開始' :
+                            info.event.extendedProps.status === 'in-progress' ? '進行中' : 
+                            info.event.extendedProps.status
+                          }</p>
                           <p><strong>進度:</strong> ${
                             info.event.extendedProps.progress
                           }%</p>
@@ -212,8 +230,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>
                       `,
                     icon:
-                      info.event.extendedProps.progress >= 100
+                      info.event.extendedProps.status === 'completed'
                         ? "success"
+                        : info.event.extendedProps.status === 'overdue'
+                        ? "error"
                         : "info",
                   });
                 },
