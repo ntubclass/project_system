@@ -173,49 +173,63 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 locale: "zh-tw",
                 displayEventTime: false,
+                displayEventEnd: false,
+                eventDisplay: 'block',
                 eventTimeFormat: {
                   hour: "2-digit",
                   minute: "2-digit",
                   meridiem: false,
                 },
-                events: tasks.map((task) => ({
-                  id: task.id,
-                  title: task.name,
-                  start: task.start_date,
-                  end: task.end_date,
-                  color:
-                    task.status === 'completed'
-                      ? "var(--dark-green)"
-                      : task.status === 'overdue'
-                      ? "var(--red)"
-                      : "var(--dark-blue)",
-                  className:
-                    task.status === 'completed'
-                      ? "task-completed"
-                      : task.status === 'overdue'
-                      ? "task-overdue"
-                      : "task-in-progress",
-                  extendedProps: {
-                    progress: task.progress,
-                    description: task.description,
-                    status: task.status,
-                  },
-                })),
+                events: tasks.map((task) => {
+                  // 動態確定任務狀態
+                  const today = new Date();
+                  const startDate = new Date(task.start_date);
+                  const endDate = new Date(task.end_date);
+                  
+                  let taskStatus;
+                  let color;
+                  let className;
+                  
+                  if (task.progress >= 100) {
+                    taskStatus = '已完成';
+                    color = '#4CAF50';
+                    className = 'task-completed';
+                  } else if (endDate < today) {
+                    taskStatus = '已逾期';
+                    color = '#F44336';
+                    className = 'task-overdue';
+                  } else if (startDate <= today) {
+                    taskStatus = '進行中';
+                    color = '#2196F3';
+                    className = 'task-in-progress';
+                  } else {
+                    taskStatus = '未開始';
+                    color = '#FF9800';
+                    className = 'task-not-started';
+                  }
+                  
+                  return {
+                    id: task.id,
+                    title: task.name,
+                    start: task.start_date,
+                    end: task.end_date,
+                    color: color,
+                    className: className,
+                    extendedProps: {
+                      progress: task.progress,
+                      description: task.description,
+                      status: taskStatus,
+                      originalStatus: task.status,
+                    },
+                  };
+                }),
                 eventClick: function (info) {
                   Swal.fire({
                     title: info.event.title,
                     html: `
                         <div class="task-detail-popup">
-                          <p><strong>狀態:</strong> ${
-                            info.event.extendedProps.status === 'completed' ? '已完成' :
-                            info.event.extendedProps.status === 'overdue' ? '逾期' :
-                            info.event.extendedProps.status === 'not-started' ? '未開始' :
-                            info.event.extendedProps.status === 'in-progress' ? '進行中' : 
-                            info.event.extendedProps.status
-                          }</p>
-                          <p><strong>進度:</strong> ${
-                            info.event.extendedProps.progress
-                          }%</p>
+                          <p><strong>狀態:</strong> ${info.event.extendedProps.status}</p>
+                          <p><strong>進度:</strong> ${info.event.extendedProps.progress}%</p>
                           <p><strong>開始:</strong> ${info.event.start.toLocaleDateString()}</p>
                           <p><strong>結束:</strong> ${
                             info.event.end
@@ -230,9 +244,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>
                       `,
                     icon:
-                      info.event.extendedProps.status === 'completed'
+                      info.event.extendedProps.status === '已完成'
                         ? "success"
-                        : info.event.extendedProps.status === 'overdue'
+                        : info.event.extendedProps.status === '已逾期'
                         ? "error"
                         : "info",
                   });
