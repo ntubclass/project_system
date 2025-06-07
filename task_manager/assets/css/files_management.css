@@ -102,110 +102,70 @@ body {
     display:block;
 }
 
-/* 檔案列表容器 */
-.file-table-container {
-    background-color: var(--white);
+/* 表格容器樣式 - 與 project_management.css 一致 */
+.table-container {
+    background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
     overflow: hidden;
+    margin-bottom: 20px;
 }
 
-/* 檔案列表標題 */
-.file-table-header {
-    display: flex;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--light-gray);
-    font-size: var(--font-size-14);
-    background-color: var(--white);
-    align-items: center;
+.table-wrapper {
+    overflow-x: auto;
 }
 
-.file-header-cell {
-    padding: 0 8px;
-    display: flex;
-    align-items: center;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-/* 檔案列表標題對齊設定 */
-.file-header-cell.name-cell {
-    justify-content: flex-start;
+thead {
+    background-color: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
 }
 
-.file-header-cell.owner-cell,
-.file-header-cell.date-cell,
-.file-header-cell.size-cell {
-    justify-content: center;
+th {
     text-align: center;
-}
-
-.file-header-cell.action-cell {
-    justify-content: center;
-}
-
-/* 欄位寬度設定 */
-.name-cell {
-    flex: 3;
-}
-
-.owner-cell {
-    flex: 1;
-}
-
-.date-cell {
-    flex: 1.5;
-}
-
-.size-cell {
-    flex: 0.8;
-}
-
-.action-cell {
-    flex: 0.5;
-    text-align: center;
-}
-
-/* 檔案列表 */
-.file-table-body {
-    background-color: var(--white);
-}
-
-.file-row {
-    display: flex;
     padding: 12px 16px;
-    border-bottom: 1px solid var(--border-color);
-    align-items: center;
+    font-weight: 500;
+    color: var(--dark-gray);
+    font-size: 14px;
 }
 
-.file-row:last-child {
+th:first-child {
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #f3f4f6;
+    transition: background-color 0.2s;
+}
+
+tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+tbody tr:last-child {
     border-bottom: none;
 }
 
-.file-cell {
-    padding: 0 8px;
-    display: flex;
-    align-items: center;
-}
-
-/* 檔案列表內容對齊設定 */
-.file-cell.name-cell {
-    justify-content: flex-start;
-}
-
-.file-cell.owner-cell,
-.file-cell.date-cell,
-.file-cell.size-cell {
-    justify-content: center;
+td {
     text-align: center;
+    padding: 16px;
+    font-size: 14px;
 }
 
-.file-cell.action-cell {
-    justify-content: center;
+td:first-child {
+    text-align: left;
 }
 
-.name-cell {
+/* 檔案資訊 */
+.file-info {
     display: flex;
     align-items: center;
+    gap: 12px;
 }
 
 .file-icon {
@@ -276,15 +236,40 @@ body {
     justify-content: center;
 }
 
-.file-name {
-    font-size: var(--font-size-14);
+.file-details .file-name {
+    font-weight: 600;
     color: var(--dark-gray);
     margin-bottom: 4px;
+    font-size: 15px;
 }
 
-.file-type {
-    font-size: var(--font-size-12);
+.file-details .file-type {
     color: var(--light-gray);
+    font-size: 13px;
+}
+
+/* 擁有者資訊 */
+.owner-info {
+    color: var(--dark-gray);
+    font-size: 14px;
+}
+
+/* 所屬專案資訊 */
+.project-info {
+    color: var(--dark-gray);
+    font-size: 14px;
+}
+
+/* 檔案大小資訊 */
+.file-size {
+    color: var(--dark-gray);
+    font-size: 14px;
+}
+
+/* 上傳時間資訊 */
+.upload-time {
+    color: var(--dark-gray);
+    font-size: 14px;
 }
 
 .download-btn {
@@ -649,6 +634,79 @@ dialog:not([open]) {
     z-index: 101;
 }
 
+/* 分頁器樣式 */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-top: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.pagination-info {
+    font-size: 14px;
+    color: var(--dark-gray);
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pagination-btn {
+    padding: 4px 12px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    color: var(--dark-gray);
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background-color: #f3f4f6;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-number {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-decoration: none;
+    color: var(--dark-gray);
+}
+
+.pagination-number.active {
+    background-color: var(--dark-blue);
+    color: white;
+}
+
+.pagination-number:not(.active) {
+    border: 1px solid #d1d5db;
+    background: white;
+}
+
+.pagination-number:not(.active):hover {
+    background-color: #f3f4f6;
+}
+
 /* 響應式調整 */
 @media screen and (max-width: 768px) {
     .main-content {
@@ -656,11 +714,23 @@ dialog:not([open]) {
         padding: 20px;
     }
     
-    .owner-cell {
-        display: none;
+    /* 在手機上隱藏部分欄位 */
+    th:nth-child(3), td:nth-child(3) {
+        display: none; /* 隱藏上傳日期/時間欄位 */
     }
     
-    .date-cell {
-        flex: 1;
+    th:nth-child(4), td:nth-child(4) {
+        display: none; /* 隱藏大小欄位 */
+    }
+    
+    /* 調整表格單元格間距 */
+    th, td {
+        padding: 12px 8px;
+    }
+    
+    .pagination {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
     }
 }
