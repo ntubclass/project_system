@@ -48,9 +48,10 @@
                     <div class="stats-text">
                         <h3>訊息數量</h3>
                         <div class="stats-value">{{total_messages}}</div>
+                        <p class="stats-details">總訊息數量</p>
                     </div>
                     <div class="stats-icon blue">
-                        <i class="fa-regular fa-envelope"></i>
+                        <i class="fa-solid fa-comment"></i>
                     </div>
                 </div>
             </div>
@@ -130,6 +131,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/chart.js' %}"></script>
 <script src="{% static 'js/mainPage.js' %}"></script>
 {% endblock %}

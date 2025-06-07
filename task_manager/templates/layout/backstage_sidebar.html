@@ -1,5 +1,5 @@
 <div class="sidebar" id="sidebar">
-  <a href="{% url 'project' %}"><h1 class="sidebar-title">任務管理系統</h1></a>
+  <a href="{% url 'project' %}"><h1 class="sidebar-title">任務管理系統後台</h1></a>
   <div class="sidebar-content">
       <div class="sidebar-menu">
         <a href="{% url 'backstage' %}" class="sidebar-item {% if request.resolver_match.url_name == 'backstage' %}active{% endif %}">
@@ -15,7 +15,7 @@
             <div>專案</div>
         </a>
         <a href="{% url 'task_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'task_management' %}active{% endif %}">
-            <i class="sidebar-item-icon fa-solid fa-folder-closed"></i>
+            <i class="sidebar-item-icon fa-solid fa-file"></i>
             <div>任務</div>
         </a>
         <a href="{% url 'chat_management' %}" class="sidebar-item {% if request.resolver_match.url_name == 'chat_management' %}active{% endif %}">
@@ -27,9 +27,9 @@
             <div>檔案</div>
         </a>
       </div>
-      <a href="{% url 'project' %}" class="back-link">
+      <a href="{% url 'mainPage' %}" class="back-link">
           <i class="sidebar-item-icon fa-solid fa-arrow-left"></i>
-          <div>返回專案列表</div>
+          <div>返回首頁</div>
       </a>
   </div>
 </div>
