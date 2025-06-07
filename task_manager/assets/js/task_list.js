@@ -252,30 +252,30 @@ class TaskRenderer {
         </div>
     `;
   }
-
   /**
    * Initialize and set up progress bars
    */
   initProgressBars() {
     const progressBars = this.findByQuery(".progress-fill");
     progressBars.forEach((bar) => {
-      // 取得已設定的 width 百分比 (如果直接在 style 中設定)
-      const style = window.getComputedStyle(bar);
-      const width = style.width;
-      const parentWidth = window.getComputedStyle(bar.parentElement).width;
-
-      // 計算進度百分比
-      let progressValue = Math.round(
-        (parseInt(width) / parseInt(parentWidth)) * 100
-      );
-
-      // 如果沒有通過 style 直接設定，檢查是否有 progress 屬性
-      if (isNaN(progressValue) && bar.hasAttribute("progress")) {
-        progressValue = bar.getAttribute("progress");
-      }
-
-      // 若進度值存在，更新相應的進度文字
+      // 獲取progress屬性值
+      const progressValue = bar.getAttribute("progress");      // 如果存在progress屬性，則重新設置動畫
       if (progressValue) {
+        // 先移除transition，設置初始寬度為0
+        bar.style.transition = "none";
+        bar.style.width = "0%";
+        
+        // 強制瀏覽器重新計算樣式
+        bar.offsetWidth;
+        
+        // 使用 setTimeout 讓瀏覽器完成初始渲染後再開始動畫
+        setTimeout(() => {
+          // 重新添加transition並設置進度條寬度，觸發動畫
+          bar.style.transition = "width 0.3s ease";
+          bar.style.width = `${progressValue}%`;
+        }, 50); // 50ms 延遲確保DOM完全就緒
+
+        // 找到對應的百分比顯示元素並更新
         const progressBarContainer = bar.closest(".progress-bar");
         const progressContainer = progressBarContainer.previousElementSibling;
 
@@ -287,7 +287,10 @@ class TaskRenderer {
             ".progress-percentage"
           );
           if (percentageDisplay) {
-            percentageDisplay.textContent = `${progressValue}%`;
+            // 延遲更新百分比顯示，讓動畫更自然  
+            setTimeout(() => {
+              percentageDisplay.textContent = `${progressValue}%`;
+            }, 100);
           }
         }
       }

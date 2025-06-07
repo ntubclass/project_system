@@ -10,6 +10,10 @@
 {% block content %}
 <div class="project-overview-container">
     {% csrf_token %}
+    <div class="title-bar">
+        <h1 class="section-title">任務管理</h1>
+    </div>
+
     <div class="search-container">
         <div class="search-box">
             <i class="search-icon fa-solid fa-search"></i>
@@ -23,24 +27,18 @@
             <table>
                 <thead>
                     <tr>
-                        <th>專案</th>
-                        <th>任務</th>
-                        <th>負責人</th>
-                        <th>狀態</th>
+                        <th>任務名稱</th>
+                        <th>專案名稱</th>
                         <th>進度</th>
-                        <th>建立時間</th>
-                        <th>到期日</th>
+                        <th>負責人/團隊</th>
+                        <th>狀態</th>
+                        <th>時程</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody id="taskTableBody">
                     {% for task in tasks %}
-                    <tr data-task-id="{{ task.task_id }}">
-                        <td>
-                            <div class="project-info">
-                                <div class="project-name">{{ task.project_name }}</div>
-                            </div>
-                        </td>
+                    <tr data-task-id="{{ task.task_id }}" data-project-id="{{ task.project_id }}">
                         <td>
                             <div class="task-info">
                                 <div class="task-title">{{ task.title }}</div>
@@ -48,17 +46,24 @@
                             </div>
                         </td>
                         <td>
-                            <div class="user-info">
-                                <div class="user-avatar">
-                                    {% if task.user_avatar %}
-                                        <img src="{{ task.user_avatar }}" alt="{{ task.user_name }}" class="user-avatar-image">
-                                    {% else %}
-                                        {{ task.user_name|slice:":1"|upper }}
-                                    {% endif %}
+                            <div class="project-info">
+                                <div class="project-name">{{ task.project_name }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span class="progress-percentage">{{ task.progress }}%</span>
+                                </div>                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {{ task.progress }}%" progress="{{ task.progress }}"></div>
                                 </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="user-info">
                                 <div class="user-details">
-                                    <div class="user-name">{{ task.user_name }}</div>
-                                    <div class="user-email">{{ task.user_email }}</div>
+                                    <div class="assignee-name">負責人: {{ task.user_name }}</div>
+                                    <div class="team-size">共 {{ task.member_count }} 成員</div>
                                 </div>
                             </div>
                         </td>
@@ -68,28 +73,19 @@
                             </div>
                         </td>
                         <td>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: {{ task.progress }}%"></div>
-                                <span>{{ task.progress }}%</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="task-time">
-                                {{ task.create_time|date:"Y-m-d" }}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="task-time">
+                            <div class="timeline-info">
+                                <div>{{ task.create_time|date:"Y-m-d" }} ~ 
                                 {% if task.due_date %}
                                     {{ task.due_date|date:"Y-m-d" }}
                                 {% else %}
                                     無到期日
                                 {% endif %}
+                                </div>
                             </div>
                         </td>
                         <td>
                             <div class="actions">
-                                <button class="action-btn btn-edit edit" data-task-id="{{ task.task_id }}"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-edit edit" data-task-id="{{ task.task_id }}" data-project-id="{{ task.project_id }}"><i class="fas fa-edit"></i></button>
                                  <button class="action-btn btn-delete delete" onclick="deleteTask('{{ task.task_id }}')" title="刪除任務">
                                     <i class="fas fa-times"></i>
                                 </button>
@@ -98,7 +94,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="8" class="no-data">無任務資料</td>
+                        <td colspan="7" class="no-data">無任務資料</td>
                     </tr>
                     {% endfor %}
                 </tbody>

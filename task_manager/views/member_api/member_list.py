@@ -6,7 +6,21 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 def main(request, project_id):
-    project = get_object_or_404(Project, project_id=project_id)
+    # 檢查用戶是否有權限查看此專案（是創建者或成員）
+    try:
+        project = Project.objects.get(project_id=project_id)
+    except Project.DoesNotExist:
+        messages.error(request, "專案不存在")
+        return redirect('project')
+    
+    is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
+    is_creator = (project.user_id == request.user)
+    
+    if not (is_member or is_creator):
+        # 如果不是專案成員或創建者，返回錯誤訊息
+        messages.error(request, "您沒有權限查看此專案")
+        return redirect('project')
+
     if request.method == "POST":
         # 刪除成員
         delete_email = request.POST.get("delete_member_email")
@@ -40,7 +54,7 @@ def main(request, project_id):
             messages.success(request, f"成功新增 {added} 位成員！")
         elif member_count > 0:
             messages.warning(request, "沒有新增任何成員，可能已存在或資料有誤。")
-        return redirect('member_list', project_id=project_id)
+        return redirect(f"member_list/{project_id}/?project={project_id}")
 
     # 取得專案
     project = get_object_or_404(Project, project_id=project_id)

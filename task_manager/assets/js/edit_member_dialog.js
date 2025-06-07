@@ -8,6 +8,14 @@ const editMemberInfo = {
 // Create a namespaced object for task editing to avoid conflicts
 window.taskEditing = window.taskEditing || {};
 
+// Store current project ID for task editing
+let currentProjectId = null;
+
+// Function to set project ID for task editing
+function setProjectIdForTaskEdit(projectId) {
+  currentProjectId = projectId;
+}
+
 // Function to add member to edit list (either for project or task)
 function add_member_to_edit_list(name, email, photo) {
   // Determine which member list to use based on referrer dialog attribute
@@ -203,12 +211,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         const csrfToken = csrfTokenElement.value;
 
-        // Get project ID from URL for editing context
-        const urlParts = window.location.pathname.split("/");
-        let projectId = null;
-        if (urlParts.length > 3 ) {
-          projectId = urlParts[urlParts.length - 2];
-        }
+        // Get project ID from URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('project');
 
         // Fetch search results from the server
         const response = await fetch(`/dynamic_search_member/`, {
@@ -217,7 +222,10 @@ document.addEventListener("DOMContentLoaded", function () {
             "Content-Type": "application/json",
             "X-CSRFToken": csrfToken,
           },
-          body: JSON.stringify({ search_query: query, project_id: projectId }),
+          body: JSON.stringify({ 
+            search_query: query, 
+            project_id: currentProjectId || urlParams.get('project')
+          }),
         });
 
         if (!response.ok) {
@@ -297,4 +305,29 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update UI
     updateProjectMembersListUI();
   };
+
+  // Add event listener for task edit buttons
+  const editButtons = document.getElementsByClassName('btn-edit');
+  Array.from(editButtons).forEach((editBtn) => {
+    editBtn.addEventListener('click', function(e) {
+      let projectId = editBtn.getAttribute('data-project-id');
+      
+      // If project ID is not on the button, get it from the parent row
+      if (!projectId) {
+        const row = editBtn.closest('tr');
+        projectId = row ? row.getAttribute('data-project-id') : null;
+      }
+      
+      
+      // Set the project ID for this editing session
+      if (projectId) {
+        setProjectIdForTaskEdit(projectId);
+      }
+      
+      // Set referrer to task editing
+      if (dialog) {
+        dialog.setAttribute("data-referrer-dialog", "editTask");
+      }
+    });
+  });
 });

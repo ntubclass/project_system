@@ -201,7 +201,7 @@
 }
 
 .progress-bar {
-  background-color: #0d6efd;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
   height: 8px;
   border-radius: 10px;
   position: relative;
@@ -210,7 +210,7 @@
 .progress-marker {
   width: 24px;
   height: 24px;
-  background-color: #0d6efd;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
   border: 2px solid #fff;
   border-radius: 50%;
   position: absolute;
@@ -366,10 +366,6 @@
 .dialog-actions {
   justify-content: space-between;
   margin-top: 30px;
-}
-
-.submit-btn {
-  background-color: #0d6efd;
 }
 
 .cancel-btn {

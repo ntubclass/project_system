@@ -234,9 +234,9 @@ body {
   min-width: 180px;
 }
 
-.progress-bar {
+.progress-fill {
   height: 100%;
-  background-color: var(--dark-blue);
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
   border-radius: 4px;
 }
 
@@ -255,7 +255,8 @@ body {
 }
 
 .task-actions button {
-  background: none;
+  background: none !important;
+  background-image: none !important;
   border: none;
   padding: 6px;
   cursor: pointer;
@@ -271,10 +272,14 @@ body {
 
 .btn-update, .btn-edit{
   color: var(--dark-blue);
+  background: none !important;
+  background-image: none !important;
 }
 
 .btn-delete {
   color: var(--dark-red);
+  background: none !important;
+  background-image: none !important;
 }
 
 .btn-update:hover,
@@ -315,18 +320,20 @@ body {
 }
 
 .create-btn {
-    background-color: var(--dark-blue);
-    color: var(--white);
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: var(--font-size-14);
-    transition: background-color ease 0.2s;
+  background-color: var(--dark-blue) !important;
+  background-image: none !important;
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--font-size-14);
+  transition: background-color ease 0.2s;
 }
 
 .create-btn:hover {
-  background-color: #1b4fc6; /* 略微深色的藍色 */
+  background-color: #1b4fc6 !important; /* 略微深色的藍色 */
+  background-image: none !important;
 }

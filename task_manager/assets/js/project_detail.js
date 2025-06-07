@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // 設置進度條長度和更新顯示的百分比
+document.addEventListener("DOMContentLoaded", function () {  // 設置進度條長度和更新顯示的百分比
   function initializeProgressBars() {
     // 獲取所有進度條元素
     const progressBars = document.querySelectorAll(".progress-fill");
@@ -7,12 +6,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // 遍歷每個進度條元素
     progressBars.forEach((bar) => {
       // 獲取progress屬性值
-      const progressValue = bar.getAttribute("progress");
-
-      // 如果存在progress屬性，則設置寬度
+      const progressValue = bar.getAttribute("progress");      // 如果存在progress屬性，則設置寬度
       if (progressValue) {
-        // 設置進度條寬度為progress值的百分比
-        bar.style.width = `${progressValue}%`;
+        // 先移除transition，設置初始寬度為0
+        bar.style.transition = "none";
+        bar.style.width = "0%";
+        
+        // 強制瀏覽器重新計算樣式
+        bar.offsetWidth;
+        
+        // 使用 setTimeout 讓瀏覽器完成初始渲染後再開始動畫
+        setTimeout(() => {
+          // 重新添加transition並設置進度條寬度，觸發動畫
+          bar.style.transition = "width 0.3s ease";
+          bar.style.width = `${progressValue}%`;
+        }, 50); // 50ms 延遲確保DOM完全就緒
 
         // 更新 stat-value 中的百分比顯示
         const statCard = bar.closest(".stat-card");
@@ -21,7 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
             ".progress-percentage"
           );
           if (progressPercentage) {
-            progressPercentage.textContent = progressValue;
+            // 延遲更新百分比顯示，讓動畫更自然
+            setTimeout(() => {
+              progressPercentage.textContent = progressValue;
+            }, 100);
           }
         }
       }
@@ -94,9 +105,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     start: task.start_date,
                     end: task.end_date,
                     progress: task.progress,
+                    status: task.status,
+                    description: task.description,
                   };
                 });
-
+                
                 const gantt = new Gantt("#gantt", ganttTasks, {
                   step: 24,
                   bar_height: 30,
@@ -104,18 +117,22 @@ document.addEventListener("DOMContentLoaded", function () {
                   bar_corner_radius: 3,
                   arrow_curve: 5,
                   padding: 18,
-                  view_mode: "Day", // Change to Week for a medium-level view
+                  view_mode: "Day",
                   date_format: "YYYY-MM-DD",
                   start_date: new Date(
-                    new Date().setDate(new Date().getDate() - 10)
-                  ), // Start 10 days before today
+                    new Date().setDate(new Date().getDate() - 14)
+                  ),
                   custom_popup_html: function (task) {
+                    const safeName = task.name || '';
+                    const safeDescription = task.description || '';
+                    
                     return `
                                 <div class="details-container">
-                                    <h4>${task.name}</h4>
-                                    <p>開始: ${task.start}</p>
-                                    <p>結束: ${task.end}</p>
-                                    <p>進度: ${task.progress}%</p>
+                                    <h4>${safeName}</h4>
+                                    <p>開始: ${task.start || ''}</p>
+                                    <p>結束: ${task.end || ''}</p>
+                                    <p>進度: ${task.progress || 0}%</p>
+                                    ${safeDescription ? `<p>描述: ${safeDescription}</p>` : ''}
                                 </div>
                             `;
                   },
@@ -167,37 +184,67 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 locale: "zh-tw",
                 displayEventTime: false,
+                displayEventEnd: false,
+                eventDisplay: 'block',
+                height: 'auto',
+                fixedWeekCount: true,
+                showNonCurrentDates: true,
+                dayMaxEvents: true,
                 eventTimeFormat: {
                   hour: "2-digit",
                   minute: "2-digit",
                   meridiem: false,
                 },
-                events: tasks.map((task) => ({
-                  id: task.id,
-                  title: task.name,
-                  start: task.start_date,
-                  end: task.end_date,
-                  color:
-                    task.progress >= 100
-                      ? "var(--dark-green)"
-                      : "var(--dark-blue)",
-                  className:
-                    task.progress >= 100
-                      ? "task-completed"
-                      : "task-in-progress",
-                  extendedProps: {
-                    progress: task.progress,
-                    description: task.description,
-                  },
-                })),
+                events: tasks.map((task) => {
+                  // 動態確定任務狀態
+                  const today = new Date();
+                  const startDate = new Date(task.start_date);
+                  const endDate = new Date(task.end_date);
+                  
+                  let taskStatus;
+                  let color;
+                  let className;
+                  
+                  if (task.progress >= 100) {
+                    taskStatus = '已完成';
+                    color = '#4CAF50';
+                    className = 'task-completed';
+                  } else if (endDate < today) {
+                    taskStatus = '已逾期';
+                    color = '#F44336';
+                    className = 'task-overdue';
+                  } else if (startDate <= today) {
+                    taskStatus = '進行中';
+                    color = '#2196F3';
+                    className = 'task-in-progress';
+                  } else {
+                    taskStatus = '未開始';
+                    color = '#FF9800';
+                    className = 'task-not-started';
+                  }
+                  
+                  return {
+                    id: task.id,
+                    title: task.name,
+                    start: task.start_date,
+                    end: task.end_date,
+                    color: color,
+                    className: className,
+                    extendedProps: {
+                      progress: task.progress,
+                      description: task.description,
+                      status: taskStatus,
+                      originalStatus: task.status,
+                    },
+                  };
+                }),
                 eventClick: function (info) {
                   Swal.fire({
                     title: info.event.title,
                     html: `
                         <div class="task-detail-popup">
-                          <p><strong>進度:</strong> ${
-                            info.event.extendedProps.progress
-                          }%</p>
+                          <p><strong>狀態:</strong> ${info.event.extendedProps.status}</p>
+                          <p><strong>進度:</strong> ${info.event.extendedProps.progress}%</p>
                           <p><strong>開始:</strong> ${info.event.start.toLocaleDateString()}</p>
                           <p><strong>結束:</strong> ${
                             info.event.end
@@ -212,8 +259,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>
                       `,
                     icon:
-                      info.event.extendedProps.progress >= 100
+                      info.event.extendedProps.status === '已完成'
                         ? "success"
+                        : info.event.extendedProps.status === '已逾期'
+                        ? "error"
                         : "info",
                   });
                 },

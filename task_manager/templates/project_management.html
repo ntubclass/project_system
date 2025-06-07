@@ -14,10 +14,6 @@
     <!-- Header -->
     <div class="title-bar">
         <h1 class="section-title">專案管理</h1>
-        <button class="create-btn" id="openCreateProjectBtn">
-          <i class="create-icon fa-solid fa-plus"></i>
-            建立專案
-        </button>
     </div>
 
     <div class="search-container">
@@ -25,24 +21,16 @@
             <i class="search-icon fa-solid fa-search"></i>
             <input type="text" placeholder="搜尋專案..." class="search-input">
         </div>
-        {% comment %} {% if search_query %}
-        <div class="search-results-info">
-            <span class="search-term">搜尋 "{{ search_query }}" 的結果</span>
-            <button class="clear-search-btn" onclick="clearSearch()">
-                <i class="fas fa-times"></i> 清除搜尋
-            </button>
-        </div>
-        {% endif %} {% endcomment %}
     </div>
 
     <!-- Project Table -->
     <div class="table-container">
         <div class="table-wrapper">
-            <table>
-                <thead>
+            <table>                <thead>
                     <tr>
                         <th>專案名稱</th>
                         <th>進度</th>
+                        <th>狀態</th>
                         <th>負責人/團隊</th>
                         <th>時程</th>
                         <th>操作</th>
@@ -56,16 +44,19 @@
                                 <div class="project-name">{{ project.name }}</div>
                                 <div class="project-description">{{ project.description }}</div>
                             </div>
-                        </td>
-                        <td>
+                        </td>                        <td>
                             <div class="progress-container">
                                 <div class="progress-info">
                                     <span class="progress-percentage">{{ project.total_progress }}%</span>
                                     <span class="progress-days">{{ project.task_count }}個任務</span>
+                                </div>                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {{ project.total_progress }}%" progress="{{ project.total_progress }}"></div>
                                 </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: {{ project.total_progress }}%"></div>
-                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="status-container">
+                                <span class="status-badge status-{{ project.status }}">{{ project.status }}</span>
                             </div>
                         </td>
                         <td>
@@ -120,7 +111,6 @@
 </div>
 
 {% include 'dialog/edit_project_dialog.html'%}
-{% include 'dialog/create_project_dialog.html' %}
 {% include 'dialog/add_member_dialog.html' %}
 {% include 'dialog/edit_member_dialog.html' %}
 {% include 'dialog/change_owner_dialog.html' %}
@@ -129,7 +119,6 @@
 {% block extra_js %}
 <script src="{% static 'js/project.js' %}"></script>
 <script src="{% static 'js/dialog.js' %}"></script>
-<script src="{% static 'js/add_member_dialog.js' %}"></script>
 <script src="{% static 'js/edit_member_dialog.js' %}"></script>
 <script src="{% static 'js/project_management.js' %}"></script>
 <script src="{% static 'js/change_owner_dialog.js' %}"></script>

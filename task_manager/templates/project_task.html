@@ -1,7 +1,7 @@
 {% extends 'project_detail_base.html' %}
 {% load static %}
 
-{% block title %}{{ project.name }} | 專案詳情{% endblock %}
+{% block title %}{{ project_name }} | 專案詳情{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/project_task.css' %}">
@@ -49,10 +49,9 @@
           <span class="task-name">{{ task.task_name }}</span>
           <span class="status {{ task.status }}"></span>
           <div class="task-date">截止日期: {{task.end_date}}</div>
-        </div>
-        <div class="task-progress">
+        </div>        <div class="task-progress">
           <div class="progress">
-            <div class="progress-bar" style="width: {{ task.progress }}%"></div>
+            <div class="progress-fill" style="width: {{ task.progress }}%" progress="{{ task.progress }}"></div>
           </div>
           <span class="progress-text">{{ task.progress }}%</span>
         </div>
@@ -78,15 +77,14 @@
             <img src="{{task.photo}}" alt="User avatar">
           </div>
           <div class="username">{{ task.user_name }}</div>
-        </div>
-        <div class="task-details">
+        </div>        <div class="task-details">
           <span class="task-name">{{ task.task_name }}</span>
           <span class="status in-progress">進行中</span>
           <div class="task-date">截止日期: {{task.end_date}}</div>
         </div>
         <div class="task-progress">
           <div class="progress">
-            <div class="progress-bar" style="width: {{ task.progress }}%"></div>
+            <div class="progress-fill" style="width: {{ task.progress }}%" progress="{{ task.progress }}"></div>
           </div>
           <span class="progress-text">{{ task.progress }}%</span>
         </div>
