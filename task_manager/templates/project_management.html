@@ -49,9 +49,8 @@
                                 <div class="progress-info">
                                     <span class="progress-percentage">{{ project.total_progress }}%</span>
                                     <span class="progress-days">{{ project.task_count }}個任務</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: {{ project.total_progress }}%"></div>
+                                </div>                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {{ project.total_progress }}%" progress="{{ project.total_progress }}"></div>
                                 </div>
                             </div>
                         </td>
