@@ -1,5 +1,33 @@
+// 動態時間問候功能
+function updateGreeting() {
+  const now = new Date();
+  const hour = now.getHours();
+  let greeting;
+
+  if (hour >= 5 && hour < 12) {
+    greeting = "早安";
+  } else if (hour >= 12 && hour < 18) {
+    greeting = "午安";
+  } else {
+    greeting = "晚安";
+  }
+
+  // 更新標題中的問候語
+  const titleElement = document.querySelector(".title");
+  if (titleElement) {
+    const username = titleElement.textContent.replace(/^(早安|午安|晚安)\s/, "");
+    titleElement.textContent = `${greeting} ${username}`;
+  }
+}
+
 // Project Status Chart
 document.addEventListener("DOMContentLoaded", function () {
+  // 初始化時間問候
+  updateGreeting();
+
+  // 每分鐘更新一次問候語（可選）
+  setInterval(updateGreeting, 60000);
+
   // Get the chart elements
   const projectChartElement = document.getElementById("myDonutChart");
   const taskChartElement = document.getElementById("taskStatusChart");
