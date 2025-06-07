@@ -167,6 +167,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 locale: "zh-tw",
                 displayEventTime: false,
+                displayEventEnd: false,
+                eventDisplay: 'block',
                 eventTimeFormat: {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -177,14 +179,36 @@ document.addEventListener("DOMContentLoaded", function () {
                   title: task.name,
                   start: task.start_date,
                   end: task.end_date,
-                  color:
-                    task.progress >= 100
-                      ? "var(--dark-green)"
-                      : "var(--dark-blue)",
-                  className:
-                    task.progress >= 100
-                      ? "task-completed"
-                      : "task-in-progress",
+                  color: (() => {
+                    const today = new Date();
+                    const startDate = new Date(task.start_date);
+                    const endDate = new Date(task.end_date);
+                    
+                    if (task.progress >= 100) {
+                      return "#4CAF50"; // 已完成 - 绿色
+                    } else if (endDate < today) {
+                      return "#F44336"; // 已逾期 - 红色
+                    } else if (startDate <= today) {
+                      return "#2196F3"; // 进行中 - 蓝色
+                    } else {
+                      return "#FF9800"; // 未开始 - 橙色
+                    }
+                  })(),
+                  className: (() => {
+                    const today = new Date();
+                    const startDate = new Date(task.start_date);
+                    const endDate = new Date(task.end_date);
+                    
+                    if (task.progress >= 100) {
+                      return "task-completed";
+                    } else if (endDate < today) {
+                      return "task-overdue";
+                    } else if (startDate <= today) {
+                      return "task-in-progress";
+                    } else {
+                      return "task-not-started";
+                    }
+                  })(),
                   extendedProps: {
                     progress: task.progress,
                     description: task.description,
