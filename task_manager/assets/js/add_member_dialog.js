@@ -142,9 +142,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         const csrfToken = csrfTokenElement.value;
 
-        // Get project ID from URL query parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        let projectId = urlParams.get('project');
+        // Get project ID from hidden input (member_list 頁面)
+        let projectId = null;
+        const projectIdInput = document.getElementById("currentProjectId");
+        if (projectIdInput) {
+          projectId = projectIdInput.value;
+        } else {
+          // fallback: Get project ID from URL query parameter
+          const urlParams = new URLSearchParams(window.location.search);
+          projectId = urlParams.get('project');
+        }
         let is_member_list = false;
 
         // Check URL path for member_list context
@@ -152,6 +159,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (urlParts.includes("member_list")) {
           is_member_list = true;
         }
+
+        // Debug log
+        // console.log("searching member, projectId:", projectId, "is_member_list:", is_member_list);
 
         // Fetch search results from the server
         const response = await fetch(`/dynamic_search_member/`, {
