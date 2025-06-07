@@ -1,0 +1,42 @@
+<!-- 編輯用戶對話框，請勿刪除此區塊 -->
+<dialog class="dialog-backdrop" id="editUserDialog">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">編輯用戶</h2>
+                <button type="button" class="close-btn" id="closeEditUserBtn">&times;</button>
+            </div>
+            <form id="editUserForm" action="#" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="editUserName">姓名</label>
+                    <input type="text" id="editUserName" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="editUserEmail">電子郵件</label>
+                    <input type="email" id="editUserEmail" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="editUserRole">角色</label>
+                    <select id="editUserRole" name="role" class="form-control">
+                        <option value="一般使用者">一般使用者</option>
+                        <option value="專案管理者">超級管理員</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editUserStatus">狀態</label>
+                    <select id="editUserStatus" name="status" class="form-control">
+                        <option value="active">使用中</option>
+                        <option value="inactive">未使用</option>
+                        <option value="disabled">停用</option>
+                    </select>
+                </div>
+                <div id="editUserFormErrors" class="form-errors"></div>
+                <div class="dialog-actions">
+                    <button type="button" id="cancelEditUserBtn" class="cancel-btn">取消</button>
+                    <button type="submit" class="save-btn">儲存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</dialog>

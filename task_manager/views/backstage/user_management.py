@@ -41,6 +41,8 @@ def main(request):
         recent_task = Task.objects.filter(user_id=user, created_at__gte=ten_minutes_ago).exists() if hasattr(Task, 'created_at') else False
         if user.is_active and (recent_login or recent_project or recent_task):
             status = 'active'  # 使用中
+        elif not user.is_active:
+            status = 'disabled'  # 停用
         else:
             status = 'inactive'  # 未使用
         # 最後活動（可根據實際需求調整，這裡暫用date_joined）
@@ -51,6 +53,7 @@ def main(request):
         total_project_count = project_owner_count + project_creator_count
         # 計算每個用戶的任務數量
         task_count = Task.objects.filter(user_id=user).count()
+        print(f"user: {user.username}, is_active: {user.is_active}, status: {status}")
         users.append({
             'id': user.id,
             'name': user.username,
@@ -88,8 +91,36 @@ def delete_user(request):
         try:
             user = User.objects.get(id=user_id)
             if user.is_superuser:
-                return JsonResponse({'success': False, 'error': '無法刪除超級管理員'})
-            user.delete()
+                return JsonResponse({'success': False, 'error': '無法停用超級管理員'})
+            user.is_active = False
+            user.save()
+            return JsonResponse({'success': True})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': '用戶不存在'})
+    return JsonResponse({'success': False, 'error': '權限不足或請求錯誤'})
+
+@csrf_exempt
+@login_required(login_url="login")
+def edit_user(request):
+    if request.method == 'POST' and request.user.is_superuser:
+        user_id = request.POST.get('user_id')
+        status = request.POST.get('status')
+        role = request.POST.get('role')
+        if not user_id:
+            return JsonResponse({'success': False, 'error': '缺少 user_id'})
+        try:
+            user = User.objects.get(id=user_id)
+            # 只禁止編輯自己的狀態，允許超級管理員編輯其他所有人
+            if user.id == request.user.id:
+                return JsonResponse({'success': False, 'error': '不能更改自己的狀態'})
+            # 狀態處理
+            if status == 'active':
+                user.is_active = True
+            elif status == 'inactive':
+                user.is_active = True  # 未使用仍可登入
+            elif status == 'disabled':
+                user.is_active = False
+            user.save()
             return JsonResponse({'success': True})
         except User.DoesNotExist:
             return JsonResponse({'success': False, 'error': '用戶不存在'})
