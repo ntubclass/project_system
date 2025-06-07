@@ -15,11 +15,11 @@ def login_view(request):
             # 設置session過期時間
             if not remember_me:
                 request.session.set_expiry(0)  # 關閉瀏覽器時session過期
-            return redirect("/project")  # 登入後重定向到專案頁面
+            return redirect("/mainPage")  # 登入後重定向到專案頁面
         else:
             messages.error(request, "帳號或密碼不正確")
 
     if request.user.is_authenticated:
-        return redirect("/project")
+        return redirect("/mainPage")
 
     return render(request, "login.html")

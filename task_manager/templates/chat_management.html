@@ -1,6 +1,6 @@
 {% extends 'backstage_base.html' %}
 {% load static %}
-{% block title %}後臺管理|聊天室管理{% endblock %}
+{% block title %}後臺管理|訊息管理{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/chat_management.css' %}">
 {% endblock %}
@@ -10,7 +10,7 @@
     <!-- Header -->
     {% csrf_token %}
     <div class="title-bar">
-        <h1 class="section-title">聊天室管理</h1>
+        <h1 class="section-title">訊息管理</h1>
     </div>
 
     <div class="search-container">

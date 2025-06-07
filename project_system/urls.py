@@ -8,6 +8,7 @@ from django.views.generic import RedirectView
 from task_manager.views import (
     test,
     dynamic_search_member,
+    mainPage,
 )
 
 from task_manager.views.backstage import backstage, chat_management, files_management, project_management, task_management, user_management
@@ -70,6 +71,7 @@ urlpatterns = (
         path('global_search/', global_search, name='global_search'),
         path('search_suggestions/', search_suggestions, name='search_suggestions'),
         path('delete_user/', user_management.delete_user, name='delete_user'),
+        path('mainPage/', mainPage.main, name='mainPage'),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
