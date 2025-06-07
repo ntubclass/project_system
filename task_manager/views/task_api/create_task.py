@@ -16,6 +16,7 @@ def main(request, project_id):
         content = request.POST.get("content")
         startDate = request.POST.get("startDate")
         dueDate = request.POST.get("dueDate")
+        url_type = request.POST.get("url_type")
         user = User.objects.get(username=request.user)
         project = Project.objects.get(project_id=project_id)
         member_count = int(request.POST.get("member_count", "0"))
@@ -26,7 +27,7 @@ def main(request, project_id):
     
         if not (is_member or is_creator):
             messages.error(request, "您沒有權限新增此專案任務")
-            return redirect('project')
+            return redirect(url_type)
 
         start_date_obj = datetime.strptime(startDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
@@ -35,15 +36,15 @@ def main(request, project_id):
         
         if due_date_obj < start_date_obj:
             messages.warning(request, "截止日期必須在開始日期之後")
-            return redirect(f"/project_detail/{project_id}")
+            return redirect(url_type)
         
         if project.start_date.date() > start_date_obj:
             messages.warning(request, "開始日期必須在專案開始日期之後")
-            return redirect(f"/project_detail/{project_id}")
+            return redirect(url_type)
         
         if project.end_date.date() < due_date_obj:
             messages.warning(request, "截止日期必須在專案截止日期之前")
-            return redirect(f"/project_detail/{project_id}")
+            return redirect(url_type)
 
         # 創建新專案
         new_task = Task(
@@ -59,5 +60,6 @@ def main(request, project_id):
             task_member.save()
 
         messages.success(request, "任務已成功創建")
-        return redirect(f"/project_detail/{project_id}")
+        print(url_type)
+        return redirect(url_type)
     return HttpResponseNotAllowed(["POST"])

@@ -9,7 +9,7 @@ from task_manager.models.project_member import ProjectMember
 from task_manager.models.task_member import TaskMember
 
 
-@login_required
+@login_required(login_url="login")
 def global_search(request):
     if request.method != 'GET':
         return JsonResponse({'error': '只支援 GET 請求'}, status=405)
