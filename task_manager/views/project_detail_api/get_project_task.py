@@ -33,9 +33,21 @@ def main(request, project_id):
                 "project_name": task.project_id.name,
                 "progress": task.progress,  
                 "status": status,
+                "description": task.content,
                 "start_date": task.start_date.strftime("%Y-%m-%d %H:%M:%S"),
                 "end_date": task.end_date.strftime("%Y-%m-%d %H:%M:%S"),
             }
             context['tasks_data'].append(task_data)
+
+        # Define status priority for sorting (lower number = higher priority)
+        status_priority = {
+            "in-progress": 1,
+            "overdue": 2, 
+            "not-started": 3,
+            "completed": 4
+        }
+        
+        # Sort tasks by status priority
+        context['tasks_data'].sort(key=lambda x: status_priority.get(x['status'], 5))
 
         return JsonResponse(context)
