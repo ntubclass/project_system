@@ -15,6 +15,8 @@
         <div class="title-bar">
             <div class="title">系統概覽</div>
         </div>
+        
+        <!-- Stats Grid -->
         <div class="stats-grid">
             <!-- 總用戶數卡片 -->
             <div class="stats-card">
@@ -25,7 +27,7 @@
                         <p class="stats-details">{{total_active}} 啟用 {{total_inactive}} 未啟用 {{total_superuser}} 管理者</p>
                     </div>
                     <div class="stats-icon blue">
-                        <i class="  fa-regular fa-user"></i>
+                        <i class="fa-regular fa-user"></i>
                     </div>
                 </a>
             </div>
@@ -36,26 +38,40 @@
                     <div class="stats-text">
                         <h3>專案總數</h3>
                         <div class="stats-value">{{total_project}}</div>
-                        <p class="stats-details">18 進行中 7 已完成</p>
+                        <p class="stats-details">{{ project_in_progress }} 進行中 {{ project_completed }} 已完成</p>
                     </div>
                     <div class="stats-icon purple">
-                        <i class="  fa-regular fa-folder-closed"></i>
+                        <i class="fa-regular fa-folder-closed"></i>
                     </div>
                 </a>
             </div>
 
-            <!-- 專案總數卡片 -->
+            <!-- 任務總數卡片 -->
             <div class="stats-card">
                 <a href="{% url 'task_management' %}" class="stats-content">
                     <div class="stats-text">
                         <h3>任務總數</h3>
                         <div class="stats-value">{{total_task}}</div>
-                        <p class="stats-details">18 進行中 7 已完成</p>
+                        <p class="stats-details">{{ task_in_progress }} 進行中 {{ task_completed }} 已完成</p>
                     </div>
                     <div class="stats-icon yellow">
-                        <i class="  fa-regular fa-file"></i>
+                        <i class="fa-regular fa-file"></i>
                     </div>
-                </div>
+                </a>
+            </div>
+
+            <!-- 訊息數量卡片 -->
+            <div class="stats-card">
+                <a href="#" class="stats-content">
+                    <div class="stats-text">
+                        <h3>訊息數量</h3>
+                        <div class="stats-value">{{total_messages}}</div>
+                        <p class="stats-details">總訊息數量</p>
+                    </div>
+                    <div class="stats-icon blue">
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+                </a>
             </div>
 
             <!-- 檔案數量卡片 -->
@@ -67,12 +83,101 @@
                         <p class="stats-details">總容量: {{total_file_size}}</p>
                     </div>
                     <div class="stats-icon green">
-                        <i class="  fa-regular fa-folder"></i>
+                        <i class="fa-regular fa-folder"></i>
                     </div>
                 </a>
             </div>
 
+            <!-- 系統運行時間卡片 -->
+            <div class="stats-card">
+                <div class="stats-content">
+                    <div class="stats-text">
+                        <h3>系統運行時間</h3>
+                        <div class="stats-value">{{ system_uptime.days }}天</div>
+                        <p class="stats-details">{{ system_uptime_text }}</p>
+                    </div>
+                    <div class="stats-icon purple">
+                        <i class="fa-solid fa-server"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts row -->
+        <div class="pie-charts-row">
+            <div class="chart-container">
+                <div class="chart-title">專案狀態分佈</div>
+                <div class="chart-canvas-container">
+                    <canvas id="myDonutChart"
+                        data-completed="{{ project_completed }}"
+                        data-overdue="{{ project_overdue }}"
+                        data-not-started="{{ project_not_started }}"
+                        data-in-progress="{{ project_in_progress }}"
+                        data-completed-percent="{{ project_completed_percent|floatformat:1 }}"
+                        data-overdue-percent="{{ project_overdue_percent|floatformat:1 }}"
+                        data-not-started-percent="{{ project_not_started_percent|floatformat:1 }}"
+                        data-in-progress-percent="{{ project_in_progress_percent|floatformat:1 }}">
+                    </canvas>
+                </div>
+            </div>
             
+            <div class="chart-container">
+                <div class="chart-title">任務狀態分佈</div>
+                <div class="chart-canvas-container">
+                    <canvas id="taskStatusChart"
+                        data-completed="{{ task_completed }}"
+                        data-overdue="{{ task_overdue }}"
+                        data-not-started="{{ task_not_started }}"
+                        data-in-progress="{{ task_in_progress }}"
+                        data-completed-percent="{{ task_completed_percent|floatformat:1 }}"
+                        data-overdue-percent="{{ task_overdue_percent|floatformat:1 }}"
+                        data-not-started-percent="{{ task_not_started_percent|floatformat:1 }}"
+                        data-in-progress-percent="{{ task_in_progress_percent|floatformat:1 }}">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Charts Row -->
+        <div class="pie-charts-row">
+            <div class="chart-container">
+                <div class="chart-title">專案趨勢</div>
+                <div class="chart-canvas-container">
+                    <canvas id="projectLineChart" 
+                        data-chart-data='{{ project_monthly_stats|safe }}'>
+                    </canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">任務趨勢</div>
+                <div class="chart-canvas-container">
+                    <canvas id="taskLineChart"
+                        data-chart-data='{{ task_monthly_stats|safe }}'>
+                    </canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Charts Row 1 -->
+        <div class="pie-charts-row">
+            <div class="chart-container">
+                <div class="chart-title">活躍用戶與新增用戶</div>
+                <div class="chart-canvas-container">
+                    <canvas id="activeUsersChart"
+                        data-chart-data='{{ active_users_stats|safe }}'>
+                    </canvas>
+                </div>
+            </div>
+            
+             <div class="chart-container">
+                <div class="chart-title">檔案上傳趨勢</div>
+                <div class="chart-canvas-container chart-file-container">
+                    <canvas id="fileUploadTrendChart"
+                        data-chart-data='{{ file_upload_trend|safe }}'>
+                    </canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -83,8 +188,10 @@
 {% include 'dialog/edit_member_dialog.html' %}
 {% endblock %}
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'js/project.js' %}"></script>
 <script src="{% static 'js/dialog.js' %}"></script>
 <script src="{% static 'js/add_member_dialog.js' %}"></script>
 <script src="{% static 'js/edit_member_dialog.js' %}"></script>
+<script src="{% static 'js/backstage.js' %}"></script>
 {% endblock %}
