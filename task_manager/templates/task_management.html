@@ -54,9 +54,8 @@
                             <div class="progress-container">
                                 <div class="progress-info">
                                     <span class="progress-percentage">{{ task.progress }}%</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: {{ task.progress }}%"></div>
+                                </div>                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {{ task.progress }}%" progress="{{ task.progress }}"></div>
                                 </div>
                             </div>
                         </td>
