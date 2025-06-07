@@ -1,5 +1,37 @@
 let searchTimeout;
 
+/**
+ * 初始化進度條動畫
+ */
+function initializeProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-fill[progress]');
+    
+    progressBars.forEach(bar => {
+        const targetWidth = bar.getAttribute('progress') + '%';
+        const progressPercentage = bar.parentElement.parentElement.querySelector('.progress-percentage');
+        
+        // 設置初始狀態
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+        
+        // 強制瀏覽器重新繪製
+        bar.offsetWidth;
+        
+        // 延遲啟動動畫
+        setTimeout(() => {
+            bar.style.transition = 'width 0.3s ease';
+            bar.style.width = targetWidth;
+            
+            // 延遲更新百分比文字以獲得更好的視覺效果
+            if (progressPercentage) {
+                setTimeout(() => {
+                    progressPercentage.style.opacity = '1';
+                }, 100);
+            }
+        }, 50);
+    });
+}
+
 function goToPage(page) {
     const url = new URL(window.location);
     url.searchParams.set('page', page);
@@ -141,4 +173,5 @@ function initializeSearch() {
 // 頁面載入完成後初始化
 document.addEventListener('DOMContentLoaded', function() {
     initializeSearch();
+    initializeProgressBars();
 });
