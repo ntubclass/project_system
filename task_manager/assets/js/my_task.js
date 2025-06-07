@@ -152,6 +152,8 @@ function displayGanttView(tasks, container) {
         start: task.start_date,
         end: task.end_date,
         progress: task.progress,
+        status: task.status,
+        description: task.description,
       };
     });
 
@@ -166,12 +168,23 @@ function displayGanttView(tasks, container) {
       date_format: "YYYY-MM-DD",
       start_date: new Date(new Date().setDate(new Date().getDate() - 10)),
       custom_popup_html: function (task) {
+        const statusText = task.status === 'completed' ? '已完成' :
+                          task.status === 'overdue' ? '逾期' :
+                          task.status === 'not-started' ? '未開始' :
+                          task.status === 'in-progress' ? '進行中' : 
+                          (task.status || '未知');
+        
+        const safeName = task.name || '';
+        const safeDescription = task.description || '';
+        
         return `
           <div class="details-container">
-            <h4>${task.name}</h4>
-            <p>開始: ${task.start}</p>
-            <p>結束: ${task.end}</p>
-            <p>進度: ${task.progress}%</p>
+            <h4>${safeName}</h4>
+            <p>狀態: ${statusText}</p>
+            <p>開始: ${task.start || ''}</p>
+            <p>結束: ${task.end || ''}</p>
+            <p>進度: ${task.progress || 0}%</p>
+            ${safeDescription ? `<p>描述: ${safeDescription}</p>` : ''}
           </div>
         `;
       },
@@ -226,12 +239,23 @@ function displayCalendarView(tasks, container) {
         title: task.name,
         start: task.start_date,
         end: task.end_date,
-        color: task.progress >= 100 ? "var(--dark-green)" : "var(--dark-blue)",
-        className: task.progress >= 100 ? "task-completed" : "task-in-progress",
+        color:
+          task.status === 'completed'
+            ? "var(--dark-green)"
+            : task.status === 'overdue'
+            ? "var(--red)"
+            : "var(--dark-blue)",
+        className:
+          task.status === 'completed'
+            ? "task-completed"
+            : task.status === 'overdue'
+            ? "task-overdue"
+            : "task-in-progress",
         extendedProps: {
           progress: task.progress,
           description: task.description || "",
           project_name: task.project_name || "",
+          status: task.status,
         },
       })),
       eventClick: function (info) {
@@ -241,6 +265,13 @@ function displayCalendarView(tasks, container) {
             <div class="task-detail-popup">
               <p><strong>專案:</strong> ${
                 info.event.extendedProps.project_name
+              }</p>
+              <p><strong>狀態:</strong> ${
+                info.event.extendedProps.status === 'completed' ? '已完成' :
+                info.event.extendedProps.status === 'overdue' ? '逾期' :
+                info.event.extendedProps.status === 'not-started' ? '未開始' :
+                info.event.extendedProps.status === 'in-progress' ? '進行中' : 
+                info.event.extendedProps.status
               }</p>
               <p><strong>進度:</strong> ${
                 info.event.extendedProps.progress
@@ -258,7 +289,12 @@ function displayCalendarView(tasks, container) {
               }
             </div>
           `,
-          icon: info.event.extendedProps.progress >= 100 ? "success" : "info",
+          icon:
+            info.event.extendedProps.status === 'completed'
+              ? "success"
+              : info.event.extendedProps.status === 'overdue'
+              ? "error"
+              : "info",
         });
       },
     });

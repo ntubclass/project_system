@@ -46,6 +46,7 @@ def main(request):
                 "status": status,
                 "start_date": task.start_date.strftime("%Y-%m-%d %H:%M:%S"),
                 "end_date": task.end_date.strftime("%Y-%m-%d %H:%M:%S"),
+                "description": task.content,
             }
             context['tasks_data'].append(task_data)
 
