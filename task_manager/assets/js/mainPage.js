@@ -1,5 +1,52 @@
+// Chart.js 官方預設色彩配置
+const CHART_COLORS = {
+  red: '#FF6384',
+  blue: '#36A2EB', 
+  yellow: '#FFCE56',
+  teal: '#4BC0C0',
+  purple: '#9966FF',
+  orange: '#FF9F40',
+  pink: '#FF6384',
+  // 帶透明度的版本
+  redAlpha: 'rgba(255, 99, 132, 0.1)',
+  blueAlpha: 'rgba(54, 162, 235, 0.1)',
+  yellowAlpha: 'rgba(255, 206, 86, 0.1)',
+  tealAlpha: 'rgba(75, 192, 192, 0.1)',
+  purpleAlpha: 'rgba(153, 102, 255, 0.1)',
+  orangeAlpha: 'rgba(255, 159, 64, 0.1)',
+  pinkAlpha: 'rgba(255, 99, 132, 0.1)'
+};
+
+// 動態時間問候功能
+function updateGreeting() {
+  const now = new Date();
+  const hour = now.getHours();
+  let greeting;
+
+  if (hour >= 5 && hour < 12) {
+    greeting = "早安";
+  } else if (hour >= 12 && hour < 18) {
+    greeting = "午安";
+  } else {
+    greeting = "晚安";
+  }
+
+  // 更新標題中的問候語
+  const titleElement = document.querySelector(".title");
+  if (titleElement) {
+    const username = titleElement.textContent.replace(/^(早安|午安|晚安)\s/, "");
+    titleElement.textContent = `${greeting} ${username}`;
+  }
+}
+
 // Project Status Chart
 document.addEventListener("DOMContentLoaded", function () {
+  // 初始化時間問候
+  updateGreeting();
+
+  // 每分鐘更新一次問候語（可選）
+  setInterval(updateGreeting, 60000);
+
   // Get the chart elements
   const projectChartElement = document.getElementById("myDonutChart");
   const taskChartElement = document.getElementById("taskStatusChart");
@@ -72,10 +119,10 @@ document.addEventListener("DOMContentLoaded", function () {
               projectInProgress,
             ],
             backgroundColor: [
-              "#4CAF50", // 綠色 - 已完成
-              "#F44336", // 紅色 - 已逾期
-              "#9E9E9E", // 灰色 - 未開始
-              "#2196F3", // 藍色 - 進行中
+              CHART_COLORS.teal,   // 青色 - 已完成
+              CHART_COLORS.red,    // 紅色 - 已逾期
+              CHART_COLORS.yellow, // 黃色 - 未開始
+              CHART_COLORS.blue,   // 藍色 - 進行中
             ],
             borderColor: ["#fff", "#fff", "#fff", "#fff"],
             borderWidth: 1,
@@ -164,10 +211,10 @@ document.addEventListener("DOMContentLoaded", function () {
             label: "任務狀態",
             data: [taskCompleted, taskOverdue, taskNotStarted, taskInProgress],
             backgroundColor: [
-              "#4CAF50", // 綠色 - 已完成
-              "#F44336", // 紅色 - 已逾期
-              "#9E9E9E", // 灰色 - 未開始
-              "#2196F3", // 藍色 - 進行中
+              CHART_COLORS.teal,   // 青色 - 已完成
+              CHART_COLORS.red,    // 紅色 - 已逾期
+              CHART_COLORS.yellow, // 黃色 - 未開始
+              CHART_COLORS.blue,   // 藍色 - 進行中
             ],
             borderColor: ["#fff", "#fff", "#fff", "#fff"],
             borderWidth: 1,
@@ -232,32 +279,32 @@ document.addEventListener("DOMContentLoaded", function () {
           {
             label: "已完成",
             data: [5, 8, 12, 15, 18, 23],
-            borderColor: "#4CAF50",
-            backgroundColor: "rgba(76, 175, 80, 0.1)",
+            borderColor: CHART_COLORS.teal,
+            backgroundColor: CHART_COLORS.tealAlpha,
             tension: 0.4,
             fill: true,
           },
           {
             label: "進行中",
             data: [10, 12, 15, 18, 20, 18],
-            borderColor: "#2196F3",
-            backgroundColor: "rgba(33, 150, 243, 0.1)",
+            borderColor: CHART_COLORS.blue,
+            backgroundColor: CHART_COLORS.blueAlpha,
             tension: 0.4,
             fill: true,
           },
           {
             label: "未開始",
             data: [8, 6, 4, 5, 3, 2],
-            borderColor: "#9E9E9E",
-            backgroundColor: "rgba(158, 158, 158, 0.1)",
+            borderColor: CHART_COLORS.yellow,
+            backgroundColor: CHART_COLORS.yellowAlpha,
             tension: 0.4,
             fill: true,
           },
           {
             label: "已逾期",
             data: [2, 3, 2, 1, 2, 1],
-            borderColor: "#F44336",
-            backgroundColor: "rgba(244, 67, 54, 0.1)",
+            borderColor: CHART_COLORS.red,
+            backgroundColor: CHART_COLORS.redAlpha,
             tension: 0.4,
             fill: true,
           },
@@ -265,11 +312,28 @@ document.addEventListener("DOMContentLoaded", function () {
       };
     }
 
-    // Add tension and fill properties to datasets if they don't exist
-    projectData.datasets.forEach((dataset) => {
-      dataset.tension = dataset.tension || 0.4;
-      dataset.fill = dataset.fill !== undefined ? dataset.fill : true;
-    });
+    // Update colors for existing datasets if they exist
+    if (projectData.datasets) {
+      projectData.datasets.forEach((dataset) => {
+        dataset.tension = dataset.tension || 0.4;
+        dataset.fill = dataset.fill !== undefined ? dataset.fill : true;
+        
+        // Apply Chart.js official colors based on label
+        if (dataset.label.includes('已完成') || dataset.label.includes('完成')) {
+          dataset.borderColor = CHART_COLORS.teal;
+          dataset.backgroundColor = CHART_COLORS.tealAlpha;
+        } else if (dataset.label.includes('進行中')) {
+          dataset.borderColor = CHART_COLORS.blue;
+          dataset.backgroundColor = CHART_COLORS.blueAlpha;
+        } else if (dataset.label.includes('未開始')) {
+          dataset.borderColor = CHART_COLORS.yellow;
+          dataset.backgroundColor = CHART_COLORS.yellowAlpha;
+        } else if (dataset.label.includes('逾期')) {
+          dataset.borderColor = CHART_COLORS.red;
+          dataset.backgroundColor = CHART_COLORS.redAlpha;
+        }
+      });
+    }
 
     const projectChart = new Chart(ctx, {
       type: "line",
@@ -328,32 +392,32 @@ document.addEventListener("DOMContentLoaded", function () {
           {
             label: "已完成",
             data: [12, 19, 25, 32, 39, 45],
-            borderColor: "#4CAF50",
-            backgroundColor: "rgba(76, 175, 80, 0.1)",
+            borderColor: CHART_COLORS.teal,
+            backgroundColor: CHART_COLORS.tealAlpha,
             tension: 0.4,
             fill: true,
           },
           {
             label: "進行中",
             data: [25, 29, 32, 38, 36, 30],
-            borderColor: "#2196F3",
-            backgroundColor: "rgba(33, 150, 243, 0.1)",
+            borderColor: CHART_COLORS.blue,
+            backgroundColor: CHART_COLORS.blueAlpha,
             tension: 0.4,
             fill: true,
           },
           {
             label: "未開始",
             data: [18, 15, 12, 10, 8, 6],
-            borderColor: "#9E9E9E",
-            backgroundColor: "rgba(158, 158, 158, 0.1)",
+            borderColor: CHART_COLORS.yellow,
+            backgroundColor: CHART_COLORS.yellowAlpha,
             tension: 0.4,
             fill: true,
           },
           {
             label: "已逾期",
             data: [5, 6, 4, 3, 5, 4],
-            borderColor: "#F44336",
-            backgroundColor: "rgba(244, 67, 54, 0.1)",
+            borderColor: CHART_COLORS.red,
+            backgroundColor: CHART_COLORS.redAlpha,
             tension: 0.4,
             fill: true,
           },
@@ -361,11 +425,28 @@ document.addEventListener("DOMContentLoaded", function () {
       };
     }
 
-    // Add tension and fill properties to datasets if they don't exist
-    taskData.datasets.forEach((dataset) => {
-      dataset.tension = dataset.tension || 0.4;
-      dataset.fill = dataset.fill !== undefined ? dataset.fill : true;
-    });
+    // Update colors for existing datasets if they exist
+    if (taskData.datasets) {
+      taskData.datasets.forEach((dataset) => {
+        dataset.tension = dataset.tension || 0.4;
+        dataset.fill = dataset.fill !== undefined ? dataset.fill : true;
+        
+        // Apply Chart.js official colors based on label
+        if (dataset.label.includes('已完成') || dataset.label.includes('完成')) {
+          dataset.borderColor = CHART_COLORS.teal;
+          dataset.backgroundColor = CHART_COLORS.tealAlpha;
+        } else if (dataset.label.includes('進行中')) {
+          dataset.borderColor = CHART_COLORS.blue;
+          dataset.backgroundColor = CHART_COLORS.blueAlpha;
+        } else if (dataset.label.includes('未開始')) {
+          dataset.borderColor = CHART_COLORS.yellow;
+          dataset.backgroundColor = CHART_COLORS.yellowAlpha;
+        } else if (dataset.label.includes('逾期')) {
+          dataset.borderColor = CHART_COLORS.red;
+          dataset.backgroundColor = CHART_COLORS.redAlpha;
+        }
+      });
+    }
 
     const taskChart = new Chart(ctx, {
       type: "line",
@@ -430,6 +511,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Function to apply Chart.js official colors to datasets
+  function applyOfficialColors(datasets) {
+    const colorKeys = ['teal', 'blue', 'red', 'yellow', 'purple', 'orange'];
+    
+    datasets.forEach((dataset, index) => {
+      const colorKey = colorKeys[index % colorKeys.length];
+      
+      if (!dataset.borderColor) {
+        dataset.borderColor = CHART_COLORS[colorKey];
+      }
+      if (!dataset.backgroundColor) {
+        dataset.backgroundColor = CHART_COLORS[colorKey + 'Alpha'] || `${CHART_COLORS[colorKey]}33`;
+      }
+    });
+  }
+
   // Create Active Users Chart
   if (activeUsersChart) {
     const ctx = activeUsersChart.getContext("2d");
@@ -445,6 +542,9 @@ document.addEventListener("DOMContentLoaded", function () {
           dataset.tension = dataset.tension || 0.4;
           dataset.fill = dataset.fill !== undefined ? dataset.fill : true;
         });
+        
+        // Apply Chart.js official colors
+        applyOfficialColors(dataToUse.datasets);
       }
 
       const activeUsersChartInstance = new Chart(ctx, {
@@ -579,6 +679,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Use data property if available, otherwise use the chartData directly
       const dataToUse = chartData.data || chartData;
+
+      // Apply Chart.js official colors to datasets
+      if (dataToUse.datasets) {
+        applyOfficialColors(dataToUse.datasets);
+      }
 
       // Create chart with explicit dataset types for mixed chart
       const fileUploadChart = new Chart(ctx, {
