@@ -8,7 +8,7 @@ from task_manager.models.task_member import TaskMember
 from task_manager.models.task_history import TaskHistory
 from django.utils import timezone
 
-@login_required
+@login_required(login_url="login")
 def main(request, task_id):
     # Get task by ID or return 404
     task = get_object_or_404(Task, task_id=task_id)
