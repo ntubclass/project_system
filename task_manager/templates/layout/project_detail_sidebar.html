@@ -7,7 +7,7 @@
             <div>首頁</div>
         </a>
         <a href="{% url 'project_task' project_id%}?project={{project_id}}" class="sidebar-item {% if request.resolver_match.url_name == 'project_task' %}active{% endif %}">
-            <i class="sidebar-item-icon fa-solid fa-folder"></i>
+            <i class="sidebar-item-icon fa-solid fa-file"></i>
             <div>任務</div>
         </a>
         <a href="{% url 'chat' project_id %}?project={{project_id}}" class="sidebar-item {% if request.resolver_match.url_name == 'chat' %}active{% endif %}">

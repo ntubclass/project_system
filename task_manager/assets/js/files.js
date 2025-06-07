@@ -9,12 +9,15 @@ function performSearch(searchTerm) {
         url.searchParams.delete('search');
     }
     
+    // 搜尋時重置頁碼到第1頁
+    url.searchParams.delete('page');
+    
     window.location.href = url.toString();
 }
 
 function filterTable(searchTerm) {
-    const fileTableBody = document.querySelector('.file-table-body');
-    const fileRows = fileTableBody.querySelectorAll('.file-row');
+    const fileTableBody = document.querySelector('#fileTableBody');
+    const fileRows = fileTableBody.querySelectorAll('tr:not(.no-results-row)');
     let visibleCount = 0;
     
     // 正規化搜尋詞，確保中文搜尋正常運作
@@ -23,12 +26,12 @@ function filterTable(searchTerm) {
     fileRows.forEach(row => {
         const fileName = row.querySelector('.file-name')?.textContent.toLowerCase().trim() || '';
         const fileType = row.querySelector('.file-type')?.textContent.toLowerCase().trim() || '';
-        const ownerName = row.querySelector('.owner-cell')?.textContent.toLowerCase().trim() || '';
+        const ownerInfo = row.querySelector('.owner-info')?.textContent.toLowerCase().trim() || '';
         
         // 使用 indexOf 而不是 includes 來確保中文相容性
         const isVisible = fileName.indexOf(searchTerm) !== -1 || 
                          fileType.indexOf(searchTerm) !== -1 || 
-                         ownerName.indexOf(searchTerm) !== -1;
+                         ownerInfo.indexOf(searchTerm) !== -1;
         
         if (isVisible) {
             row.style.display = '';
@@ -39,17 +42,17 @@ function filterTable(searchTerm) {
     });
     
     // 顯示無結果訊息
-    let noResultsMessage = fileTableBody.querySelector('.no-results-message');
+    let noResultsRow = fileTableBody.querySelector('.no-results-row');
     if (visibleCount === 0 && searchTerm) {
-        if (!noResultsMessage) {
-            noResultsMessage = document.createElement('div');
-            noResultsMessage.className = 'no-results-message';
-            noResultsMessage.textContent = '沒有找到符合條件的檔案';
-            fileTableBody.appendChild(noResultsMessage);
+        if (!noResultsRow) {
+            noResultsRow = document.createElement('tr');
+            noResultsRow.className = 'no-results-row';
+            noResultsRow.innerHTML = '<td colspan="5" class="no-results">沒有找到符合條件的檔案</td>';
+            fileTableBody.appendChild(noResultsRow);
         }
-        noResultsMessage.style.display = 'block';
-    } else if (noResultsMessage) {
-        noResultsMessage.style.display = 'none';
+        noResultsRow.style.display = '';
+    } else if (noResultsRow) {
+        noResultsRow.style.display = 'none';
     }
 }
 
@@ -62,31 +65,26 @@ function initializeSearch() {
     const searchParam = urlParams.get('search');
     if (searchParam) {
         searchInput.value = searchParam;
+        // 如果有搜尋參數，執行前端篩選
+        filterTable(searchParam);
     }
     
-    // 即時前端篩選
+    // 即時前端搜尋
     searchInput.addEventListener('input', function() {
         const searchTerm = this.value;
         
+        // 立即執行前端篩選
+        filterTable(searchTerm);
+        
         clearTimeout(searchTimeout);
         
-        if (searchTerm.length === 0) {
-            // 清空搜尋時顯示所有項目
-            filterTable('');
-        } else if (searchTerm.length >= 1) {
-            // 對中文友善：從1個字元開始篩選
-            filterTable(searchTerm);
-        }
-        
-        // 延遲後端搜尋（可選）
-        if (searchTerm.length >= 1) {
-            searchTimeout = setTimeout(() => {
-                performSearch(searchTerm);
-            }, 1500); // 1.5秒延遲
-        }
+        // 延遲後端搜尋以避免頻繁請求
+        searchTimeout = setTimeout(() => {
+            performSearch(searchTerm);
+        }, 1500); // 1.5秒延遲，讓用戶有時間完成輸入
     });
     
-    // Enter 鍵觸發後端搜尋
+    // Enter 鍵立即觸發後端搜尋
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();

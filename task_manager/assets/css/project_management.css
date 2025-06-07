@@ -184,7 +184,6 @@ td:first-child {
     height: 100%;
     background: linear-gradient(90deg, #3b82f6, #1d4ed8);
     border-radius: 3px;
-    transition: width 0.3s ease;
 }
 
 /* Assignee Info */
@@ -359,6 +358,44 @@ td:first-child {
     margin-bottom: 16px;
     display: block;
     color: #dee2e6;
+}
+
+/* Status Container */
+.status-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.status-進行中 {
+    background-color: var(--light-blue);
+    color: var(--dark-blue);
+}
+
+.status-已完成 {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}
+
+.status-未開始 {
+    background-color: var(--light-yellow);
+    color: var(--dark-yellow);
+}
+
+.status-已逾期 {
+    background-color: var(--light-red);
+    color: var(--dark-red);
 }
 
 /* Responsive Design */

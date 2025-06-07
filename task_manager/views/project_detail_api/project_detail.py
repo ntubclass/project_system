@@ -8,8 +8,11 @@ from datetime import date
 
 @login_required(login_url="login")
 def main(request, project_id):
-    # 獲取專案資訊
-    project = get_object_or_404(Project, project_id=project_id)
+    try:
+        project = Project.objects.get(project_id=project_id)
+    except Project.DoesNotExist:
+        messages.error(request, "專案不存在")
+        return redirect('project')
     
     # 檢查用戶是否有權限查看此專案（是創建者或成員）
     is_member = ProjectMember.objects.filter(project_id=project, user_id=request.user).exists()
