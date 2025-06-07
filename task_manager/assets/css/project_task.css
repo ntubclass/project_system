@@ -110,7 +110,8 @@ body {
   display: flex;
   align-items: center;
   flex-direction: row;
-  width: 120px; /* 稍微增加寬度 */
+  width: 200px; /* 改為固定像素寬度 */
+  flex-shrink: 0; /* 防止被壓縮 */
 }
 
 .task-avatar {
@@ -141,7 +142,6 @@ body {
 /* 統一的任務詳情樣式 */
 .task-details {
   display: flex;
-  flex: 1;
   align-items: center;
   gap: 15px; /* 減少間隔 */
   font-size: 18px;
@@ -208,11 +208,13 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 130px;
-  width: 130px;
+  width: 120px; /* 改為固定像素寬度，不使用百分比 */
+  flex-shrink: 0; /* 防止被壓縮 */
+  min-width: 120px; /* 確保最小寬度 */
 }
 
 .task-date {
+  text-align: center;
   color: var(--light-gray);
   font-size: 16px;
   white-space: nowrap;
@@ -255,8 +257,7 @@ body {
 }
 
 .task-actions button {
-  background: none !important;
-  background-image: none !important;
+  background: none;
   border: none;
   padding: 6px;
   cursor: pointer;
@@ -272,14 +273,10 @@ body {
 
 .btn-update, .btn-edit{
   color: var(--dark-blue);
-  background: none !important;
-  background-image: none !important;
 }
 
 .btn-delete {
   color: var(--dark-red);
-  background: none !important;
-  background-image: none !important;
 }
 
 .btn-update:hover,
@@ -320,20 +317,18 @@ body {
 }
 
 .create-btn {
-  background-color: var(--dark-blue) !important;
-  background-image: none !important;
-  color: var(--white);
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: var(--font-size-14);
-  transition: background-color ease 0.2s;
+    background-color: var(--dark-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: var(--font-size-14);
+    transition: background-color ease 0.2s;
 }
 
 .create-btn:hover {
-  background-color: #1b4fc6 !important; /* 略微深色的藍色 */
-  background-image: none !important;
+  background-color: #1b4fc6; /* 略微深色的藍色 */
 }
