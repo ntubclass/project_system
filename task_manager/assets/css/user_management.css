@@ -93,6 +93,7 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed
 }
 
 thead {
@@ -100,12 +101,21 @@ thead {
     border-bottom: 1px solid #e5e7eb;
 }
 
+th:nth-child(1), td:nth-child(1){width: 20%;}
+th:nth-child(2), td:nth-child(2){width: 10%;}
+th:nth-child(3), td:nth-child(3){width: 10%;}
+th:nth-child(4), td:nth-child(4){width: 20%;}
+th:nth-child(5), td:nth-child(5){width: 10%;}
+th:nth-child(6), td:nth-child(6){width: 10%;}
+th:nth-child(7), td:nth-child(7){width: 20%;}
+
 th {
     text-align: center;
     padding: 12px 16px;
     font-weight: 500;
     color: var(--dark-gray);
     font-size: 14px;
+    vertical-align: middle;
 }
 
 th:first-child {
@@ -118,7 +128,6 @@ th.task-count-col, td.task-count-col {
     max-width: 120px;
     text-align: center;
     color: #404040;
-    font-weight: 600;
 }
 
 tbody tr {
@@ -135,6 +144,7 @@ td {
     text-align: center;
     padding: 16px;
     font-size: 14px;
+    vertical-align: middle;
 }
 
 td:first-child {
@@ -142,6 +152,7 @@ td:first-child {
 }
 
 .user-info {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -160,15 +171,29 @@ td:first-child {
     font-size: 14px;
 }
 
+.user-details{
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .user-details .user-name {
+    width: 100%;
     font-weight: 500;
     color: var(--dark-gray);
     margin-bottom: 2px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .user-details .user-email {
     color: var(--light-gray);
     font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 /* 只保留 .status-badge 樣式，移除 .badge 相關重複設定，並修正 .status-inactive 顏色 */
