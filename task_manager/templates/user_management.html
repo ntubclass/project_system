@@ -3,6 +3,7 @@
 {% block title %}後臺管理|用戶管理{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/user_management.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/edit_user_dialog.css' %}">
 {% endblock %}
 {% block content %}
 <script>
@@ -28,6 +29,7 @@
                 <thead>
                     <tr>
                         <th>用戶資訊</th>
+                        <th>活動</th>
                         <th>狀態</th>
                         <th>最後活動</th>
                         <th>專案數</th>
@@ -37,7 +39,7 @@
                 </thead>
                 <tbody id="userTableBody">
                     {% for user in users %}
-                    <tr data-user="{{ user.name }}" data-role="{{ user.role }}" data-status="{{ user.status }}">
+                    <tr data-user="{{ user.name }}" data-role="{{ user.role }}" data-status="{{ user.status }}" data-online="{{ user.is_online|yesno:'true,false' }}">
                         <td>
                             <div class="user-info">
                                 <div class="user-avatar" style="padding:0;background:none;width:32px;height:32px;">
@@ -53,8 +55,13 @@
                             </div>
                         </td>
                         <td>
-                            <span class="status-badge status-{% if user.status == 'active' %}active{% elif user.status == 'disabled' or user.status == '' or user.status is None %}disabled{% else %}inactive{% endif %}">
-                                {% if user.status == 'active' %}使用中{% elif user.status == 'disabled' or user.status == '' or user.status is None %}停用{% else %}未使用{% endif %}
+                            <span class="activity-badge activity-{% if user.is_online %}online{% else %}offline{% endif %}">
+                                {% if user.is_online %}上線{% else %}下線{% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-badge activity-{% if user.status == 'active' %}online{% else %}offline{% endif %}">
+                                {% if user.status == 'active' %}啟用{% else %}停用{% endif %}
                             </span>
                         </td>
                         <td>{{ user.last_active }}</td>

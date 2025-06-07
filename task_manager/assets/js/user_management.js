@@ -52,11 +52,34 @@ function deleteUser(userId) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // 只更新該行狀態，不刷新整頁
+                    if (userRow) {
+                        // 狀態 badge
+                        const statusBadge = userRow.querySelector('.status-badge');
+                        if (statusBadge) {
+                            statusBadge.className = 'status-badge activity-offline';
+                            statusBadge.textContent = '停用';
+                        }
+                        // 狀態屬性
+                        userRow.setAttribute('data-status', 'disabled');
+                        // 按鈕切換為啟用
+                        const actionsDiv = userRow.querySelector('.actions');
+                        if (actionsDiv) {
+                            actionsDiv.innerHTML = `
+                                <button type="button" class="action-btn edit" onclick="editUser(${userId})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="button" class="action-btn delete" onclick="enableUser(${userId})" title="啟用用戶">
+                                    <i class="fas fa-user-check"></i> 啟用
+                                </button>
+                            `;
+                        }
+                    }
                     Swal.fire({
                         icon: 'success',
                         title: '停用成功',
                         text: '用戶已被成功停用！',
-                    }).then(() => location.reload());
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -78,20 +101,9 @@ function deleteUser(userId) {
 
 // 編輯用戶功能
 function editUser(userId) {
-    // 強制型別轉換，確保布林判斷正確
     let isSuperUser = window.isSuperUser;
     if (typeof isSuperUser === 'string') {
         isSuperUser = isSuperUser === 'true' || isSuperUser === true;
-    }
-    // 除錯：顯示目前 isSuperUser 狀態
-    console.log('window.isSuperUser:', window.isSuperUser, 'typeof:', typeof window.isSuperUser, 'isSuperUser:', isSuperUser);
-    if (!isSuperUser) {
-        Swal.fire({
-            icon: 'error',
-            title: '權限不足',
-            text: '只有超級管理員可以編輯用戶狀態',
-        });
-        return;
     }
     // 取得該用戶資料
     const row = document.querySelector(`#userTableBody tr [onclick*='editUser(${userId})']`).closest('tr');
@@ -108,6 +120,15 @@ function editUser(userId) {
     const role = row.getAttribute('data-role') || '';
     const status = row.getAttribute('data-status') || '';
 
+    // 只有超級管理員可以編輯其他超級管理員
+    if (role === '專案管理者' && !isSuperUser) {
+        Swal.fire({
+            icon: 'info',
+            title: '無法編輯超級管理員',
+            text: '只有超級管理員可以編輯其他超級管理員。',
+        });
+        return;
+    }
     // 防呆：確認所有欄位都存在
     if (!document.getElementById('editUserId') || !document.getElementById('editUserName') || !document.getElementById('editUserEmail') || !document.getElementById('editUserRole') || !document.getElementById('editUserStatus')) {
         Swal.fire({
@@ -117,13 +138,15 @@ function editUser(userId) {
         });
         return;
     }
-
     document.getElementById('editUserId').value = userId;
     document.getElementById('editUserName').value = name;
     document.getElementById('editUserEmail').value = email;
     document.getElementById('editUserRole').value = role;
     document.getElementById('editUserStatus').value = status;
-
+    document.getElementById('editUserName').removeAttribute('readonly');
+    document.getElementById('editUserEmail').removeAttribute('readonly');
+    document.getElementById('editUserRole').removeAttribute('disabled');
+    document.getElementById('editUserStatus').removeAttribute('disabled');
     document.getElementById('editUserDialog').showModal();
 }
 
@@ -153,7 +176,44 @@ if (editUserForm) {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                Swal.fire({ icon: 'success', title: '更新成功', text: '用戶狀態已更新' }).then(() => location.reload());
+                // 直接更新畫面，不重整
+                // 1. 關閉 dialog
+                document.getElementById('editUserDialog').close();
+                // 2. 更新表格內容
+                const row = document.querySelector(`#userTableBody tr [onclick*='editUser(${userId})']`).closest('tr');
+                if (row) {
+                    row.querySelector('.user-name').childNodes[0].textContent = document.getElementById('editUserName').value;
+                    row.querySelector('.user-email').textContent = document.getElementById('editUserEmail').value;
+                    row.setAttribute('data-role', role);
+                    row.setAttribute('data-status', status);
+                    // 更新角色顯示
+                    const superAdminSpan = row.querySelector('.user-name span');
+                    if (role === '專案管理者') {
+                        if (!superAdminSpan) {
+                            const span = document.createElement('span');
+                            span.style.color = '#eab308';
+                            span.style.fontSize = '12px';
+                            span.style.fontWeight = '600';
+                            span.style.marginLeft = '6px';
+                            span.textContent = '超級管理員';
+                            row.querySelector('.user-name').appendChild(span);
+                        }
+                    } else {
+                        if (superAdminSpan) superAdminSpan.remove();
+                    }
+                    // 更新狀態 badge
+                    const statusBadge = row.querySelector('.status-badge');
+                    if (statusBadge) {
+                        if (status === 'active') {
+                            statusBadge.className = 'status-badge activity-online';
+                            statusBadge.textContent = '啟用';
+                        } else {
+                            statusBadge.className = 'status-badge activity-offline';
+                            statusBadge.textContent = '停用';
+                        }
+                    }
+                }
+                Swal.fire({ icon: 'success', title: '更新成功', text: '用戶狀態已更新' });
             } else {
                 document.getElementById('editUserFormErrors').textContent = data.error || '更新失敗';
             }
@@ -190,11 +250,34 @@ function enableUser(userId) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // 只更新該行狀態，不刷新整頁
+                    if (userRow) {
+                        // 狀態 badge
+                        const statusBadge = userRow.querySelector('.status-badge');
+                        if (statusBadge) {
+                            statusBadge.className = 'status-badge activity-online';
+                            statusBadge.textContent = '啟用';
+                        }
+                        // 狀態屬性
+                        userRow.setAttribute('data-status', 'active');
+                        // 按鈕切換為停用
+                        const actionsDiv = userRow.querySelector('.actions');
+                        if (actionsDiv) {
+                            actionsDiv.innerHTML = `
+                                <button type="button" class="action-btn edit" onclick="editUser(${userId})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="button" class="action-btn delete" onclick="deleteUser(${userId})" title="停用用戶">
+                                    <i class="fas fa-user-slash"></i> 停用
+                                </button>
+                            `;
+                        }
+                    }
                     Swal.fire({
                         icon: 'success',
                         title: '啟用成功',
                         text: '用戶已被成功啟用！',
-                    }).then(() => location.reload());
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',

@@ -7,6 +7,7 @@
                 <button type="button" class="close-btn" id="closeEditUserBtn">&times;</button>
             </div>
             <form id="editUserForm" action="#" method="post">
+                <input type="hidden" id="editUserId" name="user_id">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="editUserName">姓名</label>
@@ -26,8 +27,7 @@
                 <div class="form-group">
                     <label for="editUserStatus">狀態</label>
                     <select id="editUserStatus" name="status" class="form-control">
-                        <option value="active">使用中</option>
-                        <option value="inactive">未使用</option>
+                        <option value="active">啟用</option>
                         <option value="disabled">停用</option>
                     </select>
                 </div>
