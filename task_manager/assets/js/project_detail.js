@@ -175,6 +175,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 displayEventTime: false,
                 displayEventEnd: false,
                 eventDisplay: 'block',
+                height: 'auto',
+                fixedWeekCount: true,
+                showNonCurrentDates: true,
+                dayMaxEvents: true,
                 eventTimeFormat: {
                   hour: "2-digit",
                   minute: "2-digit",

@@ -331,6 +331,42 @@ body {
     border: 1px solid #fed7aa;
 }
 
+/* 密碼強度條樣式 */
+.password-strength {
+    margin-top: 5px;
+    height: 5px;
+    border-radius: 2px;
+    background-color: #e5e7eb;
+    overflow: hidden;
+}
+
+.strength-meter {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.weak { 
+    width: 33%; 
+    background-color: #ef4444; 
+}
+
+.medium { 
+    width: 66%; 
+    background-color: #f59e0b; 
+}
+
+.strong { 
+    width: 100%; 
+    background-color: #22c55e; 
+}
+
+.password-info {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #64748b;
+}
+
 /* 確保在小螢幕上不會有水平滾動 */
 @media (max-width: 640px) {
     .register-container {
