@@ -83,8 +83,9 @@ body {
 .project-progress-fill {
   height: 100%;
   width: 75%;
-  background-color: #2563EB;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
   border-radius: 4px;
+  transition: width 0.3s ease;
 }
 
 .icon {
@@ -281,7 +282,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background-color: var(--dark-blue);
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
   border-radius: 4px;
   transition: width 0.3s ease;
 }
