@@ -20,7 +20,7 @@
                     <div class="stats-text">
                         <h3>我的專案數</h3>
                         <div class="stats-value">{{total_project}}</div>
-                        <p class="stats-details">{{ project_in_progress }} 進行中 {{ project_completed }} 已完成</p>
+                        <p class="stats-details">{{ project_completed }} 已完成 {{ project_in_progress }} 進行中 {{ project_not_started }} 未開始 {{ project_overdue }} 逾時</p>
                     </div>
                     <div class="stats-icon purple">
                         <i class="fa-regular fa-folder-closed"></i>
@@ -34,7 +34,7 @@
                     <div class="stats-text">
                         <h3>我的任務數</h3>
                         <div class="stats-value">{{total_task}}</div>
-                        <p class="stats-details">{{ task_in_progress }} 進行中 {{ task_completed }} 已完成</p>
+                        <p class="stats-details">{{ task_completed }} 已完成 {{ task_in_progress }} 進行中 {{ task_not_started }} 未開始 {{ task_overdue }} 逾時</p>
                     </div>
                     <div class="stats-icon yellow">
                         <i class="fa-regular fa-file"></i>
