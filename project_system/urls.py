@@ -71,6 +71,7 @@ urlpatterns = (
         path('global_search/', global_search, name='global_search'),
         path('search_suggestions/', search_suggestions, name='search_suggestions'),
         path('delete_user/', user_management.delete_user, name='delete_user'),
+        path('edit_user/', user_management.edit_user, name='edit_user'),
         path('mainPage/', mainPage.main, name='mainPage'),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -13,13 +13,14 @@ from task_manager.models.task import Task
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
+# 全域 ONLINE_USERS set，需由 signal handler 維護
+ONLINE_USERS = globals().get('ONLINE_USERS', set())
+
 @login_required(login_url="login")
 def main(request):
     if not request.user.is_superuser:
         messages.error(request, "沒有權限查看此頁面")
         return redirect('project')
-        
-    # 從資料庫取得所有用戶
     users = []
     all_users = User.objects.all()
     for user in all_users:
@@ -29,27 +30,18 @@ def main(request):
                 avatar_url = user_info.photo.url
             else:
                 avatar_url = settings.MEDIA_URL + "avatars/avatar_1.png"
+            is_online = user_info.is_online  # 直接用 user_info 物件
         except UserInfo.DoesNotExist:
             avatar_url = settings.MEDIA_URL + "avatars/avatar_1.png"
-        # 角色判斷（可根據實際需求調整）
+            is_online = False
         role = '專案管理者' if user.is_superuser or user.is_staff else '一般使用者'
-        # 狀態（10分鐘內有登入、實際建立專案或任務即為『使用中』）
-        ten_minutes_ago = timezone.now() - timezone.timedelta(minutes=10)
-        recent_login = user.last_login and user.last_login >= ten_minutes_ago
-        # 精準判斷：需有 created_at 欄位才可精確判斷建立時間
-        recent_project = Project.objects.filter(user_id=user, created_at__gte=ten_minutes_ago).exists() if hasattr(Project, 'created_at') else False
-        recent_task = Task.objects.filter(user_id=user, created_at__gte=ten_minutes_ago).exists() if hasattr(Task, 'created_at') else False
-        if user.is_active and (recent_login or recent_project or recent_task):
-            status = 'active'  # 使用中
-        else:
-            status = 'inactive'  # 未使用
-        # 最後活動（可根據實際需求調整，這裡暫用date_joined）
+        # 狀態只分啟用/停用
+        status = 'active' if user.is_active else 'disabled'
+        # 活動狀態改為根據 UserInfo.is_online 欄位判斷
         last_active = user.last_login.strftime('%Y-%m-%d %H:%M') if user.last_login else user.date_joined.strftime('%Y-%m-%d %H:%M')
-        # 專案數（統計用戶作為專案成員或專案負責人的專案總數）
         project_owner_count = ProjectMember.objects.filter(user_id=user).values('project_id').distinct().count()
         project_creator_count = user.project_set.count() if hasattr(user, 'project_set') else 0
         total_project_count = project_owner_count + project_creator_count
-        # 計算每個用戶的任務數量
         task_count = Task.objects.filter(user_id=user).count()
         users.append({
             'id': user.id,
@@ -57,10 +49,11 @@ def main(request):
             'email': user.email,
             'role': role,
             'status': status,
+            'is_online': is_online,
             'last_active': last_active,
             'operations_count': total_project_count,
             'task_count': task_count,
-            'avatar_url': avatar_url if not user.is_superuser else settings.MEDIA_URL + "avatars/avatar_1.png",  # superuser顯示預設頭像，其他用戶顯示自己頭像
+            'avatar_url': avatar_url if not user.is_superuser else settings.MEDIA_URL + "avatars/avatar_1.png",
         })
 
     total_users = len(users)
@@ -87,9 +80,58 @@ def delete_user(request):
             return JsonResponse({'success': False, 'error': '缺少 user_id'})
         try:
             user = User.objects.get(id=user_id)
-            if user.is_superuser:
-                return JsonResponse({'success': False, 'error': '無法刪除超級管理員'})
-            user.delete()
+            # 允許超級管理員停用其他超級管理員，但不能停用自己
+            if user.id == request.user.id:
+                return JsonResponse({'success': False, 'error': '不能停用自己'})
+            user.is_active = False
+            user.save()
+            return JsonResponse({'success': True})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': '用戶不存在'})
+    return JsonResponse({'success': False, 'error': '權限不足或請求錯誤'})
+
+@csrf_exempt
+@login_required(login_url="login")
+def edit_user(request):
+    if request.method == 'POST' and request.user.is_superuser:
+        user_id = request.POST.get('user_id')
+        status = request.POST.get('status')
+        role = request.POST.get('role')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        if not user_id:
+            return JsonResponse({'success': False, 'error': '缺少 user_id'})
+        try:
+            user = User.objects.get(id=user_id)
+            # 同步姓名與電子郵件
+            if name:
+                user.username = name
+            if email:
+                user.email = email
+            user.save()
+            # 同步 UserInfo（保險做法，若有地方用 user_info.user.username/email）
+            try:
+                user_info = UserInfo.objects.get(user=user)
+                if name:
+                    user_info.user.username = name
+                if email:
+                    user_info.user.email = email
+                user_info.user.save()
+            except UserInfo.DoesNotExist:
+                pass
+            # 狀態處理
+            if status == 'active':
+                user.is_active = True
+            elif status == 'disabled':
+                user.is_active = False
+            # 角色權限處理
+            if role == '專案管理者':
+                user.is_superuser = True
+                user.is_staff = True
+            elif role == '一般使用者':
+                user.is_superuser = False
+                user.is_staff = False
+            user.save()
             return JsonResponse({'success': True})
         except User.DoesNotExist:
             return JsonResponse({'success': False, 'error': '用戶不存在'})
