@@ -15,6 +15,8 @@
   border: none;
   user-select: none;
   -webkit-user-select: none;
+  height: auto;
+  max-height: 600px;
 }
 
 .fc .fc-toolbar {
@@ -66,8 +68,8 @@
 }
 
 .fc-event.task-completed {
-  background-color: var(--dark-green);
-  border-color: var(--dark-green);
+  background-color: #4CAF50 !important;
+  border-color: #4CAF50 !important;
   outline: 1px solid var(--cal-row-border-color);
   border-radius: 3px;
   cursor: pointer;
@@ -75,8 +77,8 @@
 }
 
 .fc-event.task-in-progress {
-  background-color: var(--dark-blue);
-  border-color: var(--dark-blue);
+  background-color: #2196F3 !important;
+  border-color: #2196F3 !important;
   outline: 1px solid var(--cal-row-border-color);
   border-radius: 3px;
   cursor: pointer;
@@ -84,8 +86,17 @@
 }
 
 .fc-event.task-not-started {
-  background-color: var(--dark-yellow);
-  border-color: var(--dark-yellow);
+  background-color: #FF9800 !important;
+  border-color: #FF9800 !important;
+  outline: 1px solid var(--cal-row-border-color);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: transform .3s ease;
+}
+
+.fc-event.task-overdue {
+  background-color: #F44336 !important;
+  border-color: #F44336 !important;
   outline: 1px solid var(--cal-row-border-color);
   border-radius: 3px;
   cursor: pointer;
@@ -99,12 +110,14 @@
 .fc .fc-col-header-cell-cushion,
 .fc .fc-daygrid-day-number{
   color: #7d7d7d;
+  text-align: center;
 }
 
 .fc .fc-col-header-cell-cushion,
 .fc .fc-daygrid-day-number,
 .fc-daygrid-event .fc-event-title {
   text-decoration: none;
+  text-align: center;
 }
 
 .fc .fc-daygrid-day.fc-day-sat,
@@ -116,4 +129,101 @@
 .view-btn:active {
   outline: none;
   box-shadow: none;
+}
+
+/* 控制日历整体大小 */
+.fc .fc-daygrid-day {
+  min-height: 80px;
+}
+
+.fc .fc-daygrid-day-number {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.fc .fc-col-header-cell {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.fc .fc-toolbar {
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 20px;
+}
+
+.fc .fc-button {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+/* 限制日历容器的大小 */
+#calendar {
+  max-width: 100%;
+  height: auto;
+  min-height: 600px;
+}
+
+/* 确保日历表格有足够的高度 */
+.fc .fc-daygrid-body {
+  min-height: 480px;
+}
+
+.fc .fc-scrollgrid {
+  height: auto !important;
+}
+
+.fc .fc-view-harness {
+  height: auto !important;
+}
+
+/* 让所有日历文字居中 */
+.fc .fc-col-header-cell {
+  text-align: center;
+}
+
+.fc .fc-daygrid-day {
+  text-align: center;
+}
+
+.fc .fc-daygrid-day-number {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.fc .fc-daygrid-event {
+  text-align: center;
+}
+
+.fc .fc-event-title {
+  text-align: center;
+}
+
+.fc .fc-toolbar-title {
+  text-align: center;
+}
+
+/* 非当前月份的日期样式 */
+.fc .fc-daygrid-day.fc-day-other {
+  background-color: #fafafa !important;
+  text-align: center;
+}
+
+.fc .fc-daygrid-day.fc-day-other .fc-daygrid-day-number {
+  color: #cccccc !important;
+  font-weight: normal;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+/* 当前月份的日期保持正常样式 */
+.fc .fc-daygrid-day:not(.fc-day-other) .fc-daygrid-day-number {
+  color: #7d7d7d;
+  font-weight: 500;
+  text-align: center;
 }
