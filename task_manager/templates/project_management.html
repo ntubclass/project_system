@@ -26,11 +26,11 @@
     <!-- Project Table -->
     <div class="table-container">
         <div class="table-wrapper">
-            <table>
-                <thead>
+            <table>                <thead>
                     <tr>
                         <th>專案名稱</th>
                         <th>進度</th>
+                        <th>狀態</th>
                         <th>負責人/團隊</th>
                         <th>時程</th>
                         <th>操作</th>
@@ -44,8 +44,7 @@
                                 <div class="project-name">{{ project.name }}</div>
                                 <div class="project-description">{{ project.description }}</div>
                             </div>
-                        </td>
-                        <td>
+                        </td>                        <td>
                             <div class="progress-container">
                                 <div class="progress-info">
                                     <span class="progress-percentage">{{ project.total_progress }}%</span>
@@ -54,6 +53,11 @@
                                 <div class="progress-bar">
                                     <div class="progress-fill" style="width: {{ project.total_progress }}%"></div>
                                 </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="status-container">
+                                <span class="status-badge status-{{ project.status }}">{{ project.status }}</span>
                             </div>
                         </td>
                         <td>
