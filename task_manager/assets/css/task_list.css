@@ -7,7 +7,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
   cursor: pointer;
 }
 
@@ -246,7 +245,7 @@
 
 /* Replace the conflicting CSS rules */
 i.not-started {
-  color: var(--dark-gray);
+  color: var(--dark-yellow);
 }
 
 i.in-progress {
@@ -263,7 +262,7 @@ i.overdue {
 }
 
 .task-count.not-started {
-  color: var(--dark-gray);
+  color: var(--dark-yellow);
 }
 
 .task-count.in-progress {
