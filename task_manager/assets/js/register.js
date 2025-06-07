@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmPasswordInput = document.getElementById('confirmPassword');
     const registerForm = document.getElementById('registerForm');
     
+    // 密碼強度相關元素
+    const strengthMeter = document.getElementById('strengthMeter');
+    const passwordInfo = document.getElementById('passwordInfo');
+    
     // 圓形元素
     const circles = document.querySelectorAll('.circle');
     
@@ -52,8 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
             inputElement.addEventListener('blur', () => {
                 focusedInput = null;
                 updateInputStyles();
-            });
-        }
+            });        }
     }
     
     // 設置所有輸入欄位的焦點事件處理
@@ -63,6 +66,56 @@ document.addEventListener('DOMContentLoaded', function() {
     setupInputFocus(phoneInput, 'phone');
     setupInputFocus(passwordInput, 'password');
     setupInputFocus(confirmPasswordInput, 'confirmPassword');
+    
+    // 密碼強度檢測
+    if (passwordInput && strengthMeter && passwordInfo) {
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            
+            // 密碼強度檢查
+            let strength = 0;
+            let message = '';
+            
+            if (password.length >= 8) {
+                strength += 1;
+            } else {
+                message = '密碼最少需要8個字符';
+            }
+            
+            if (/[A-Z]/.test(password) && /[a-z]/.test(password)) {
+                strength += 1;
+            } else if (password.length >= 8) {
+                message = '建議包含大小寫字母';
+            }
+            
+            if (/[0-9]/.test(password) && /\W|_/.test(password)) {
+                strength += 1;
+            } else if (password.length >= 8) {
+                message = '建議包含數字和特殊符號';
+            }
+            
+            // 更新強度計
+            strengthMeter.className = 'strength-meter';
+            switch (strength) {
+                case 1:
+                    strengthMeter.classList.add('weak');
+                    if (!message) message = '密碼強度：弱';
+                    break;
+                case 2:
+                    strengthMeter.classList.add('medium');
+                    if (!message) message = '密碼強度：中';
+                    break;
+                case 3:
+                    strengthMeter.classList.add('strong');
+                    if (!message) message = '密碼強度：強';
+                    break;
+                default:
+                    message = '密碼最少需要8個字符';
+            }
+            
+            passwordInfo.textContent = message;
+        });
+    }
     
     // 更新輸入框樣式
     function updateInputStyles() {
@@ -95,10 +148,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // 表單驗證
+      // 表單驗證
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
+            // 驗證密碼長度
+            if (passwordInput.value.length < 8) {
+                e.preventDefault();
+                // 創建錯誤訊息元素
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'alert alert-error';
+                errorDiv.textContent = '密碼長度必須至少為8個字符';
+                
+                // 在表單前插入錯誤訊息
+                const formCard = document.querySelector('.form-card');
+                const existingAlert = formCard.querySelector('.alert');
+                
+                if (existingAlert) {
+                    formCard.replaceChild(errorDiv, existingAlert);
+                } else {
+                    formCard.insertBefore(errorDiv, registerForm);
+                }
+                
+                // 將焦點設置在密碼欄位
+                passwordInput.focus();
+                return false;
+            }
+            
             // 驗證密碼是否一致
             if (passwordInput.value !== confirmPasswordInput.value) {
                 e.preventDefault();
