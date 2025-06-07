@@ -18,7 +18,7 @@ EMAIL_HOST_PASSWORD = 'ubmx wkst zgta yhsu'
 DEFAULT_FROM_EMAIL = '11156019@ntub.edu.tw'
 
 INSTALLED_APPS = [
-    #"daphne",
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
