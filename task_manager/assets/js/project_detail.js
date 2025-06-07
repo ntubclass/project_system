@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // 設置進度條長度和更新顯示的百分比
+document.addEventListener("DOMContentLoaded", function () {  // 設置進度條長度和更新顯示的百分比
   function initializeProgressBars() {
     // 獲取所有進度條元素
     const progressBars = document.querySelectorAll(".progress-fill");
@@ -7,12 +6,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // 遍歷每個進度條元素
     progressBars.forEach((bar) => {
       // 獲取progress屬性值
-      const progressValue = bar.getAttribute("progress");
-
-      // 如果存在progress屬性，則設置寬度
+      const progressValue = bar.getAttribute("progress");      // 如果存在progress屬性，則設置寬度
       if (progressValue) {
-        // 設置進度條寬度為progress值的百分比
-        bar.style.width = `${progressValue}%`;
+        // 先移除transition，設置初始寬度為0
+        bar.style.transition = "none";
+        bar.style.width = "0%";
+        
+        // 強制瀏覽器重新計算樣式
+        bar.offsetWidth;
+        
+        // 使用 setTimeout 讓瀏覽器完成初始渲染後再開始動畫
+        setTimeout(() => {
+          // 重新添加transition並設置進度條寬度，觸發動畫
+          bar.style.transition = "width 0.3s ease";
+          bar.style.width = `${progressValue}%`;
+        }, 50); // 50ms 延遲確保DOM完全就緒
 
         // 更新 stat-value 中的百分比顯示
         const statCard = bar.closest(".stat-card");
@@ -21,7 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
             ".progress-percentage"
           );
           if (progressPercentage) {
-            progressPercentage.textContent = progressValue;
+            // 延遲更新百分比顯示，讓動畫更自然
+            setTimeout(() => {
+              progressPercentage.textContent = progressValue;
+            }, 100);
           }
         }
       }
@@ -175,6 +186,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 displayEventTime: false,
                 displayEventEnd: false,
                 eventDisplay: 'block',
+                height: 'auto',
+                fixedWeekCount: true,
+                showNonCurrentDates: true,
+                dayMaxEvents: true,
                 eventTimeFormat: {
                   hour: "2-digit",
                   minute: "2-digit",

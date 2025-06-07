@@ -180,7 +180,6 @@ td:first-child {
     height: 100%;
     background: linear-gradient(90deg, #3b82f6, #1d4ed8);
     border-radius: 3px;
-    transition: width 0.3s ease;
 }
 
 /* Progress Container */
