@@ -171,38 +171,32 @@ td:first-child {
     font-size: 12px;
 }
 
-.badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-weight: 500;
-    font-size: 14px;
-    white-space: nowrap;
+/* 只保留 .status-badge 樣式，移除 .badge 相關重複設定，並修正 .status-inactive 顏色 */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 15px;
+  margin-right: 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+  display: inline-block;
+  border: 1px solid transparent;
 }
-
-/* 狀態徽章：使用中 */
-.badge-active {
+.status-active {
   background-color: #d1fae5;
   color: #059669;
   border: 1px solid #059669;
 }
-
-/* 狀態徽章：未使用 */
-.badge-inactive {
-  background-color: #f3f4f6;
-  color: #ff0404;
-  border: 1px solid #ff0000;
+.status-inactive {
+  background-color: #fee8e8;
+  color: #dc2626;
+  border: 1px solid #dc2626;
 }
-
-.badge-admin {
-    background-color: #dbeafe;
-    color: var(--dark-blue);
-}
-
-.badge-user {
-    background-color: #f3f4f6;
-    color: var(--dark-gray);
+.status-disabled {
+  background-color: #fee8e8;
+  color: #dc2626;
+  border: 1px solid #dc2626;
 }
 
 .actions {
