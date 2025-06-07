@@ -8,6 +8,7 @@
             
             <form id="createTaskForm" action="{% url 'create_task' project_id %}" method="post">
                 {% csrf_token %}
+                <input type="hidden" name="url_type" value="{{ url_type }}">
                 <div class="form-group">
                     <label for="taskName">任務名稱</label>
                     <input type="text" id="taskName" name="taskName" class="form-control" required>

@@ -5,7 +5,7 @@ from task_manager.models.task import Task
 from task_manager.models.file import File
 from task_manager.utils import hum_convert, system_info, chart_data
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+from datetime import datetime, timedelta
 from task_manager.models.message import Message
 import json
 import logging

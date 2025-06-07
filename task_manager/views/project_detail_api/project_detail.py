@@ -47,6 +47,7 @@ def main(request, project_id):
         end_date_diff = diff.days
     
     context = {
+        "url_type": f"/project_detail/{project_id}/?project={project_id}",
         "project_id": project_id,
         "total_progress": total_progress,
         "member_amount": member_amount,
