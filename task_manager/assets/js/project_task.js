@@ -38,28 +38,30 @@ window.updateTaskMembersListUI = function () {
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize progress bars animation
   function initializeProgressBars() {
-    const progressBars = document.querySelectorAll('.progress-fill[progress]');
-    
-    progressBars.forEach(bar => {
-      const targetProgress = parseInt(bar.getAttribute('progress')) || 0;
+    const progressBars = document.querySelectorAll(".progress-fill[progress]");
+
+    progressBars.forEach((bar) => {
+      const targetProgress = parseInt(bar.getAttribute("progress")) || 0;
       const targetWidth = `${targetProgress}%`;
-      
+
       // 先移除transition，設置初始寬度為0
-      bar.style.transition = 'none';
-      bar.style.width = '0%';
-      
+      bar.style.transition = "none";
+      bar.style.width = "0%";
+
       // 強制瀏覽器重新計算樣式
       bar.offsetWidth;
-      
+
       // 使用 setTimeout 讓瀏覽器完成初始渲染後再開始動畫
       setTimeout(() => {
         // 重新添加transition並設置進度條寬度，觸發動畫
-        bar.style.transition = 'width 0.3s ease';
+        bar.style.transition = "width 0.3s ease";
         bar.style.width = targetWidth;
       }, 50); // 50ms 延遲確保DOM完全就緒
-      
+
       // 更新對應的百分比文字顯示
-      const progressText = bar.closest('.task-progress')?.querySelector('.progress-text');
+      const progressText = bar
+        .closest(".task-progress")
+        ?.querySelector(".progress-text");
       if (progressText) {
         // 延遲更新百分比顯示，讓動畫更自然
         setTimeout(() => {
@@ -419,24 +421,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Update task history table and progress bar
-    function updateTaskHistory(history, latestProgress) {    // Update progress bar with animation
+    function updateTaskHistory(history, latestProgress) {
+      // Update progress bar with animation
       if (progressBar && currentProgress) {
         const progress = latestProgress || 0;
-        
+
         // 先移除transition，設置初始寬度為0
         progressBar.style.transition = "none";
         progressBar.style.width = "0%";
-        
+
         // 強制瀏覽器重新計算樣式
         progressBar.offsetWidth;
-        
+
         // 使用 setTimeout 讓瀏覽器完成初始渲染後再開始動畫
         setTimeout(() => {
           // 重新添加transition並設置進度條寬度，觸發動畫
           progressBar.style.transition = "width 0.3s ease";
           progressBar.style.width = `${progress}%`;
         }, 50); // 50ms 延遲確保DOM完全就緒
-        
+
         // 延遲更新百分比顯示，讓動畫更自然
         setTimeout(() => {
           currentProgress.textContent = `${progress}%`;
@@ -492,12 +495,9 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        if (
-          !progressInput.value ||
-          isNaN(progressInput.value) ||
-          progressInput.value < 0 ||
-          progressInput.value > 100
-        ) {
+        // Fixed validation to properly handle 100% progress
+        const progress = parseInt(progressInput.value, 10);
+        if (isNaN(progress) || progress < 0 || progress > 100) {
           showError(formErrors, "進度必須是0-100之間的數字");
           return;
         }
