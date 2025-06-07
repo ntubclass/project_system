@@ -201,16 +201,17 @@
 }
 
 .progress-bar {
-  background-color: #0d6efd;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
   height: 8px;
   border-radius: 10px;
   position: relative;
+  transition: width 0.3s ease;
 }
 
 .progress-marker {
   width: 24px;
   height: 24px;
-  background-color: #0d6efd;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
   border: 2px solid #fff;
   border-radius: 50%;
   position: absolute;
@@ -369,7 +370,13 @@
 }
 
 .submit-btn {
-  background-color: #0d6efd;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border: none;
+  transition: opacity 0.3s ease;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
 }
 
 .cancel-btn {
