@@ -62,6 +62,12 @@ function deleteUser(userId) {
                         }
                         // 狀態屬性
                         userRow.setAttribute('data-status', 'disabled');
+                        // 活動 badge 一律顯示下線（強制覆蓋）
+                        const activityBadge = userRow.querySelector('.activity-badge');
+                        if (activityBadge) {
+                            activityBadge.className = 'activity-badge activity-offline';
+                            activityBadge.textContent = '下線';
+                        }
                         // 按鈕切換為啟用
                         const actionsDiv = userRow.querySelector('.actions');
                         if (actionsDiv) {
@@ -118,7 +124,6 @@ function editUser(userId) {
     const name = row.querySelector('.user-name')?.childNodes[0]?.textContent?.trim() || '';
     const email = row.querySelector('.user-email')?.textContent?.trim() || '';
     const role = row.getAttribute('data-role') || '';
-    const status = row.getAttribute('data-status') || '';
 
     // 只有超級管理員可以編輯其他超級管理員
     if (role === '專案管理者' && !isSuperUser) {
@@ -130,7 +135,7 @@ function editUser(userId) {
         return;
     }
     // 防呆：確認所有欄位都存在
-    if (!document.getElementById('editUserId') || !document.getElementById('editUserName') || !document.getElementById('editUserEmail') || !document.getElementById('editUserRole') || !document.getElementById('editUserStatus')) {
+    if (!document.getElementById('editUserId') || !document.getElementById('editUserName') || !document.getElementById('editUserEmail') || !document.getElementById('editUserRole')) {
         Swal.fire({
             icon: 'error',
             title: '找不到編輯表單欄位',
@@ -142,11 +147,9 @@ function editUser(userId) {
     document.getElementById('editUserName').value = name;
     document.getElementById('editUserEmail').value = email;
     document.getElementById('editUserRole').value = role;
-    document.getElementById('editUserStatus').value = status;
     document.getElementById('editUserName').removeAttribute('readonly');
     document.getElementById('editUserEmail').removeAttribute('readonly');
     document.getElementById('editUserRole').removeAttribute('disabled');
-    document.getElementById('editUserStatus').removeAttribute('disabled');
     document.getElementById('editUserDialog').showModal();
 }
 
@@ -162,7 +165,8 @@ if (editUserForm) {
     editUserForm.onsubmit = function(e) {
         e.preventDefault();
         const userId = document.getElementById('editUserId').value;
-        const status = document.getElementById('editUserStatus').value;
+        const name = document.getElementById('editUserName').value;
+        const email = document.getElementById('editUserEmail').value;
         const role = document.getElementById('editUserRole').value;
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
         fetch('/edit_user/', {
@@ -171,21 +175,18 @@ if (editUserForm) {
                 'X-CSRFToken': csrftoken,
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: `user_id=${userId}&status=${status}&role=${role}`
+            body: `user_id=${encodeURIComponent(userId)}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&role=${encodeURIComponent(role)}`
         })
         .then(res => res.json())
         .then(data => {
             if (data.success) {
                 // 直接更新畫面，不重整
-                // 1. 關閉 dialog
                 document.getElementById('editUserDialog').close();
-                // 2. 更新表格內容
                 const row = document.querySelector(`#userTableBody tr [onclick*='editUser(${userId})']`).closest('tr');
                 if (row) {
-                    row.querySelector('.user-name').childNodes[0].textContent = document.getElementById('editUserName').value;
-                    row.querySelector('.user-email').textContent = document.getElementById('editUserEmail').value;
+                    row.querySelector('.user-name').childNodes[0].textContent = name;
+                    row.querySelector('.user-email').textContent = email;
                     row.setAttribute('data-role', role);
-                    row.setAttribute('data-status', status);
                     // 更新角色顯示
                     const superAdminSpan = row.querySelector('.user-name span');
                     if (role === '專案管理者') {
@@ -201,19 +202,8 @@ if (editUserForm) {
                     } else {
                         if (superAdminSpan) superAdminSpan.remove();
                     }
-                    // 更新狀態 badge
-                    const statusBadge = row.querySelector('.status-badge');
-                    if (statusBadge) {
-                        if (status === 'active') {
-                            statusBadge.className = 'status-badge activity-online';
-                            statusBadge.textContent = '啟用';
-                        } else {
-                            statusBadge.className = 'status-badge activity-offline';
-                            statusBadge.textContent = '停用';
-                        }
-                    }
                 }
-                Swal.fire({ icon: 'success', title: '更新成功', text: '用戶狀態已更新' });
+                Swal.fire({ icon: 'success', title: '更新成功', text: '用戶資料已更新' });
             } else {
                 document.getElementById('editUserFormErrors').textContent = data.error || '更新失敗';
             }
