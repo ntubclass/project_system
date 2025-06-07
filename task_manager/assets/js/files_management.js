@@ -13,8 +13,8 @@ function performSearch(searchTerm) {
 }
 
 function filterTable(searchTerm) {
-    const fileTableBody = document.querySelector('.file-table-body');
-    const fileRows = fileTableBody.querySelectorAll('.file-row');
+    const fileTableBody = document.querySelector('tbody');
+    const fileRows = fileTableBody.querySelectorAll('tr');
     let visibleCount = 0;
     
     searchTerm = searchTerm.toLowerCase().trim();
@@ -22,11 +22,11 @@ function filterTable(searchTerm) {
     fileRows.forEach(row => {
         const fileName = row.querySelector('.file-name')?.textContent.toLowerCase().trim() || '';
         const fileType = row.querySelector('.file-type')?.textContent.toLowerCase().trim() || '';
-        const ownerName = row.querySelector('.owner-cell')?.textContent.toLowerCase().trim() || '';
+        const ownerInfo = row.querySelector('.owner-info')?.textContent.toLowerCase().trim() || '';
         
         const isVisible = fileName.indexOf(searchTerm) !== -1 || 
                          fileType.indexOf(searchTerm) !== -1 || 
-                         ownerName.indexOf(searchTerm) !== -1;
+                         ownerInfo.indexOf(searchTerm) !== -1;
         
         if (isVisible) {
             row.style.display = '';
@@ -39,12 +39,12 @@ function filterTable(searchTerm) {
     let noResultsMessage = fileTableBody.querySelector('.no-results-message');
     if (visibleCount === 0 && searchTerm) {
         if (!noResultsMessage) {
-            noResultsMessage = document.createElement('div');
+            noResultsMessage = document.createElement('tr');
             noResultsMessage.className = 'no-results-message';
-            noResultsMessage.textContent = '沒有找到符合條件的檔案';
+            noResultsMessage.innerHTML = '<td colspan="6" style="text-align: center; padding: 32px; color: #6b7280; font-style: italic;">沒有找到符合條件的檔案</td>';
             fileTableBody.appendChild(noResultsMessage);
         }
-        noResultsMessage.style.display = 'block';
+        noResultsMessage.style.display = '';
     } else if (noResultsMessage) {
         noResultsMessage.style.display = 'none';
     }
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
     downloadBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            const fileName = this.closest('.file-row').querySelector('.file-name').textContent;
+            const fileName = this.closest('tr').querySelector('.file-name').textContent;
             
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             

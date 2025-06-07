@@ -229,6 +229,10 @@ function displayCalendarView(tasks, container) {
       },
       locale: "zh-tw",
       displayEventTime: false,
+      height: 'auto',
+      fixedWeekCount: true,
+      showNonCurrentDates: true,
+      dayMaxEvents: true,
       eventTimeFormat: {
         hour: "2-digit",
         minute: "2-digit",
