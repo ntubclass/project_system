@@ -100,11 +100,17 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
+  align-items: flex-start;
 }
 
-.card-header div{
+.card-header > div:first-child {
   display: flex;
   flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0; /* 重要：允許內容縮小 */
+  flex: 1; /* 占用剩餘空間 */
+  margin-right: 8px; /* 與右側按鈕保持距離 */
 }
 
 .btn-edit, .btn-delete{
@@ -132,8 +138,12 @@
 }
 
 .project-title {
+  min-width: 0; /* 重要：允許 flex item 縮小 */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; 
   font-size: var(--font-size-18);
-  padding-right: 10px;
+  max-width: 150px; /* 設定最大寬度限制 */
 }
 
 .status {
@@ -150,6 +160,8 @@
   padding: 4px 8px;
   border-radius: 4px;
   font-size: var(--font-size-14);
+  flex-shrink: 0; /* 防止狀態標籤被壓縮 */
+  white-space: nowrap; /* 防止換行 */
 }
 
 .status-done {
@@ -251,26 +263,35 @@
 .status-進行中 {
   background-color: var(--light-blue);
   color: var(--dark-blue);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .status-已完成 {
   background-color: var(--light-green);
   color: var(--dark-green);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .status-未開始 {
   background-color: var(--light-yellow);
   color: var(--dark-yellow);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .status-已逾期 {
   background-color: var(--light-red);
   color: var(--dark-red);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .btn-box{
   display: flex;
   align-items: center;
+  flex-shrink: 0; /* 防止按鈕被壓縮 */
 }
 
 /* Responsive adjustments */
