@@ -19,6 +19,10 @@ def register_view(request):
             messages.error(request, "密碼不一致，請重新確認")
             return redirect("/register")
         
+        if len(password) < 8:
+            messages.error(request, "密碼長度必須至少為8個字符")
+            return redirect("/register")
+        
         if User.objects.filter(username=full_name).exists():
             messages.error(request, "此用戶名已被註冊")
             return redirect("/register")
