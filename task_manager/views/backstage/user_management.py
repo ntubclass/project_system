@@ -97,16 +97,40 @@ def edit_user(request):
         user_id = request.POST.get('user_id')
         status = request.POST.get('status')
         role = request.POST.get('role')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
         if not user_id:
             return JsonResponse({'success': False, 'error': '缺少 user_id'})
         try:
             user = User.objects.get(id=user_id)
-            # 允許超級管理員編輯自己
+            # 同步姓名與電子郵件
+            if name:
+                user.username = name
+            if email:
+                user.email = email
+            user.save()
+            # 同步 UserInfo（保險做法，若有地方用 user_info.user.username/email）
+            try:
+                user_info = UserInfo.objects.get(user=user)
+                if name:
+                    user_info.user.username = name
+                if email:
+                    user_info.user.email = email
+                user_info.user.save()
+            except UserInfo.DoesNotExist:
+                pass
             # 狀態處理
             if status == 'active':
                 user.is_active = True
             elif status == 'disabled':
                 user.is_active = False
+            # 角色權限處理
+            if role == '專案管理者':
+                user.is_superuser = True
+                user.is_staff = True
+            elif role == '一般使用者':
+                user.is_superuser = False
+                user.is_staff = False
             user.save()
             return JsonResponse({'success': True})
         except User.DoesNotExist:
