@@ -154,7 +154,7 @@ def main(request):
         "task_monthly_stats": json.dumps(task_monthly_stats),
     }
     
-    return render(request, "mainpage.html", context)
+    return render(request, "mainPage.html", context)
 
 def get_user_project_monthly_stats(user_id, months=6):
     """
