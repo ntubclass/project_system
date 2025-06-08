@@ -54,7 +54,7 @@ def main(request, project_id):
             messages.success(request, f"成功新增 {added} 位成員！")
         elif member_count > 0:
             messages.warning(request, "沒有新增任何成員，可能已存在或資料有誤。")
-        return redirect(f"member_list/{project_id}/?project={project_id}")
+        return redirect('member_list', project_id=project_id)
 
     # 取得專案
     project = get_object_or_404(Project, project_id=project_id)
