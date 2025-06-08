@@ -58,7 +58,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="tasks">{{i.task_count}}個任務</div>
-                        <a href="{% url 'project_detail' i.project_id %}" class="details-btn">查看詳情</a>
+                        <a href="{% url 'project_detail' i.project_id %}?project={{i.project_id}}" class="details-btn">查看詳情</a>
                     </div>
                 </div>
             {% endfor %}
