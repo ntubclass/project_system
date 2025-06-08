@@ -7,7 +7,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
   cursor: pointer;
 }
 
@@ -56,10 +55,14 @@
 }
 
 .task-title {
+  width: 100%;
   font-size: var(--font-size-18); /* 與 project 卡片標題一致 */
   font-weight: 500;
   color: var(--dark-gray);
   margin-bottom: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; 
 }
 
 .card-info {
@@ -76,6 +79,10 @@
 .project-name {
   font-size: var(--font-size-14);
   color: var(--light-gray);
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; 
 }
 
 .progress-container {
@@ -246,7 +253,7 @@
 
 /* Replace the conflicting CSS rules */
 i.not-started {
-  color: var(--dark-gray);
+  color: var(--dark-yellow);
 }
 
 i.in-progress {
@@ -263,7 +270,7 @@ i.overdue {
 }
 
 .task-count.not-started {
-  color: var(--dark-gray);
+  color: var(--dark-yellow);
 }
 
 .task-count.in-progress {
