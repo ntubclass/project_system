@@ -18,6 +18,7 @@ def main(request, project_id):
      # 檢查用戶是否有權限查看此專案（是創建者或成員）
     try:
         project = Project.objects.get(project_id=project_id)
+        context["project"] = project  # 將 project 物件加入 context
     except Project.DoesNotExist:
         messages.error(request, "專案不存在")
         return redirect('project')

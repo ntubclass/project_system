@@ -24,6 +24,32 @@
 
 {% block content %}
 <div class="project-overview-container">
+  <!-- 麵包屑導航 -->
+  <div class="breadcrumb-container">
+      <nav class="breadcrumb">
+          <div class="breadcrumb-item">
+              <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                  <i class="fa-solid fa-home"></i>
+                  首頁
+              </a>
+          </div>
+          <div class="breadcrumb-item">
+              <a href="{% url 'project' %}" class="breadcrumb-link">
+                  <i class="fa-solid fa-folder"></i>
+                  專案列表
+              </a>
+          </div>
+          {% if project_name %}
+          <div class="breadcrumb-item">
+              <span class="breadcrumb-link">
+                  <i class="fa-solid fa-diagram-project"></i>
+                  {{ project_name }}
+              </span>
+          </div>
+          {% endif %}
+      </nav>
+  </div>
+
   <h1 class="section-title">專案概覽</h1>
 
   <div class="stats-grid">
