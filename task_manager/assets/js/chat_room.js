@@ -55,9 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         messageElement.remove();
       }
       // If the deleted message was pinned, clear the banner
-      if (
-        chatNotificationBanner.dataset.pinnedMessageId === data.message_id
-      ) {
+      if (chatNotificationBanner.dataset.pinnedMessageId === data.message_id) {
         clearPinnedMessage();
       }
       return;
@@ -90,9 +88,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     <span class="chat-name">${
                       isCurrentUser ? "You" : username
                     }</span>
-                    <span class="chat-timestamp">${new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
-                    ${(isProjectManager) ? `<span class="pin-message" title="釘選此訊息"><i class="fas fa-thumbtack"></i></span>` : ''}
-                    ${isCurrentUser ? `<button class="btn-delete" data-task-id="${data.message_id}"><i class="fas fa-times"></i></button>` : ''}
+                    <span class="chat-timestamp">${new Date().toLocaleTimeString(
+                      "zh-TW",
+                      { hour: "2-digit", minute: "2-digit", hour12: false }
+                    )}</span>
+                    ${
+                      isProjectManager
+                        ? `<span class="pin-message" title="釘選此訊息"><i class="fas fa-thumbtack"></i></span>`
+                        : ""
+                    }
+                    ${
+                      isCurrentUser
+                        ? `<button class="btn-delete" data-task-id="${data.message_id}"><i class="fas fa-times"></i></button>`
+                        : ""
+                    }
                 </div>
                 <div class="chat-message-text">${message}</div>
             </div>
@@ -101,7 +110,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Add click event listener to the newly created pin icon
       const pinIcon = messageElement.querySelector(".pin-message");
-      addPinMessageListener(pinIcon);
+      if (pinIcon) {
+        // Add this check to make sure pinIcon exists
+        addPinMessageListener(pinIcon);
+      }
 
       // Add click event listener to the newly created delete button (if present)
       const deleteBtn = messageElement.querySelector(".btn-delete");
