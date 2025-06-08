@@ -11,6 +11,30 @@
 {% endblock %}
 {% block content %}
 <div class="project-overview-container">
+    <!-- 麵包屑導航 -->
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <div class="breadcrumb-item">
+                <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-home"></i>
+                    首頁
+                </a>
+            </div>
+            <div class="breadcrumb-item">
+                <a href="{% url 'backstage' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    系統概覽
+                </a>
+            </div>
+            <div class="breadcrumb-item">
+                <span class="breadcrumb-link">
+                    <i class="fa-solid fa-folder-closed"></i>
+                    專案管理
+                </span>
+            </div>
+        </nav>
+    </div>
+    
     <!-- Header -->
     <div class="title-bar">
         <h1 class="section-title">專案管理</h1>
