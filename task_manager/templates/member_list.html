@@ -16,6 +16,37 @@
 {% block content %}
 <div class="project-overview-container">
     <input type="hidden" id="currentProjectId" value="{{ project_id }}"> <!-- 新增這一行，讓 JS 能正確取得 project_id -->
+    <!-- 麵包屑導航 -->
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <div class="breadcrumb-item">
+                <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-home"></i>
+                    首頁
+                </a>
+            </div>
+            <div class="breadcrumb-item">
+                <a href="{% url 'project' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-folder"></i>
+                    專案列表
+                </a>
+            </div>            {% if project_name %}
+            <div class="breadcrumb-item">
+                <a href="{% url 'project_detail' project_id %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    {{ project_name }}
+                </a>
+            </div>
+            {% endif %}
+            <div class="breadcrumb-item">
+                <span class="breadcrumb-link">
+                    <i class="fa-solid fa-users"></i>
+                    成員管理
+                </span>
+            </div>
+        </nav>
+    </div>
+
     <div class="title-bar">
       <h1 class="section-title">成員管理</h1>
       <button class="create-btn" id="openMemberListBtn">

@@ -95,8 +95,10 @@ def main(request, project_id):
             "photo": photo_url,
             "job": job,
         })
+    
     context = {
         "project_id": project_id,
+        "project": project,
         "members": members,
     }
     return render(request, 'member_list.html', context)
