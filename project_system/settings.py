@@ -96,7 +96,7 @@ TIME_ZONE = "Asia/Taipei"
 USE_I18N = True
 USE_TZ = False
 
-LOGIN_REDIRECT_URL = '/project/'
+LOGIN_REDIRECT_URL = '/mainPage/'
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
