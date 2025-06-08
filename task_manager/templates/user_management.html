@@ -3,8 +3,12 @@
 {% block title %}後臺管理|用戶管理{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/user_management.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/edit_user_dialog.css' %}">
 {% endblock %}
 {% block content %}
+<script>
+  window.isSuperUser = {{ request.user.is_superuser|yesno:'true,false'|lower }};
+</script>
 <div class="project-overview-container">
     <!-- 麵包屑導航 -->
     <div class="breadcrumb-container">
@@ -49,6 +53,7 @@
                 <thead>
                     <tr>
                         <th>用戶資訊</th>
+                        <th>活動</th>
                         <th>狀態</th>
                         <th>最後活動</th>
                         <th>專案數</th>
@@ -58,21 +63,29 @@
                 </thead>
                 <tbody id="userTableBody">
                     {% for user in users %}
-                    <tr data-user="{{ user.name }}" data-role="{{ user.role }}" data-status="{{ user.status }}">
+                    <tr data-user="{{ user.name }}" data-role="{{ user.role }}" data-status="{{ user.status }}" data-online="{{ user.is_online|yesno:'true,false' }}">
                         <td>
                             <div class="user-info">
                                 <div class="user-avatar" style="padding:0;background:none;width:32px;height:32px;">
                                     <img src="{{ user.avatar_url }}" alt="{{ user.name }}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;" onerror="this.onerror=null;this.src='{{ STATIC_URL }}avatars/avatar_1.png';" />
                                 </div>
                                 <div class="user-details">
-                                    <div class="user-name">{{ user.name }}</div>
+                                    <div class="user-name">
+                                        {{ user.name }}
+                                        {% if user.role == '專案管理者' %}<span style="color:#eab308;font-size:12px;font-weight:600;margin-left:6px;">超級管理員</span>{% endif %}
+                                    </div>
                                     <div class="user-email">{{ user.email }}</div>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <span class="badge {% if user.status == 'active' %}badge-active{% else %}badge-inactive{% endif %}">
-                                {% if user.status == 'active' %}使用中{% else %}未使用{% endif %}
+                            <span class="activity-badge activity-{% if user.is_online %}online{% else %}offline{% endif %}">
+                                {% if user.is_online %}上線{% else %}下線{% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-badge activity-{% if user.status == 'active' %}online{% else %}offline{% endif %}">
+                                {% if user.status == 'active' %}啟用{% else %}停用{% endif %}
                             </span>
                         </td>
                         <td>{{ user.last_active }}</td>
@@ -80,15 +93,21 @@
                         <td class="task-count-col">{{ user.task_count }}</td>
                         <td>
                             <div class="actions">
-                                <button class="action-btn edit" onclick="editUser({{ user.id }})">
+                                <button type="button" class="action-btn edit" onclick="editUser({{ user.id }})">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <!-- <button class="action-btn mail" onclick="mailUser({{ user.id }})">
                                     <i data-feather="mail"></i>
                                 </button> -->
-                                <button class="action-btn delete" onclick="deleteUser({{ user.id }})">
-                                    <i class="fas fa-times"></i>
+                                {% if user.status == 'disabled' or user.status == '' or user.status is None %}
+                                <button type="button" class="action-btn delete" onclick="enableUser({{ user.id }})" title="啟用用戶">
+                                    <i class="fas fa-user-check"></i> 啟用
                                 </button>
+                                {% else %}
+                                <button type="button" class="action-btn delete" onclick="deleteUser({{ user.id }})" title="停用用戶">
+                                    <i class="fas fa-user-slash"></i> 停用
+                                </button>
+                                {% endif %}
                             </div>
                         </td>
                     </tr>
@@ -100,7 +119,9 @@
                 </tbody>
             </table>
         </div>
-
+        <div class="user-status-note" style="margin: 16px 0 0 0; color: #888; font-size: 13px;">
+            
+        </div>
         <!-- Pagination -->
         <div class="pagination">
             <div class="pagination-info">
@@ -116,6 +137,7 @@
         </div>
     </div>
 </div>
+{% include 'dialog/edit_user_dialog.html' %}
 {% endblock %}
 {% block extra_js %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
