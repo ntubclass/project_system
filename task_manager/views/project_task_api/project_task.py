@@ -86,5 +86,6 @@ def main(request, project_id):
             "status": status,
             'photo':  task.user_id.userinfo.photo.url,
         })
+    context["url_type"] = f"/project_task/{project_id}/?project={project_id}"
     
     return render(request, "project_task.html", context)

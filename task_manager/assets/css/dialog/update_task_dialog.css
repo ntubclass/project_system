@@ -368,16 +368,6 @@
   margin-top: 30px;
 }
 
-.submit-btn {
-  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
-  border: none;
-  transition: opacity 0.3s ease;
-}
-
-.submit-btn:hover {
-  opacity: 0.9;
-}
-
 .cancel-btn {
   color: #dc3545;
   border-color: #dc3545;
