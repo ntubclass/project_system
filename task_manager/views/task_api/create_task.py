@@ -32,7 +32,7 @@ def main(request, project_id):
         start_date_obj = datetime.strptime(startDate, "%Y-%m-%d").date()
         due_date_obj = datetime.strptime(dueDate, "%Y-%m-%d").date()
         
-        
+        print(url_type)
         
         if due_date_obj < start_date_obj:
             messages.warning(request, "截止日期必須在開始日期之後")
@@ -60,6 +60,6 @@ def main(request, project_id):
             task_member.save()
 
         messages.success(request, "任務已成功創建")
-        print(url_type)
+
         return redirect(url_type)
     return HttpResponseNotAllowed(["POST"])

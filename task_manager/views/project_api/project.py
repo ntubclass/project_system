@@ -61,5 +61,22 @@ def main(request):
         data["task_count"] = tasks.count()
         data["status"] = status
         context["project_data"].append(data)
-    context["project_data"].sort(key=lambda x: x["total_progress"], reverse=False)
+    
+    # 自定義排序函數：逾期 -> 進行中 -> 未開始 -> 完成，每個狀態內按進度排序
+    def custom_sort_key(project):
+        status = project["status"]
+        progress = project["total_progress"]
+        
+        # 定義狀態優先順序
+        status_priority = {
+            "已逾期": 1,
+            "進行中": 2,
+            "未開始": 3,
+            "已完成": 4
+        }
+        
+        # 返回 (狀態優先順序, 進度) 作為排序鍵值
+        return (status_priority.get(status, 5), progress)
+    
+    context["project_data"].sort(key=custom_sort_key)
     return render(request, "project.html", context)
