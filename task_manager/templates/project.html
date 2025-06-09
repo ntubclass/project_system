@@ -45,7 +45,16 @@
                         </div>
                         <div class="card-info">
                             <div class="user-avatar">
-                                <img src="{{i.photo}}" class="avatar"></img>
+                                <div class="avatar-stack">
+                                    <!-- 第一個頭像 - 使用原有圖片 -->
+                                    <img src="{{i.photo}}" class="avatar">
+                                    
+                                    <!-- 第二個重疊的頭像 - 使用固定顏色 -->
+                                    <div class="avatar"></div>
+                                    
+                                    <!-- 數字標示 -->
+                                    <div class="avatar-count">13</div>
+                                </div>
                             </div>
                             <div class="date">
                                 <i class="date-icon fa-regular fa-calendar"></i>

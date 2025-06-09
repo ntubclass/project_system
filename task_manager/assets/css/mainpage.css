@@ -455,7 +455,7 @@ a{
   height: 6px;
   background-color: #e0e0e0;
   border-radius: 3px;
-  margin-bottom: 16px;
+  margin: 8px 0 16px 0;
   overflow: hidden;
 }
 
