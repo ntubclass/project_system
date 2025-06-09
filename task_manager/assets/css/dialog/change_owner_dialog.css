@@ -40,6 +40,22 @@
 }
 
 .action-btn.btn-change-owner:focus {
+    outline: none; /* 完全移除焦點框 */
+}
+
+/* 只在鍵盤導航時顯示焦點框 */
+.action-btn.btn-change-owner:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* 只在鍵盤導航時顯示焦點框，滑鼠點擊時不顯示 */
+.action-btn.btn-change-owner:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* 確保在 Chrome 和其他瀏覽器中也能正常工作 */
+.action-btn.btn-change-owner:focus-visible {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
 }
@@ -494,6 +510,11 @@
 }
 
 .action-btn.btn-change-owner:focus {
+    outline: none; /* 完全移除焦點框 */
+}
+
+/* 只在鍵盤導航時顯示焦點框 */
+.action-btn.btn-change-owner:focus-visible {
     outline: 2px solid #2563EB;
     outline-offset: 2px;
 }
