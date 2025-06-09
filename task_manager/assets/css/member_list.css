@@ -140,6 +140,12 @@ body {
   padding-right: 20px;
 }
 
+.member-job{
+  flex: 1;
+  color: #444;
+  padding-right: 20px;
+}
+
 .remove-member-btn {
   background: none;
   border: none;
