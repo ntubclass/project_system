@@ -86,18 +86,25 @@ document.addEventListener("DOMContentLoaded", function () {
         dialog.removeAttribute("closing");
         dialog.close();
       }, 200);
-    }
-
-    if (dialog) {
+    }    if (dialog) {
       dialog.addEventListener("click", (e) => {
-        const rect = dialog.getBoundingClientRect();
-        const isInDialog =
-          rect.top <= e.clientY &&
-          e.clientY <= rect.top + rect.height &&
-          rect.left <= e.clientX &&
-          e.clientX <= rect.left + rect.width;
-        if (!isInDialog) {
-          closeDialogWithAnimation();
+        // 找到 dialog content 元素
+        const dialogContent = dialog.querySelector('.dialog-content');
+        if (dialogContent) {
+          const rect = dialogContent.getBoundingClientRect();
+          const isInDialog =
+            rect.top <= e.clientY &&
+            e.clientY <= rect.top + rect.height &&
+            rect.left <= e.clientX &&
+            e.clientX <= rect.left + rect.width;
+          if (!isInDialog) {
+            closeDialogWithAnimation();
+          }
+        } else {
+          // 如果找不到 dialog-content，點擊對話框背景就關閉
+          if (e.target === dialog) {
+            closeDialogWithAnimation();
+          }
         }
       });
 
