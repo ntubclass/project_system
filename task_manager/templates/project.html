@@ -29,11 +29,10 @@
                             <div>
                                 <div class="project-title">{{i.name}}</div>
                                 <div class="status-null status-{{ i.status|lower }}">{{i.status}}</div>
-                            </div>
-                            {% if i.can_edit %}
+                            </div>                            {% if i.can_edit %}
                                 <div class='btn-box'>
-                                    <button class="btn-edit"  data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-delete" data-project-id="{{ i.project_id }}" onclick="event.stopPropagation(); handleButtonClick()"><i class="fas fa-times"></i></button>
+                                    <button class="action-btn edit btn-edit" data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete btn-delete" data-project-id="{{ i.project_id }}" onclick="event.stopPropagation(); handleButtonClick()"><i class="fas fa-times"></i></button>
                                 </div>
                             {% endif %}
                         </div>

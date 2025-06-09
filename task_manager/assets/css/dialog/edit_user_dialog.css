@@ -1,4 +1,4 @@
-/* Dialog Backdrop */
+﻿/* Dialog Backdrop */
 .dialog-backdrop {
   position: fixed;
   top: 0;
@@ -19,6 +19,11 @@
 
 .dialog-backdrop::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 確保對話框預設隱藏 */
+.dialog-backdrop:not([open]) {
+  display: none;
 }
 
 .dialog-backdrop:modal {
@@ -122,14 +127,13 @@
   border: 1px solid #e0e0e0;
   border-radius: 6px;
   font-size: 15px;
-  background: #f9f9f9;
   margin-bottom: 0;
   transition: border 0.2s;
 }
 
 .form-control:focus {
-  border-color: #1a3a8a;
-  background: #fff;
+  border-color: #2563EB;
+  outline: none;
 }
 
 /* Dialog Actions */
@@ -141,7 +145,8 @@
 }
 
 .cancel-btn,
-.save-btn {
+.save-btn,
+.submit-btn {
   min-width: 80px;
   padding: 8px 0;
   border-radius: 6px;
@@ -162,13 +167,15 @@
   background: #f5f7fa;
 }
 
-.save-btn {
-  background: #1a3a8a;
+.save-btn,
+.submit-btn {
+  background: #2563EB;
   color: #fff;
   border: none;
 }
 
-.save-btn:hover {
+.save-btn:hover,
+.submit-btn:hover {
   background: #1b4fc6;
 }
 
@@ -179,3 +186,63 @@
   margin-top: -10px;
   margin-bottom: 10px;
 }
+
+/* Height-based Responsive Design for Laptop Screens */
+@media screen and (max-height: 768px) {
+  .dialog-content {
+        padding: 16px;
+    }
+    
+    .dialog-title {
+        font-size: 20px;
+    }
+    
+    .dialog-header {
+        margin-bottom: 16px;
+    }
+    
+    .form-group {
+        margin-bottom: 16px;
+    }
+    
+    .dialog-actions {
+        margin-top: 16px;
+    }
+}
+
+@media screen and (max-height: 600px) {
+  .dialog-content {
+        padding: 12px;
+    }
+    
+    .dialog-title {
+        font-size: 18px;
+        margin: 0 0 8px 0;
+    }
+    
+    .dialog-header {
+        margin-bottom: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .dialog-actions {
+        margin-top: 12px;
+        gap: 8px;
+    }
+    
+    .cancel-btn,
+    .save-btn,
+    .submit-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
