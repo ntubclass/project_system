@@ -107,7 +107,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #cbd5e1;
+  background-color: #fff;
   margin-right: 12px;
   flex-shrink: 0;
 }
@@ -140,6 +140,12 @@ body {
   padding-right: 20px;
 }
 
+.member-job{
+  flex: 1;
+  color: #444;
+  padding-right: 20px;
+}
+
 .remove-member-btn {
   background: none;
   border: none;
@@ -158,6 +164,52 @@ body {
 .remove-member-btn:hover {
   color: var(--button-red-hover);
   transform: scale(1.15);
+}
+
+/* Action buttons - unified styling */
+.action-btn {
+    padding: 8px;
+    border: none;
+    background: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+    transform: scale(1.15);
+}
+
+/* Edit button specific hover - blue */
+.action-btn.edit:hover {
+    color: #3b82f6;
+    background-color: #eff6ff;
+    transform: scale(1.15);
+}
+
+/* Delete button specific hover - red */
+.action-btn.delete:hover {
+    color: #dc2626;
+    background-color: #fef2f2;
+    transform: scale(1.15);
+}
+
+/* Other buttons specific hover - yellow/amber */
+.action-btn:hover:not(.edit):not(.delete) {
+    color: #d97706;
+    background-color: #fffbeb;
+    transform: scale(1.15);
+}
+
+.action-btn svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* 響應式調整 */

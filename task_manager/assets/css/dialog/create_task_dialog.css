@@ -5,16 +5,20 @@
   left: 0;
   right: 0;
   bottom: 0;
-  margin: auto;
-  width: 100%;
-  max-width: 500px;
-  max-height: 90vh;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
   background-color: transparent;
   padding: 0;
   border: none;
-  outline: none;
-  overflow: visible;
+  outline: none;  overflow: hidden;
   z-index: 1000;
+}
+
+/* 確保對話框在沒有 open 屬性時隱藏 */
+.dialog-backdrop:not([open]) {
+  display: none;
 }
 
 .dialog-backdrop::backdrop {
@@ -28,18 +32,18 @@
   justify-content: center;
 }
 
-/* 對話框容器 */
-#createTaskDialog .dialog-container {
+/* Dialog Container */
+.dialog-backdrop .dialog-container {
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  height: auto;
-  max-height: 90vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  max-width: 550px;
+  max-height: 85vh;
   margin: 0;
+  overflow-y: auto;
   animation: dialog-fade-in 0.2s ease-out;
+  position: relative;
 }
 
 @keyframes dialog-fade-in {
@@ -56,13 +60,13 @@
   animation: dialog-fade-out 0.2s ease-out forwards;
 }
 
-/* 對話框內容 */
+/* Dialog Content */
 .dialog-content {
   padding: 24px;
   width: 100%;
 }
 
-/* 對話框標題列 */
+/* Dialog Header */
 .dialog-header {
   display: flex;
   justify-content: space-between;
@@ -70,45 +74,41 @@
   margin-bottom: 20px;
 }
 
-/* 關閉按鈕 */
+.dialog-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 12px 0;
+}
+
 .close-btn {
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: var(--dark-gray);
-  padding: 0;
-  line-height: 1;
+  background: #fff;
+  border: 1px solid #eee;
+  font-size: 22px;
+  color: #222;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  transition: background 0.2s;
 }
 
 .close-btn:hover {
-  background-color: var(--light-blue-gray);
+  background: #f5f7fa;
 }
 
-/* 對話框標題 */
-.dialog-title {
-  font-size: 20px;
-  font-weight: 500;
-  margin: 0;
-  color: var(--dark-gray);
-}
-
-/* 表單組件 */
+/* Form Components */
 .form-group {
   margin-bottom: 20px;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 8px;
+  font-size: 15px;
   font-weight: 500;
-  color: var(--dark-gray);
+  color: #222;
+  margin-bottom: 6px;
 }
 
 #content{
@@ -119,10 +119,11 @@
 .form-control {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 14px;
-  background-color: var(--white);
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-bottom: 0;
+  transition: border 0.2s;
 }
 
 .form-control:focus {
@@ -172,14 +173,13 @@ input[type="date"] {
 }
   
   .members-list {
-    border: 1px solid var(--border-color);
+    border: 1px solid #e0e0e0;
     border-radius: 4px;
     padding: 4px;
     min-height: 50px;
     background-color: var(--white);
   }
-  
-  /* 對話框按鈕 */
+    /* Dialog Actions */
   .dialog-actions {
     display: flex;
     justify-content: flex-end;
@@ -187,31 +187,38 @@ input[type="date"] {
     margin-top: 24px;
   }
   
-  .cancel-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--border-color);
-    background-color: var(--white);
-    color: var(--dark-gray);
-    border-radius: 4px;
+  .cancel-btn,
+  .save-btn,
+  .submit-btn {
+    min-width: 80px;
+    padding: 8px 0;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
+    border: none;
+    transition: background 0.2s, color 0.2s;
   }
   
-  .submit-btn {
-    padding: 8px 16px;
-    background-color: var(--dark-blue);
-    color: var(--white);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color ease 0.2s;
+  .cancel-btn {
+    background: #fff;
+    color: #222;
+    border: 1px solid #e0e0e0;
   }
   
   .cancel-btn:hover {
-    background-color: var(--light-blue-gray);
+    background: #f5f7fa;
+  }
+    .save-btn,
+  .submit-btn {
+    background: #2563EB;
+    color: #fff;
+    border: none;
   }
   
+  .save-btn:hover,
   .submit-btn:hover {
-    background-color: #1b4fc6; /* 略微深色的藍色 */
+    background: #1b4fc6;
   }
   
   /* 動態搜尋結果樣式 */
@@ -219,7 +226,7 @@ input[type="date"] {
     list-style: none;
     margin: 0;
     padding: 8px;
-    border: 1px solid var(--border-color);
+    border: 1px solid #e0e0e0;
     border-radius: 4px;
     background-color: var(--white);
     min-height: calc(40px * 3); /* 預設高度為三個項目 */
@@ -241,9 +248,12 @@ input[type="date"] {
   .members-list li:hover {
     background-color: var(--light-blue-gray);
   }
-  
+    /* Form Errors */
   .form-errors {
-    margin-top: 15px;
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 10px;
   }
   
   .form-errors .alert {
