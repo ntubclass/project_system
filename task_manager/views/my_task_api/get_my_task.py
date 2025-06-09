@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from task_manager.models.task import Task  
 from task_manager.models.task_member import TaskMember  
 from django.contrib.auth.decorators import login_required
@@ -35,12 +35,12 @@ def main(request):
         # Process my tasks (created by me)
         for task in created_tasks:
             status = ""
-            today = datetime.datetime.today()
+            today = datetime.today().date()  # Get just the date part
             if task.progress == 100:
                 status = "completed"
-            elif task.end_date < today and task.progress < 100:
+            elif task.end_date.date() < today and task.progress < 100:
                 status = "overdue"
-            elif today < task.start_date:
+            elif today < task.start_date.date():
                 status = "not-started"
             else:
                 status = "in-progress"
@@ -68,16 +68,15 @@ def main(request):
         # Process participate tasks (member but not creator)
         for task in participate_tasks:
             status = ""
-            today = datetime.datetime.today()
+            today = datetime.today().date()  # Get just the date part
             if task.progress == 100:
                 status = "completed"
-            elif task.end_date < today and task.progress < 100:
+            elif task.end_date.date() < today and task.progress < 100:
                 status = "overdue"
-            elif today < task.start_date:
+            elif today < task.start_date.date():
                 status = "not-started"
             else:
                 status = "in-progress"
-
             try:
                 avatar_url = UserInfo.objects.get(user=task.user_id).photo.url
             except:
