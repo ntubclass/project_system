@@ -182,7 +182,6 @@ td:first-child {
     width: 100%;
     font-weight: 500;
     color: var(--dark-gray);
-    margin-bottom: 2px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
