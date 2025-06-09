@@ -312,10 +312,10 @@ body {
     transform: scale(1.15);
 }
 
-/* Other buttons specific hover - yellow/amber */
-.action-btn:hover:not(.edit):not(.delete) {
-    color: #d97706;
-    background-color: #fffbeb;
+/* Info button specific hover - blue */
+.action-btn.btn-info:hover {
+    color: #3b82f6;
+    background-color: #eff6ff;
     transform: scale(1.15);
 }
 
@@ -323,6 +323,67 @@ body {
 .action-btn i {
     width: 16px;
     height: 16px;
+}
+
+/* Task info dialog styling */
+.task-info-container {
+    font-family: "Montserrat", sans-serif;
+    padding: 10px;
+    max-width: 100%;
+    text-align: left;
+}
+
+.task-info-row {
+    margin-bottom: 15px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.task-info-row strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--dark-gray);
+    font-weight: 600;
+}
+
+.member-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.member-info-box {
+    display: flex;
+    align-items: center;
+    padding: 5px 8px;
+    gap: 10px;
+    border-radius: 20px;
+}
+
+.member-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--dark-blue-gray);
+  margin-right: 15px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.member-avatar img{
+    width: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.task-content {
+    border-radius: 4px;
+    padding: 12px;
+    margin-top: 5px;
+    white-space: pre-wrap;
+    max-height: 150px;
+    overflow-y: auto;
 }
 
 /* 已移除特定顏色樣式，使用統一的灰色樣式 */
