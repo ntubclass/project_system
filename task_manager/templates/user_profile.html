@@ -91,7 +91,10 @@
         </div>
         
         <div class="password-form" id="password-form" style="display: none;">
-            <h2 class="profile-title">密碼修改</h2>
+            <div class="profile-title-box">
+                <h2 class="profile-title">密碼修改</h2>
+                <p>*填寫以下資料送出以更改密碼</p>
+            </div>
             <form class="profile-form-content" method="POST" action="{% url 'user_profile' %}">
                 {% csrf_token %}
                 <input type="hidden" name="form_type" value="password">

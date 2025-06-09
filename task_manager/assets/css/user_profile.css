@@ -19,7 +19,7 @@
     transition: margin-left 0.3s ease, width 0.3s ease, padding 0.3s ease;
     margin-left: 250px;
     gap: 50px; 
-    padding: 30px 80px; 
+    padding: 50px 80px; 
     width: calc(100% - 250px); 
     justify-content: center;
 }
@@ -95,6 +95,7 @@
 
 /* 用戶名稱和職稱 */
 .user-name {
+  text-align: center;
   font-size: 24px; 
   color: var(--text-dark);
   margin-bottom: 5px;
@@ -102,8 +103,8 @@
   font-family: 'Inter', sans-serif;
   width: 200px;
   overflow: hidden;
-white-space: nowrap;
-text-overflow: ellipsis;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .user-job {
@@ -193,12 +194,16 @@ text-overflow: ellipsis;
   justify-content: space-between;
 }
 
+.profile-title-box{
+  margin-bottom: 10px;
+}
+
 /* 表單標題 */
 .profile-title {
   font-size: 24px; 
   font-weight: 700;
   color: var(--text-dark);
-  margin-bottom: 30px; 
+  margin-bottom: 10px; 
   font-family: 'Inter', sans-serif;
   width: 100%;
 }
