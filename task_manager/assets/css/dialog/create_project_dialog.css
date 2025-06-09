@@ -285,17 +285,8 @@ input[type="date"] {
 }
 
 .member-box > .fa-solid {
-  font-size: 16px;
-  border: none;
-  transition: all 0.2s ease;
+  color: var(--dark-red);
   cursor: pointer;
-  background-color: transparent;
-    border-radius: 8px;
-}
-
-.fa-solid:hover {
-  color: rgb(220, 38, 38);
-  background: rgb(254, 242, 242);
 }
 
 /* Height-based Responsive Design for Laptop Screens - 響應式設計 */
