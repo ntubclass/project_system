@@ -73,24 +73,20 @@
   margin-bottom: 20px;
 }
 
-/* ???? */
 .close-btn {
-  background: #fff;
-  border: 1px solid #eee;
   font-size: 22px;
-  color: #222;
+  border: none;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: all 0.2s ease;
   cursor: pointer;
-  transition: background 0.2s;
+  background-color: transparent;
+    border-radius: 8px;
 }
 
 .close-btn:hover {
-  background: #f5f7fa;
+  color: rgb(220, 38, 38);
+  background: rgb(254, 242, 242);
 }
 
 .dialog-title {
@@ -267,8 +263,17 @@ input[type="date"] {
 }
 
 .member-box > .fa-solid {
-  color: var(--dark-red);
-  cursor: pointer; /* 霈??????ursor */
+  font-size: 16px;
+  border: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: transparent;
+    border-radius: 8px;
+}
+
+.fa-solid:hover {
+  color: rgb(220, 38, 38);
+  background: rgb(254, 242, 242);
 }
 
 /* Height-based Responsive Design for Laptop Screens */
