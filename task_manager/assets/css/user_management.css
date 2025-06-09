@@ -161,7 +161,7 @@ td:first-child {
 .user-avatar {
     width: 32px;
     height: 32px;
-    background-color: var(--dark-blue);
+    background-color: #fff;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -209,19 +209,16 @@ td:first-child {
   border: 1px solid transparent;
 }
 .status-active {
-  background-color: #d1fae5;
-  color: #059669;
-  border: 1px solid #059669;
+  background-color: #F0FDF4;
+  color: #16A34A;
 }
 .status-inactive {
   background-color: #fee8e8;
-  color: #dc2626;
-  border: 1px solid #dc2626;
+  color: #DC2626;
 }
 .status-disabled {
   background-color: #fee8e8;
-  color: #dc2626;
-  border: 1px solid #dc2626;
+  color: #DC2626;
 }
 
 /* Activity Badge Styles */
@@ -237,14 +234,12 @@ td:first-child {
   border: 1px solid transparent;
 }
 .activity-online {
-  background-color: #d1fae5;
-  color: #059669;
-  border: 1px solid #059669;
+  background-color: #F0FDF4;
+  color: #16A34A;
 }
 .activity-offline {
   background-color: #fee8e8;
-  color: #dc2626;
-  border: 1px solid #dc2626;
+  color: #DC2626;
 }
 
 .actions {
@@ -258,25 +253,40 @@ td:first-child {
     padding: 8px;
     border: none;
     background: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    color: var(--light-gray);
+    color: #6b7280;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.action-btn:hover.edit {
-    color: var(--dark-blue);
+.action-btn:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+    transform: scale(1.15);
+}
+
+/* Edit button specific hover - blue */
+.action-btn.edit:hover {
+    color: #3b82f6;
     background-color: #eff6ff;
+    transform: scale(1.15);
 }
 
-.action-btn:hover.mail {
-    color: #059669;
-    background-color: #ecfdf5;
-}
-
-.action-btn:hover.delete {
+/* Delete button specific hover - red */
+.action-btn.delete:hover {
     color: #dc2626;
     background-color: #fef2f2;
+    transform: scale(1.15);
+}
+
+/* Other buttons specific hover - yellow/amber */
+.action-btn:hover:not(.edit):not(.delete) {
+    color: #d97706;
+    background-color: #fffbeb;
+    transform: scale(1.15);
 }
 
 /* Pagination */

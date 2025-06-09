@@ -32,7 +32,7 @@
                 </a>
             </div>            {% if project_name %}
             <div class="breadcrumb-item">
-                <a href="{% url 'project_detail' project_id %}" class="breadcrumb-link">
+                <a href="{% url 'project_detail' project_id %}?project={{project_id}}" class="breadcrumb-link">
                     <i class="fa-solid fa-diagram-project"></i>
                     {{ project_name }}
                 </a>
@@ -62,30 +62,28 @@
         </div>
     </div>
 
-  <div class="members-container">
+    <div class="members-container">
     {% for member in members %}
         <div class="member-item">
-        <div class="member-info">
-            <img class="member-avatar" src="{{ member.photo }}" alt="{{ member.name }}" />
-            <div class="member-name">{{ member.name }}</div>
+            <div class="member-info">
+                <img class="member-avatar" src="{{ member.photo }}" alt="{{ member.name }}" />
+                <div class="member-name">{{ member.name }}</div>
+            </div>
+            
+            <div class="member-email">
+                <i class="email-icon fa-solid fa-envelope"></i>
+                {{ member.email }}
+            </div>
+            
+            <div class="member-role">{{ member.role }}</div>
+            <div class="member-job">{{ member.job }}</div> <!-- 顯示 user_profile 職稱 -->        {% if member.role != '專案擁有者' %}
+            <button class="action-btn delete remove-member-btn" type="button" onclick="deleteMember('{{ member.email }}', '{{ member.name }}')">
+                <i class="remove-icon fa-solid fa-xmark"></i>
+            </button>
+            {% endif %}
         </div>
-        
-        <div class="member-email">
-            <i class="email-icon fa-solid fa-envelope"></i>
-            {{ member.email }}
-        </div>
-        
-        <div class="member-role">{{ member.role }}</div>
-        <div class="member-job">{{ member.job }}</div> <!-- 顯示 user_profile 職稱 -->
-        {% if member.role != '專案擁有者' %}
-        <button class="remove-member-btn" type="button" onclick="deleteMember('{{ member.email }}', '{{ member.name }}')">
-            <i class="remove-icon fa-solid fa-xmark"></i>
-        </button>
-        {% endif %}
-        </div>
-    {% endfor %}
-  </div>
-</div>
+        {% endfor %}
+    </div>
 {% include 'dialog/member_list_dialog.html' %}
 {% include 'dialog/add_member_dialog.html' %}
 {% endblock %}
