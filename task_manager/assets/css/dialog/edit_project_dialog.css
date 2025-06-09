@@ -1,4 +1,4 @@
-/* Dialog Backdrop */
+﻿/* Dialog Backdrop */
 .dialog-backdrop {
   position: fixed;
   top: 0;
@@ -21,6 +21,11 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* 確保對話框預設隱藏 */
+.dialog-backdrop:not([open]) {
+  display: none;
+}
+
 .dialog-backdrop:modal {
   display: flex;
   align-items: center;
@@ -28,24 +33,14 @@
 }
 
 /* Dialog Container */
-#editMemberDialog .dialog-container {
-  background-color: var(--white);
-  border-radius: 8px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-  margin: 0;
-  animation: dialog-fade-in 0.2s ease-out;
-}
-
-#editProjectDialog .dialog-container {
+.dialog-backdrop .dialog-container {
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-height: 90vh;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
   overflow-y: auto;
-  margin: 0;
   animation: dialog-fade-in 0.2s ease-out;
 }
 
@@ -90,30 +85,28 @@
 }
 
 .dialog-title {
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--dark-gray);
-  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 12px 0;
 }
 
 .close-btn {
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: var(--dark-gray);
-  padding: 0;
-  line-height: 1;
+  background: #fff;
+  border: 1px solid #eee;
+  font-size: 22px;
+  color: #222;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  transition: background 0.2s;
 }
 
 .close-btn:hover {
-  background-color: var(--light-blue-gray);
+  background: #f5f7fa;
 }
 
 /* Form Components */
@@ -122,23 +115,24 @@
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 8px;
+  font-size: 15px;
   font-weight: 500;
-  color: var(--dark-gray);
+  color: #222;
+  margin-bottom: 6px;
 }
 
 .form-control {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 14px;
-  background-color: var(--white);
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-bottom: 0;
+  transition: border 0.2s;
 }
 
 .form-control:focus {
-  border-color: var(--dark-blue);
+  border-color: #2563EB;
   outline: none;
 }
 
@@ -203,31 +197,38 @@
 }
 
 .cancel-btn,
+.save-btn,
 .submit-btn {
-  padding: 8px 16px;
-  border-radius: 4px;
+  min-width: 80px;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
+  border: none;
+  transition: background 0.2s, color 0.2s;
 }
 
 .cancel-btn {
-  border: 1px solid var(--border-color);
-  background-color: var(--white);
-  color: var(--dark-gray);
+  background: #fff;
+  color: #222;
+  border: 1px solid #e0e0e0;
 }
 
 .cancel-btn:hover {
-  background-color: var(--light-blue-gray);
+  background: #f5f7fa;
 }
 
+.save-btn,
 .submit-btn {
-  background-color: var(--dark-blue);
-  color: var(--white);
+  background: #2563EB;
+  color: #fff;
   border: none;
-  transition: background-color ease 0.2s;
 }
 
+.save-btn:hover,
 .submit-btn:hover {
-  background-color: #1b4fc6;
+  background: #1b4fc6;
 }
 
 /* Member List Items */
@@ -267,4 +268,210 @@
   font-size: 14px;
   color: var(--dark-gray);
   font-weight: 500;
+}
+
+/* Height-based Responsive Design for Laptop Screens - 響應式設計 */
+@media screen and (max-height: 768px) {
+  .dialog-content {
+        padding: 16px;
+    }
+    
+    .dialog-title {
+        font-size: 20px;
+    }
+    
+    .dialog-header {
+        margin-bottom: 16px;
+    }
+    
+    .form-group {
+        margin-bottom: 16px;
+    }
+    
+    .dialog-actions {
+        margin-top: 16px;
+    }
+    
+    .members-list {
+        max-height: 200px;
+    }
+}
+
+@media screen and (max-height: 600px) {
+  .dialog-content {
+        padding: 12px;
+    }
+    
+    .dialog-title {
+        font-size: 18px;
+        margin: 0 0 8px 0;
+    }
+    
+    .dialog-header {
+        margin-bottom: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .dialog-actions {
+        margin-top: 12px;
+        gap: 8px;
+    }
+    
+    .cancel-btn,
+    .save-btn,
+    .submit-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .members-list {
+        max-height: 150px;
+    }
+    
+    .member-item {
+        padding: 6px 8px;
+        gap: 8px;
+    }
+      .user-photo {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* Width-based Responsive Design for Mobile and Tablet - 響應式設計 */
+@media screen and (max-width: 768px) {
+    .dialog-backdrop {
+        width: 95vw;
+        max-width: none;
+        margin: 20px;
+    }
+    
+    .dialog-backdrop .dialog-container {
+        max-width: none;
+        width: 100%;
+    }
+    
+    .dialog-content {
+        padding: 16px;
+    }
+    
+    .dialog-title {
+        font-size: 20px;
+    }
+    
+    .dialog-header {
+        margin-bottom: 16px;
+    }
+    
+    .form-group {
+        margin-bottom: 16px;
+    }
+    
+    .dialog-actions {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+    }
+    
+    .cancel-btn,
+    .save-btn,
+    .submit-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 0;
+        font-size: 16px;
+    }
+    
+    .form-control {
+        padding: 12px;
+        font-size: 16px; /* 防止 iOS 自動縮放 */
+    }
+    
+    .members-list,
+    .member-results {
+        max-height: 180px;
+    }
+    
+    .member-item {
+        padding: 12px 8px;
+        gap: 12px;
+    }
+    
+    .user-photo {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .dialog-backdrop {
+        width: 100vw;
+        height: 100vh;
+        max-width: none;
+        max-height: none;
+        margin: 0;
+        border-radius: 0;
+    }
+    
+    .dialog-backdrop .dialog-container {
+        border-radius: 0;
+        height: 100%;
+        max-height: none;
+    }
+    
+    .dialog-content {
+        padding: 12px;
+        height: calc(100vh - 120px);
+        overflow-y: auto;
+    }
+    
+    .dialog-title {
+        font-size: 18px;
+    }
+    
+    .dialog-header {
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .form-group {
+        margin-bottom: 14px;
+    }
+    
+    .members-list,
+    .member-results {
+        max-height: 140px;
+    }
+    
+    .member-item {
+        padding: 8px;
+        gap: 8px;
+    }
+    
+    .user-photo {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .dialog-actions {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 12px;
+        border-top: 1px solid #e0e0e0;
+        flex-direction: row;
+        gap: 8px;
+        margin-top: 0;
+    }
 }
