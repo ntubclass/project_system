@@ -43,16 +43,19 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 30px;
+  width: 100%; /* 確保網格使用完整寬度 */
 }
 
 .stat-card {
-  width: 100px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   padding: 20px;
   display: flex;
   flex-direction: column;
+  width: 100%; /* 確保卡片填滿網格空間 */
+  box-sizing: border-box; /* 包含 padding 在寬度計算內 */
+  min-width: 0; /* 允許內容收縮 */
 }
 
 .stat-label {
@@ -69,10 +72,84 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  
+  min-width: 0; /* 允許 flex 項目收縮 */
+}
+
+/* 針對描述卡片的特殊樣式 - 修正文字截斷 */
+.stat-card:has(.description-icon) .stat-value,
+.description-card .stat-value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 0;
+}
+
+/* 描述文字容器 - 確保省略號正確顯示 */
+.description-card .stat-value {
+  position: relative;
+}
+
+.description-card .stat-value::before {
+  content: attr(title);
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 50px; /* 為圖標預留空間 */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #404040;
+}
+
+.fa-file-lines{
+  color: #2563EB;
+}
+
+/* 隱藏原始文字，使用偽元素顯示 */
+.description-card .stat-value > span:first-child {
+  visibility: hidden;
+}
+
+/* 或者使用更直接的方法 */
+.stat-card.description-card .stat-value {
+  overflow: hidden;
+  position: relative;
+}
+
+.description-text {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
+  margin-right: 10px;
+}
+
+/* 圖標部分 */
+.description-icon {
+  flex-shrink: 0; /* 防止圖標被壓縮 */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 多行文字截斷版本（如果需要顯示多行） */
+.description-multiline .stat-value {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 顯示2行 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  width: 100%;
+  box-sizing: border-box;
+  height: 2.8em; /* 約2行的高度 */
 }
 
 .project-progress-container {
@@ -336,4 +413,40 @@ body {
   height: 100%;
   background: linear-gradient(90deg, #3b82f6, #1d4ed8);
   border-radius: 4px;
+}
+
+/* 網格佈局選項 */
+/* 四列等寬（所有卡片在一行） */
+.stats-grid.four-columns {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* 第一列佔2倍寬度 */
+.stats-grid.weighted {
+  grid-template-columns: 2fr 1fr;
+}
+
+/* 三列佈局，描述卡片佔整行 */
+.stats-grid.three-plus-one {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stats-grid.three-plus-one .description-card {
+  grid-column: 1 / -1; /* 佔據整行 */
+}
+
+/* 響應式調整 */
+@media screen and (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr; /* 小螢幕時改為單列 */
+    gap: 15px;
+  }
+  
+  .stat-card {
+    width: 100%;
+  }
+  
+  .project-overview-container {
+    padding: 20px 30px;
+  }
 }
