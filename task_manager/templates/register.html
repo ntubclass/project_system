@@ -43,6 +43,8 @@
                     
                     <form id="registerForm" class="register-form" method="post" action="{% url 'register' %}">
                         {% csrf_token %}
+                        
+                        <!-- 姓名輸入框 -->
                         <div class="form-group">
                             <label for="fullName" class="form-label">姓名*</label>
                             <div class="input-container">
@@ -62,6 +64,7 @@
                             </div>
                         </div>
 
+                        <!-- 職稱選擇框 -->
                         <div class="form-group">
                             <label for="position" class="form-label">職稱*</label>
                             <div class="input-container">
@@ -82,6 +85,7 @@
                             </div>
                         </div>
 
+                        <!-- 電子郵件輸入框 -->
                         <div class="form-group">
                             <label for="email" class="form-label">電子郵件*</label>
                             <div class="input-container">
@@ -102,6 +106,7 @@
                             </div>
                         </div>
 
+                        <!-- 手機號碼輸入框 -->
                         <div class="form-group">
                             <label for="phone" class="form-label">手機號碼</label>
                             <div class="input-container">
@@ -117,7 +122,10 @@
                                     placeholder="0912345678"
                                 >
                             </div>
-                        </div>                        <div class="form-group">
+                        </div>
+
+                        <!-- 密碼輸入框 - 新增密碼顯示/隱藏功能 -->
+                        <div class="form-group">
                             <label for="password" class="form-label">密碼*</label>
                             <div class="input-container">
                                 <div class="input-icon">
@@ -129,12 +137,17 @@
                                     type="password"
                                     autocomplete="new-password"
                                     required
-                                    class="form-input"
+                                    class="form-input has-toggle"
                                     placeholder="至少8個字元"
                                 >
+                                <!-- 新增：密碼顯示/隱藏切換按鈕 -->
+                                <div class="password-toggle" id="passwordToggle">
+                                    <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- 確認密碼輸入框 - 新增密碼顯示/隱藏功能 -->
                         <div class="form-group">
                             <label for="confirmPassword" class="form-label">確認密碼*</label>
                             <div class="input-container">
@@ -147,9 +160,13 @@
                                     type="password"
                                     autocomplete="new-password"
                                     required
-                                    class="form-input"
+                                    class="form-input has-toggle"
                                     placeholder="再次輸入密碼"
                                 >
+                                <!-- 新增：確認密碼顯示/隱藏切換按鈕 -->
+                                <div class="password-toggle" id="confirmPasswordToggle">
+                                    <i class="fas fa-eye" id="confirmPasswordToggleIcon"></i>
+                                </div>
                             </div>
                         </div>
 
@@ -168,6 +185,7 @@
                             </div>
                         </div> {% endcomment %}
 
+                        <!-- 註冊按鈕 -->
                         <div class="form-group">
                             <button
                                 type="submit"
@@ -178,12 +196,14 @@
                         </div>
                     </form>
 
+                    <!-- 分隔線 -->
                     <div class="divider">
                         <div class="divider-line"></div>
                         <div class="divider-text">或者</div>
                         <div class="divider-line"></div>
                     </div>
 
+                    <!-- 登入連結 -->
                     <div class="login-link-container">
                         <p class="login-text">
                             已有帳號？
