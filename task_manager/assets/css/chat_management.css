@@ -208,7 +208,6 @@ th:nth-child(3), td:nth-child(3){
 .user-details .user-name {
     font-weight: 500;
     color: #111827;
-    margin-bottom: 2px;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
