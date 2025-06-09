@@ -4,7 +4,7 @@ from django.contrib import messages  # 添加這一行導入 messages
 from task_manager.models.project import Project
 from task_manager.models.task import Task
 from task_manager.models.project_member import ProjectMember
-from datetime import date
+from datetime import date, datetime
 
 @login_required(login_url="login")
 def main(request, project_id):
@@ -54,6 +54,7 @@ def main(request, project_id):
         "member_amount": member_amount,
         "end_date": project.end_date.strftime("%Y-%m-%d"),
         "end_date_diff": end_date_diff,
+        "date_now": datetime.now().strftime("%Y-%m-%d"),
     }
     
     return render(request, "project_detail.html", context)
