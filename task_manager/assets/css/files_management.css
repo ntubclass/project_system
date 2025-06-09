@@ -357,11 +357,19 @@ dialog:not([open]) {
 }
 
 .close-btn {
-    background: none;
-    border: none;
-    font-size: var(--font-size-18);
-    color: var(--light-gray);
-    cursor: pointer;
+  font-size: 22px;
+  width: 36px;
+  height: 36px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+    border-radius: 8px;
+}
+
+.close-btn:hover {
+  color: rgb(220, 38, 38);
+  background: rgb(254, 242, 242);
 }
 
 .dialog-content {
