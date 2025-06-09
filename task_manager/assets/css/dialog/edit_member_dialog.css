@@ -264,7 +264,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid var(--border-color);
-  background-color: var(--light-gray);
+  background-color: #fff;
 }
 
 .user-name {

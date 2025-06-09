@@ -278,6 +278,7 @@
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid #e5e7eb;
+  background-color: #fff;
     flex-shrink: 0;
 }
 
@@ -317,6 +318,7 @@
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid #e5e7eb;
+  background-color: #fff;
     flex-shrink: 0;
 }
 

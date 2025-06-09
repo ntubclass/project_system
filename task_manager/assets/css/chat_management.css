@@ -180,7 +180,7 @@ th:nth-child(3), td:nth-child(3){
 .user-avatar {
     width: 32px;
     height: 32px;
-    background-color: #2563eb;
+    background-color: #fff;
     color: white;
     border-radius: 50%;
     display: flex;
