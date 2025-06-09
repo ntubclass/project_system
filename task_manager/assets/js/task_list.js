@@ -201,7 +201,6 @@ class TaskRenderer {
     const isOverdue = status === "overdue";
     const progress = task.progress || 0;
     const projectName = task.project_name || "";
-    const projectId = task.project_id || "";
 
     const dateLabel = "截止日期";
     const dateValue = task.end_date;
@@ -218,8 +217,43 @@ class TaskRenderer {
       // Silent error handling
     }
 
+    // Create avatar stack HTML
+    let avatarStackHTML = "";
+    if (task.member_avatars && task.member_avatars.length > 0) {
+      const ownerAvatar =
+        task.user_avatar || task.photo || "default-avatar.png";
+      const memberAvatars = task.member_avatars || [];
+
+      avatarStackHTML = `
+        <div class="user-avatar">
+          <div class="avatar-stack">
+            <!-- Display task owner avatar -->
+            <img src="${ownerAvatar}" class="avatar">
+            
+            <!-- Display up to 2 additional member avatars -->
+            ${memberAvatars
+              .slice(1, 3)
+              .map((avatar) => `<img src="${avatar}" class="avatar">`)
+              .join("")}
+            
+            <!-- Display member count -->
+            <div class="avatar-count">${task.member_count || 1}</div>
+          </div>
+        </div>
+      `;
+    } else {
+      // Fallback to single avatar if no member_avatars
+      avatarStackHTML = `
+        <div class="user-avatar">
+          <img src="${
+            task.photo || task.user_avatar || "default-avatar.png"
+          }" alt="User Avatar" class="avatar">
+        </div>
+      `;
+    }
+
     return `
-        <div class="task-card ${status}" data-task-id="${taskId}" data-project-id="${projectId}" onclick="window.location.href='/project_detail/${projectId}/?project=${projectId}'">
+        <div class="task-card ${status}" data-task-id="${taskId}">
             <div class="task-info">
                 <div class="task-title">${task.name || task.task_name}</div>
                 ${
@@ -240,11 +274,7 @@ class TaskRenderer {
                 </div>
             </div>
             <div class="card-info">
-              <div class="user-avatar">
-                  <img src="${
-                    task.photo || task.user_avatar || "default-avatar.png"
-                  }" alt="User Avatar" class="avatar">
-              </div>
+              ${avatarStackHTML}
               <div class="task-due-date ${isOverdue ? "overdue" : ""}">
                   <i class="date-icon far fa-calendar"></i>
                   ${dateLabel}：${dateFormatted}
