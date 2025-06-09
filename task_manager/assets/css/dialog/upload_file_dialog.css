@@ -146,12 +146,12 @@
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
     text-decoration: none;
 }
 
 .dialog-backdrop .select-file-btn:hover {
-    background-color: #2563EB;
+  background-color: #1b4fc6;
 }
 
 /* File Preview Area */
@@ -369,10 +369,11 @@
     background: #2563EB;
     color: #fff;
     border: none;
+    transition: background-color ease 0.2s;
 }
 
 .dialog-backdrop .save-btn:hover {
-    background: #2563EB;
+  background-color: #1b4fc6;
 }
 
 .dialog-backdrop .save-btn:disabled {
