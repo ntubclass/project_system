@@ -325,15 +325,24 @@ body {
     height: 16px;
 }
 
+.task-info-box{
+  display: flex !important;
+}
+
 /* Task info dialog styling */
 .task-info-container {
     font-family: "Montserrat", sans-serif;
     padding: 10px;
     max-width: 100%;
-    text-align: left;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .task-info-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 15px;
     padding: 8px;
     border-radius: 5px;

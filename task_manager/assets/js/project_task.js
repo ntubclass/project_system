@@ -640,14 +640,16 @@ document.addEventListener("DOMContentLoaded", function () {
           title: data.task_name || "任務詳情",
           html: `
           <div class="task-info-container">
-            <div class="task-info-row">
-              <strong>開始日期:</strong> ${data.start_date || "N/A"}
-            </div>
-            <div class="task-info-row">
-              <strong>截止日期:</strong> ${data.end_date || "N/A"}
-            </div>
-            <div class="task-info-row">
-              <strong>建立者:</strong> ${data.creator_name || "N/A"}
+            <div class="task-info-box">
+              <div class="task-info-row">
+                <strong>開始日期:</strong> ${data.start_date || "N/A"}
+              </div>
+              <div class="task-info-row">
+                <strong>截止日期:</strong> ${data.end_date || "N/A"}
+              </div>
+              <div class="task-info-row">
+                <strong>建立者:</strong> ${data.creator_name || "N/A"}
+              </div>
             </div>
             <div class="task-info-row">
               <strong>參與成員:</strong> 
