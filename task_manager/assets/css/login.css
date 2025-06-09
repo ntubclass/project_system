@@ -397,6 +397,33 @@ body {
   }
 }
 
+/* 新增：密碼顯示/隱藏切換按鈕樣式 - 內嵌在輸入框內 */
+.password-toggle {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  bottom: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  background-color: transparent;
+  border: none;
+  border-radius: 0 0.375rem 0.375rem 0;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 2;
+  user-select: none;
+}
+
+@media (max-width: 480px) {
+  .password-toggle {
+    width: 2.25rem;
+  }
+}
+
+
 .form-input {
   width: 100%;
   padding: 0.625rem 0.75rem 0.625rem 2.5rem;
@@ -409,11 +436,20 @@ body {
   min-height: 2.5rem;
 }
 
+/* 針對有切換按鈕的密碼輸入框調整右邊距 */
+.form-input.has-toggle {
+  padding-right: 2.5rem;
+}
+
 @media (max-width: 480px) {
   .form-input {
     padding: 0.75rem 0.625rem 0.75rem 2.25rem;
     font-size: 0.8125rem;
     min-height: 2.75rem;
+  }
+  
+  .form-input.has-toggle {
+    padding-right: 2.25rem;
   }
 }
 
