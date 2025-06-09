@@ -120,7 +120,7 @@ function setupTaskViewSwitching() {
         // Check if tasks exist and have items
         if (!tasks || tasks.length === 0) {
           taskViewerContainer.innerHTML =
-            '<div class="error-message">No tasks found.</div>';
+            '<div class="error-message">還未創建任務</div>';
           return;
         }
 
