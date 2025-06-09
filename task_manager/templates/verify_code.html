@@ -86,19 +86,6 @@
                                 驗證
                             </button>
                         </div>
-
-                        <div class="text-center" style="margin-top: 15px;">
-                            <p class="register-text">
-                                沒收到驗證碼？
-                            </p>
-                            <form method="post" action="{% url 'resend_code' %}" style="display: inline;">
-                                {% csrf_token %}
-                                <input type="hidden" name="email" value="{{ email }}">
-                                <button type="submit" class="register-link" style="background: none; border: none; cursor: pointer; color: #3b82f6; font-weight: 500;">重新發送</button>
-                            </form>
-                        </div>
-                    </form>
-
                     <div class="register">
                         <p class="register-text">
                             <a href="{% url 'forgot_password' %}" class="register-link">使用其他電子郵件地址</a>
