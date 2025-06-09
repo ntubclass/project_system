@@ -9,6 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmPasswordInput = document.getElementById('confirmPassword');
     const registerForm = document.getElementById('registerForm');
     
+    // 密碼切換相關元素
+    const passwordToggle = document.getElementById('passwordToggle');
+    const passwordToggleIcon = document.getElementById('passwordToggleIcon');
+    const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
+    const confirmPasswordToggleIcon = document.getElementById('confirmPasswordToggleIcon');
+    
     // 密碼強度相關元素
     const strengthMeter = document.getElementById('strengthMeter');
     const passwordInfo = document.getElementById('passwordInfo');
@@ -21,6 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 追蹤輸入框焦點狀態
     let focusedInput = null;
+    
+    // 追蹤密碼顯示狀態
+    let isPasswordVisible = false;
+    let isConfirmPasswordVisible = false;
     
     // 監聽滑鼠移動
     document.addEventListener('mousemove', (e) => {
@@ -45,6 +55,70 @@ document.addEventListener('DOMContentLoaded', function() {
         circles[4].style.transform = `translate(${mousePosition.x * 0.01}px, ${mousePosition.y * 0.01}px)`;
     }
     
+    // 密碼顯示/隱藏切換功能 - 主密碼
+    if (passwordToggle && passwordInput && passwordToggleIcon) {
+        passwordToggle.addEventListener('click', function() {
+            isPasswordVisible = !isPasswordVisible;
+            
+            if (isPasswordVisible) {
+                // 顯示密碼
+                passwordInput.type = 'text';
+                passwordToggleIcon.className = 'fas fa-eye-slash';
+                passwordToggle.classList.add('active');
+                passwordToggle.title = '隱藏密碼';
+            } else {
+                // 隱藏密碼
+                passwordInput.type = 'password';
+                passwordToggleIcon.className = 'fas fa-eye';
+                passwordToggle.classList.remove('active');
+                passwordToggle.title = '顯示密碼';
+            }
+            
+            // 保持焦點在輸入框上
+            passwordInput.focus();
+        });
+        
+        // 設置初始的 title 屬性
+        passwordToggle.title = '顯示密碼';
+        
+        // 防止密碼切換按鈕觸發表單提交
+        passwordToggle.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+        });
+    }
+    
+    // 密碼顯示/隱藏切換功能 - 確認密碼
+    if (confirmPasswordToggle && confirmPasswordInput && confirmPasswordToggleIcon) {
+        confirmPasswordToggle.addEventListener('click', function() {
+            isConfirmPasswordVisible = !isConfirmPasswordVisible;
+            
+            if (isConfirmPasswordVisible) {
+                // 顯示確認密碼
+                confirmPasswordInput.type = 'text';
+                confirmPasswordToggleIcon.className = 'fas fa-eye-slash';
+                confirmPasswordToggle.classList.add('active');
+                confirmPasswordToggle.title = '隱藏密碼';
+            } else {
+                // 隱藏確認密碼
+                confirmPasswordInput.type = 'password';
+                confirmPasswordToggleIcon.className = 'fas fa-eye';
+                confirmPasswordToggle.classList.remove('active');
+                confirmPasswordToggle.title = '顯示密碼';
+            }
+            
+            // 保持焦點在輸入框上
+            confirmPasswordInput.focus();
+        });
+        
+        // 設置初始的 title 屬性
+        confirmPasswordToggle.title = '顯示密碼';
+        
+        // 防止密碼切換按鈕觸發表單提交
+        confirmPasswordToggle.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+        });
+    }
+    
     // 添加輸入框焦點效果
     function setupInputFocus(inputElement, inputName) {
         if (inputElement) {
@@ -56,7 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
             inputElement.addEventListener('blur', () => {
                 focusedInput = null;
                 updateInputStyles();
-            });        }
+            });
+        }
     }
     
     // 設置所有輸入欄位的焦點事件處理
@@ -137,6 +212,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (iconElement) {
                         iconElement.style.color = '#3b82f6';
                     }
+                    
+                    // 為密碼框設置切換按鈕樣式
+                    const toggleElement = element.parentElement.querySelector('.password-toggle');
+                    if (toggleElement && (name === 'password' || name === 'confirmPassword')) {
+                        const isVisible = (name === 'password' && isPasswordVisible) || 
+                                        (name === 'confirmPassword' && isConfirmPasswordVisible);
+                        if (!isVisible) {
+                            toggleElement.style.color = '#3b82f6';
+                        }
+                    }
                 } else {
                     element.style.borderColor = '#cbd5e1';
                     element.style.boxShadow = 'none';
@@ -144,13 +229,55 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (iconElement) {
                         iconElement.style.color = '#94a3b8';
                     }
+                    
+                    // 恢復切換按鈕樣式
+                    const toggleElement = element.parentElement.querySelector('.password-toggle');
+                    if (toggleElement && (name === 'password' || name === 'confirmPassword')) {
+                        const isVisible = (name === 'password' && isPasswordVisible) || 
+                                        (name === 'confirmPassword' && isConfirmPasswordVisible);
+                        if (!isVisible) {
+                            toggleElement.style.color = '#94a3b8';
+                        }
+                    }
                 }
             }
         });
     }
-      // 表單驗證
+    
+    // 鍵盤快捷鍵支援
+    document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + Shift + P 切換密碼顯示
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'P') {
+            e.preventDefault();
+            if (document.activeElement === passwordInput && passwordToggle) {
+                passwordToggle.click();
+            } else if (document.activeElement === confirmPasswordInput && confirmPasswordToggle) {
+                confirmPasswordToggle.click();
+            }
+        }
+        
+        // ESC 鍵隱藏密碼（如果當前顯示）
+        if (e.key === 'Escape') {
+            if (isPasswordVisible && passwordToggle) {
+                passwordToggle.click();
+            }
+            if (isConfirmPasswordVisible && confirmPasswordToggle) {
+                confirmPasswordToggle.click();
+            }
+        }
+    });
+    
+    // 表單驗證
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
+            // 提交前確保密碼都是隱藏狀態
+            if (isPasswordVisible && passwordToggle) {
+                passwordToggle.click();
+            }
+            if (isConfirmPasswordVisible && confirmPasswordToggle) {
+                confirmPasswordToggle.click();
+            }
+            
             // 驗證密碼長度
             if (passwordInput.value.length < 8) {
                 e.preventDefault();
@@ -201,4 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return true;
         });
     }
+    
+    // 頁面載入時初始化
+    updateInputStyles();
 });
