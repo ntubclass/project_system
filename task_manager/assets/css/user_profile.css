@@ -95,6 +95,7 @@
 
 /* 用戶名稱和職稱 */
 .user-name {
+  text-align: center;
   font-size: 24px; 
   color: var(--text-dark);
   margin-bottom: 5px;
@@ -102,8 +103,8 @@
   font-family: 'Inter', sans-serif;
   width: 200px;
   overflow: hidden;
-white-space: nowrap;
-text-overflow: ellipsis;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .user-job {
