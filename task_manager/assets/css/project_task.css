@@ -271,30 +271,61 @@ body {
   transition: transform 0.2s ease;
 }
 
-.btn-update, .btn-edit{
-  color: var(--dark-blue);
+/* Action buttons - unified styling */
+.action-btn {
+    padding: 8px;
+    border: none;
+    background: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.btn-delete {
-  color: var(--dark-red);
+.action-btn:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+    transform: scale(1.15);
 }
 
-.btn-update:hover,
-.btn-edit:hover {
-  color: var(--button-blue-hover);
+/* Edit button specific hover - blue (exclude update buttons) */
+.action-btn.edit:hover:not(.btn-update) {
+    color: #3b82f6;
+    background-color: #eff6ff;
+    transform: scale(1.15);
 }
 
-.btn-delete:hover {
-  color: var(--button-red-hover);
+/* Delete button specific hover - red */
+.action-btn.delete:hover {
+    color: #dc2626;
+    background-color: #fef2f2;
+    transform: scale(1.15);
 }
 
-.btn-view:hover {
-  color: var(--dark-green);
+/* Update button specific hover - yellow/amber */
+.action-btn.btn-update:hover {
+    color: #d97706;
+    background-color: #fffbeb;
+    transform: scale(1.15);
 }
 
-.btn-update:hover {
-  color: var(--dark-blue);
+/* Other buttons specific hover - yellow/amber */
+.action-btn:hover:not(.edit):not(.delete) {
+    color: #d97706;
+    background-color: #fffbeb;
+    transform: scale(1.15);
 }
+
+.action-btn svg,
+.action-btn i {
+    width: 16px;
+    height: 16px;
+}
+
+/* 已移除特定顏色樣式，使用統一的灰色樣式 */
 
 @media (max-width: 768px) {
   .task-item {

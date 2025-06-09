@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             
-            fetch(`/download_file/${window.PROJECT_ID}/`, {
+            fetch(`/download_file/1/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrfToken,

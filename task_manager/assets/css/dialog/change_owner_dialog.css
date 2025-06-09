@@ -23,10 +23,25 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.dialog-backdrop:modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* 統一按鈕樣式 */
+.action-btn.btn-change-owner {
+    color: var(--light-gray);
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn.btn-change-owner:hover {
+    color: #3b82f6;
+    background-color: #eff6ff;
+    transform: scale(1.15);
+}
+
+.action-btn.btn-change-owner:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
 }
 
 /* Dialog Container */
@@ -475,6 +490,7 @@
 .action-btn.btn-change-owner:hover {
     color: #2563EB;
     background-color: #eff6ff;
+    transform: scale(1.15);
 }
 
 .action-btn.btn-change-owner:focus {
