@@ -1,0 +1,132 @@
+/* 強制覆蓋Bootstrap預設breadcrumb分隔符 - 最高優先級 */
+html body .breadcrumb,
+html body nav.breadcrumb,
+html body ol.breadcrumb,
+html body ul.breadcrumb {
+  --bs-breadcrumb-divider: ">" !important;
+}
+
+/* 完全覆蓋Bootstrap的breadcrumb-item before偽元素 */
+html body .breadcrumb-item + .breadcrumb-item::before,
+html body .breadcrumb .breadcrumb-item + .breadcrumb-item::before,
+html body nav.breadcrumb .breadcrumb-item + .breadcrumb-item::before,
+html body ol.breadcrumb li.breadcrumb-item + li.breadcrumb-item::before,
+html body ul.breadcrumb li.breadcrumb-item + li.breadcrumb-item::before {
+  content: "" !important;
+  display: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  float: none !important;
+}
+
+/* 麵包屑導航樣式 */
+.breadcrumb-container {
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+/* 強制覆蓋所有可能的Bootstrap breadcrumb樣式 */
+.breadcrumb, 
+nav.breadcrumb,
+ol.breadcrumb,
+ul.breadcrumb,
+.breadcrumb-container .breadcrumb,
+.breadcrumb-container nav.breadcrumb {
+  --bs-breadcrumb-divider: ">" !important;
+  display: flex !important;
+  align-items: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  font-size: 13px;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.breadcrumb-item,
+.breadcrumb .breadcrumb-item,
+nav.breadcrumb .breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after,
+.breadcrumb .breadcrumb-item:not(:last-child)::after,
+nav.breadcrumb .breadcrumb-item:not(:last-child)::after {
+  content: ">" !important;
+  margin: 0 8px;
+  color: #6c757d;
+  font-weight: 400;
+}
+
+/* 完全覆蓋 Bootstrap 預設的分隔符和所有可能的before偽元素 */
+.breadcrumb-item + .breadcrumb-item::before,
+.breadcrumb-item:not(:first-child)::before,
+li.breadcrumb-item + li.breadcrumb-item::before {
+  content: "" !important;
+  display: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* 隱藏所有圖標 */
+.breadcrumb-link i,
+.breadcrumb-item i {
+  display: none !important;
+}
+
+.breadcrumb-link {
+  color: #6c757d;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0px; /* 移除圖標後不需要間距 */
+}
+
+.breadcrumb-link:hover {
+  color: #495057;
+}
+
+.breadcrumb-item:last-child .breadcrumb-link {
+  color: #495057;
+  font-weight: 500;
+  cursor: default;
+}
+
+.breadcrumb-item:last-child .breadcrumb-link:hover {
+  color: #495057;
+}
+
+/* 響應式調整 */
+@media screen and (max-width: 768px) {
+  .breadcrumb {
+    font-size: 12px;
+  }
+  
+  .breadcrumb-item:not(:last-child)::after {
+    margin: 0 4px;
+  }
+}
+
+/* 面包屑與標題組合樣式 */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.page-header .section-title {
+  margin-bottom: 0;
+}
+
+/* 工具栏中的面包屑样式 */
+.toolbar .breadcrumb-container {
+  margin-bottom: 0;
+}
+
+.toolbar .breadcrumb {
+  font-size: 12px;
+}

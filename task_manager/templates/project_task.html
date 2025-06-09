@@ -22,6 +22,36 @@
 
 {% block content %}
 <div class="project-overview-container">
+  <!-- 麵包屑導航 -->
+  <div class="breadcrumb-container">
+      <nav class="breadcrumb">
+          <div class="breadcrumb-item">
+              <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                  <i class="fa-solid fa-home"></i>
+                  首頁
+              </a>
+          </div>
+          <div class="breadcrumb-item">
+              <a href="{% url 'project' %}" class="breadcrumb-link">
+                  <i class="fa-solid fa-folder"></i>
+                  專案列表
+              </a>
+          </div>          {% if project_name %}          <div class="breadcrumb-item">
+              <a href="{% url 'project_detail' project_id %}?project={{project_id}}" class="breadcrumb-link">
+                  <i class="fa-solid fa-diagram-project"></i>
+                  {{ project_name }}
+              </a>
+          </div>
+          {% endif %}
+          <div class="breadcrumb-item">
+              <span class="breadcrumb-link">
+                  <i class="fa-solid fa-tasks"></i>
+                  任務概覽
+              </span>
+          </div>
+      </nav>
+  </div>
+
   <div class="title-bar">
     <h1 class="section-title">任務概覽</h1>
     <button class="create-btn" id="openCreateTaskBtn">
@@ -54,11 +84,10 @@
             <div class="progress-fill" style="width: {{ task.progress }}%" progress="{{ task.progress }}"></div>
           </div>
           <span class="progress-text">{{ task.progress }}%</span>
-        </div>
-        <div class="task-actions">
-          <button class="btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
-          <button class="btn-edit" data-task-id="{{ task.task_id }}"><i class="fas fa-edit"></i></button>
-          <button class="btn-delete" data-task-id="{{ task.task_id }}"><i class="fas fa-times"></i></button>
+        </div>        <div class="task-actions">
+          <button class="action-btn edit btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
+          <button class="action-btn edit btn-edit" data-task-id="{{ task.task_id }}"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete btn-delete" data-task-id="{{ task.task_id }}"><i class="fas fa-times"></i></button>
         </div>
       </div>
       {% endfor %}
@@ -87,9 +116,8 @@
             <div class="progress-fill" style="width: {{ task.progress }}%" progress="{{ task.progress }}"></div>
           </div>
           <span class="progress-text">{{ task.progress }}%</span>
-        </div>
-        <div class="task-actions">
-          <button class="btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
+        </div>        <div class="task-actions">
+          <button class="action-btn edit btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
         </div>
       </div>
       {% endfor %}

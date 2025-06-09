@@ -1,4 +1,4 @@
-.{% extends 'project_detail_base.html' %}
+{% extends 'project_detail_base.html' %}
 {% load static %}
 
 {% block title %}{{ project_name }} | 專案詳情{% endblock %}
@@ -24,6 +24,32 @@
 
 {% block content %}
 <div class="project-overview-container">
+  <!-- 麵包屑導航 -->
+  <div class="breadcrumb-container">
+      <nav class="breadcrumb">
+          <div class="breadcrumb-item">
+              <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                  <i class="fa-solid fa-home"></i>
+                  首頁
+              </a>
+          </div>
+          <div class="breadcrumb-item">
+              <a href="{% url 'project' %}" class="breadcrumb-link">
+                  <i class="fa-solid fa-folder"></i>
+                  專案列表
+              </a>
+          </div>
+          {% if project_name %}
+          <div class="breadcrumb-item">
+              <span class="breadcrumb-link">
+                  <i class="fa-solid fa-diagram-project"></i>
+                  {{ project_name }}
+              </span>
+          </div>
+          {% endif %}
+      </nav>
+  </div>
+
   <h1 class="section-title">專案概覽</h1>
 
   <div class="stats-grid">
@@ -40,6 +66,19 @@
                 <div class="progress-fill" progress="{{ total_progress }}"></div>
             </div>
         </div>
+
+         <!-- 時間卡片 -->
+      <div class="stat-card">
+          <div class="stat-label">剩餘時間</div>
+          <div class="stat-value">
+              {{end_date_diff}}天
+              <div class="time-icon">
+                <i class="fa-solid fa-clock"></i>
+              </div>
+          </div>
+          <div class="additional-info">截止日期：{{end_date}}</div>
+      </div>
+
       
       <!-- 成員卡片 -->
       <div class="stat-card">
@@ -53,17 +92,15 @@
           <div class="additional-info">管理成員</div>
       </div>
       
-      <!-- 時間卡片 -->
       <div class="stat-card">
-          <div class="stat-label">剩餘時間</div>
-          <div class="stat-value">
-              {{end_date_diff}}天
-              <div class="time-icon">
-                <i class="fa-solid fa-clock"></i>
-              </div>
-          </div>
-          <div class="additional-info">截止日期：{{end_date}}</div>
-      </div>
+            <div class="stat-label">描述</div>
+            <div class="stat-value">
+            {{description}}
+            <div class="description-icon">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+            </div>
+        </div>
   </div>
   <div class="toolbar">
     <div class="toolbar-left">

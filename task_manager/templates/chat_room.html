@@ -15,6 +15,36 @@
 {% endblock %}
 
 {% block content %}
+<!-- 麵包屑導航 -->
+<div class="breadcrumb-container">
+    <nav class="breadcrumb">
+        <div class="breadcrumb-item">
+            <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                <i class="fa-solid fa-home"></i>
+                首頁
+            </a>
+        </div>
+        <div class="breadcrumb-item">
+            <a href="{% url 'project' %}" class="breadcrumb-link">
+                <i class="fa-solid fa-folder"></i>
+                專案列表
+            </a>
+        </div>        {% if project_name %}        <div class="breadcrumb-item">
+            <a href="{% url 'project_detail' project_id %}?project={{project_id}}" class="breadcrumb-link">
+                <i class="fa-solid fa-diagram-project"></i>
+                {{ project_name }}
+            </a>
+        </div>
+        {% endif %}
+        <div class="breadcrumb-item">
+            <span class="breadcrumb-link">
+                <i class="fa-solid fa-comments"></i>
+                聊天室
+            </span>
+        </div>
+    </nav>
+</div>
+
 <div class="project">
     <div class="main-content" id="mainContent">
         <div class="chat-notification-banner" {% if not has_pin %}style="display:none"{% endif %}>
