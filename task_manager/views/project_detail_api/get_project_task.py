@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from task_manager.models.user_info import UserInfo
 from datetime import datetime
+from task_manager.models.task_member import TaskMember
 
 @login_required(login_url="login")
 def main(request, project_id):
@@ -26,6 +27,28 @@ def main(request, project_id):
             else:
                 status = "in-progress"
                 
+            # Get task members and their avatars
+            members = TaskMember.objects.filter(task_id=task.task_id).select_related('user_id__userinfo')
+            member_count = members.count() + 1  # +1 for task owner
+            
+            # Get avatars
+            member_avatars = []
+            # First add task owner avatar
+            try:
+                member_avatars.append(UserInfo.objects.get(user_id=task.user_id).photo.url)
+            except:
+                # If owner doesn't have an avatar
+                pass
+            
+            # Then add members' avatars
+            for member in members:
+                try:
+                    avatar_url = member.user_id.userinfo.photo.url
+                    member_avatars.append(avatar_url)
+                except:
+                    # If a member doesn't have an avatar, skip
+                    continue
+                
             task_data = {
                 "id": task.task_id,
                 "project_id": task.project_id.project_id,
@@ -38,6 +61,8 @@ def main(request, project_id):
                 "description": task.content,
                 "start_date": task.start_date.strftime("%Y-%m-%d %H:%M:%S"),
                 "end_date": task.end_date.strftime("%Y-%m-%d %H:%M:%S"),
+                "member_count": member_count,
+                "member_avatars": member_avatars,
             }
             context['tasks_data'].append(task_data)
 
