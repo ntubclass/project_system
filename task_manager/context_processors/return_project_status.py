@@ -38,6 +38,7 @@ def global_variables(request):
         return {
             'project_name': project.name,
             'project_status': status,
+            'is_project_admin': is_creator,
         }
     else:
         return {
