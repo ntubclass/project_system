@@ -13,6 +13,7 @@ def main(request, project_id):
         "project_id": project_id,
         "my_tasks": [],
         "participate_tasks": [],
+        "date_now": datetime.now().strftime("%Y-%m-%d"),
     }
     
      # 檢查用戶是否有權限查看此專案（是創建者或成員）
