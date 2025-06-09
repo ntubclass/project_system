@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="duplicate-files-warning">
                         <div>
                             <i class="fa-solid fa-exclamation-triangle"></i>
-                            <div>
+                            <div class="duplicate-files-warning-box">
                                 <p>以下檔案已存在：</p>
                                 ${fileListHtml}
                                 <p>是否要覆蓋這些檔案？</p>
