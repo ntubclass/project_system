@@ -172,6 +172,7 @@ border-radius: 8px;
 .dialog-backdrop .member-results li div {
     display: flex;
     flex-direction: row;
+    align-items: center;
     flex: 1;
 }
 
@@ -179,7 +180,6 @@ border-radius: 8px;
     font-size: 14px;
     font-weight: 500;
     color: #222;
-    margin-bottom: 2px;
 }
 
 .dialog-backdrop .member-results li span.user-email {
