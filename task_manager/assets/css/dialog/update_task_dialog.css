@@ -1,384 +1,412 @@
-/* 對話框背景遮罩 */
+﻿/* Dialog Backdrop */
 .dialog-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    margin: auto;
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
     background-color: transparent;
     padding: 0;
     border: none;
     outline: none;
-    overflow: visible;
+    overflow: hidden;
     z-index: 1000;
-  }
-  
-  .dialog-backdrop::backdrop {
+}
+
+/* 確保對話框在沒有 open 屬性時隱藏 */
+.dialog-backdrop:not([open]) {
+    display: none;
+}
+
+.dialog-backdrop::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  /* 確保對話框在不同的浏覽器中顯示一致 */
-  .dialog-backdrop:modal {
+}
+
+.dialog-backdrop:modal {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  /* 對話框容器 */
-  #updateTaskDialog .dialog-container {
+}
+
+/* Dialog Container */
+.dialog-backdrop .dialog-container {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    height: auto;
-    max-height: 90vh;
+    max-width: 420px;
+    margin: 0 auto;
     overflow-y: auto;
-    overflow-x: hidden;
-    margin: 0;
     animation: dialog-fade-in 0.2s ease-out;
-  }
-  
-  @keyframes dialog-fade-in {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  @keyframes dialog-fade-out {
-    from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-20px); }
-  }
-  
-  .dialog-backdrop[closing] .dialog-container {
+}
+
+@keyframes dialog-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes dialog-fade-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.dialog-backdrop[closing] .dialog-container {
     animation: dialog-fade-out 0.2s ease-out forwards;
-  }
-  
-  /* 對話框內容 */
-  .dialog-content {
+}
+
+/* Dialog Content */
+.dialog-backdrop .dialog-content {
     padding: 24px;
-    width: 100%;
-  }
-  
-  /* 對話框標題列 */
-  .dialog-header {
+}
+
+/* Dialog Header */
+.dialog-backdrop .dialog-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 20px;
-  }
-  
-  .close-btn:hover {
-    background-color: #f3f4f6;
-  }
-  
-  /* 對話框標題 */
-  .dialog-title {
-    font-size: 20px;
-    font-weight: 500;
+}
+
+.dialog-backdrop .dialog-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
     margin: 0;
-    color: #404040;
-  }
-  
-  /* 表單組件 */
-  .form-group {
+}
+
+/* Close Button */
+.dialog-backdrop .close-btn {
+    background: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+}
+
+.dialog-backdrop .close-btn:hover {
+    background: #f5f7fa;
+}
+
+/* Form Components */
+.dialog-backdrop .form-group {
     margin-bottom: 20px;
-  }
-  
-  .form-group label {
+}
+
+.dialog-backdrop .form-group label {
     display: block;
     margin-bottom: 8px;
+    font-size: 15px;
     font-weight: 500;
-    color: #404040;
-  }
-  
-  #content{
-    height: 120px;
-    resize: none;
-  }
-  
-  .form-control {
+    color: #222;
+}
+
+.dialog-backdrop .form-control {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #d0d5dd;
-    font-size: 14px;
-    background-color: #ffffff;
-  }
-  
-  .form-control:focus {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.dialog-backdrop .form-control:focus {
     border-color: #2563EB;
     outline: none;
-  }
-  
-  /* 對話框按鈕 */
-  .dialog-actions {
+}
+
+.dialog-backdrop #content {
+    height: 120px;
+    resize: none;
+}
+
+/* Dialog Actions */
+.dialog-backdrop .dialog-actions {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
     margin-top: 24px;
-  }
-  
-  .cancel-btn {
-    padding: 8px 16px;
-    border: 1px solid #d0d5dd;
-    background-color: #ffffff;
-    color: #404040;
-    border-radius: 4px;
+}
+
+.dialog-backdrop .cancel-btn,
+.dialog-backdrop .save-btn {
+    min-width: 80px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
-  }
-  
-  .submit-btn {
-    padding: 8px 16px;
-    background-color: #2563EB;
-    color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.dialog-backdrop .cancel-btn {
+    background: #fff;
+    color: #222;
+    border: 1px solid #e0e0e0;
+}
+
+.dialog-backdrop .cancel-btn:hover {
+    background: #f5f7fa;
+}
+
+.dialog-backdrop .save-btn {
+    background: #2563EB;
+    color: #fff;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color ease 0.2s;
-  }
-  
-  .cancel-btn:hover {
-    background-color: #f3f4f6;
-  }
-  
-  .submit-btn:hover {
-    background-color: #1d4ed8; /* 略微深色的藍色 */
-  }
-  
-  
-  .form-errors {
-    margin-top: 15px;
-  }
-  
-  .form-errors .alert {
+}
+
+.dialog-backdrop .save-btn:hover {
+    background: #1b4fc6;
+}
+
+/* Error Styling */
+.dialog-backdrop .form-errors {
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.dialog-backdrop .form-errors .alert {
     padding: 10px 15px;
     margin-bottom: 10px;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 14px;
-  }
-  
-  .form-errors .alert-warning {
-    background-color: #FFF3CD;
-    border: 0.5px solid #FFECB5;
-    color: #79611C;
-  }
-  
-  .form-errors .alert-danger {
-    background-color: #F8D7DA;
-    border: 0.5px solid #F5C2C7;
-    color: #92373F;
-  }
-
-/* Progress bar styles */
-.progress-section {
-  margin-bottom: 20px;
 }
 
-.progress-label,
-.progress-value{
-  font-size: 14px;
-  color: #404040;
-  margin-bottom: 5px;
+.dialog-backdrop .form-errors .alert-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffecb5;
+    color: #856404;
 }
 
-.progress-label {
-  float: left;
+.dialog-backdrop .form-errors .alert-danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    color: #721c24;
 }
 
-.progress-value {
-  float: right;
+/* Progress Section */
+.dialog-backdrop .progress-section {
+    margin-bottom: 20px;
 }
 
-.progress-bar-container {
-  clear: both;
-  background-color: #e9ecef;
-  border-radius: 10px;
-  height: 8px;
-  margin-top: 25px;
-  position: relative;
+.dialog-backdrop .progress-label,
+.dialog-backdrop .progress-value {
+    font-size: 14px;
+    color: #222;
+    margin-bottom: 5px;
 }
 
-.progress-bar {
-  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
-  height: 8px;
-  border-radius: 10px;
-  position: relative;
+.dialog-backdrop .progress-label {
+    float: left;
 }
 
-.progress-marker {
-  width: 24px;
-  height: 24px;
-  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
-  border: 2px solid #fff;
-  border-radius: 50%;
-  position: absolute;
-  right: -2px;
-  top: 50%;
-  transform: translateY(-50%);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.dialog-backdrop .progress-value {
+    float: right;
 }
 
-/* Progress history table */
-.progress-history {
-  margin: 30px 0;
+.dialog-backdrop .progress-bar-container {
+    clear: both;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    height: 8px;
+    margin-top: 25px;
+    position: relative;
 }
 
-.progress-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
+.dialog-backdrop .progress-bar {
+    background: linear-gradient(90deg, #2563EB, #1b4fc6);
+    height: 8px;
+    border-radius: 10px;
+    position: relative;
 }
 
-/* 表格標題行 */
-.progress-table-header th {
-  padding: 12px 8px;
-  text-align: center;
-  font-weight: 500;
-  font-size: 14px;
-  color: #6b7280;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: #f9fafb;
+.dialog-backdrop .progress-marker {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(90deg, #2563EB, #1b4fc6);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* 表格內容行 */
-.progress-table-row td {
-  padding: 16px 8px;
-  text-align: center;
-  font-size: 14px;
-  color: #374151;
-  border-bottom: 1px solid #f3f4f6;
-  word-wrap: break-word;
-  vertical-align: middle;
+/* Progress History */
+.dialog-backdrop .progress-history {
+    margin: 30px 0;
 }
 
-/* 最後一行去除底邊框 */
-.progress-table-row:last-child td {
-  border-bottom: none;
+.dialog-backdrop .progress-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
 }
 
-/* 行懸停效果 */
-.progress-table-row:hover {
-  background-color: #f9fafb;
+.dialog-backdrop .progress-table-header th {
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    color: #666;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
 }
 
-/* 列寬度調整 */
-.progress-table th:nth-child(1),
-.progress-table td:nth-child(1) {
-  width: 20%;
+.dialog-backdrop .progress-table-row td {
+    padding: 16px 8px;
+    text-align: center;
+    font-size: 14px;
+    color: #222;
+    border-bottom: 1px solid #f3f4f6;
+    word-wrap: break-word;
+    vertical-align: middle;
 }
 
-.progress-table th:nth-child(2),
-.progress-table td:nth-child(2) {
-  width: 25%;
+.dialog-backdrop .progress-table-row:last-child td {
+    border-bottom: none;
 }
 
-.progress-table th:nth-child(3),
-.progress-table td:nth-child(3) {
-  width: 35%;
-  text-align: center; /* 事項欄位靠左對齊 */
-  padding-left: 16px;
-  /* white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden; */
+.dialog-backdrop .progress-table-row:hover {
+    background-color: #f9f9f9;
 }
 
-.progress-table th:nth-child(4),
-.progress-table td:nth-child(4) {
-  width: 20%;
+/* Progress Input Group */
+.dialog-backdrop .add-progress-entry {
+    margin-top: 20px;
 }
 
-
-/* 載入中訊息 */
-.loading-message td {
-  text-align: center;
-  color: #9ca3af;
-  font-style: italic;
+.dialog-backdrop .input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
 }
 
-/* Add progress entry */
-.add-progress-entry {
-  margin-top: 20px;
+.dialog-backdrop .input-group .form-control {
+    flex: 1;
+    border: none;
+    border-radius: 0;
+    padding: 12px 16px;
+    font-size: 14px;
+    background-color: transparent;
+    outline: none;
 }
 
-/* 修改輸入框組樣式以實現圖二的外觀 */
-.input-group {
-  display: flex;
-  align-items: center;
-  border: 1px solid #d0d5dd; /* 統一的邊框 */
-  border-radius: 8px; /* 統一的圓角 */
-  overflow: hidden; /* 確保圓角效果 */
-  background-color: white; /* 統一背景色 */
+.dialog-backdrop .input-addon {
+    width: 80px;
+    border-left: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    position: relative;
 }
 
-/* 主要輸入框樣式 */
-.input-group .form-control {
-  flex: 1;
-  border: none; /* 移除邊框 */
-  border-radius: 0; /* 移除圓角 */
-  padding: 14px 16px; /* 調整內邊距 */
-  font-size: 14px;
-  background-color: transparent; /* 透明背景 */
-  outline: none; /* 移除outline */
+.dialog-backdrop .progress-input {
+    width: 100%;
+    border: none;
+    padding: 12px 25px 12px 12px;
+    font-size: 14px;
+    text-align: center;
+    background-color: transparent;
+    outline: none;
 }
 
-/* 分隔線和進度輸入框容器 */
-.input-addon {
-  width: 80px; /* 增加寬度以容納 % 符號 */
-  border-left: 1px solid #d0d5dd; /* 左側分隔線 */
-  display: flex;
-  align-items: center;
-  background-color: #f9fafb; /* 輕微的背景色差異 */
-  position: relative;
+.dialog-backdrop .input-addon::after {
+    content: '%';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 14px;
+    pointer-events: none;
 }
 
-/* 進度輸入框樣式 */
-.progress-input {
-  width: 100%;
-  border: none; /* 移除邊框 */
-  padding: 14px 25px 14px 12px; /* 右側留出空間給 % 符號 */
-  font-size: 14px;
-  text-align: center;
-  background-color: transparent; /* 透明背景 */
-  outline: none; /* 移除outline */
+.dialog-backdrop .input-group:focus-within {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
 }
 
-/* % 符號樣式 - 定位在輸入框內部右側 */
-.input-addon::after {
-  content: '%';
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #666;
-  font-size: 14px;
-  pointer-events: none; /* 防止阻擋輸入框的點擊 */
+/* Height-based Responsive Design for Laptop Screens */
+@media screen and (max-height: 768px) {
+  .dialog-backdrop .dialog-content {
+        padding: 16px;
+    }
+    
+    .dialog-backdrop .dialog-title {
+        font-size: 20px;
+    }
+    
+    .dialog-backdrop .dialog-header {
+        margin-bottom: 16px;
+    }
+    
+    .dialog-backdrop .dialog-actions {
+        margin-top: 16px;
+    }
+    
+    .dialog-backdrop .form-group {
+        margin-bottom: 16px;
+    }
 }
 
-/* 整體輸入組的焦點效果 */
-.input-group:focus-within {
-  border-color: #2563EB;
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
-}
-
-/* Update dialog actions */
-.dialog-actions {
-  justify-content: space-between;
-  margin-top: 30px;
-}
-
-.cancel-btn {
-  color: #dc3545;
-  border-color: #dc3545;
-}
-
-/* For the more options menu dots */
-.more-options {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 20px;
-  color: #404040;
+@media screen and (max-height: 600px) {
+  .dialog-backdrop .dialog-content {
+        padding: 12px;
+    }
+    
+    .dialog-backdrop .dialog-title {
+        font-size: 18px;
+    }
+    
+    .dialog-backdrop .dialog-header {
+        margin-bottom: 12px;
+    }
+    
+    .dialog-backdrop .dialog-actions {
+        margin-top: 12px;
+        gap: 8px;
+    }
+    
+    .dialog-backdrop .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .dialog-backdrop .cancel-btn,
+    .dialog-backdrop .save-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .dialog-backdrop .form-control,
+    .dialog-backdrop .progress-input {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
 }

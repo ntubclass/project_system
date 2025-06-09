@@ -4,6 +4,7 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/files.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/upload_file_dialog.css' %}">
 {% endblock %}
 
 {% block sidebar %}
@@ -16,6 +17,36 @@
 
 {% block content %}
 <div class="project-overview-container">
+    <!-- 麵包屑導航 -->
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <div class="breadcrumb-item">
+                <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-home"></i>
+                    首頁
+                </a>
+            </div>
+            <div class="breadcrumb-item">
+                <a href="{% url 'project' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-folder"></i>
+                    專案列表
+                </a>
+            </div>            {% if project_name %}            <div class="breadcrumb-item">
+                <a href="{% url 'project_detail' project_id %}?project={{project_id}}" class="breadcrumb-link">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    {{ project_name }}
+                </a>
+            </div>
+            {% endif %}
+            <div class="breadcrumb-item">
+                <span class="breadcrumb-link">
+                    <i class="fa-solid fa-file"></i>
+                    檔案共享
+                </span>
+            </div>
+        </nav>
+    </div>
+
     <div class="title-bar">
         <h1 class="section-title">檔案共享</h1>
         <button class="upload-btn" id="openUploadFileBtn" aria-label="Upload File">
@@ -74,7 +105,7 @@
                                         <a href="#" class="action-btn download-btn">
                                             <i class="fa-solid fa-download"></i>
                                         </a>
-                                        <button class="action-btn delete-btn" onclick="deleteFile({{ i.file_id }}, '{{ i.file_name }}')" title="刪除">
+                                        <button class="action-btn delete" onclick="deleteFile({{ i.file_id }}, '{{ i.file_name }}')" title="刪除">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>

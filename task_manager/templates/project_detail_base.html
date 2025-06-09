@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% comment %} <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> {% endcomment %}
   <title>{% block title %}任務管理系統{% endblock %}</title>
   <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
   <link rel="stylesheet" href="{% static 'css/base/reset.css' %}">
@@ -11,6 +12,7 @@
   <link rel="stylesheet" href="{% static 'css/base/font-awesome.css' %}">
   <link rel="stylesheet" href="{% static 'css/base/variables.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/alert.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/breadcrumb.css' %}?v=20250608">
   <link rel="stylesheet" href="{% static 'css/layout/project_detail_header.css' %}">
   <link rel="stylesheet" href="{% static 'css/layout/project_detail_sidebar.css' %}">
   <link rel="stylesheet" href="{% static 'css/base/sweetalert2.css' %}">
@@ -39,6 +41,7 @@
     {% endblock %}
   </main>
   
+  {% csrf_token %}
   <script src="{% static 'js/project_detail_layout.js' %}"></script>
   <script src="{% static 'js/dialog.js' %}"></script>
   <script src="{% static 'js/alert.js' %}"></script>

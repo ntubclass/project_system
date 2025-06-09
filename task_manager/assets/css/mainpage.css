@@ -356,29 +356,56 @@ a{
   flex-wrap: nowrap;
 }
 
-.btn-edit, .btn-delete{
-    background-color: transparent;
+/* 已移除重複的按鈕定義，改用統一的 .action-btn 樣式 */
+
+/* Action buttons - unified styling */
+.action-btn {
+    padding: 8px;
     border: none;
-    transition: color .2s ease;
-    transition: transform 0.3s ease;
+    background: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.btn-edit{
-  color: var(--dark-blue);
+.action-btn:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+    transform: scale(1.15);
 }
 
-.btn-delete{
-  color: var(--dark-red);
-  font-size: 18px;
+/* Edit button specific hover - blue */
+.action-btn.edit:hover {
+    color: #3b82f6;
+    background-color: #eff6ff;
+    transform: scale(1.15);
 }
 
-.card-header .btn-edit:hover {
-  color: var(--button-blue-hover);
+/* Delete button specific hover - red */
+.action-btn.delete:hover {
+    color: #dc2626;
+    background-color: #fef2f2;
+    transform: scale(1.15);
 }
 
-.card-header .btn-delete:hover {
-  color: var(--button-red-hover);
+/* Other buttons specific hover - yellow/amber */
+.action-btn:hover:not(.edit):not(.delete) {
+    color: #d97706;
+    background-color: #fffbeb;
+    transform: scale(1.15);
 }
+
+.action-btn svg,
+.action-btn i {
+    width: 16px;
+    height: 16px;
+}
+
+/* 已移除特定顏色樣式，使用統一的灰色樣式 */
 
 .project-title {
   font-size: var(--font-size-18);

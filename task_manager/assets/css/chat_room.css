@@ -381,16 +381,5 @@
   }
 }
 
-.btn-delete {
-    background: none;
-    border: none;
-    color: var(--light-gray);
-    cursor: pointer;
-    transition: color 0.3s ease;
-    transition: transform 0.3s ease;
-}
-
-.btn-delete:hover {
-    transform: scale(1.15);
-    color: var(--button-red-hover);
-}
+/* 已移除特定顏色樣式，使用統一的灰色樣式
+.btn-delete 類別應改為使用 .action-btn delete 類別 */

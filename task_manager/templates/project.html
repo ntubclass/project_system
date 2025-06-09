@@ -29,11 +29,10 @@
                             <div>
                                 <div class="project-title">{{i.name}}</div>
                                 <div class="status-null status-{{ i.status|lower }}">{{i.status}}</div>
-                            </div>
-                            {% if i.can_edit %}
+                            </div>                            {% if i.can_edit %}
                                 <div class='btn-box'>
-                                    <button class="btn-edit"  data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-delete" data-project-id="{{ i.project_id }}" onclick="event.stopPropagation(); handleButtonClick()"><i class="fas fa-times"></i></button>
+                                    <button class="action-btn edit btn-edit" data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete btn-delete" data-project-id="{{ i.project_id }}" onclick="event.stopPropagation(); handleButtonClick()"><i class="fas fa-times"></i></button>
                                 </div>
                             {% endif %}
                         </div>
@@ -58,7 +57,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="tasks">{{i.task_count}}個任務</div>
-                        <a href="{% url 'project_detail' i.project_id %}" class="details-btn">查看詳情</a>
+                        <a href="{% url 'project_detail' i.project_id %}?project={{i.project_id}}" class="details-btn">查看詳情</a>
                     </div>
                 </div>
             {% endfor %}
