@@ -562,21 +562,21 @@ dialog:not([open]) {
 /* 重复文件警告样式 */
 .duplicate-files-warning {
     padding: 24px;
-    background-color: #fff3cd;
-    border: 1px solid #ffeeba;
+    background-color: #EFF6FF;
     border-radius: 8px;
     margin-bottom: 20px;
 }
 
 .duplicate-files-warning > div {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     gap: 15px;
 }
 
 .duplicate-files-warning i {
     font-size: 24px;
-    color: #f39c12;
+    color: #2563EB;
     flex-shrink: 0;
 }
 
@@ -595,7 +595,14 @@ dialog:not([open]) {
     overflow-y: auto;
 }
 
+.duplicate-files-warning-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .duplicate-files-warning li {
+    text-align: center;
     margin-bottom: 16px;
     padding-left: 0;
     display: block;
@@ -615,7 +622,7 @@ dialog:not([open]) {
     content: "•";
     display: inline-block;
     margin-right: 8px;
-    color: #f39c12;
+    color: #2563EB;
     vertical-align: top;
     padding-top: 0.3em;
 }
