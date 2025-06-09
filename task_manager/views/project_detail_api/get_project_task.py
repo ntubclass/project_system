@@ -27,6 +27,7 @@ def main(request, project_id):
                 
             task_data = {
                 "id": task.task_id,
+                "project_id": task.project_id.project_id,
                 "name": task.name,
                 "username": task.user_id.username,
                 "user_avatar": UserInfo.objects.get(user_id=task.user_id).photo.url,

@@ -86,10 +86,11 @@ document.addEventListener("DOMContentLoaded", function () {
         dialog.removeAttribute("closing");
         dialog.close();
       }, 200);
-    }    if (dialog) {
+    }
+    if (dialog) {
       dialog.addEventListener("click", (e) => {
         // 找到 dialog content 元素
-        const dialogContent = dialog.querySelector('.dialog-content');
+        const dialogContent = dialog.querySelector(".dialog-content");
         if (dialogContent) {
           const rect = dialogContent.getBoundingClientRect();
           const isInDialog =
@@ -619,6 +620,89 @@ document.addEventListener("DOMContentLoaded", function () {
       const taskId = this.getAttribute("data-task-id");
       if (taskId) {
         deleteTask(taskId);
+      }
+    });
+  });
+
+  function getTaskInfo(taskId) {
+    // Fetch task details from the server
+    fetch(`/task_info/${taskId}/`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Display task information in a SweetAlert dialog
+        Swal.fire({
+          icon: "info",
+          title: data.task_name || "任務詳情",
+          html: `
+          <div class="task-info-container">
+            <div class="task-info-row">
+              <strong>開始日期:</strong> ${data.start_date || "N/A"}
+            </div>
+            <div class="task-info-row">
+              <strong>截止日期:</strong> ${data.end_date || "N/A"}
+            </div>
+            <div class="task-info-row">
+              <strong>建立者:</strong> ${data.creator_name || "N/A"}
+            </div>
+            <div class="task-info-row">
+              <strong>參與成員:</strong> 
+              <div class="member-list">
+                ${
+                  data.members
+                    ? data.members
+                        .map(
+                          (member) =>
+                            `<div class="member-info-box">
+                    <img src="${
+                      member.photo || "/static/default-avatar.png"
+                    }" class="member-avatar">
+                    <span>${member.name}</span>
+                  </div>`
+                        )
+                        .join("")
+                    : "N/A"
+                }
+              </div>
+            </div>
+            <div class="task-info-row">
+              <strong>內容:</strong>
+              <div class="task-content">${data.content}</div>
+            </div>
+          </div>
+        `,
+          width: "600px",
+          confirmButtonText: "關閉",
+          showClass: {
+            popup: "animate__animated animate__fadeInDown",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutUp",
+          },
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching task info:", error);
+        Swal.fire({
+          icon: "error",
+          title: "取得任務資訊失敗",
+          text: "無法取得任務詳細資訊，請稍後再試。",
+        });
+      });
+  }
+
+  document.querySelectorAll(".btn-info").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const taskId = this.getAttribute("data-task-id");
+      if (taskId) {
+        getTaskInfo(taskId);
       }
     });
   });

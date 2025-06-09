@@ -19,7 +19,7 @@ from task_manager.views.member_api import member_list
 from task_manager.views.my_task_api import my_task, get_my_task
 from task_manager.views.project_api import create_project, project, edit_project, get_project_data, delete_project, change_project_owner
 from task_manager.views.project_detail_api import get_project_task, project_detail
-from task_manager.views.project_task_api import project_task
+from task_manager.views.project_task_api import project_task, task_info
 from task_manager.views.task_api import edit_task, create_task, update_task, delete_task
 from task_manager.views.user_profile_api import user_profile, upload_avatar_api
 from task_manager.views.global_search_api import global_search, search_suggestions
@@ -73,6 +73,7 @@ urlpatterns = (
         path('delete_user/', user_management.delete_user, name='delete_user'),
         path('edit_user/', user_management.edit_user, name='edit_user'),
         path('mainPage/', mainPage.main, name='mainPage'),
+        path('task_info/<int:task_id>/', task_info.main, name='task_info'),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
