@@ -82,21 +82,19 @@
 }
 
 .close-btn {
-  background: #fff;
-  border: 1px solid #eee;
   font-size: 22px;
-  color: #222;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+    border-radius: 8px;
 }
 
 .close-btn:hover {
-  background: #f5f7fa;
+  color: rgb(220, 38, 38);
+  background: rgb(254, 242, 242);
 }
 
 /* Form Components */
@@ -143,7 +141,7 @@ input[type="date"] {
   appearance: none;
   -webkit-appearance: none;
   padding: 10px 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
   font-size: 14px;
 }
@@ -283,7 +281,7 @@ input[type="date"] {
   width: 100%; /* 確保 member-box 占滿 li 的寬度 */
 }
 
-.member-box >.fa-solid{
+.member-box >.fa-solid {
   color: var(--dark-red);
-  cursor: pointer; 
+  cursor: pointer;
 }
