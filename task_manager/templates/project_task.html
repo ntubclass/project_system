@@ -85,9 +85,10 @@
           </div>
           <span class="progress-text">{{ task.progress }}%</span>
         </div>        <div class="task-actions">
-          <button class="action-btn edit btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
+          <button class="action-btn btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
           <button class="action-btn edit btn-edit" data-task-id="{{ task.task_id }}"><i class="fas fa-edit"></i></button>
           <button class="action-btn delete btn-delete" data-task-id="{{ task.task_id }}"><i class="fas fa-times"></i></button>
+          <button class="action-btn btn-info" data-task-id="{{ task.task_id }}"><i class="fas fa-info-circle"></i></button>
         </div>
       </div>
       {% endfor %}
@@ -117,7 +118,8 @@
           </div>
           <span class="progress-text">{{ task.progress }}%</span>
         </div>        <div class="task-actions">
-          <button class="action-btn edit btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
+          <button class="action-btn btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
+          <button class="action-btn btn-info" data-task-id="{{ task.task_id }}"><i class="fas fa-info-circle"></i></button>
         </div>
       </div>
       {% endfor %}
@@ -139,7 +141,6 @@
 <script src="{% static 'js/dialog.js' %}"></script>
 <script src="{% static 'js/project_task.js' %}"></script>
 <script src="{% static 'js/task_list.js' %}"></script>
-
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -163,6 +164,15 @@
           icon.classList.remove('fa-caret-down');
           icon.classList.add('fa-caret-right');
         }
+      });
+    });
+
+    // Initialize task info buttons
+    const infoButtons = document.querySelectorAll('.btn-info');
+    infoButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const taskId = this.getAttribute('data-task-id');
+        openTaskInfoDialog(taskId);
       });
     });
   });
