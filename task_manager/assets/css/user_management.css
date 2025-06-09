@@ -161,7 +161,7 @@ td:first-child {
 .user-avatar {
     width: 32px;
     height: 32px;
-    background-color: var(--dark-blue);
+    background-color: #fff;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -209,19 +209,16 @@ td:first-child {
   border: 1px solid transparent;
 }
 .status-active {
-  background-color: #d1fae5;
-  color: #059669;
-  border: 1px solid #059669;
+  background-color: #F0FDF4;
+  color: #16A34A;
 }
 .status-inactive {
   background-color: #fee8e8;
-  color: #dc2626;
-  border: 1px solid #dc2626;
+  color: #DC2626;
 }
 .status-disabled {
   background-color: #fee8e8;
-  color: #dc2626;
-  border: 1px solid #dc2626;
+  color: #DC2626;
 }
 
 /* Activity Badge Styles */
