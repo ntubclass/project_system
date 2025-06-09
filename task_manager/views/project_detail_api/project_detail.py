@@ -50,6 +50,7 @@ def main(request, project_id):
         "url_type": f"/project_detail/{project_id}/?project={project_id}",
         "project_id": project_id,
         "total_progress": total_progress,
+        "description": project.description,
         "member_amount": member_amount,
         "end_date": project.end_date.strftime("%Y-%m-%d"),
         "end_date_diff": end_date_diff,

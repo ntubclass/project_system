@@ -31,9 +31,8 @@
                     <i class="fa-solid fa-folder"></i>
                     專案列表
                 </a>
-            </div>            {% if project_name %}
-            <div class="breadcrumb-item">
-                <a href="{% url 'project_detail' project_id %}" class="breadcrumb-link">
+            </div>            {% if project_name %}            <div class="breadcrumb-item">
+                <a href="{% url 'project_detail' project_id %}?project={{project_id}}" class="breadcrumb-link">
                     <i class="fa-solid fa-diagram-project"></i>
                     {{ project_name }}
                 </a>
