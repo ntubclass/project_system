@@ -92,21 +92,19 @@
 }
 
 .close-btn {
-  background: #fff;
-  border: 1px solid #eee;
   font-size: 22px;
-  color: #222;
+  border: none;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: transparent;
+    border-radius: 8px;
 }
 
 .close-btn:hover {
-  background: #f5f7fa;
+  color: rgb(220, 38, 38);
+  background: rgb(254, 242, 242);
 }
 
 /* Form Components */
@@ -233,7 +231,7 @@
 
 /* Members List */
 .members-list {
-  border: 1px solid var(--border-color);
+    border: 1px solid #e0e0e0;
   border-radius: 4px;
   max-height: 200px;
   overflow-y: auto;
