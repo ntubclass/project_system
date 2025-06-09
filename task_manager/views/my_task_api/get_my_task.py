@@ -64,6 +64,25 @@ def main(request):
                 avatar_url = UserInfo.objects.get(user=task.user_id).photo.url
             except:
                 avatar_url = None
+                
+            # Get task members and their avatars
+            members = TaskMember.objects.filter(task_id=task.task_id).select_related('user_id__userinfo')
+            member_count = members.count() + 1  # +1 for task owner
+            
+            # Get avatars
+            member_avatars = []
+            # First add task owner avatar
+            if avatar_url:
+                member_avatars.append(avatar_url)
+            
+            # Then add members' avatars
+            for member in members:
+                try:
+                    member_avatar_url = member.user_id.userinfo.photo.url
+                    member_avatars.append(member_avatar_url)
+                except:
+                    # If a member doesn't have an avatar, skip
+                    continue
 
             task_data = {
                 "id": task.task_id,
@@ -78,6 +97,8 @@ def main(request):
                 "end_date": task.end_date.strftime("%Y-%m-%d %H:%M:%S"),
                 "description": task.content,
                 "is_manager": is_manager,  # 添加管理者狀態到回應
+                "member_count": member_count,
+                "member_avatars": member_avatars,
             }
             context['tasks_data'].append(task_data)
         
@@ -101,6 +122,25 @@ def main(request):
                 avatar_url = UserInfo.objects.get(user=task.user_id).photo.url
             except:
                 avatar_url = None
+                
+            # Get task members and their avatars
+            members = TaskMember.objects.filter(task_id=task.task_id).select_related('user_id__userinfo')
+            member_count = members.count() + 1  # +1 for task owner
+            
+            # Get avatars
+            member_avatars = []
+            # First add task owner avatar
+            if avatar_url:
+                member_avatars.append(avatar_url)
+            
+            # Then add members' avatars
+            for member in members:
+                try:
+                    member_avatar_url = member.user_id.userinfo.photo.url
+                    member_avatars.append(member_avatar_url)
+                except:
+                    # If a member doesn't have an avatar, skip
+                    continue
 
             task_data = {
                 "id": task.task_id,
@@ -115,6 +155,8 @@ def main(request):
                 "end_date": task.end_date.strftime("%Y-%m-%d %H:%M:%S"),
                 "description": task.content,
                 "is_manager": is_manager,  # 添加管理者狀態到回應
+                "member_count": member_count,
+                "member_avatars": member_avatars,
             }
             context['tasks_data'].append(task_data)
 
