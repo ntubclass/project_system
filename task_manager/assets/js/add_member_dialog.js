@@ -189,21 +189,17 @@ document.addEventListener("DOMContentLoaded", function () {
           const urlParams = new URLSearchParams(window.location.search);
           projectId = urlParams.get("project");
         }
+
+        // Check if we're in the member list context
+        // Default to showing users NOT in the project
         let is_member_list = false;
 
-        // In the regular add member dialog on the member_list page,
-        // we want to show users NOT in the project (is_member_list = false)
-        const memberListContext = dialog
-          ? dialog.getAttribute("data-member-list-context")
-          : null;
-
-        // Debug log to see what context we're in
-        console.log("Member dialog context:", memberListContext);
-
-        // For search functionality, we always want is_member_list = false
-        // because we want to show users who aren't members yet
-        is_member_list = false;
-
+        // Check URL path for member_list context
+        const urlPath = window.location.pathname;
+        if (urlPath.includes("member_list")) {
+          console.log("Detected member_list in URL path");
+          is_member_list = true;
+        }
         // Fetch search results from the server
         const response = await fetch(`/dynamic_search_member/`, {
           method: "POST",

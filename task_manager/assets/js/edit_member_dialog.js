@@ -274,12 +274,20 @@ document.addEventListener("DOMContentLoaded", function () {
           projectId = urlParams.get("project");
         }
 
+        console.log("Using project ID:", projectId);
+
         // For edit member dialog, is_member_list should always be FALSE
         // because we want to show users NOT in the project for adding
         let is_member_list = false;
 
+        // Check URL path for debug purposes
+        const urlPath = window.location.pathname;
+        if (urlPath.includes("member_list")) {
+          console.log("Note: We're on a member_list page, but still using is_member_list=false for edit dialog");
+        }
+
         // The edit member dialog always needs to show users who are not members yet
-        // Regardless of the current page context
+        console.log("Using is_member_list:", is_member_list);
 
         // Fetch search results from the server
         const response = await fetch(`/dynamic_search_member/`, {
