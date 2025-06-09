@@ -1,4 +1,4 @@
-/* 對話框背景遮罩 */
+﻿/* 撠店獢??舫蝵?*/
 .dialog-backdrop {
   position: fixed;
   top: 0;
@@ -21,24 +21,27 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* 確保對話框在不同的浏覽器中顯示一致 */
+/* 確保對話框預設隱藏 */
+.dialog-backdrop:not([open]) {
+  display: none;
+}
+
+/* 蝣箔?撠店獢銝???閬賢銝剝＊蝷箔???*/
 .dialog-backdrop:modal {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 對話框容器 */
-#memberListDialog .dialog-container {
+/* Dialog Container */
+.dialog-backdrop .dialog-container {
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  height: auto;
-  max-height: 90vh;
+  max-width: 420px;
+  margin: 0 auto;
   overflow-y: auto;
-  overflow-x: hidden;
-  margin: 0;
   animation: dialog-fade-in 0.2s ease-out;
 }
 
@@ -56,13 +59,13 @@
   animation: dialog-fade-out 0.2s ease-out forwards;
 }
 
-/* 對話框內容 */
+/* 撠店獢摰?*/
 .dialog-content {
   padding: 24px;
   width: 100%;
 }
 
-/* 對話框標題列 */
+/* 撠店獢?憿? */
 .dialog-header {
   display: flex;
   justify-content: space-between;
@@ -70,54 +73,53 @@
   margin-bottom: 20px;
 }
 
-/* 關閉按鈕 */
+/* ???? */
 .close-btn {
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: var(--dark-gray);
-  padding: 0;
-  line-height: 1;
+  background: #fff;
+  border: 1px solid #eee;
+  font-size: 22px;
+  color: #222;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
 .close-btn:hover {
-  background-color: var(--light-blue-gray);
+  background: #f5f7fa;
 }
 
-/* 對話框標題 */
 .dialog-title {
-  font-size: 20px;
-  font-weight: 500;
-  margin: 0;
-  color: var(--dark-gray);
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 12px 0;
 }
 
-/* 表單組件 */
+/* Form Components */
 .form-group {
   margin-bottom: 20px;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 8px;
+  font-size: 15px;
   font-weight: 500;
-  color: var(--dark-gray);
+  color: #222;
+  margin-bottom: 6px;
 }
 
 .form-control {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 14px;
-  background-color: var(--white);
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-bottom: 0;
+  transition: border 0.2s;
 }
 
 .form-control:focus {
@@ -125,8 +127,7 @@
   outline: none;
 }
 
-
-/* 確保日期輸入框正確顯示 */
+/* 蝣箔??交?頛詨獢迤蝣粹＊蝷?*/
 input[type="date"] {
   width: 100%;
   appearance: none;
@@ -137,7 +138,7 @@ input[type="date"] {
   font-size: 14px;
 }
 
-/* 成員區域 */
+/* ????*/
 .member-header {
   display: flex;
   justify-content: flex-end;
@@ -158,7 +159,7 @@ input[type="date"] {
 }
 
 .add-member-btn:hover {
-  background-color: #1b4fc6; /* 略微深色的藍色 */
+  background-color: #1b4fc6; /* ?亙凝瘛梯????*/
 }
 
 .members-list {
@@ -169,7 +170,7 @@ input[type="date"] {
   background-color: var(--white);
 }
 
-/* 對話框按鈕 */
+/* 撠店獢???*/
 .dialog-actions {
   display: flex;
   justify-content: flex-end;
@@ -186,7 +187,8 @@ input[type="date"] {
   cursor: pointer;
 }
 
-.submit-btn {
+.submit-btn,
+.save-btn {
   padding: 8px 16px;
   background-color: var(--dark-blue);
   color: var(--white);
@@ -200,11 +202,12 @@ input[type="date"] {
   background-color: var(--light-blue-gray);
 }
 
-.submit-btn:hover {
-  background-color: #1b4fc6; /* 略微深色的藍色 */
+.submit-btn:hover,
+.save-btn:hover {
+  background-color: #1b4fc6; /* ?亙凝瘛梯????*/
 }
 
-/* 動態搜尋結果樣式 */
+/* ????蝯?璅?? */
 .members-list {
   list-style: none;
   margin: 0;
@@ -212,7 +215,7 @@ input[type="date"] {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   background-color: var(--white);
-  min-height: calc(40px * 3); /* 預設高度為三個項目 */
+  min-height: calc(40px * 3); /* ?身擃漲?箔?????*/
   overflow-y: auto;
 }
 
@@ -224,7 +227,7 @@ input[type="date"] {
   height: 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* 讓內容分佈在兩端 */
+  justify-content: space-between; /* 霈摰孵?雿?拍垢 */
   box-sizing: border-box;
 }
 
@@ -258,12 +261,80 @@ input[type="date"] {
 .member-box {
   display: flex;
   flex-direction: row;
-  justify-content: space-between; /* 姓名在左，叉叉在右 */
+  justify-content: space-between; /* 憪??典椰嚗????*/
   align-items: center;
-  width: 100%; /* 確保 member-box 占滿 li 的寬度 */
+  width: 100%; /* 蝣箔? member-box ?遛 li ?祝摨?*/
 }
 
 .member-box > .fa-solid {
   color: var(--dark-red);
-  cursor: pointer; /* 讓叉叉也有點擊cursor */
+  cursor: pointer; /* 霈??????ursor */
+}
+
+/* Height-based Responsive Design for Laptop Screens */
+@media screen and (max-height: 768px) {
+  .dialog-content {
+        padding: 16px;
+    }
+    
+    .dialog-title {
+        font-size: 20px;
+    }
+    
+    .dialog-header {
+        margin-bottom: 16px;
+    }
+    
+    .form-group {
+        margin-bottom: 16px;
+    }
+    
+    .members-list {
+        min-height: calc(40px * 2.5);
+        max-height: 200px;
+    }
+    
+    .dialog-actions {
+        margin-top: 16px;
+    }
+}
+
+@media screen and (max-height: 600px) {
+  .dialog-content {
+        padding: 12px;
+    }
+    
+    .dialog-title {
+        font-size: 18px;
+        margin: 0 0 8px 0;
+    }
+    
+    .dialog-header {
+        margin-bottom: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .members-list {
+        min-height: calc(40px * 2);
+        max-height: 150px;
+    }
+    
+    .dialog-actions {
+        margin-top: 12px;
+        gap: 8px;
+    }
+    
+    .cancel-btn,
+    .save-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
 }

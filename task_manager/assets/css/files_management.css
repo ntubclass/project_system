@@ -47,27 +47,46 @@ body {
     margin-right: 6px;
 }
 
-.delete-btn {
-    background: none;
+/* Action buttons - unified styling */
+.action-btn {
+    padding: 8px;
     border: none;
-    color: var(--dark-red);
+    background: none;
+    border-radius: 6px;
     cursor: pointer;
-    padding: 5px;
-    margin-left: 5px;
-    transition: color 0.3s ease;
-    transition: transform 0.3s ease;
-}
-
-.delete-btn:hover {
-    transform: scale(1.15);
-    color: var(--button-red-hover);
-}
-
-.download-btn,
-.delete-btn {
-    display: inline-flex;
+    color: #6b7280;
+    transition: all 0.2s;
+    display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.action-btn:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+    transform: scale(1.15);
+}
+
+/* Delete button specific hover - red */
+.action-btn.delete:hover,
+.action-btn.delete-btn:hover {
+    color: #dc2626;
+    background-color: #fef2f2;
+    transform: scale(1.15);
+}
+
+/* Other buttons specific hover - yellow/amber */
+.action-btn:hover:not(.edit):not(.delete):not(.delete-btn),
+.action-btn.download-btn:hover {
+    color: #3b82f6;
+    background-color: #eff6ff;
+    transform: scale(1.15);
+}
+
+.action-btn svg,
+.action-btn i {
+    width: 16px;
+    height: 16px;
 }
 
 /* 搜尋框 */
@@ -272,17 +291,6 @@ td:first-child {
     font-size: 14px;
 }
 
-.download-btn {
-    color: var(--dark-blue);
-    font-size: var(--font-size-16);
-    transition: color .2s ease;
-    transition: transform 0.3s ease;
-}
-
-.download-btn:hover {
-    color: var(--button-blue-hover);
-    transform: scale(1.15);
-}
 
 .custom-dialog {
     border: none;
@@ -732,4 +740,11 @@ dialog:not([open]) {
         gap: 12px;
         text-align: center;
     }
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
 }

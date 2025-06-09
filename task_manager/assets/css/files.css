@@ -832,7 +832,7 @@ td:first-child {
     background: none;
     border-radius: 6px;
     cursor: pointer;
-    color: var(--light-gray);
+    color: #6b7280;
     transition: all 0.2s;
     display: flex;
     align-items: center;
@@ -840,16 +840,34 @@ td:first-child {
     text-decoration: none;
 }
 
-.action-btn:hover.download-btn {
+.action-btn:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+    transform: scale(1.15);
+}
+
+/* Edit button specific hover - blue */
+.action-btn.edit:hover {
     color: #3b82f6;
     background-color: #eff6ff;
+    transform: scale(1.15);
 }
 
-.action-btn:hover.delete-btn {
+/* Delete button specific hover - red */
+.action-btn.delete:hover {
     color: #dc2626;
     background-color: #fef2f2;
+    transform: scale(1.15);
 }
 
+/* Other buttons specific hover - yellow/amber */
+.action-btn:hover:not(.edit):not(.delete) {
+    color: #d97706;
+    background-color: #fffbeb;
+    transform: scale(1.15);
+}
+
+.action-btn svg,
 .action-btn i {
     width: 16px;
     height: 16px;

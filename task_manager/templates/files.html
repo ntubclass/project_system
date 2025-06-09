@@ -4,6 +4,7 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/files.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/upload_file_dialog.css' %}">
 {% endblock %}
 
 {% block sidebar %}
@@ -104,7 +105,7 @@
                                         <a href="#" class="action-btn download-btn">
                                             <i class="fa-solid fa-download"></i>
                                         </a>
-                                        <button class="action-btn delete-btn" onclick="deleteFile({{ i.file_id }}, '{{ i.file_name }}')" title="刪除">
+                                        <button class="action-btn delete" onclick="deleteFile({{ i.file_id }}, '{{ i.file_name }}')" title="刪除">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
