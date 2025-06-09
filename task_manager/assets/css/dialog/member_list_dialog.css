@@ -4,8 +4,7 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  margin: auto;
+  bottom: 0;  margin: auto;
   width: 100%;
   max-width: 550px;
   max-height: 90vh;
@@ -36,8 +35,7 @@
 /* Dialog Container */
 .dialog-backdrop .dialog-container {
   background-color: var(--white);
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 550px;
   margin: 0 auto;
