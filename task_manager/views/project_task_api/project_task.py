@@ -85,8 +85,8 @@ def main(request, project_id):
             "content": task.content,
             "progress": task.progress,
             "status": status,
-            'photo':  task.user_id.userinfo.photo.url,
-        })
-    context["url_type"] = f"/project_task/{project_id}/?project={project_id}"
+            'photo':  task.user_id.userinfo.photo.url,        })
+    # 移除會導致雙重重新導向的 url_type 設定，因為 create_task.py 現在直接構造 URL
+    # context["url_type"] = f"/project_task/{project_id}/?project={project_id}"
     
     return render(request, "project_task.html", context)

@@ -5,10 +5,9 @@
                 <h2 class="dialog-title">建立新任務</h2>
                 <button type="button" class="close-btn" id="closeTaskBtn">&times;</button>
             </div>
-            
-            <form id="createTaskForm" action="{% url 'create_task' project_id %}" method="post">
+              <form id="createTaskForm" action="{% url 'create_task' project_id %}" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="url_type" value="{{ url_type }}">
+                <!-- 移除 url_type 隱藏欄位，因為已經修復了雙重重定向問題 -->
                 <div class="form-group">
                     <label for="taskName">任務名稱</label>
                     <input type="text" id="taskName" name="taskName" class="form-control" required>
