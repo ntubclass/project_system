@@ -264,6 +264,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const createTaskForm = document.getElementById("createTaskForm");
   if (createTaskForm) {
     createTaskForm.addEventListener("submit", function (event) {
+      // 阻止默認的表單提交行為
+      event.preventDefault();
+      
       // Create hidden input fields for member list
       addMemberlist.forEach((member, index) => {
         const nameInput = document.createElement("input");
@@ -286,6 +289,40 @@ document.addEventListener("DOMContentLoaded", function () {
       countInput.name = "member_count";
       countInput.value = addMemberlist.length;
       this.appendChild(countInput);
+      
+      // 提交表單
+      const formData = new FormData(this);
+      const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+      
+      fetch(this.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      })
+      .then(response => {
+        if (response.ok) {
+          // 提交成功，關閉 dialog 並重新導向
+          const createTaskDialog = document.getElementById("createTaskDialog");
+          if (createTaskDialog) {
+            createTaskDialog.close();
+          }
+          // 重新導向到成功頁面
+          window.location.href = response.url;
+        } else {
+          // 處理錯誤
+          return response.text().then(text => {
+            console.error("Form submission failed:", text);
+            // 如果有錯誤，讓瀏覽器正常處理表單提交來顯示錯誤訊息
+            this.submit();
+          });
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        // 如果 fetch 失敗，讓瀏覽器正常處理表單提交
+        this.submit();      });
     });
   }
 

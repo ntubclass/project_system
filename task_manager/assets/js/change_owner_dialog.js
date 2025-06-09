@@ -12,6 +12,7 @@ class ChangeOwnerDialog {
         this.currentProjectId = null;
         this.currentOwnerId = null;
         this.selectedNewOwner = null;
+        this.triggerButton = null; // 記錄觸發對話框的按鈕
         
         this.init();
     }
@@ -279,11 +280,10 @@ class ChangeOwnerDialog {
 
     getPhotoUrl(photo) {
         return photo || '/static/default-avatar.png';
-    }
-
-    open(projectId, projectName, currentOwnerName, currentOwnerId) {
+    }    open(projectId, projectName, currentOwnerName, currentOwnerId, triggerButton = null) {
         this.currentProjectId = projectId;
         this.currentOwnerId = currentOwnerId;
+        this.triggerButton = triggerButton; // 儲存觸發按鈕的引用
         
         // 填入表單資料
         this.setFormValue('changeOwnerProjectId', projectId);
@@ -297,21 +297,46 @@ class ChangeOwnerDialog {
         // 顯示對話框
         this.dialog.showModal();
         
-        // 聚焦到搜尋框
+        //聚焦到搜尋框
         setTimeout(() => {
             if (this.searchInput) {
                 this.searchInput.focus();
             }
         }, 100);
-    }
-
-    close() {
+    }    close() {
         if (this.dialog.open) {
             this.closeDialogWithAnimation();
         }
         this.currentProjectId = null;
         this.currentOwnerId = null;
         this.resetForm();
+        
+        // 移除任何聚焦狀態，避免按鈕保持藍色框框
+        setTimeout(() => {
+            // 優先移除觸發按鈕的焦點
+            if (this.triggerButton && this.triggerButton.blur) {
+                this.triggerButton.blur();
+            }
+            
+            // 移除所有 btn-change-owner 按鈕的焦點
+            const changeOwnerButtons = document.querySelectorAll('.btn-change-owner');
+            changeOwnerButtons.forEach(btn => {
+                if (btn.blur) {
+                    btn.blur();
+                }
+            });
+            
+            // 也移除當前活動元素的焦點
+            if (document.activeElement && document.activeElement.blur) {
+                document.activeElement.blur();
+            }
+            
+            // 將焦點移到 body，確保沒有元素保持焦點
+            document.body.focus();
+            
+            // 清除觸發按鈕的引用
+            this.triggerButton = null;
+        }, 250); // 稍微延遲以確保對話框完全關閉
     }
 
     closeDialogWithAnimation() {
@@ -486,8 +511,7 @@ function bindChangeOwnerButtons() {
                 const projectName = row.querySelector('.project-name')?.textContent?.trim() || '';
                 const ownerText = row.querySelector('.assignee-name')?.textContent || '';
                 const currentOwnerName = ownerText.replace('負責人: ', '').trim();
-                
-                // 獲取完整的專案所有者資訊
+                  // 獲取完整的專案所有者資訊
                 getProjectOwnerInfo(projectId)
                     .then(ownerInfo => {
                         
@@ -496,7 +520,8 @@ function bindChangeOwnerButtons() {
                                 projectId, 
                                 projectName, 
                                 ownerInfo.owner_name, 
-                                ownerInfo.owner_id
+                                ownerInfo.owner_id,
+                                changeOwnerBtn // 傳遞觸發按鈕的引用
                             );
                         } else {
                             console.error('無法獲取專案所有者資訊');
@@ -506,7 +531,8 @@ function bindChangeOwnerButtons() {
                                     projectId, 
                                     projectName, 
                                     currentOwnerName, 
-                                    null // 暫時沒有ID，會在後續處理
+                                    null, // 暫時沒有ID，會在後續處理
+                                    changeOwnerBtn // 傳遞觸發按鈕的引用
                                 );
                             }
                         }
@@ -519,7 +545,8 @@ function bindChangeOwnerButtons() {
                                 projectId, 
                                 projectName, 
                                 currentOwnerName, 
-                                null
+                                null,
+                                changeOwnerBtn // 傳遞觸發按鈕的引用
                             );
                         }
                     });
