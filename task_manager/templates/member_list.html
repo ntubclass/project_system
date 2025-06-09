@@ -76,10 +76,13 @@
             </div>
             
             <div class="member-role">{{ member.role }}</div>
-            <div class="member-job">{{ member.job }}</div> <!-- 顯示 user_profile 職稱 -->        {% if member.role != '專案擁有者' %}
+            <div class="member-job">{{ member.job }}</div>
+            {% if member.role != '專案擁有者' %}
             <button class="action-btn delete remove-member-btn" type="button" onclick="deleteMember('{{ member.email }}', '{{ member.name }}')">
                 <i class="remove-icon fa-solid fa-xmark"></i>
             </button>
+            {% else %}
+            <span class="remove-member-btn" style="visibility:hidden;width:30px;height:30px;display:inline-block;"></span>
             {% endif %}
         </div>
         {% endfor %}
