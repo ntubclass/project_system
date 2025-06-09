@@ -38,8 +38,28 @@ def main(request):
                 else:
                     data["can_edit"] = False
                 data["photo"] = field_value.userinfo.photo.url
-
             data[field_name] = field_value
+        
+        # Get project members and their avatars
+        members = ProjectMember.objects.filter(project_id=m.project_id).select_related('user_id__userinfo')
+        data["member_count"] = members.count() + 1  # +1 for project owner
+        
+        # Get avatars (limit to first 5 members)
+        member_avatars = []
+        # First add project owner avatar
+        member_avatars.append(m.user_id.userinfo.photo.url)
+        
+        # Then add members' avatars (up to 4 more)
+        for member in members[:4]:  # Limiting to 4 additional members
+            try:
+                avatar_url = member.user_id.userinfo.photo.url
+                member_avatars.append(avatar_url)
+            except:
+                # If a member doesn't have an avatar, skip
+                continue
+        
+        data["member_avatars"] = member_avatars
+
         tasks = Task.objects.filter(project_id=m.project_id)
         total = 0
         for t in tasks:
