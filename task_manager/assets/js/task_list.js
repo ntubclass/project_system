@@ -201,6 +201,7 @@ class TaskRenderer {
     const isOverdue = status === "overdue";
     const progress = task.progress || 0;
     const projectName = task.project_name || "";
+    const projectId = task.project_id || "";
 
     const dateLabel = "截止日期";
     const dateValue = task.end_date;
@@ -218,7 +219,7 @@ class TaskRenderer {
     }
 
     return `
-        <div class="task-card ${status}" data-task-id="${taskId}">
+        <div class="task-card ${status}" data-task-id="${taskId}" data-project-id="${projectId}" onclick="window.location.href='/project_detail/${projectId}/?project=${projectId}'">
             <div class="task-info">
                 <div class="task-title">${task.name || task.task_name}</div>
                 ${
@@ -259,15 +260,15 @@ class TaskRenderer {
     const progressBars = this.findByQuery(".progress-fill");
     progressBars.forEach((bar) => {
       // 獲取progress屬性值
-      const progressValue = bar.getAttribute("progress");      // 如果存在progress屬性，則重新設置動畫
+      const progressValue = bar.getAttribute("progress"); // 如果存在progress屬性，則重新設置動畫
       if (progressValue) {
         // 先移除transition，設置初始寬度為0
         bar.style.transition = "none";
         bar.style.width = "0%";
-        
+
         // 強制瀏覽器重新計算樣式
         bar.offsetWidth;
-        
+
         // 使用 setTimeout 讓瀏覽器完成初始渲染後再開始動畫
         setTimeout(() => {
           // 重新添加transition並設置進度條寬度，觸發動畫
@@ -287,7 +288,7 @@ class TaskRenderer {
             ".progress-percentage"
           );
           if (percentageDisplay) {
-            // 延遲更新百分比顯示，讓動畫更自然  
+            // 延遲更新百分比顯示，讓動畫更自然
             setTimeout(() => {
               percentageDisplay.textContent = `${progressValue}%`;
             }, 100);
