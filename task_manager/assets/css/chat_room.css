@@ -128,11 +128,14 @@
   flex-direction: column;
   gap: 5px;
   max-width: 70%;
+  min-width: 0; /* 重要：允許內容收縮 */
+  word-wrap: break-word; /* 新增：允許長單詞換行 */
 }
 
 .chat-message-header {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 12px;
   font-size: 12px;
   color: #888;
@@ -148,10 +151,24 @@
   color: #aaa;
 }
 
+/* 修正聊天訊息文字換行問題 */
 .chat-message-text {
   font-size: 14px;
   color: #333;
   line-height: 1.5;
+  /* 新增文字換行相關屬性 */
+  word-wrap: break-word;        /* 允許長單詞換行 */
+  overflow-wrap: break-word;    /* 現代瀏覽器的標準屬性 */
+  word-break: break-word;       /* 在單詞邊界換行，但在需要時也可以在任何地方斷行 */
+  hyphens: auto;                /* 自動添加連字號（如果語言支持） */
+  white-space: pre-wrap;        /* 保留空白字符並允許換行 */
+  max-width: 100%;              /* 確保不超出容器 */
+  overflow: hidden;             /* 隱藏任何溢出內容 */
+}
+
+/* 針對超長的數字或URL等特殊情況 */
+.chat-message-text.force-break {
+  word-break: break-all;        /* 強制在任何字符處斷行 */
 }
 
 /* Pin Message Styles */
@@ -212,6 +229,11 @@
   margin: 5px 0 0;
   color: #343a40;
   font-size: 14px;
+  /* 新增：釘選訊息也要能正確換行 */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
 /* Added styles for pinned messages */
@@ -261,6 +283,9 @@
   background-color: #ffffff;
   outline: none;
   transition: border-color 0.3s ease;
+  /* 新增：輸入框也要支援換行 */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .chat-input-field:focus {
@@ -394,5 +419,10 @@
   .chat-notification-banner {
     width: 95%;
     margin: 0 auto 15px auto;
+  }
+  
+  /* 手機版調整聊天訊息寬度 */
+  .chat-message-content {
+    max-width: 85%; /* 手機上稍微增加寬度 */
   }
 }
