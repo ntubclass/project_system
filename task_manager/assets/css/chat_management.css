@@ -103,8 +103,8 @@ thead {
 
 
 th:nth-child(1), td:nth-child(1){width: 15%;}
-th:nth-child(2), td:nth-child(2){width: 15%;}
-th:nth-child(3), td:nth-child(3){width: 60%;}
+th:nth-child(2), td:nth-child(2){width: 25%;}
+th:nth-child(3), td:nth-child(3){width: 50%;}
 th:nth-child(4), td:nth-child(4){width: 15%;}
 th:nth-child(5), td:nth-child(5){width: 15%;}
 
@@ -168,17 +168,19 @@ th:nth-child(3), td:nth-child(3){
     text-overflow: ellipsis;
 }
 
-/* User Info */
+/* User Info - 修正電子郵件截斷問題 */
 .user-info {
     display: flex;
     align-items: center;
     gap: 12px;
+    width: 100%;
+    min-width: 0; /* 重要：允許收縮 */
 }
 
 .user-avatar {
     width: 32px;
     height: 32px;
-    background-color: #2563eb;
+    background-color: #fff;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -187,7 +189,7 @@ th:nth-child(3), td:nth-child(3){
     font-weight: 500;
     font-size: 14px;
     overflow: hidden;
-    flex-shrink: 0;
+    flex-shrink: 0; /* 防止頭像被壓縮 */
 }
 
 .user-avatar-image {
@@ -198,10 +200,9 @@ th:nth-child(3), td:nth-child(3){
 }
 
 .user-details{
-    width: 100%;
+    flex: 1;
+    min-width: 0; /* 重要：允許內容收縮 */
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 .user-details .user-name {
@@ -214,9 +215,15 @@ th:nth-child(3), td:nth-child(3){
     text-overflow: ellipsis;
 }
 
+/* 修正：確保電子郵件正確顯示省略號 */
 .user-details .user-email {
     color: #6b7280;
     font-size: 12px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block; /* 確保為塊級元素 */
 }
 
 /* Message Content */
