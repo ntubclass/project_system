@@ -46,14 +46,16 @@
                         <div class="card-info">
                             <div class="user-avatar">
                                 <div class="avatar-stack">
-                                    <!-- 第一個頭像 - 使用原有圖片 -->
+                                    <!-- Display project owner avatar -->
                                     <img src="{{i.photo}}" class="avatar">
                                     
-                                    <!-- 第二個重疊的頭像 - 使用固定顏色 -->
-                                    <div class="avatar"></div>
+                                    <!-- Display up to 4 additional member avatars -->
+                                    {% for avatar_url in i.member_avatars|slice:"1:3" %}
+                                        <img src="{{avatar_url}}" class="avatar">
+                                    {% endfor %}
                                     
-                                    <!-- 數字標示 -->
-                                    <div class="avatar-count">13</div>
+                                    <!-- Display member count -->
+                                    <div class="avatar-count">{{i.member_count}}</div>
                                 </div>
                             </div>
                             <div class="date">
