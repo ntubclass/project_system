@@ -3,6 +3,7 @@ from task_manager.models.task import Task
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from task_manager.models.user_info import UserInfo
+from datetime import datetime
 
 @login_required(login_url="login")
 def main(request, project_id):
@@ -15,12 +16,12 @@ def main(request, project_id):
 
         for task in tasks:
             status = ""
-            today = datetime.datetime.today()
+            today = datetime.today().date()  # Get just the date part
             if task.progress == 100:
                 status = "completed"
-            elif task.end_date < today and task.progress < 100:
+            elif task.end_date.date() < today and task.progress < 100:
                 status = "overdue"
-            elif today < task.start_date:
+            elif today < task.start_date.date():
                 status = "not-started"
             else:
                 status = "in-progress"
