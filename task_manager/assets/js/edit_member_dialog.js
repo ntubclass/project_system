@@ -9,11 +9,11 @@ const editMemberInfo = {
 window.taskEditing = window.taskEditing || {};
 
 // Store current project ID for task editing
-let currentProjectId = null;
+let editMemberCurrentProjectId = null; // Renamed to avoid conflicts
 
 // Function to set project ID for task editing
 function setProjectIdForTaskEdit(projectId) {
-  currentProjectId = projectId;
+  editMemberCurrentProjectId = projectId;
 }
 
 // Function to add member to edit list (either for project or task)
@@ -80,6 +80,7 @@ function add_member_to_edit_list(name, email, photo) {
     const editProjectMembersList = document.getElementById(
       "editProjectMembersList"
     );
+
     if (editProjectMembersList) {
       updateEditProjectMembersUI();
     } else {
@@ -110,8 +111,19 @@ function add_member_to_edit_list(name, email, photo) {
   }
 }
 
+// Function to handle adding existing members in the edit member dialog
+function add_edit_member(name, email, photo) {
+  // Force the add_member_to_edit_list function to be called
+  // even if add_existing_member is called
+  add_member_to_edit_list(name, email, photo);
+
+  // Debug log to verify member is added
+  console.log("Added member to edit list:", name, email);
+}
+
 // Helper function to get a valid photo URL
-function getPhotoUrl(photo) {
+function getEditMemberPhotoUrl(photo) {
+  // Renamed to avoid conflicts
   return photo || "/static/default-avatar.png";
 }
 
@@ -129,7 +141,7 @@ function updateEditProjectMembersUI() {
     li.innerHTML = `
       <div class="member-box">
         <div>
-          <img src="${getPhotoUrl(member.photo)}" class="user-photo">
+          <img src="${getEditMemberPhotoUrl(member.photo)}" class="user-photo">
           <span class="user-name">${member.name}</span>
           <span class="user-email">${member.email}</span>
         </div>
@@ -149,8 +161,45 @@ function updateEditProjectMembersUI() {
   });
 }
 
+// Function to update the project members list UI
+function updateProjectMembersListUI() {
+  const membersList = document.getElementById("projectMembersList");
+  if (!membersList) return;
+
+  membersList.innerHTML = ""; // Clear previous results
+
+  const members = window.taskEditing.projectMembers || [];
+
+  members.forEach((member, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <div class="member-box">
+        <div>
+          <img src="${getEditMemberPhotoUrl(member.photo)}" class="user-photo">
+          <span class="user-name">${member.name}</span>
+          <span class="user-email">${member.email}</span>
+        </div>
+        <i class="fa-solid fa-xmark remove-task-member" data-index="${index}"></i>
+      </div>
+    `;
+    membersList.appendChild(li);
+  });
+
+  // Add event listeners to remove buttons
+  document.querySelectorAll(".remove-task-member").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const index = parseInt(this.getAttribute("data-index"), 10);
+      window.taskEditing.projectMembers.splice(index, 1);
+      updateProjectMembersListUI();
+    });
+  });
+}
+
 // Function to close the dialog with animation
-function closeDialogWithAnimation(dialog) {
+function closeEditMemberDialogWithAnimation(dialog) {
+  // Renamed to avoid conflicts
+  if (!dialog) return;
+
   dialog.setAttribute("closing", "");
   setTimeout(() => {
     dialog.removeAttribute("closing");
@@ -175,6 +224,10 @@ document.addEventListener("DOMContentLoaded", function () {
     openAddMemberBtn.addEventListener("click", function () {
       // Set referrer to project by default when opened from project view
       dialog.setAttribute("data-referrer-dialog", "editProject");
+
+      // Set the context to edit member list
+      dialog.setAttribute("data-member-list-context", "edit");
+
       dialog.showModal();
     });
   }
@@ -182,11 +235,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Close button functionality
   if (closeEditMemberBtn) {
     closeEditMemberBtn.addEventListener("click", function () {
-      closeDialogWithAnimation(dialog);
+      closeEditMemberDialogWithAnimation(dialog);
     });
   }
 
-  // Event listener for the search input
   if (searchInput && resultsContainer) {
     searchInput.addEventListener("input", async function () {
       const query = searchInput.value.trim();
@@ -211,9 +263,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         const csrfToken = csrfTokenElement.value;
 
-        // Get project ID from URL query parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const projectId = urlParams.get('project');
+        // Get project ID from hidden input (member_list 頁面)
+        let projectId = null;
+        const projectIdInput = document.getElementById("currentProjectId");
+        if (projectIdInput) {
+          projectId = projectIdInput.value;
+        } else {
+          // fallback: Get project ID from URL query parameter
+          const urlParams = new URLSearchParams(window.location.search);
+          projectId = urlParams.get("project");
+        }
+
+        // For edit member dialog, is_member_list should always be FALSE
+        // because we want to show users NOT in the project for adding
+        let is_member_list = false;
+
+        // The edit member dialog always needs to show users who are not members yet
+        // Regardless of the current page context
 
         // Fetch search results from the server
         const response = await fetch(`/dynamic_search_member/`, {
@@ -222,9 +288,10 @@ document.addEventListener("DOMContentLoaded", function () {
             "Content-Type": "application/json",
             "X-CSRFToken": csrfToken,
           },
-          body: JSON.stringify({ 
-            search_query: query, 
-            project_id: currentProjectId || urlParams.get('project')
+          body: JSON.stringify({
+            search_query: query,
+            project_id: projectId,
+            is_member_list: is_member_list,
           }),
         });
 
@@ -244,19 +311,21 @@ document.addEventListener("DOMContentLoaded", function () {
             const li = document.createElement("li");
             li.innerHTML = `
               <div>
-                <img src="${getPhotoUrl(user.photo)}" class="user-photo">
+                <img src="${getEditMemberPhotoUrl(
+                  user.photo
+                )}" class="user-photo">
                 <span class="user-name">${user.name}</span>
                 <span class="user-email">${user.email}</span>
               </div>
             `;
-            li.addEventListener("click", () => {
+            li.addEventListener("click", function () {
               // Update selected member info
               editMemberInfo.name = user.name;
               editMemberInfo.email = user.email;
-              editMemberInfo.photo = getPhotoUrl(user.photo);
+              editMemberInfo.photo = getEditMemberPhotoUrl(user.photo);
 
-              // Add the selected member to the appropriate list
-              add_member_to_edit_list(
+              // IMPORTANT: Use our own function directly, not the shared one
+              add_edit_member(
                 editMemberInfo.name,
                 editMemberInfo.email,
                 editMemberInfo.photo
@@ -266,8 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
               searchInput.value = "";
               resultsContainer.innerHTML = "";
 
-              // Close the dialog
-              closeDialogWithAnimation(dialog);
+              // Don't close the dialog - allow adding multiple members at once
             });
             resultsContainer.appendChild(li);
           });
@@ -285,7 +353,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
 
   window.loadExistingMembers = function (members) {
     // Clear existing members first
@@ -307,27 +374,49 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // Add event listener for task edit buttons
-  const editButtons = document.getElementsByClassName('btn-edit');
+  const editButtons = document.getElementsByClassName("btn-edit");
   Array.from(editButtons).forEach((editBtn) => {
-    editBtn.addEventListener('click', function(e) {
-      let projectId = editBtn.getAttribute('data-project-id');
-      
+    editBtn.addEventListener("click", function (e) {
+      let projectId = editBtn.getAttribute("data-project-id");
+
       // If project ID is not on the button, get it from the parent row
       if (!projectId) {
-        const row = editBtn.closest('tr');
-        projectId = row ? row.getAttribute('data-project-id') : null;
+        const row = editBtn.closest("tr");
+        projectId = row ? row.getAttribute("data-project-id") : null;
       }
-      
-      
+
       // Set the project ID for this editing session
       if (projectId) {
         setProjectIdForTaskEdit(projectId);
       }
-      
+
       // Set referrer to task editing
       if (dialog) {
         dialog.setAttribute("data-referrer-dialog", "editTask");
       }
     });
   });
+
+  // Add a close and add button at the bottom of the dialog
+  const editAndCloseBtn = document.getElementById("editAndCloseBtn");
+  if (editAndCloseBtn) {
+    editAndCloseBtn.addEventListener("click", function () {
+      // Close the dialog when the user is done adding members
+      closeEditMemberDialogWithAnimation(dialog);
+    });
+  }
 });
+
+// Replace the add_existing_member function to ensure it correctly routes to our function
+function add_existing_member(name, email, photo) {
+  // If we're in the edit member dialog context, use our own function
+  if (
+    document.getElementById("editMemberDialog") &&
+    document
+      .getElementById("editMemberDialog")
+      .getAttribute("data-referrer-dialog")
+  ) {
+    console.log("Routing to add_edit_member from add_existing_member");
+    add_edit_member(name, email, photo);
+  }
+}
