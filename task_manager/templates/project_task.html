@@ -1,0 +1,180 @@
+{% extends 'project_detail_base.html' %}
+{% load static %}
+
+{% block title %}{{ project_name }} | 專案詳情{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/project_task.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/edit_member_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/update_task_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/edit_task_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/create_task_dialog.css' %}">
+{% endblock %}
+
+{% block sidebar %}
+{% include 'layout/project_detail_sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+{% include 'layout/project_detail_header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="project-overview-container">
+  <!-- 麵包屑導航 -->
+  <div class="breadcrumb-container">
+      <nav class="breadcrumb">
+          <div class="breadcrumb-item">
+              <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                  <i class="fa-solid fa-home"></i>
+                  首頁
+              </a>
+          </div>
+          <div class="breadcrumb-item">
+              <a href="{% url 'project' %}" class="breadcrumb-link">
+                  <i class="fa-solid fa-folder"></i>
+                  專案列表
+              </a>
+          </div>          {% if project_name %}          <div class="breadcrumb-item">
+              <a href="{% url 'project_detail' project_id %}?project={{project_id}}" class="breadcrumb-link">
+                  <i class="fa-solid fa-diagram-project"></i>
+                  {{ project_name }}
+              </a>
+          </div>
+          {% endif %}
+          <div class="breadcrumb-item">
+              <span class="breadcrumb-link">
+                  <i class="fa-solid fa-tasks"></i>
+                  任務概覽
+              </span>
+          </div>
+      </nav>
+  </div>
+
+  <div class="title-bar">
+    <h1 class="section-title">任務概覽</h1>
+    <button class="create-btn" id="openCreateTaskBtn">
+      <i class="create-icon fa-solid fa-plus"></i>
+      建立任務
+    </button>
+  </div>
+    
+    <div class="task-section">
+      <!-- My Tasks Section -->
+      <div class="section-header">
+          <i class="fas fa-caret-down"></i>
+          <span>我的任務</span>
+      </div>
+    <div class="task-items">
+      {% for task in my_tasks %}
+      <div class="task-item" task-id="{{ task.task_id }}">
+        <div class="task-info">
+          <div class="task-avatar">
+            <img src="{{task.photo}}" alt="User avatar">
+          </div>
+          <div class="username">{{ task.user_name }}</div>
+        </div>
+        <div class="task-details">
+          <span class="task-name">{{ task.task_name }}</span>
+          <span class="status {{ task.status }}"></span>
+          <div class="task-date">截止日期: {{task.end_date}}</div>
+        </div>        <div class="task-progress">
+          <div class="progress">
+            <div class="progress-fill" style="width: {{ task.progress }}%" progress="{{ task.progress }}"></div>
+          </div>
+          <span class="progress-text">{{ task.progress }}%</span>
+        </div>        <div class="task-actions">
+          <button class="action-btn btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
+          <button class="action-btn edit btn-edit" data-task-id="{{ task.task_id }}"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete btn-delete" data-task-id="{{ task.task_id }}"><i class="fas fa-times"></i></button>
+          <button class="action-btn btn-info" data-task-id="{{ task.task_id }}"><i class="fas fa-info-circle"></i></button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+      
+      <div class="section-header">
+          <i class="fas fa-caret-down"></i>
+          <span>參與任務</span>
+      </div>
+      
+      <div class="task-items">
+      {% for task in participate_tasks %}
+      <div class="task-item" task-id="{{ task.task_id }}">
+        <div class="task-info">
+          <div class="task-avatar">
+            <img src="{{task.photo}}" alt="User avatar">
+          </div>
+          <div class="username">{{ task.user_name }}</div>
+        </div>        <div class="task-details">
+          <span class="task-name">{{ task.task_name }}</span>
+          <span class="status in-progress">進行中</span>
+          <div class="task-date">截止日期: {{task.end_date}}</div>
+        </div>
+        <div class="task-progress">
+          <div class="progress">
+            <div class="progress-fill" style="width: {{ task.progress }}%" progress="{{ task.progress }}"></div>
+          </div>
+          <span class="progress-text">{{ task.progress }}%</span>
+        </div>        <div class="task-actions">
+          <button class="action-btn btn-update" data-task-id="{{ task.task_id }}"><i class="fas fa-sync-alt"></i></button>
+          <button class="action-btn btn-info" data-task-id="{{ task.task_id }}"><i class="fas fa-info-circle"></i></button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    </div>
+  </div>
+</div>
+
+{% include 'dialog/edit_task_dialog.html' %}
+{% include 'dialog/create_task_dialog.html' %}
+{% include 'dialog/update_task_dialog.html' %}
+{% include 'dialog/add_member_dialog.html' %}
+{% include 'dialog/edit_member_dialog.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/add_member_dialog.js' %}"></script>
+<script src="{% static 'js/edit_member_dialog.js' %}"></script>
+<script src="{% static 'js/dialog.js' %}"></script>
+<script src="{% static 'js/project_task.js' %}"></script>
+<script src="{% static 'js/task_list.js' %}"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toggle section visibility
+    const sectionHeaders = document.querySelectorAll('.section-header');
+    
+    sectionHeaders.forEach(header => {
+      // Initialize proper display state and cursor
+      header.style.cursor = 'pointer';
+      
+      header.addEventListener('click', function() {
+        const taskItems = this.nextElementSibling;
+        const icon = this.querySelector('i');
+        
+        if (taskItems.style.display === 'none') {
+          taskItems.style.display = 'block';
+          icon.classList.remove('fa-caret-right');
+          icon.classList.add('fa-caret-down');
+        } else {
+          taskItems.style.display = 'none';
+          icon.classList.remove('fa-caret-down');
+          icon.classList.add('fa-caret-right');
+        }
+      });
+    });
+
+    // Initialize task info buttons
+    const infoButtons = document.querySelectorAll('.btn-info');
+    infoButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const taskId = this.getAttribute('data-task-id');
+        openTaskInfoDialog(taskId);
+      });
+    });
+  });
+</script>
+{% endblock %}

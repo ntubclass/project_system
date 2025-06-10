@@ -1,0 +1,64 @@
+<!-- 更換專案所有者對話框 -->
+<dialog class="dialog-backdrop" id="changeOwnerDialog">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">更換專案所有者</h2>
+                <button type="button" class="close-btn" id="closeChangeOwnerDialog">&times;</button>
+            </div>
+            
+            <form id="changeOwnerForm" class="change-owner-form" action="{% url 'change_project_owner' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="changeOwnerProjectName">專案名稱</label>
+                    <input type="text" id="changeOwnerProjectName" name="project_name" class="form-control" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="currentOwnerName">目前所有者</label>
+                    <input type="text" id="currentOwnerName" name="current_owner" class="form-control" readonly>
+                </div>
+                
+                <div class="form-group" id="searchOwnerGroup">
+                    <label for="newOwnerSearch">搜尋新所有者 <span class="required">*</span></label>
+                    <input type="text" id="newOwnerSearch" name="new_owner_search" class="form-control" 
+                           placeholder="輸入使用者名稱或Email搜尋..." autocomplete="off" required>
+                    <div class="error-message" id="newOwnerError" role="alert"></div>
+                    
+                    <!-- 搜尋結果列表 -->
+                    <ul id="newOwnerResults" class="search-results"></ul>
+                </div>
+                
+                <!-- 選中的新所有者顯示 -->
+                <div class="form-group" id="selectedOwnerGroup" style="display: none;">
+                    <label>選定的新所有者</label>
+                    <div id="selectedOwnerInfo" class="selected-owner-info">
+                        <!-- 選中的所有者資訊會在這裡顯示 -->
+                    </div>
+                    <button type="button" id="clearSelectedOwner" class="btn-clear-selection">
+                        <i class="fas fa-times"></i> 重新選擇
+                    </button>
+                </div>
+                
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                    <div class="warning-text">
+                        <strong>注意：</strong>更換專案所有者後，原所有者將失去專案管理權限，新所有者將獲得完整的專案控制權。
+                    </div>
+                </div>
+                
+                <div id="changeOwnerFormErrors" class="form-errors"></div>
+                
+                <div class="dialog-actions">
+                    <button type="button" class="cancel-btn" id="cancelChangeOwner">取消</button>
+                    <button type="submit" class="save-btn" id="confirmChangeOwner" disabled>確認更換</button>
+                </div>
+                
+                <!-- 隱藏欄位存放專案ID和選中的新所有者ID -->
+                <input type="hidden" id="changeOwnerProjectId" name="project_id" value="">
+                <input type="hidden" id="currentOwnerId" name="current_owner_id" value="">
+                <input type="hidden" id="selectedNewOwnerId" name="new_owner_id" value="">
+            </form>
+        </div>
+    </div>
+</dialog>

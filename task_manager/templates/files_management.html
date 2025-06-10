@@ -1,0 +1,157 @@
+{% extends 'backstage_base.html' %}
+{% load static %}
+{% block title %}後臺管理|檔案管理{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/files_management.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/upload_file_dialog.css' %}">
+{% endblock %}
+{% block content %}
+<div class="project-overview-container">
+    <!-- 麵包屑導航 -->
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <div class="breadcrumb-item">
+                <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-home"></i>
+                    首頁
+                </a>
+            </div>
+            <div class="breadcrumb-item">
+                <a href="{% url 'backstage' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    系統概覽
+                </a>
+            </div>
+            <div class="breadcrumb-item">
+                <span class="breadcrumb-link">
+                    <i class="fa-solid fa-folder"></i>
+                    檔案管理
+                </span>
+            </div>
+        </nav>
+    </div>
+    
+    <div class="title-bar">
+        <h1 class="section-title">檔案管理</h1>
+    </div>
+    
+    <!-- 搜尋框 -->
+    <div class="search-container">
+        <div class="search-box">
+            <i class="search-icon fa-solid fa-search"></i>
+            <input type="text" placeholder="搜尋檔案..." class="search-input" value="{{ search_query|default:'' }}">
+        </div>
+    </div>
+    
+    <!-- 檔案列表容器 -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>檔案名稱</th>
+                        <th>所屬專案</th>
+                        <th>上傳者</th>
+                        <th>上傳日期/時間</th>
+                        <th>大小</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="fileTableBody">
+                    {% if file_data %}
+                        {% for i in file_data %}
+                            <tr class="file-row">
+                                <td>
+                                    <div class="file-info">
+                                        <div class="file-icon {{ i.class_bgClass }}">
+                                            <i class="fa-solid {{ i.class_icon }}"></i>
+                                        </div>
+                                        <div class="file-details">
+                                            <div class="file-name">{{ i.file_name }}</div>
+                                            <div class="file-type">{{ i.file_type }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="project-info">{{ i.project_id }}</div>
+                                </td>
+                                <td>
+                                    <div class="owner-info">{{ i.user_id }}</div>
+                                </td>
+                                <td>
+                                    <div class="date-info">{{ i.create_time }}</div>
+                                </td>
+                                <td>
+                                    <div class="size-info">{{ i.file_size }}</div>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <a href="#" class="action-btn download-btn">
+                                            <i class="fa-solid fa-download"></i>
+                                        </a>
+                                        <button class="action-btn delete-btn" onclick="deleteFile({{ i.file_id }}, '{{ i.file_name }}')" title="刪除">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="no-results">
+                                {% if search_query %}
+                                    沒有找到符合「{{ search_query }}」的檔案
+                                {% else %}
+                                    目前沒有任何檔案
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 分頁器 -->
+        <div class="pagination">
+            <div class="pagination-info">
+                {% if total_files > 0 %}
+                    顯示第 {{ start_index }} 至 {{ end_index }} 筆，共 {{ total_files }} 筆檔案
+                {% else %}
+                    顯示 0 至 0 筆，共 0 筆檔案
+                {% endif %}
+            </div>
+            <div class="pagination-controls">
+                {% if has_previous %}
+                    <a href="?page={{ previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">上一頁</a>
+                {% else %}
+                    <button class="pagination-btn" disabled>上一頁</button>
+                {% endif %}
+                
+                {% for page_num in page_range %}
+                    {% if page_num == current_page %}
+                        <button class="pagination-number active">{{ page_num }}</button>
+                    {% else %}
+                        <a href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-number">{{ page_num }}</a>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if has_next %}
+                    <a href="?page={{ next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">下一頁</a>
+                {% else %}
+                    <button class="pagination-btn" disabled>下一頁</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'dialog/upload_file_dialog.html' %}
+
+{% endblock %}
+{% block extra_js %}
+<script>
+    // 傳遞 project_id 給 JavaScript (保留原有邏輯)
+    window.PROJECT_ID = null;
+</script>
+<script src="{% static 'js/files_management.js' %}"></script>
+{% endblock %}

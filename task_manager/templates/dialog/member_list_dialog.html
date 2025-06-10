@@ -1,0 +1,29 @@
+<dialog class="dialog-backdrop" id="memberListDialog">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">新增成員</h2>
+                <button type="button" class="close-btn" id="closeMemberListBtn">&times;</button>
+            </div>
+            <form id="memberListForm" action="#" method="post">
+                {% csrf_token %}
+
+                  <div class="form-group">
+                    <div class="member-header">
+                        <button type="button" id="openAddMemberBtn" class="add-member-btn">新增</button>
+                    </div>
+                    <div id="membersList" class="members-list">
+                        <!-- 這裡是成員列表的顯示區域 -->
+                    </div>
+                </div>
+
+
+                <div id="formErrors" class="form-errors"></div>
+                  <div class="dialog-actions">
+                    <button type="button" id="cancelMemberListBtn" class="cancel-btn">取消</button>
+                    <button type="submit" id="submitMemberListBtn" class="save-btn">新增</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</dialog>

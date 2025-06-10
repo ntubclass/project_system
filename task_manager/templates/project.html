@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}專案管理{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/project.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/create_project_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/edit_project_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialog/edit_member_dialog.css' %}">
+{% endblock %}
+{% block content %}
+<div class="project">
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="title-bar">
+            <div class="title">專案</div>
+            <div class="actions">
+                <button class="create-btn" id="openCreateProjectBtn">
+                    <i class="create-icon fa-solid fa-plus"></i>
+                    建立專案
+                </button>
+            </div>
+        </div>
+        <div class="projects-grid" id="projectsGrid">
+            {% for i in project_data %}
+                <div class="project-card" style="cursor: pointer;">
+                    <div onclick="window.location.href='{% url 'project_detail' i.project_id %}?project={{i.project_id}}'">
+                        <div class="card-header">
+                            <div>
+                                <div class="project-title">{{i.name}}</div>
+                                <div class="status-null status-{{ i.status|lower }}">{{i.status}}</div>
+                            </div>                            {% if i.can_edit %}
+                                <div class='btn-box'>
+                                    <button class="action-btn edit btn-edit" data-project-id="{{ i.project_id }}"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete btn-delete" data-project-id="{{ i.project_id }}" onclick="event.stopPropagation(); handleButtonClick()"><i class="fas fa-times"></i></button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="progress-label">
+                            <div>進度</div>
+                            <div>{{i.total_progress}}%</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" progress="{{i.total_progress}}"></div>
+                        </div>
+                        <div class="card-info">
+                            <div class="user-avatar">
+                                <div class="avatar-stack">
+                                    <!-- Display project owner avatar -->
+                                    <img src="{{i.photo}}" class="avatar">
+                                    
+                                    <!-- Display up to 4 additional member avatars -->
+                                    {% for avatar_url in i.member_avatars|slice:"1:3" %}
+                                        <img src="{{avatar_url}}" class="avatar">
+                                    {% endfor %}
+                                    
+                                    <!-- Display member count -->
+                                    <div class="avatar-count">{{i.member_count}}</div>
+                                </div>
+                            </div>
+                            <div class="date">
+                                <i class="date-icon fa-regular fa-calendar"></i>
+                                {{i.start_date}}
+                                <span>~</span>
+                                {{i.end_date}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="tasks">{{i.task_count}}個任務</div>
+                        <a href="{% url 'project_detail' i.project_id %}?project={{i.project_id}}" class="details-btn">查看詳情</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% include 'dialog/edit_project_dialog.html'%}
+{% include 'dialog/create_project_dialog.html' %}
+{% include 'dialog/add_member_dialog.html' %}
+{% include 'dialog/edit_member_dialog.html' %}
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/project.js' %}"></script>
+<script src="{% static 'js/dialog.js' %}"></script>
+<script src="{% static 'js/add_member_dialog.js' %}"></script>
+<script src="{% static 'js/edit_member_dialog.js' %}"></script>
+{% endblock %}

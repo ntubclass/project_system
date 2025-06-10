@@ -1,0 +1,98 @@
+{% extends 'project_detail_base.html' %}
+{% load static %}
+{% block title %}{{ project_name }} | 專案詳情{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/add_member_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/member_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/member_list_dialog.css' %}">
+{% endblock %}
+{% block sidebar %}
+{% include 'layout/project_detail_sidebar.html' %}
+{% endblock %}
+{% block header %}
+{% include 'layout/project_detail_header.html' %}
+{% endblock %}
+{% block content %}
+<div class="project-overview-container">
+    <input type="hidden" id="currentProjectId" value="{{ project_id }}"> <!-- 新增這一行，讓 JS 能正確取得 project_id -->
+    <!-- 麵包屑導航 -->
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <div class="breadcrumb-item">
+                <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-home"></i>
+                    首頁
+                </a>
+            </div>
+            <div class="breadcrumb-item">
+                <a href="{% url 'project' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-folder"></i>
+                    專案列表
+                </a>
+            </div>            {% if project_name %}
+            <div class="breadcrumb-item">
+                <a href="{% url 'project_detail' project_id %}?project={{project_id}}" class="breadcrumb-link">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    {{ project_name }}
+                </a>
+            </div>
+            {% endif %}
+            <div class="breadcrumb-item">
+                <span class="breadcrumb-link">
+                    <i class="fa-solid fa-users"></i>
+                    成員管理
+                </span>
+            </div>
+        </nav>
+    </div>
+
+    <div class="title-bar">
+      <h1 class="section-title">成員管理</h1>
+      <button class="create-btn" id="openMemberListBtn">
+          <i class="create-icon fa-solid fa-plus"></i>
+          新增成員
+      </button>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <i class="search-icon fa-solid fa-search"></i>
+            <input type="text" placeholder="搜尋成員..." class="search-input">
+        </div>
+    </div>
+
+    <div class="members-container">
+    {% for member in members %}
+        <div class="member-item">
+            <div class="member-info">
+                <img class="member-avatar" src="{{ member.photo }}" alt="{{ member.name }}" />
+                <div class="member-name">{{ member.name }}</div>
+            </div>
+            
+            <div class="member-email">
+                <i class="email-icon fa-solid fa-envelope"></i>
+                {{ member.email }}
+            </div>
+            
+            <div class="member-role">{{ member.role }}</div>
+            <div class="member-job">{{ member.job }}</div>
+            {% if member.role != '專案擁有者' %}
+            <button class="action-btn delete remove-member-btn" type="button" onclick="deleteMember('{{ member.email }}', '{{ member.name }}')">
+                <i class="remove-icon fa-solid fa-xmark"></i>
+            </button>
+            {% else %}
+            <span class="remove-member-btn" style="visibility:hidden;width:30px;height:30px;display:inline-block;"></span>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+{% include 'dialog/member_list_dialog.html' %}
+{% include 'dialog/add_member_dialog.html' %}
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/add_member_dialog.js' %}"></script>
+<script src="{% static 'js/search_member.js' %}"></script>
+<script src="{% static 'js/delete_member.js' %}"></script>
+
+{% endblock %}

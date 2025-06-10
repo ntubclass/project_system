@@ -1,0 +1,48 @@
+{% load static %}
+
+<!-- 上傳檔案對話框 -->
+<dialog class="dialog-backdrop" id="uploadFileDialog">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">上傳檔案</h2>
+                <button type="button" class="close-btn" id="closeUploadBtn">&times;</button>
+            </div>
+            <form id="uploadFileForm" method="post" enctype="multipart/form-data" action="/files/upload/">
+                {% csrf_token %}
+                <div class="upload-area" id="dropZone">
+                    <i class="fa-solid fa-cloud-upload-alt upload-icon-large"></i>
+                    <p>拖放檔案至此處或</p>
+                    <label for="fileInput" class="select-file-btn">選擇檔案</label>
+                    <input type="file" id="fileInput" name="files" multiple style="display: none;">
+                </div>
+                <div id="filePreviewArea" class="file-preview-area">
+                    <div class="preview-header">
+                        <div>準備上傳 (<span id="fileCount">0</span>)</div>
+                        <button type="button" id="clearFilesBtn" class="clear-btn">清除全部</button>
+                    </div>
+                    <div id="fileList" class="file-list">
+                        <!-- 檔案預覽將在這裡動態生成 -->
+                    </div>
+                </div>
+                
+                <div id="uploadFormErrors" class="form-errors"></div>
+                
+                <div class="dialog-actions">
+                    <button type="button" id="cancelUploadBtn" class="cancel-btn">取消</button>
+                    <button type="submit" class="save-btn">上傳</button>
+                </div>
+                <div id="uploadProgressArea" class="upload-progress-area" style="display: none;">
+                    <h3>正在上傳檔案</h3>
+                    <div class="progress-container">
+                        <div id="uploadProgressBar" class="progress-bar"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span id="uploadProgressPercent">0%</span>
+                        <span id="uploadProgressStats">0 / 0 MB</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</dialog>

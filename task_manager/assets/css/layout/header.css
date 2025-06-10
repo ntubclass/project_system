@@ -1,0 +1,91 @@
+/* header.css 更新 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  margin-left: 250px; /* 與sidebar寬度相同 */
+  transition: margin-left 0.3s ease; /* 添加過渡效果 */
+  height: 60px; /* 添加固定高度 */
+}
+
+/* 當sidebar隱藏時header的樣式 */
+.header-full {
+  margin-left: 0;
+}
+
+.menu-icon {
+  font-size: var( --font-size-24);
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  padding: 8px 12px;
+  flex-grow: 1;
+}
+
+.search-icon {
+  font-size: var( --font-size-20);
+  margin-right: 8px;
+  color: var(--light-gray);
+}
+
+.search-input {
+  border: none;
+  background-color: transparent;
+  font-size: var( --font-size-18);
+  outline: none;
+  width: 100%;
+}
+.user-icon-link {
+  margin-left: auto;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+/* 用戶頭像容器 */
+.user-header-photo {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.user-header-photo:hover {
+  transform: scale(1.05);
+}
+
+/* 用戶頭像圖片 */
+.user-header-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* 當沒有頭像時的圖標樣式 */
+.user-icon {
+  font-size: var( --font-size-28);
+  color: var(--dark-gray);
+}
+
+/* 響應式調整 */
+@media screen and (max-width: 768px) {
+  .header {
+    margin-left: 0;
+  }
+}

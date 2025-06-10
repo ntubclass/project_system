@@ -1,0 +1,29 @@
+<div class="header">
+  <i id="menuToggle" class="menu-icon fa-solid fa-bars"></i>
+  <div class="search-bar" id="global-search-container">
+      <i class="search-icon fa-solid fa-magnifying-glass"></i>
+      <input type="text" class="search-input" id="global-search-input" placeholder="搜尋專案、任務、檔案..." autocomplete="off">
+      <i class="search-clear fa-solid fa-times" id="search-clear-btn" style="display: none;"></i>
+      
+      <!-- 搜尋結果下拉選單 -->
+      <div id="search-results" class="search-results-dropdown" style="display: none;">
+          <div id="search-loading" class="search-loading" style="display: none;">
+              <div class="search-spinner"></div>
+              <span>搜尋中...</span>
+          </div>
+          <div id="search-results-content"></div>
+          <div id="search-no-results" class="search-no-results" style="display: none;">
+              找不到相關結果
+          </div>
+      </div>
+  </div>
+  <a href="{% url 'user_profile' %}" class="user-icon-link">
+    <div class="user-header-photo">
+      {% if user.userinfo.photo %}
+      <img src="{{ user.userinfo.photo.url }}" alt="{{ user.username }}" class="user-header-image" />
+      {% else %}
+      <i class="user-icon fa-solid fa-circle-user"></i>
+      {% endif %}
+    </div>
+  </a>
+</div>

@@ -1,0 +1,392 @@
+/* 任務組 */
+.task-section {
+  margin-bottom: 30px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-24);
+  font-weight: bolder;
+  color: var(--dark-gray);
+}
+
+.section-icon {
+  margin-right: 8px;
+  font-size: var(--font-size-24);
+}
+
+.task-count {
+  font-weight: bolder;
+  margin-left: 12px;
+  font-size: var(--font-size-24);
+}
+
+/* 任務卡片列表 - 與 project 頁面網格一致 */
+.task-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px; /* 統一卡片間距 */
+}
+
+/* 任務卡片 - 與 project 卡片樣式保持一致 */
+.task-card {
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 與 project 卡片陰影一致 */
+  transition: all ease 0.3s;
+}
+
+.task-card:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.task-info {
+  margin-bottom: 12px;
+}
+
+.task-title {
+  width: 100%;
+  font-size: var(--font-size-18); /* 與 project 卡片標題一致 */
+  font-weight: 500;
+  color: var(--dark-gray);
+  margin-bottom: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 12px;
+}
+
+.project-name {
+  font-size: var(--font-size-14);
+  color: var(--light-gray);
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+}
+
+.progress-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.progress-label, .progress-percentage {
+  font-size: var(--font-size-14);
+  color: var(--dark-gray);
+}
+
+.progress-bar {
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  margin: 8px 0 16px 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 3px;
+}
+
+.task-due-date {
+  font-size: var(--font-size-14);
+  color: var(--light-gray);
+  display: flex;
+  align-items: center;
+}
+
+.date-icon {
+  margin-right: 8px;
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Avatar stack styles - updated to match project.css */
+.avatar-stack {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-12);
+  color: var(--light-gray);
+  border: 2px solid #ffffff;
+  position: relative;
+  object-fit: cover;
+}
+
+/* Fix avatar positioning in stack to match project.css */
+.avatar-stack .avatar:nth-child(1) {
+  z-index: 3;
+  margin-left: 0;
+}
+
+.avatar-stack .avatar:nth-child(2) {
+  z-index: 2;
+  margin-left: -6px;
+}
+
+.avatar-stack .avatar:nth-child(3) {
+  z-index: 1;
+  margin-left: -6px;
+}
+
+.avatar-count {
+  background-color: var(--light-blue);
+  color: var(--dark-blue);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-left: -6px;
+  z-index: 1;
+  position: relative;
+}
+
+
+/* 響應式設計 - 與 project 頁面保持一致 */
+@media screen and (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .task-cards {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+.category-section {
+  margin-bottom: 30px;
+}
+
+.category-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.category-card {
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 180px;
+  width: calc(50% - 10px);
+  max-width: 240px;
+}
+
+.category-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--light-gray);
+  margin-bottom: 4px;
+}
+
+.category-count {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+
+.status-switch {
+  position: relative;
+  display: flex;
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 4px;
+  width: fit-content;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.slider {
+  position: absolute;
+  top: 4px;
+  height: calc(100% - 8px);
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: left 0.3s ease, width 0.3s ease; /* Smooth transition for both position and width */
+  z-index: 0;
+}
+
+.switch-option {
+  position: relative;
+  z-index: 1;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 6px;
+  transition: color 0.3s;
+}
+
+.switch-option.active {
+  color: #000;
+}
+
+.switch-option:not(.active):hover {
+  color: #666;
+}
+
+.create-btn {
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+  transition: background-color ease 0.2s;
+}
+
+.create-btn:hover {
+  background-color: #1b4fc6; /* 略微深色的藍色 */
+}
+
+
+/* 新的2個重疊頭像樣式 */
+.user-avatar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Avatar stack styles - updated */
+.avatar-stack {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-12);
+  color: var(--light-gray);
+  border: 2px solid #ffffff;
+  position: relative;
+  object-fit: cover;
+}
+
+/* Fix avatar positioning in stack */
+.avatar-stack .avatar:nth-child(1) {
+  z-index: 3;
+  margin-left: 0;
+}
+
+.avatar-stack .avatar:nth-child(2) {
+  z-index: 2;
+  margin-left: -6px;
+}
+
+.avatar-stack .avatar:nth-child(3) {
+  z-index: 1;
+  margin-left: -6px;
+}
+
+.avatar-count {
+  background-color: var(--light-blue);
+  color: var(--dark-blue);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-left: -6px;
+  z-index: 1;
+  position: relative;
+}
+
+
+/* Replace the conflicting CSS rules */
+i.not-started {
+  color: var(--dark-yellow);
+}
+
+i.in-progress {
+  color: var(--dark-blue);
+}
+
+
+i.completed {
+  color: var(--dark-green);
+}
+
+i.overdue {
+  color: var(--dark-red);
+}
+
+.task-count.not-started {
+  color: var(--dark-yellow);
+}
+
+.task-count.in-progress {
+  color: var(--dark-blue);
+}
+
+.task-count.completed {
+  color: var(--dark-green);
+}
+
+.task-count.overdue {
+  color: var(--dark-red);
+}

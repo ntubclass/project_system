@@ -1,0 +1,33 @@
+<div class="sidebar" id="sidebar">
+  <a href="{% url 'project' %}"><h1 class="sidebar-title">任務管理系統</h1></a>
+  <div class="sidebar-content">
+      <div class="sidebar-menu">
+        <a href="{% url 'project_detail' project_id %}?project={{project_id}}" class="sidebar-item {% if request.resolver_match.url_name == 'project_detail' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-home"></i>
+            <div>首頁</div>
+        </a>
+        <a href="{% url 'project_task' project_id%}?project={{project_id}}" class="sidebar-item {% if request.resolver_match.url_name == 'project_task' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-file"></i>
+            <div>任務</div>
+        </a>
+        <a href="{% url 'chat' project_id %}?project={{project_id}}" class="sidebar-item {% if request.resolver_match.url_name == 'chat' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-comment"></i>
+            <div>聊天室</div>
+        </a>
+        <a href="{% url 'files' project_id%}?project={{project_id}}" class="sidebar-item {% if request.resolver_match.url_name == 'files' %}active{% endif %}">
+            <i class="sidebar-item-icon fa-solid fa-folder"></i>
+            <div>檔案</div>
+        </a>
+        {% if is_project_admin %}
+            <a href="{% url 'member_list' project_id%}?project={{project_id}}" class="sidebar-item {% if request.resolver_match.url_name == 'member_list' %}active{% endif %}">
+                <i class="sidebar-item-icon fa-solid fa-users"></i>
+                <div>成員</div>
+            </a>
+        {% endif %}
+      </div>
+      <a href="{% url 'project' %}" class="back-link">
+          <i class="sidebar-item-icon fa-solid fa-arrow-left"></i>
+          <div>返回專案列表</div>
+      </a>
+  </div>
+</div>

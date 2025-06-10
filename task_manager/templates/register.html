@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任務管理系統 - 註冊</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="registerContainer" class="register-container">
+        <!-- 背景動畫元素 -->
+        <div class="absolute-container">
+            <div class="circles-container">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+                <div class="circle circle-4"></div>
+                <div class="circle circle-5"></div>
+            </div>
+        </div>
+        
+        <!-- 精緻的網格背景 -->
+        <div class="grid-background"></div>
+
+        <div class="register-content">
+            <div class="text-center">
+                <h2 class="title">創建新帳號</h2>
+                <p class="subtitle">註冊一個新帳號，開始使用任務管理系統</p>
+            </div>
+
+            <div class="form-container">
+                <div class="form-card">
+                    <!-- 顯示錯誤訊息 -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form id="registerForm" class="register-form" method="post" action="{% url 'register' %}">
+                        {% csrf_token %}
+                        
+                        <!-- 姓名輸入框 -->
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">姓名*</label>
+                            <div class="input-container">
+                                <div class="input-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <input
+                                    id="fullName"
+                                    name="fullName"
+                                    type="text"
+                                    autocomplete="name"
+                                    required
+                                    class="form-input"
+                                    placeholder="王小明"
+                                    value="{{ initial_data.name|default:'' }}"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- 職稱選擇框 -->
+                        <div class="form-group">
+                            <label for="position" class="form-label">職稱*</label>
+                            <div class="input-container">
+                                <div class="input-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <select
+                                    id="position"
+                                    name="position"
+                                    required
+                                    class="form-input form-select"
+                                >
+                                    <option value="" disabled selected>選擇職稱</option>
+                                    <option value="前端開發">前端開發</option>
+                                    <option value="後端開發">後端開發</option>
+                                    <option value="系統網路">系統網路</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 電子郵件輸入框 -->
+                        <div class="form-group">
+                            <label for="email" class="form-label">電子郵件*</label>
+                            <div class="input-container">
+                                <div class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autocomplete="email"
+                                    required
+                                    class="form-input"
+                                    placeholder="name@example.com"
+                                    value="{{ initial_data.email|default:'' }}"
+                                    {% if initial_data.email %}readonly{% endif %}
+                                >
+                            </div>
+                        </div>
+
+                        <!-- 手機號碼輸入框 -->
+                        <div class="form-group">
+                            <label for="phone" class="form-label">手機號碼</label>
+                            <div class="input-container">
+                                <div class="input-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <input
+                                    id="phone"
+                                    name="phone"
+                                    type="tel"
+                                    autocomplete="tel"
+                                    class="form-input"
+                                    placeholder="0912345678"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- 密碼輸入框 - 新增密碼顯示/隱藏功能 -->
+                        <div class="form-group">
+                            <label for="password" class="form-label">密碼*</label>
+                            <div class="input-container">
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autocomplete="new-password"
+                                    required
+                                    class="form-input has-toggle"
+                                    placeholder="至少8個字元"
+                                >
+                                <!-- 新增：密碼顯示/隱藏切換按鈕 -->
+                                <div class="password-toggle" id="passwordToggle">
+                                    <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 確認密碼輸入框 - 新增密碼顯示/隱藏功能 -->
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">確認密碼*</label>
+                            <div class="input-container">
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <input
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    type="password"
+                                    autocomplete="new-password"
+                                    required
+                                    class="form-input has-toggle"
+                                    placeholder="再次輸入密碼"
+                                >
+                                <!-- 新增：確認密碼顯示/隱藏切換按鈕 -->
+                                <div class="password-toggle" id="confirmPasswordToggle">
+                                    <i class="fas fa-eye" id="confirmPasswordToggleIcon"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% comment %} <div class="form-terms">
+                            <div class="form-checkbox">
+                                <input
+                                    id="agreeTerms"
+                                    name="agreeTerms"
+                                    type="checkbox"
+                                    class="checkbox"
+                                    required
+                                >
+                                <label for="agreeTerms" class="checkbox-label">
+                                    我同意 <a href="#" class="terms-link">服務條款</a> 和 <a href="#" class="terms-link">隱私政策</a>
+                                </label>
+                            </div>
+                        </div> {% endcomment %}
+
+                        <!-- 註冊按鈕 -->
+                        <div class="form-group">
+                            <button
+                                type="submit"
+                                class="register-button"
+                            >
+                                註冊
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- 分隔線 -->
+                    <div class="divider">
+                        <div class="divider-line"></div>
+                        <div class="divider-text">或者</div>
+                        <div class="divider-line"></div>
+                    </div>
+
+                    <!-- 登入連結 -->
+                    <div class="login-link-container">
+                        <p class="login-text">
+                            已有帳號？
+                            <a href="{% url 'login' %}" class="login-link">登入</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'js/register.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+{% extends 'project_detail_base.html' %}
+{% load static %}
+{% block title %}{{ project_name }} | 聊天室{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/chat_room.css' %}">
+{% endblock %}
+
+
+{% block sidebar %}
+{% include 'layout/project_detail_sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+{% include 'layout/project_detail_header.html' %}
+{% endblock %}
+
+{% block content %}
+<!-- 麵包屑導航 -->
+<div class="breadcrumb-container">
+    <nav class="breadcrumb">
+        <div class="breadcrumb-item">
+            <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                <i class="fa-solid fa-home"></i>
+                首頁
+            </a>
+        </div>
+        <div class="breadcrumb-item">
+            <a href="{% url 'project' %}" class="breadcrumb-link">
+                <i class="fa-solid fa-folder"></i>
+                專案列表
+            </a>
+        </div>        {% if project_name %}        <div class="breadcrumb-item">
+            <a href="{% url 'project_detail' project_id %}?project={{project_id}}" class="breadcrumb-link">
+                <i class="fa-solid fa-diagram-project"></i>
+                {{ project_name }}
+            </a>
+        </div>
+        {% endif %}
+        <div class="breadcrumb-item">
+            <span class="breadcrumb-link">
+                <i class="fa-solid fa-comments"></i>
+                聊天室
+            </span>
+        </div>
+    </nav>
+</div>
+
+<div class="project">
+    <div class="main-content" id="mainContent">
+        <div class="chat-notification-banner" {% if not has_pin %}style="display:none"{% endif %}>
+            <span class="chat-notification-title">釘選訊息</span>
+            <p class="chat-notification-text">{% if has_pin %}{{ pin_message }}{% else %}暫無{% endif %}</p>
+        </div>
+        <div class="chat-grid" id="chatGrid">
+            {% for message in messages_history %}
+                <div class="chat-message {% if message.user_id.id == user.id %}chat-right{% else %}chat-left{% endif %} {% if message.isPin %} pinned {% endif %}" data-message-id="{{ message.message_id }}">
+                    <div class="chat-avatar">
+                        {% if message.user_id.userinfo.photo %}
+                            <img src="{{ message.user_id.userinfo.photo.url }}" alt="{{ message.user_id.username }}" class="chat-avatar-image" />
+                        {% else %}
+                            <i class="fa-solid fa-user"></i>
+                        {% endif %}
+                    </div>
+                    <div class="chat-message-content">
+                        <div class="chat-message-header">
+                            <span class="chat-name">{% if message.user_id.id == user.id %}You{% else %}{{ message.user_id.username }}{% endif %}</span>
+                            <span class="chat-timestamp">{{ message.create_time|date:"H:i" }}</span>
+                            {% if is_projectManager %}<span class="pin-message {% if message.isPin %} active {% endif %}" title="釘選此訊息"><i class="fas fa-thumbtack"></i></span>{% endif %}
+                            {% if message.user_id.id == user.id %}<button class="btn-delete" data-task-id="{{ message.message_id }}"><i class="fas fa-times"></i></button>{% endif %}
+                        </div>
+                        <div class="chat-message-text">{{ message.content }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="chat-input-section">
+            <input type="text" placeholder="輸入內容..." class="chat-input-field">
+            <button class="chat-send-button" disabled>
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const currentUserId = {{ user.id }};
+    const isProjectManager = {{ is_projectManager|yesno:"true,false" }};
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/chat_room.js' %}"></script>
+{% endblock %}

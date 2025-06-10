@@ -1,0 +1,339 @@
+﻿/* Dialog Backdrop */
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;  margin: auto;
+  width: 100%;
+  max-width: 550px;
+  max-height: 90vh;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  outline: none;
+  overflow: visible;
+  z-index: 1000;
+}
+
+.dialog-backdrop::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 確保對話框預設隱藏 */
+.dialog-backdrop:not([open]) {
+  display: none;
+}
+
+.dialog-backdrop:modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dialog Container */
+.dialog-backdrop .dialog-container {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
+  overflow-y: auto;
+  animation: dialog-fade-in 0.2s ease-out;
+}
+
+@keyframes dialog-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.dialog-backdrop[closing] .dialog-container {
+  animation: dialog-fade-out 0.2s ease-out forwards;
+}
+
+/* Dialog Content */
+.dialog-content {
+  padding: 24px;
+  width: 100%;
+}
+
+/* Dialog Header */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dialog-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 12px 0;
+}
+
+.close-btn {
+  font-size: 22px;
+  border: none;
+  width: 36px;
+  height: 36px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: transparent;
+    border-radius: 8px;
+}
+
+.close-btn:hover {
+  color: rgb(220, 38, 38);
+  background: rgb(254, 242, 242);
+}
+
+/* Form Components */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.form-control {
+  resize: none;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  border-color: #2563EB;
+  outline: none;
+}
+
+/* Search Results List */
+.member-results {
+  list-style: none;
+  padding: 12px;
+  margin: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  height: 200px;
+  overflow-y: auto;
+  background-color: var(--white);
+}
+
+.member-results li {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.member-results li:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.member-results li img.user-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--light-gray);
+}
+
+.member-results li div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.member-results li span.user-name {
+  width: 70px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark-gray);
+}
+
+.member-results li span.user-email {
+  font-size: 12px;
+  color: var(--light-gray);
+}
+
+/* Dialog Actions */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancel-btn,
+.submit-btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  color: var(--dark-gray);
+}
+
+.cancel-btn:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.submit-btn,
+.save-btn {
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: none;
+  transition: background-color ease 0.2s;
+}
+
+.submit-btn:hover,
+.save-btn:hover {
+  background-color: #1b4fc6;
+}
+
+/* Member List Items */
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--white);
+  transition: background-color 0.2s ease;
+}
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+.member-item:hover {
+  background-color: var(--light-blue-gray);
+}
+
+.user-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  background-color: #fff;
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--light-gray);
+}
+
+.member-item span {
+  font-size: 14px;
+  color: var(--dark-gray);
+  font-weight: 500;
+}
+
+/* Height-based Responsive Design for Laptop Screens */
+@media screen and (max-height: 768px) {
+  .dialog-content {
+        padding: 16px;
+    }
+    
+    .dialog-title {
+        font-size: 20px;
+    }
+    
+    .dialog-header {
+        margin-bottom: 16px;
+    }
+    
+    .form-group {
+        margin-bottom: 16px;
+    }
+    
+    .dialog-actions {
+        margin-top: 16px;
+    }
+    
+    .members-list {
+        max-height: 200px;
+    }
+}
+
+@media screen and (max-height: 600px) {
+  .dialog-content {
+        padding: 12px;
+    }
+    
+    .dialog-title {
+        font-size: 18px;
+        margin: 0 0 8px 0;
+    }
+    
+    .dialog-header {
+        margin-bottom: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .dialog-actions {
+        margin-top: 12px;
+        gap: 8px;
+    }
+    
+    .cancel-btn,
+    .submit-btn,
+    .save-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .members-list {
+        max-height: 150px;
+    }
+    
+    .member-item {
+        padding: 6px 8px;
+        gap: 8px;
+    }
+    
+    .user-photo {
+        width: 28px;
+        height: 28px;
+    }
+}

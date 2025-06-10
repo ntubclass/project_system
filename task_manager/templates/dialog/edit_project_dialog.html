@@ -1,0 +1,53 @@
+<dialog class="dialog-backdrop" id="editProjectDialog">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">編輯專案</h2>
+                <button type="button" class="close-btn" id="closeEditProjectBtn">&times;</button>
+            </div>
+            
+            <form id="editProjectForm" action="{% url 'edit_project' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="editProjectName">專案名稱</label>
+                    <input type="text" id="editProjectName" name="projectName" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editStartDate">開始日期</label>
+                    <div class="date-input-container">
+                        <input type="date" id="editStartDate" name="startDate" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editEndDate">截止日期</label>
+                    <div class="date-input-container">
+                        <input type="date" id="editEndDate" name="dueDate" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editDescription">描述</label>
+                    <textarea id="editDescription" name="description" class="form-control"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <div class="member-header">
+                        <label>邀請成員</label>
+                        <button type="button" id="openEditMemberBtn" class="add-member-btn">新增</button>
+                    </div>
+                    <div id="editMembersList" class="members-list">
+                        <!-- 這裡是成員列表的顯示區域 -->
+                    </div>
+                </div>
+                
+                <div id="editProjectFormErrors" class="form-errors"></div>
+                  <div class="dialog-actions">
+                    <button type="button" id="cancelEditProjectBtn" class="cancel-btn">取消</button>
+                    <button type="submit" id="submitEditProjectBtn" class="save-btn">更新</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</dialog>

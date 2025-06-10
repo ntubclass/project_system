@@ -1,0 +1,165 @@
+{% extends 'backstage_base.html' %}
+{% load static %}
+{% block title %}後臺管理|任務管理{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/task_management.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/edit_member_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/create_task_dialog.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/edit_task_dialog.css' %}">
+{% endblock %}
+{% block content %}
+<div class="project-overview-container">
+    <!-- 麵包屑導航 -->
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <div class="breadcrumb-item">
+                <a href="{% url 'mainPage' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-home"></i>
+                    首頁
+                </a>
+            </div>
+            <div class="breadcrumb-item">
+                <a href="{% url 'backstage' %}" class="breadcrumb-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    系統概覽
+                </a>
+            </div>
+            <div class="breadcrumb-item">
+                <span class="breadcrumb-link">
+                    <i class="fa-solid fa-file"></i>
+                    任務管理
+                </span>
+            </div>
+        </nav>
+    </div>
+    
+    {% csrf_token %}
+    <div class="title-bar">
+        <h1 class="section-title">任務管理</h1>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <i class="search-icon fa-solid fa-search"></i>
+            <input type="text" placeholder="搜尋任務..." class="search-input">
+        </div>
+    </div>
+
+    <!-- Tasks Table -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>任務名稱</th>
+                        <th>專案名稱</th>
+                        <th>進度</th>
+                        <th>負責人/團隊</th>
+                        <th>狀態</th>
+                        <th>時程</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTableBody">
+                    {% for task in tasks %}
+                    <tr data-task-id="{{ task.task_id }}" data-project-id="{{ task.project_id }}">
+                        <td>
+                            <div class="task-info">
+                                <div class="task-title">{{ task.title }}</div>
+                                <div class="task-description">{{ task.description|truncatechars:50 }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="project-info">
+                                <div class="project-name">{{ task.project_name }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span class="progress-percentage">{{ task.progress }}%</span>
+                                </div>                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {{ task.progress }}%" progress="{{ task.progress }}"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-details">
+                                    <div class="assignee-name">負責人: {{ task.user_name }}</div>
+                                    <div class="team-size">共 {{ task.member_count }} 成員</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="status-badge status-{{ task.status|lower }}">
+                                {{ task.status }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="timeline-info">
+                                <div>{{ task.create_time|date:"Y-m-d" }} ~ 
+                                {% if task.due_date %}
+                                    {{ task.due_date|date:"Y-m-d" }}
+                                {% else %}
+                                    無到期日
+                                {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <button class="action-btn btn-edit edit" data-task-id="{{ task.task_id }}" data-project-id="{{ task.project_id }}"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-delete delete" onclick="deleteTask('{{ task.task_id }}')" title="刪除任務">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="no-data">無任務資料</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="pagination-info">
+                顯示 {{ tasks.start_index }} 至 {{ tasks.end_index }} 筆，共 {{ total_tasks }} 筆
+            </div>
+            <div class="pagination-controls">
+                {% if tasks.has_previous %}
+                    <a href="?page={{ tasks.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">上一頁</a>
+                {% else %}
+                    <button class="pagination-btn" disabled>上一頁</button>
+                {% endif %}
+                
+                {% for page_num in page_range %}
+                    {% if page_num == tasks.number %}
+                        <button class="pagination-number active">{{ page_num }}</button>
+                    {% else %}
+                        <a href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-number">{{ page_num }}</a>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if tasks.has_next %}
+                    <a href="?page={{ tasks.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="pagination-btn">下一頁</a>
+                {% else %}
+                    <button class="pagination-btn" disabled>下一頁</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'dialog/edit_task_dialog.html' %}
+{% include 'dialog/edit_member_dialog.html' %}
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/task_management.js' %}"></script>
+<script src="{% static 'js/dialog.js' %}"></script>
+<script src="{% static 'js/edit_member_dialog.js' %}"></script>
+<script src="{% static 'js/project_task.js' %}"></script>
+{% endblock %}

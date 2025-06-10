@@ -1,0 +1,56 @@
+*, 
+body {
+  letter-spacing: 2px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+
+:root {
+  --white: #FFFFFF;
+  --light-blue-gray: #F9FAFB;
+  --dark-blue-gray: #E5E5EB;
+  --border-color: #C2C9D6;
+  --light-gray: #909090;
+  --dark-gray: #404040;
+  
+  --button-blue-hover:#194fc4;
+  --dark-blue: #2563EB;
+  --light-blue: #EFF6FF;
+  
+  --dark-purple: #A855F7;
+  --light-purple: #FAF5FF;
+  
+  --dark-green: #16A34A;
+  --light-green: #F0FDF4;
+  
+  --dark-yellow: #CA8A04;
+  --light-yellow: #FEFCE8;
+  
+  --button-red-hover: #c82333;
+  --dark-red: #DC2626;
+  --light-red: #fee8e8;
+  
+  --orange: #F97316;
+
+  /* 字體大小 */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-28: 28px;
+
+  /* 陰影參數 */
+  --shadow-dropdown: 0px 4px 8px 0px rgba(64, 64, 64, 0.25);
+}
+
+/* 全局 base.html 主容器樣式 */
+main.content {
+  transition: margin-left 0.3s ease;
+}
+
+/* 當側邊欄隱藏時的全局樣式 */
+main.content-full {
+  margin-left: 0;
+}

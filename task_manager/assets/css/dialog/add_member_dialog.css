@@ -1,0 +1,348 @@
+/* Dialog Backdrop */
+.dialog-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  margin: auto;
+  width: 100%;
+  max-width: 550px;
+  max-height: 90vh;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    outline: none;
+    overflow: visible;
+    z-index: 1000;
+}
+
+.dialog-backdrop::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 確保對話框預設隱藏 */
+.dialog-backdrop:not([open]) {
+  display: none;
+}
+
+.dialog-backdrop:modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Dialog Container */
+.dialog-backdrop .dialog-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 550px;
+    margin: 0 auto;
+    overflow-y: auto;
+    animation: dialog-fade-in 0.2s ease-out;
+}
+
+@keyframes dialog-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.dialog-backdrop[closing] .dialog-container {
+  animation: dialog-fade-out 0.2s ease-out forwards;
+}
+
+/* Dialog Content */
+.dialog-backdrop .dialog-content {
+    padding: 24px;
+}
+
+/* Dialog Header */
+.dialog-backdrop .dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dialog-backdrop .dialog-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+}
+
+/* Close Button */
+.dialog-backdrop .close-btn {
+  font-size: 22px;
+  border: none;
+  width: 36px;
+  height: 36px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: transparent;
+border-radius: 8px;
+}
+
+.dialog-backdrop .close-btn:hover {
+  color: rgb(220, 38, 38);
+  background: rgb(254, 242, 242);
+}
+
+/* Form Components */
+.dialog-backdrop .form-group {
+    margin-bottom: 20px;
+}
+
+.dialog-backdrop .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #222;
+}
+
+.dialog-backdrop .form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.dialog-backdrop .form-control:focus {
+    border-color: #2563EB;
+    outline: none;
+}
+
+/* Search Results List */
+.dialog-backdrop .member-results {
+    list-style: none;
+    padding: 12px;
+    margin: 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    height: 200px;
+    overflow-y: auto;
+    background-color: #ffffff;
+}
+
+.dialog-backdrop .member-results li {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.dialog-backdrop .member-results li:hover {
+    background-color: #f5f7fa;
+}
+
+.dialog-backdrop .member-results li img.user-photo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #f5f7fa;
+    margin-right: 12px;
+}
+
+.dialog-backdrop .member-results li div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+}
+
+.dialog-backdrop .member-results li span.user-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #222;
+}
+
+.dialog-backdrop .member-results li span.user-email {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Dialog Actions */
+.dialog-backdrop .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.dialog-backdrop .cancel-btn,
+.dialog-backdrop .save-btn {
+    min-width: 80px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dialog-backdrop .cancel-btn {
+    background: #fff;
+    color: #222;
+    border: 1px solid #e0e0e0;
+}
+
+.dialog-backdrop .cancel-btn:hover {
+    background: #f5f7fa;
+}
+
+.dialog-backdrop .save-btn {
+    background: #2563EB;
+    color: #fff;
+    border: none;
+}
+
+.dialog-backdrop .save-btn:hover {
+    background: #1b4fc6;
+}
+
+/* Member List Items */
+.dialog-backdrop .member-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    transition: background-color 0.2s ease;
+}
+
+.dialog-backdrop .member-item:last-child {
+    border-bottom: none;
+}
+
+.dialog-backdrop .member-item:hover {
+    background-color: #f5f7fa;
+}
+
+.dialog-backdrop .user-photo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #e0e0e0;
+  background-color: #fff;
+}
+
+.dialog-backdrop .user-email {
+    font-size: 12px;
+    color: #666;
+}
+
+.dialog-backdrop .member-item span {
+    font-size: 14px;
+    color: #222;
+    font-weight: 500;
+}
+
+/* Error Styling */
+.dialog-backdrop .form-errors {
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+/* Height-based Responsive Design for Laptop Screens */
+@media screen and (max-height: 768px) {
+    .dialog-backdrop .dialog-content {
+        padding: 16px;
+    }
+    
+    .dialog-backdrop .dialog-title {
+        font-size: 20px;
+    }
+    
+    .dialog-backdrop .dialog-header {
+        margin-bottom: 16px;
+    }
+    
+    .dialog-backdrop .form-group {
+        margin-bottom: 16px;
+    }
+    
+    .dialog-backdrop .dialog-actions {
+        margin-top: 16px;
+    }
+    
+    .dialog-backdrop .members-list {
+        max-height: 200px;
+    }
+}
+
+@media screen and (max-height: 600px) {
+    .dialog-backdrop .dialog-content {
+        padding: 12px;
+    }
+    
+    .dialog-backdrop .dialog-title {
+        font-size: 18px;
+    }
+    
+    .dialog-backdrop .dialog-header {
+        margin-bottom: 12px;
+    }
+    
+    .dialog-backdrop .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .dialog-backdrop .dialog-actions {
+        margin-top: 12px;
+        gap: 8px;
+    }
+    
+    .dialog-backdrop .cancel-btn,
+    .dialog-backdrop .save-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .dialog-backdrop .form-control {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .dialog-backdrop .members-list {
+        max-height: 150px;
+    }
+    
+    .dialog-backdrop .member-item {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+    
+    .dialog-backdrop .user-photo {
+        width: 28px;
+        height: 28px;
+    }
+}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}任務管理{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/my_task.css' %}">
+<link rel="stylesheet" href="{% static 'css/frappe_gantt.css' %}">
+<link rel="stylesheet" href="{% static 'css/task_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+<link rel="stylesheet" href="{% static 'css/calendar_custom.css' %}">
+{% endblock %}
+{% block content %}
+<div class="task">
+    <!-- Main Content -->
+     {% csrf_token %}
+    <div class="main-content" id="mainContent">
+        <div class="title-bar">
+            <div class="title">任務</div>
+            <div class="status-switch">
+                <div class="slider"></div>
+                <button class="switch-option active" data-view="task_list">清單</button>
+                <button class="switch-option" data-view="calendar">行事曆</button>
+                <button class="switch-option" data-view="gantt">甘特圖</button>
+            </div>
+        </div>
+        <div class="task-viewer-container" id="taskViewerContainer"></div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/frappe_gantt.umd.js' %}"></script>
+<script src="{% static 'js/task_list.js' %}"></script>
+<script src="{% static 'js/calendar.js' %}"></script>
+<script src="{% static 'js/my_task.js' %}"></script>
+{% endblock %}

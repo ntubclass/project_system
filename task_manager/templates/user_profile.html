@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}個人資料 | 任務管理系統{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/dialog/upload_avatar.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container" id="profileContainer">
+    <!-- 左側用戶卡片 -->
+    <div class="user-card">
+        <div class="user-photo-container">
+            <div class="user-photo">
+                {% if user_info.photo %}
+                <img id="userAvatar" src="{{ user_info.photo.url }}" alt="{{ user.username }}" />
+                {% else %}
+                <i class="fa-solid fa-user"></i>
+                {% endif %}
+            </div>
+            <div class="camera-button" id="openUploadAvatar">
+                <i class="fa-solid fa-camera"></i>
+            </div>
+        </div>
+        <div class="user-name">{{ user.username }}</div>
+        <div class="user-job">{{ user_info.job }}</div>
+        
+        <div class="options-container">
+            <div class="option active" data-target="profile-form">
+                <div class="option-icon">
+                    <i class="fa-solid fa-user-pen"></i>
+                </div>
+                <div class="option-text">基本資料</div>
+            </div>
+            <div class="option" data-target="password-form">
+                <div class="option-icon">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div class="option-text">密碼修改</div>
+            </div>
+            <!-- 退出登錄按鈕，點擊直接登出 -->
+            <div class="option logout-option" id="logoutOption">
+                {% comment %} <div class="option-icon">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </div> {% endcomment %}
+                <div class="option-text">退出登錄</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 右側表單內容 -->
+    <div class="profile-form-container">
+        <div class="profile-form" id="profile-form">
+            <h2 class="profile-title">基本資料</h2>
+            <form class="profile-form-content" method="POST" action="{% url 'user_profile' %}">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="profile">
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" name="name" value="{{ user.username }}" class="form-input">
+                    </div>
+                    <div class="form-field">
+                        <label for="job">職稱</label>
+                        <div class="input-container">
+   
+                            <select id="job" name="job" class="form-input form-select">
+                                <option value="前端開發" {% if user_info.job == '前端開發' %}selected{% endif %}>前端開發</option>
+                                <option value="後端開發" {% if user_info.job == '後端開發' %}selected{% endif %}>後端開發</option>
+                                <option value="系統網路" {% if user_info.job == '系統網路' %}selected{% endif %}>系統網路</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="email">電子郵箱</label>
+                        <input type="email" id="email" name="email" value="{{ user.email }}" class="form-input">
+                    </div>
+                    <div class="form-field">
+                        <label for="phone">手機</label>
+                        <input type="text" id="phone" name="phone" value="{{ user_info.phone }}" class="form-input">
+                    </div>
+                    <div class="form-field full-width">
+                        <label for="bio">個人簡介</label>
+                        <textarea id="bio" name="bio" class="form-textarea">{{ user_info.bio }}</textarea>
+                    </div>
+                </div>
+                <button type="submit" class="save-button">儲存更新</button>
+            </form>
+        </div>
+        
+        <div class="password-form" id="password-form" style="display: none;">
+            <div class="profile-title-box">
+                <h2 class="profile-title">密碼修改</h2>
+                <p>*填寫以下資料送出以更改密碼</p>
+            </div>
+            <form class="profile-form-content" method="POST" action="{% url 'user_profile' %}">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="password">
+                <div class="form-grid">
+                    <div class="form-field full-width">
+                        <label for="current_password">目前密碼</label>
+                        <input type="password" id="current_password" name="current_password" class="form-input">
+                    </div>
+                    <div class="form-field">
+                        <label for="new_password">新密碼</label>
+                        <input type="password" id="new_password" name="new_password" class="form-input">
+                    </div>
+                    <div class="form-field">
+                        <label for="confirm_password">確認新密碼</label>
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-input">
+                    </div>
+                </div>
+                <button type="submit" class="save-button">變更密碼</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 引入頭像上傳對話框 -->
+{% include 'dialog/upload_avatar.html' %}
+
+<!-- 登出確認對話框 -->
+<div class="logout-confirm-overlay" id="logoutConfirmOverlay">
+    <div class="logout-confirm-dialog" id="logoutConfirmDialog">
+        <div class="logout-confirm-content">
+            <h3>確定要退出系統嗎？</h3>
+            <p>您將需要重新登錄才能繼續使用系統。</p>
+            <div class="dialog-footer">
+                <button id="cancelLogout" class="cancel-btn">取消</button>
+                <form action="{% url 'logout' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="confirm-btn">確認退出</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/user_profile.js' %}"></script>
+{% endblock %}

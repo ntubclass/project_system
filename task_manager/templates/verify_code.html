@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>驗證碼確認 | 任務管理系統</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        .code-input-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .code-input {
+            width: 55px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin: 0 4px;
+        }
+        .code-input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        .hidden-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginContainer" class="login-container">
+        <div class="absolute-container">
+            <div class="circles-container">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+                <div class="circle circle-4"></div>
+                <div class="circle circle-5"></div>
+            </div>
+        </div>
+
+        <div class="grid-background"></div>
+
+        <div class="login-content">
+            <div class="text-center">
+                <h2 class="title">輸入驗證碼</h2>
+                <p class="subtitle">我們已發送驗證碼到您的電子郵件：{{email}}</p>
+            </div>
+
+            <div class="form-container">
+                <div class="form-card">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form id="verifyCodeForm" class="login-form" method="post" action="{% url 'verify_code' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="email" value="{{ email }}">
+                        
+                        <div class="form-group">
+                            <label class="form-label">驗證碼</label>
+                            <input type="text" id="hiddenCodeInput" name="code" class="hidden-input" maxlength="6" required>
+                            <div class="code-input-container">
+                                <input type="text" class="code-input" maxlength="1" data-index="0">
+                                <input type="text" class="code-input" maxlength="1" data-index="1">
+                                <input type="text" class="code-input" maxlength="1" data-index="2">
+                                <input type="text" class="code-input" maxlength="1" data-index="3">
+                                <input type="text" class="code-input" maxlength="1" data-index="4">
+                                <input type="text" class="code-input" maxlength="1" data-index="5">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="login-button">
+                                驗證
+                            </button>
+                        </div>
+                    <div class="register">
+                        <p class="register-text">
+                            <a href="{% url 'forgot_password' %}" class="register-link">使用其他電子郵件地址</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'js/login.js' %}"></script>
+    <script src="{% static 'js/verify_code.js' %}"></script>
+</body>
+</html>

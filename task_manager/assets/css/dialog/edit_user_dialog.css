@@ -1,0 +1,245 @@
+﻿/* Dialog Backdrop */
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;  margin: auto;
+  width: 100%;
+  max-width: 550px;
+  max-height: 90vh;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  outline: none;
+  overflow: visible;
+  z-index: 1000;
+}
+
+.dialog-backdrop::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 確保對話框預設隱藏 */
+.dialog-backdrop:not([open]) {
+  display: none;
+}
+
+.dialog-backdrop:modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dialog Container */
+.dialog-backdrop .dialog-container {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
+  overflow-y: auto;
+  animation: dialog-fade-in 0.2s ease-out;
+}
+
+@keyframes dialog-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.dialog-backdrop[closing] .dialog-container {
+  animation: dialog-fade-out 0.2s ease-out forwards;
+}
+
+/* Dialog Content */
+.dialog-content {
+  padding: 24px;
+  width: 100%;
+}
+
+/* Dialog Header */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dialog-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 12px 0;
+}
+
+.close-btn {
+  font-size: 22px;
+  border: none;
+  width: 36px;
+  height: 36px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: transparent;
+    border-radius: 8px;
+}
+
+.close-btn:hover {
+  color: rgb(220, 38, 38);
+  background: rgb(254, 242, 242);
+}
+
+/* Form Components */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-bottom: 0;
+  transition: border 0.2s;
+}
+
+.form-control:focus {
+  border-color: #2563EB;
+  outline: none;
+}
+
+/* Dialog Actions */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancel-btn,
+.save-btn,
+.submit-btn {
+  min-width: 80px;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cancel-btn {
+  background: #fff;
+  color: #222;
+  border: 1px solid #e0e0e0;
+}
+
+.cancel-btn:hover {
+  background: #f5f7fa;
+}
+
+.save-btn,
+.submit-btn {
+  background: #2563EB;
+  color: #fff;
+  border: none;
+}
+
+.save-btn:hover,
+.submit-btn:hover {
+  background: #1b4fc6;
+}
+
+/* Form Errors */
+.form-errors {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+/* Height-based Responsive Design for Laptop Screens */
+@media screen and (max-height: 768px) {
+  .dialog-content {
+        padding: 16px;
+    }
+    
+    .dialog-title {
+        font-size: 20px;
+    }
+    
+    .dialog-header {
+        margin-bottom: 16px;
+    }
+    
+    .form-group {
+        margin-bottom: 16px;
+    }
+    
+    .dialog-actions {
+        margin-top: 16px;
+    }
+}
+
+@media screen and (max-height: 600px) {
+  .dialog-content {
+        padding: 12px;
+    }
+    
+    .dialog-title {
+        font-size: 18px;
+        margin: 0 0 8px 0;
+    }
+    
+    .dialog-header {
+        margin-bottom: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .dialog-actions {
+        margin-top: 12px;
+        gap: 8px;
+    }
+    
+    .cancel-btn,
+    .save-btn,
+    .submit-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+

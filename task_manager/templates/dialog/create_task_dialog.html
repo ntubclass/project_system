@@ -1,0 +1,53 @@
+<dialog class="dialog-backdrop" id="createTaskDialog">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">建立新任務</h2>
+                <button type="button" class="close-btn" id="closeTaskBtn">&times;</button>
+            </div>
+              <form id="createTaskForm" action="{% url 'create_task' project_id %}" method="post">
+                {% csrf_token %}
+                <!-- 移除 url_type 隱藏欄位，因為已經修復了雙重重定向問題 -->
+                <div class="form-group">
+                    <label for="taskName">任務名稱</label>
+                    <input type="text" id="taskName" name="taskName" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="startDate">開始日期</label>
+                    <div class="date-input-container">
+                        <input type="date" id="startDate" name="startDate" class="form-control" value="{{date_now}}" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dueDate">截止日期</label>
+                    <div class="date-input-container">
+                        <input type="date" id="dueDate" name="dueDate" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="content">任務說明</label>
+                    <textarea id="content" name="content" class="form-control"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <div class="member-header">
+                        <label>邀請成員</label>
+                        <button type="button" id="openAddMemberBtn" class="add-member-btn">新增</button>
+                    </div>
+                    <div id="membersList" class="members-list">
+                        <!-- 這裡是成員列表的顯示區域 -->
+                    </div>
+                </div>
+                
+                <div id="formErrors" class="form-errors"></div>
+                  <div class="dialog-actions">
+                    <button type="button" id="cancelTaskBtn" class="cancel-btn">取消</button>
+                    <button type="submit" id="submitTaskBtn" class="save-btn">建立</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</dialog>
