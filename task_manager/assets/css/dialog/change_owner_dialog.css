@@ -382,17 +382,18 @@
 
 .dialog-backdrop .warning-box {
     background-color: #fef3c7;
-    border: 1px solid #f59e0b;
     border-radius: 6px;
     padding: 16px;
     display: flex;
-    align-items: flex-start;
     gap: 12px;
     margin-top: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .dialog-backdrop .warning-box i {
-    color: #f59e0b;
+    color: #d97706;
     margin-top: 2px;
     flex-shrink: 0;
     font-size: 16px;
@@ -400,8 +401,9 @@
 
 .dialog-backdrop .warning-text {
     font-size: 13px;
-    color: #92400e;
     line-height: 1.5;
+    text-align: center;
+    color: #d97706;
 }
 
 /* Dialog Actions */
