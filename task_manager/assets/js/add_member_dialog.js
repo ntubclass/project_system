@@ -256,6 +256,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
               // Ensure the membersList UI is updated
               updateAddMembersListUI();
+
+              // Close the dialog after selecting a member
+              closeAddMemberDialogWithAnimation(dialog);
             });
             resultsContainer.appendChild(li);
           });

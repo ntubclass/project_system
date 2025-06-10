@@ -343,7 +343,8 @@ document.addEventListener("DOMContentLoaded", function () {
               searchInput.value = "";
               resultsContainer.innerHTML = "";
 
-              // Don't close the dialog - allow adding multiple members at once
+              // Close the dialog after selecting a member
+              closeEditMemberDialogWithAnimation(dialog);
             });
             resultsContainer.appendChild(li);
           });
