@@ -282,6 +282,11 @@ input[type="date"] {
 }
 
 .member-box >.fa-solid {
-  color: var(--dark-red);
+  color: var(--dark-gray);
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.member-box >.fa-solid:hover {
+  color: var(--dark-red);
 }
