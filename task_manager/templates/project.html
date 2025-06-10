@@ -21,6 +21,7 @@
                 </button>
             </div>
         </div>
+        {% if project_data %}
         <div class="projects-grid" id="projectsGrid">
             {% for i in project_data %}
                 <div class="project-card" style="cursor: pointer;">
@@ -73,6 +74,10 @@
                 </div>
             {% endfor %}
         </div>
+        {% else %}
+        <div class="error-message">還未創建專案</div>
+        {% endif %}
+
     </div>
 </div>
 

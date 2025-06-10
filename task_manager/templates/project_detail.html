@@ -93,14 +93,20 @@
       </div>
       
       <div class="stat-card description-card">
-            <div class="stat-label">描述</div>
-            <div class="stat-value" title="{{ description }}">
-                <span class="description-text">{{ description }}</span>
-                <div class="description-icon">
-                    <i class="fa-solid fa-file-lines"></i>
-                </div>
-            </div>
+    <div class="stat-label">描述</div>
+    <div class="stat-value" title="{% if description %}{{ description }}{% else %}暫無描述{% endif %}">
+        <span class="description-text">
+            {% if description and description|length > 0 %}
+                {{ description }}
+            {% else %}
+                <span class="no-description">暫無描述</span>
+            {% endif %}
+        </span>
+        <div class="description-icon">
+            <i class="fa-solid fa-file-lines"></i>
         </div>
+    </div>
+</div>
   </div>
   <div class="toolbar">
     <div class="toolbar-left">
