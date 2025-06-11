@@ -547,13 +547,13 @@ document.addEventListener('DOMContentLoaded', function() {
             uploadFiles(true);
         });
     }
-    
-    // 下載按鈕功能
+      // 下載按鈕功能
     const downloadBtns = document.querySelectorAll('.download-btn');
     downloadBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            const fileName = this.closest('.file-row').querySelector('.file-name').textContent;
+            const fileId = this.getAttribute('data-file-id');
+            const fileName = this.getAttribute('data-file-name');
             
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             
@@ -563,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'X-CSRFToken': csrfToken,
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `file_name=${encodeURIComponent(fileName)}`
+                body: `file_id=${encodeURIComponent(fileId)}`
             })
             .then(response => {
                 if (!response.ok) {

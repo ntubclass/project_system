@@ -14,14 +14,14 @@ from task_manager.models.project_member import ProjectMember
 def main(request, project_id):
 
     if request.method == 'POST':
-        file_name = request.POST.get('file_name')
+        file_id = request.POST.get('file_id')
         
         try:
-            if not file_name:
-                return JsonResponse({'error': '未提供檔案名稱'}, status=400)
+            if not file_id:
+                return JsonResponse({'error': '未提供檔案ID'}, status=400)
             
             # 查找檔案
-            file_obj = File.objects.get(file_name=file_name)
+            file_obj = File.objects.get(file_id=file_id)
             if not request.user.is_superuser:
                 project = get_object_or_404(Project, project_id=project_id)
 
