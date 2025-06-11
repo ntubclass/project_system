@@ -279,17 +279,16 @@
 .remove-member,
 .remove-edit-member, 
 .remove-edit-task-member {
-  color: var(--dark-gray);
+  color: var(--light-gray);
   cursor: pointer;
   font-size: 16px;
   padding: 4px;
-  transition: all 0.2s ease;
 }
 
 .remove-member:hover,
 .remove-edit-member:hover, 
 .remove-edit-task-member:hover {
-  color: var(--dark-red);
+  color: var(--dark-gray);
 }
 
 /* Member header styles */
