@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib import messages
+from django.contrib.auth.decorators import login_not_required
 
-
+@login_not_required
 def login_view(request):
     if request.method == "POST":
         email = request.POST.get("email")  # 使用email作為使用者名稱
